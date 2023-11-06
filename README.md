@@ -17,7 +17,7 @@
 * Inspired by Gepetto’s wood toy workshop in Pinocchio, we wanted to create tools to generate charming handmade-style wood toys. 
 * We had the following ideas for what types of toys to generate and how we would go about it:
 
-[REF](refpics.png)
+![REF](refpics.png)
 
 ## Specification:
 
@@ -50,7 +50,7 @@
 
 ## Design:
 
-[FBD](fbd.png)
+![FBD](fbd.png)
 
 ## Timeline:
 
