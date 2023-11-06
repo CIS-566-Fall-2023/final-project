@@ -18,8 +18,10 @@ Start off by forking this repository. In your README, write a design doc to outl
 - Outline the main features of your project.
 - 
 - Generate the basic framework(walls, ground and ceilling) of game level in Houdini. Integrate these assets created from Houdini with Unity.
-- Decorate our level with texture and objects.
-- Implement render features to for better visual effect.
+- Create objects(box, chair, etc.) procedurally for level decoration.
+- Create textures for scenes.
+- Decorate our level with texture and objects procedurally.
+- Implement some render features to for better visual effect, such as SSAO.
 - Make the level interactable.
 
 #### Techniques:
