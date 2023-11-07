@@ -14,7 +14,7 @@
 #### Inspiration/reference:
 - Inspired by many popular Sci-Fi movies and games, such as Cyberpunk 2077, Halo and Blade Runner, we want to implement a Sci-Fi style level.
 
-<div style="width:500px">![](img/cyberpunk2077.webp)</div> | [Cyberpunk 2077 Art Style](https://www.engadget.com/cyberpunk-2077-review-170013962.html)
+![](img/cyberpunk2077.webp) | [Cyberpunk 2077 Art Style](https://www.engadget.com/cyberpunk-2077-review-170013962.html)
 ---|---
 ![](/img/halo.jpg) | [Halo 4 Environment Art](https://polycount.com/discussion/159954/the-environment-art-of-halo-4)
 ![](/img/bladeRunner.jpg) | [Blade Runner Environment Art](https://polycount.com/discussion/193588/blade-runner-2049-memory-lab-environment-art-dump)
@@ -22,9 +22,7 @@
 ![](/img/scifiLevel.png) | [Sci-Fi Level Builder](https://cubebrush.co/blog/the-making-of-a-sci-fi-corridor-ue4-scene-breakdown)
 
 #### Specification:
-- Outline the main features of your project.
-
-- Generate the basic structures (corridor map, walls, floor and ceilling) of game level in Houdini. Integrate these assets created from Houdini into Unity scene.
+- Generate the basic structures (corridor map, walls, floor and ceilling) of a game level in Houdini. Integrate these assets into Unity scene.
 - Create objects (box, chair, etc.) procedurally for level decoration.
 - Create textures for scenes.
 - Paint/Populate our levels with textures and objects procedurally.
