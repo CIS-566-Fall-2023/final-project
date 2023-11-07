@@ -3,11 +3,9 @@
 ### Design Doc (due 11/8)
 
 #### Introduction
-- What motivates your project?
 With the experience that the Procedural Graphics course has given me, my eyes have been opened to the many different ways that proceduralism can contribute to art. I am especially interested in procedural animation. Although a broad category, being able to conduct some animations procedurally can help artists with tedious work, that would be exhaustive to do my hand. For example, rain. Imagine if an artist had to hand animate every raindrop in a storm, or every droplet in a waterfall! In this project, I seek to find a procedural way to tackle this challenge. 
 
 #### Goal
-- What do you intend to achieve with this project?
 In this project, I hope to use this opportunity to expand my skills in procedural animation and particle simulation. I intend to implement an animated waterfall using particles. Each droplet of the waterfall will be generated procedurally and randomly. I hope to make the generation of the waterfall also customizable by the artist. Then, they will fall into the scene initially uninterrupted. To extend the artist's capabilities, they can draw obstacles in the scene that the particles will collide with as they continue down the waterfall. 
 
 #### Inspiration/reference:
@@ -23,12 +21,30 @@ In this project, I hope to use this opportunity to expand my skills in procedura
 
 #### Specification:
 - Outline the main features of your project.
+- Upon opening the program, there will be a waterfall of particles falling down the screen.
+- Many aspects of this scene will be customizable like particle size, particle color, and physical forces like gravity.
+- The user can move the camera to change the perspective of the scene, like zooming out or rotating.
+- The user can draw obstacles to the waterfall, which the particles will bounce off of.
+- When the particles bounce, their color changes.
+- The user has control over the size and visibility of the drawn obstacles.
+- There will be an additional parameter to customize the noise at which the particles are generated to the scene, affecting the way the particles enter the scene. 
 
 #### Techniques:
 - What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
+- I will be implementing this paper Particle Animation and Rendering Using Data Parallel Computation](https://www.karlsims.com/papers/ParticlesSiggraph90.pdf) by Karl Sims, which essentially outlines a method for particle simulation via the parallel computing of the GPU.
+- The particles will be generated and controlled using vertex and fragment shaders. 
 
 #### Design:
 - How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+- The main function has the controls and generates the scene. Based on these specifications, we set the particle size, color, forces, obstacle size etc.
+- The main function checks for the user's mouse controls and adds obstacles or changes the camera accordingly.
+- The main function holds the particles for the scene via a Particle and Particle Collection class, such that all transformations and renderings can be applied to each particle. 
+- Every tick, we render the scene, transform the particles, and render the particles.
+- When rendering, there are particle vertex and fragment shaders and obstacles vertex and frag shaders.
+- The obstacle vert shader collects the position of the obstacle. Its vertex shader colors the obstacles according to the parameters set in the controls.
+- The particle vert shader generates the particles based on the specified noise, and controls the particle's position based on the simulation from its physical forces. Finally, the particle frag shader colors the point.
+
+
 
 #### Timeline:
 - Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
