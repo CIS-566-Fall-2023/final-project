@@ -1,26 +1,32 @@
-# Sci-Fi Style Level
+# Sci-Fi Level Generator
 
 ### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
-
 #### Introduction
-- We want to implement a Sci-Fi style Unity game level. This level will be created in procedural way with Houdini operated together with Unity.
+- We are interested in creating a procedural generator of Sci-Fi game levels to assist artists with faster authoring of stylized scenes. - We want to utilize various procedural graphics knowledge we learned from this class, e.g. shape grammars, and explore integrating popular 3D tools into one content authoring workflow.
 
-#### Goal
-- A interactable Sci-Fi style game level in Unity.
+#### Goals
+- Create a corridor system as a game level map that connects interior spaces given an input curve.
+- The level assets such as panels, doors and decorations will be created in a procedural way using Houdini and then ported into Unity. 
+- Assemble the final sci-fi level scene in Unity.
+- Stretch goal: make the scene interactable with the player.
 
 #### Inspiration/reference:
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
-- Include in your design doc links to and images of your reference material.
-- (Inspired by many Sci-Fi style movies and games, such as Cyberpunk 2077, Halo and Blade Runner, we want to implement a Sci-Fi style level.)
+- Inspired by many Sci-Fi style movies and games, such as Cyberpunk 2077, Halo and Blade Runner, we want to implement a Sci-Fi style level.
+
+![](img/cyberpunk2077.webp) | [Cyberpunk 2077 Art Style](https://www.engadget.com/cyberpunk-2077-review-170013962.html)
+---|---
+![](/img/halo.jpg) | [Halo 4 Environment Art](https://polycount.com/discussion/159954/the-environment-art-of-halo-4)
+![](/img/bladeRunner.jpg) | [Blade Runner Environment Art](https://polycount.com/discussion/193588/blade-runner-2049-memory-lab-environment-art-dump)
+![](/img/circuit.png) | [Sci-Fi Circuit Board](https://youtu.be/X7T1NMm5fXw?si=8gHXMNfyAoAtDx7M)
+![](/img/scifiLevel.png) | [Sci-Fi Level Builder](https://www.sidefx.com/tutorials/sci-fi-level-builder/)
 
 #### Specification:
 - Outline the main features of your project.
-- 
-- Generate the basic framework(walls, ground and ceilling) of game level in Houdini. Integrate these assets created from Houdini with Unity.
-- Create objects(box, chair, etc.) procedurally for level decoration.
+
+- Generate the basic structures (corridor map, walls, floor and ceilling) of game level in Houdini. Integrate these assets created from Houdini into Unity scene.
+- Create objects (box, chair, etc.) procedurally for level decoration.
 - Create textures for scenes.
-- Decorate our level with texture and objects procedurally.
+- Paint/Populate our levels with textures and objects procedurally.
 - Implement some render features to for better visual effect, such as SSAO.
 - Make the level interactable.
 
