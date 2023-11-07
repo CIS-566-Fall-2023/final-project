@@ -20,6 +20,11 @@ Through this project, I hope to accomplish the following:
 
 
 
+![Frame 3](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/a134835f-89a2-41ad-83e2-cfb801b750dc)
+
+![inspo](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/b80623c8-1f0a-419a-97cc-71b975b83d39)
+
+
 ### Specification:
 
 The main features of this project include:
@@ -29,7 +34,7 @@ The main features of this project include:
 
 
 ### Design:
-
+![CIS 5660 Final Project Diagram (1)](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/47c64ac7-cc7d-4384-846f-02cf8644633a)
 
 ### Timeline:
 
