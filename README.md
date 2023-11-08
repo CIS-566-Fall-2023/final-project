@@ -9,7 +9,7 @@ With the experience that the Procedural Graphics course has given me, my eyes ha
 In this project, I hope to use this opportunity to expand my skills in procedural animation and particle simulation. I intend to implement an animated waterfall using particles. Each droplet of the waterfall will be generated procedurally and randomly. I hope to make the generation of the waterfall also customizable by the artist. Then, they will fall into the scene initially uninterrupted. To extend the artist's capabilities, they can draw obstacles in the scene that the particles will collide with as they continue down the waterfall. 
 
 #### Inspiration/reference:
-- I hope to implement the particle animation outlined in this paper [Particle Animation and Rendering Using Data Parallel Computation](https://www.karlsims.com/papers/ParticlesSiggraph90.pdf) by Karl Sims. The final section on falling water will be especially illuminating. Below are some reference images from the paper:
+- I hope to implement the particle animation outlined in this paper ![Particle Animation and Rendering Using Data Parallel Computation](https://www.karlsims.com/papers/ParticlesSiggraph90.pdf) by Karl Sims. The final section on falling water will be especially illuminating. Below are some reference images from the paper:
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/81f98d21-6a28-4246-aa5e-dad71ca9ac99)
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/73699d48-dffb-416d-98d2-112a2ec6ed79)
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/3472580f-5805-4b9b-ade7-171edb9a3a05)
