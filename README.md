@@ -2,7 +2,7 @@
 
 ## Project planning: Design Doc (due 11/8)
 #### Introduction
-<img src="https://github.com/xchennnw/final-project/blob/main/img/train1.png" height="200px"/> <img src="https://github.com/xchennnw/final-project/blob/main/img/train2.png" height="200px"/>
+<img src="https://github.com/xchennnw/final-project/blob/main/img/train1.png" height="200px"/> <img src="https://github.com/xchennnw/final-project/blob/main/img/train2.png" height="200px"/><br/>
 Train view is cool for anyone who wants to relax and enjoy the natural terrain winding out of the train window. In the game, we may generate a series of landscapes procedurally in an aesthetic pleasant style. Even better, the game will generate a mix of terrain which may be impossible in reality to create a fantastic viewpoint of the virtual world!
 
 #### Goal
