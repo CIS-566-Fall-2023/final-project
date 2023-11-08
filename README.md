@@ -1,36 +1,81 @@
-# Final Project!
-
-This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
-
-## Project planning: Design Doc (due 11/8)
-Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
+# Islamic Geometric Wood Carving Tool
 
 ### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
 
 #### Introduction
-- What motivates your project?
+Islam rose in 7th century Arabia as a stark refutation to the idol-worshipping pagans who
+ dominated the region economically, politically, and in their sheer number. Having belief in one God
+ for whom no manmade idol could represent, the Muslims, upon successful disemination of their
+ religion and beliefs across the peninsula, haulted all art depicting living beings. In its stead,
+ a new form of art was championed &ndash; one that still captured a beautiful aspect of God's
+ creation that may not have been breathing, but was very much alive: geometry.
+
 
 #### Goal
-- What do you intend to achieve with this project?
+Through this project, I aim to create a Houdini node that can produced the complex
+geometric patterns that are essential to so many pieces of Islamic art. Harnessing the power of a
+procedural system, I hope to add a dynamic element onto the baseline patterns by animating the
+patterns, either within a single pattern's context, or perhaps even animating between different
+patterns.
+
+To maintain the craftsmanship that is so essential to the appreciation of these
+decorative wooden arches, carpets, and architectural structures, the tool will be applied to wooden slabs.
+
 
 #### Inspiration/reference:
 - You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
 - Include in your design doc links to and images of your reference material.
 
+![](img/ref-wooden-arches.png)
+[Source](https://www.etsy.com/listing/1467150352/set-of-decorative-arches-islamic-arabic?gpla=1&gao=1&&utm_source=google&utm_medium=cpc&utm_campaign=shopping_us_d-craft_supplies_and_tools-patterns_and_how_to-patterns_and_blueprints&utm_custom1=_k_CjwKCAjwkY2qBhBDEiwAoQXK5e3zWAU40x-ESz_xxUsEbw_pSet9z7k0Me79Zgcc4MTAHoWqSTIgJRoCcxAQAvD_BwE_k_&utm_content=go_2063558056_76452866095_367965825024_pla-322726483858_c__1467150352_12768591&utm_custom2=2063558056&gclid=CjwKCAjwkY2qBhBDEiwAoQXK5e3zWAU40x-ESz_xxUsEbw_pSet9z7k0Me79Zgcc4MTAHoWqSTIgJRoCcxAQAvD_BwE)
+
+![](img/ref-wooden-pieces.png)
+[Source](https://www.etsy.com/listing/1365553332/set-vector-arches-dxf-eps-svg-ai-pdf-png?click_key=567e1af9aaf9f8ea4ad89f283786370ebc24bdfd%3A1365553332&click_sum=7c5186a7&external=1&rec_type=ss&ref=pla_similar_listing_top-1&sts=1)
+
+![](img/ref-pattern-0.jpg)
+[Source](https://www.alamy.com/seamless-geometric-ornament-based-on-traditional-arabic-art-muslim-mosaicblack-lines-and-white-backgroundgreat-design-for-fabrictextilecoverwrap-image339544071.html)
+
 #### Specification:
 - Outline the main features of your project.
 
+The project will be a Houdini node that will have take geometry as its input, and cut from it the
+specified geometric pattern. The geometry will be specified by a node parameter that the user will
+ahve to set themselves. I will be developing the node with the assumption that simple wooden
+slab-like geometry is being input into the node, and so not all geometry will result in the desired output.
+
+The user will have control over:
+  - the pattern type
+  - the scale of the pattern within the object
+  - whether the object is animating and the speed of which
+  - pattern fade
+      - the user can select two patterns, and the node will cyclicly interpolate back and forth
+        between the two different patterns.
+
 #### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
+- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific
+  papers/articles.
+
+- L-Systems
+- Greedy algorithm (similar to one used in lego project):
+    to fill up the volume of the input object with the pattern cutouts.
+- Noise to generate the paths and shapes of the patterns
+  - It will be deterministic, so the patterns maintain their intended look which I will be curating
 
 #### Design:
 - How will your program fit together? Make a simple free-body diagram illustrating the pieces.
 
 #### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
+- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly
+  outline what each group member's duties will be.
 
-Submit your Design doc as usual via pull request against this repository.
+[11/8 &rarr; 11/15] 
+
+[11/15 &rarr; 11/22] 
+
+[11/22 &rarr; 11/27] 
+
+[11/22 &rarr; 12/5] 
+
 ## Milestone 1: Implementation part 1 (due 11/15)
 Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
 
