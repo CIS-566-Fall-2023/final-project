@@ -6,7 +6,8 @@ This is it! The culmination of your procedural graphics experience this semester
 Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
 
 ### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
+
+https://docs.google.com/document/d/1hXIAEk0fOUDht75lFGrb3_wVdKf8bRIFwsKtDFjH0Xo/edit
 
 #### Introduction
 - What motivates your project?
