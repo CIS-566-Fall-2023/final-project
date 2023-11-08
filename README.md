@@ -10,21 +10,39 @@
  * Integrate the algorithm into a Blender add-on for user-friendly utilization.
  * Generate wood textures in Blender using the tool to evaluate its performance.
 
-### Reference:
-  * In this project, we will mainly refer to [Procedural Texturing of Solid Wood with Knots](https://dl.acm.org/doi/10.1145/3528223.3530081) and [Git link](https://github.com/marialarsson/procedural_knots).
-  * [Blender Document](https://docs.blender.org/manual/en/latest/index.html). 
+### Reference & Inspiration
+  * In this project, we will mainly refer to [Procedural Texturing of Solid Wood with Knots](https://dl.acm.org/doi/10.1145/3528223.3530081) and its [Git link](https://github.com/marialarsson/procedural_knots). 
 <p align="center">
    <img src="mdassets/ref0.PNG">
 <p/>
+<p align="center">
+   <img src="mdassets/ref1.PNG">
+<p/>
 
 ### Specification:
-Outline the main features of your project.
+This project will be implemented in Unity, benefiting from its convenient shader graph system and flexibility of adding custom functionalities. Our implementation can be separated into three parts:
+ - Procedural generation of knot maps: this process will generate the internal skeleton representing where the knots and planks will appear in the wood volume in a way that resembles an L-system, then convert the structure to knot maps as input to solid wood texture generation.
+ - Procedural generation of solid wood texture: this process generates wood texture from a 3D distance field converted from knot maps
+ - Procedural generation of bark texture (stretch feature): in addition, we consider adding barks at the surface so that it can be used to simulate more general wood types
+
 
 ### Techniques:
-What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
+ - The paper *Procedural Texturing of Solid Wood with Knots* as a reference of major techniques to be applied in this project
+ - L-system for creating internal skeleton
+ - 3D distance field for wood texture generation
+ - Physically based surface material for rendering
+ - Noise functions & normal mapping for bark texture generation (stretch feature)
+ - Physical simulation (stretch feature): to demonstrate the wood texture by simulating a piece of wood breaking into smaller pieces
+
 ### Design:
+The following diagram demonstrates the basic workflow of the algorithm.
+<p align="center">
+   <img src="mdassets/ref2.PNG">
+<p/>
 
-How will your program fit together? Make a simple free-body diagram illustrating the pieces.
 ### Timeline:
-
-Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
+||Finish the L-system |
+|:---:|:---:|
+|Milestone 1|Finish the L-system representation of branches|
+|Milestone 2|Sign distance field representation & Final shading|
+|Milestone 3|Bark texture & create demo scene|
