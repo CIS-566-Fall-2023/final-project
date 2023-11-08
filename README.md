@@ -13,10 +13,10 @@
 ### Reference & Inspiration
   * In this project, we will mainly refer to [Procedural Texturing of Solid Wood with Knots](https://dl.acm.org/doi/10.1145/3528223.3530081) and its [Git link](https://github.com/marialarsson/procedural_knots). 
 <p align="center">
-   <img src="mdassets/ref0.PNG">
+   <img src="mdassets/ref0.PNG" width="700">
 <p/>
 <p align="center">
-   <img src="mdassets/ref1.PNG">
+   <img src="mdassets/ref1.PNG" width="700">
 <p/>
 
 ### Specification:
@@ -37,7 +37,7 @@ This project will be implemented in Unity, benefiting from its convenient shader
 ### Design:
 The following diagram demonstrates the basic workflow of the algorithm.
 <p align="center">
-   <img src="mdassets/ref2.PNG">
+   <img src="mdassets/ref2.PNG" width="700">
 <p/>
 
 ### Timeline:
