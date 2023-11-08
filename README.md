@@ -7,8 +7,8 @@
 
 ### Goal
  * Implement the algorithm presented in [Procedural Texturing of Solid Wood with Knots](https://dl.acm.org/doi/10.1145/3528223.3530081).
- * Integrate the algorithm into a Blender add-on for user-friendly utilization.
- * Generate wood textures in Blender using the tool to evaluate its performance.
+ * Integrate the algorithm into a Unity plugin for user-friendly utilization.
+ * Generate wood textures in Unity using the tool to evaluate its performance.
 
 ### Reference & Inspiration
   * In this project, we will mainly refer to [Procedural Texturing of Solid Wood with Knots](https://dl.acm.org/doi/10.1145/3528223.3530081) and its [Git link](https://github.com/marialarsson/procedural_knots). 
