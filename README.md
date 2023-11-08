@@ -1,6 +1,6 @@
 # Final Project: Waterfall Particle Simulation
 
-### Design Doc (due 11/8)
+### Design Doc
 
 #### Introduction
 With the experience that the Procedural Graphics course has given me, my eyes have been opened to the many different ways that proceduralism can contribute to art. I am especially interested in procedural animation. Although a broad category, being able to conduct some animations procedurally can help artists with tedious work, that would be exhaustive to do my hand. For example, rain. Imagine if an artist had to hand animate every raindrop in a storm, or every droplet in a waterfall! In this project, I seek to find a procedural way to tackle this challenge. 
@@ -14,7 +14,7 @@ In this project, I hope to use this opportunity to expand my skills in procedura
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/73699d48-dffb-416d-98d2-112a2ec6ed79)
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/3472580f-5805-4b9b-ade7-171edb9a3a05)
 
-- I am able inspired by former student Chloe Le, and [her implementation](https://github.com/chloele33/particle-waterfall). Not only do I intend to implement her version, but I also hope to extend her implementation to include a more procedural and customizable generation of water initially. Below are some reference images from her implementation:
+- I am inspired by former student Chloe Le, and [her implementation](https://github.com/chloele33/particle-waterfall). Not only do I intend to implement something similar to her version, but I also hope to extend her implementation to include a more procedural and customizable generation of water initially. Below are some reference images from her implementation:
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/2d987c78-3554-4b4a-a3cd-7e3659222c9a)
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/e2e78f57-f1ee-4cb0-85cc-ec590d733526)
 
