@@ -23,7 +23,7 @@ class OpenGLRenderer {
   }
 
   render(camera: Camera, prog: ShaderProgram, drawables: Array<Drawable>, 
-    time: GLfloat, speed: GLfloat, tail: GLfloat, magic: boolean,
+    time: GLfloat, speed: GLfloat, tail: GLfloat,
     main: vec4, middle: vec4, front: vec4) {
     let model = mat4.create();
     let viewProj = mat4.create();
@@ -36,8 +36,7 @@ class OpenGLRenderer {
     prog.setTime(time);
     prog.setSpeed(speed);
     prog.setTailSize(tail);
-    prog.setMagic(magic);
-    prog.setColor(main, middle, front);
+    prog.setParticleColor(main);
 
     for (let drawable of drawables) {
       prog.draw(drawable);

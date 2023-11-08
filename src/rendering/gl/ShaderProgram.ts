@@ -53,7 +53,6 @@ class ShaderProgram {
     this.unifTime       = gl.getUniformLocation(this.prog, "u_Time");
     this.unifSpeed      = gl.getUniformLocation(this.prog, "u_Speed");
     this.unifTailSize   = gl.getUniformLocation(this.prog, "u_TailSize");
-    this.unifMagic      = gl.getUniformLocation(this.prog, "u_Magic");
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
@@ -90,21 +89,10 @@ class ShaderProgram {
     }
   }
 
-  setGeometryColor(color: vec4) {
+  setParticleColor(color: vec4) {
     this.use();
     if (this.unifColor !== -1) {
       gl.uniform4fv(this.unifColor, color);
-    }
-  }
-
-  setColor(main: vec4, middle: vec4, front: vec4) {
-    this.setGeometryColor(main);
-    this.use();
-    if(this.unifMiddleColor != -1) {
-      gl.uniform4fv(this.unifMiddleColor, middle);
-    }
-    if(this.unifFrontColor != -1) {
-      gl.uniform4fv(this.unifFrontColor, front);
     }
   }
 
@@ -126,19 +114,6 @@ class ShaderProgram {
     this.use();
     if(this.unifTailSize !== -1) {
       gl.uniform1f(this.unifTailSize, tail);
-    }
-  }
-
-  setMagic(magic: boolean) {
-    this.use();
-    if(this.unifMagic !== -1) {
-      if(magic) {
-        gl.uniform1i(this.unifMagic, 1);
-      }
-      else 
-      {
-        gl.uniform1i(this.unifMagic, 0);
-      }
     }
   }
 
