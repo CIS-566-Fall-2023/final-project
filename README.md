@@ -30,7 +30,6 @@
 - Make the level interactable.
 
 #### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
 
 - Houdini VEX scripting and node networks.
 - Procedural modelling using shape grammars and possibly L-systems.
@@ -40,7 +39,9 @@
 - [Similar sci-fi scene assembled in UE4](https://cubebrush.co/blog/the-making-of-a-sci-fi-corridor-ue4-scene-breakdown)
 
 #### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+Orange cells are Houdini stages, green cells are Substance Designer/Painter stages and the blue cell is in Unity.
+
+![](/img/Design%20Doc%20Diagram%20.jpg)
 
 #### Timeline:
 - Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
