@@ -29,7 +29,7 @@ In this project, I hope to use this opportunity to expand my skills in procedura
 - There will be an additional parameter to customize the noise at which the particles are generated to the scene, affecting the way the particles enter the scene. 
 
 #### Techniques:
-- I will be implementing this paper Particle Animation and Rendering Using Data Parallel Computation](https://www.karlsims.com/papers/ParticlesSiggraph90.pdf) by Karl Sims, which essentially outlines a method for particle simulation via the parallel computing of the GPU.
+- I will be implementing this paper [Particle Animation and Rendering Using Data Parallel Computation](https://www.karlsims.com/papers/ParticlesSiggraph90.pdf) by Karl Sims, which essentially outlines a method for particle simulation via the parallel computing of the GPU.
 - The particles will be generated and controlled using vertex and fragment shaders. 
 
 #### Design:
