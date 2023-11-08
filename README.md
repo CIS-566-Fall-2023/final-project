@@ -62,14 +62,25 @@ The user will have control over:
         between the two different patterns.
 
 #### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific
-  papers/articles.
 
 - L-Systems
+  - [The Algorithmic Beauty of Plants - Aristid
+    Lindemayer](http://algorithmicbotany.org/papers/abop/abop.pdf)
+  - [L-System Tutorial](https://www.youtube.com/watch?v=CgxTCpUqp5Q)
+  - [L-System User Notes - Paul Bourke](https://paulbourke.net/fractals/lsys/)
+  - [Houdini L-System
+    Docs](https://www.sidefx.com/docs/houdini/nodes/sop/lsystem.html#use-modeled-geometry-in-an-l-system)
+  - [Generating Trees and Other Interesting Shapes With L-Systems](https://gpfault.net/posts/generating-trees.txt.html)
 - Greedy algorithm (similar to one used in lego project):
     to fill up the volume of the input object with the pattern cutouts.
+    - [CIS 5660 HW3](https://github.com/CIS-566-Fall-2023/hw03-legos)
 - Noise to generate the paths and shapes of the patterns
+  - CIS 5660 notes
+  - [Book of Shaders](https://thebookofshaders.com/11/)
   - It will be deterministic, so the patterns maintain their intended look which I will be curating
+- Interpolation between two patterns during animation
+  - Need to lerp one set of points (the source cutout) to another set (the destination cutout)
+  - [Related Object Morph Houdini Tutorial](https://www.youtube.com/watch?v=8LsI2ARFv04)
 
 #### Design:
 
