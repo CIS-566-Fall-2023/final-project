@@ -20,35 +20,44 @@ patterns, either within a single pattern's context, or perhaps even animating be
 patterns.
 
 To maintain the craftsmanship that is so essential to the appreciation of these
-decorative wooden arches, carpets, and architectural structures, the tool will be applied to wooden slabs.
+decorative wooden arches, carpets, and architectural structures, the tool will be applied to wooden
+slabs.
+
+Although this project is not intended to culminate in a single polished scene to show for, I plan to
+situate multiple wooden arches and slabs with disparate shapes together in a simple scene &ndash;
+perhaps a small room with a Islamic carpet.
 
 
 #### Inspiration/reference:
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
-- Include in your design doc links to and images of your reference material.
+
+Reference #1:
 
 ![](img/ref-wooden-arches.png)
 [Source](https://www.etsy.com/listing/1467150352/set-of-decorative-arches-islamic-arabic?gpla=1&gao=1&&utm_source=google&utm_medium=cpc&utm_campaign=shopping_us_d-craft_supplies_and_tools-patterns_and_how_to-patterns_and_blueprints&utm_custom1=_k_CjwKCAjwkY2qBhBDEiwAoQXK5e3zWAU40x-ESz_xxUsEbw_pSet9z7k0Me79Zgcc4MTAHoWqSTIgJRoCcxAQAvD_BwE_k_&utm_content=go_2063558056_76452866095_367965825024_pla-322726483858_c__1467150352_12768591&utm_custom2=2063558056&gclid=CjwKCAjwkY2qBhBDEiwAoQXK5e3zWAU40x-ESz_xxUsEbw_pSet9z7k0Me79Zgcc4MTAHoWqSTIgJRoCcxAQAvD_BwE)
 
+Reference #2:
+
 ![](img/ref-wooden-pieces.png)
 [Source](https://www.etsy.com/listing/1365553332/set-vector-arches-dxf-eps-svg-ai-pdf-png?click_key=567e1af9aaf9f8ea4ad89f283786370ebc24bdfd%3A1365553332&click_sum=7c5186a7&external=1&rec_type=ss&ref=pla_similar_listing_top-1&sts=1)
+
+Reference #3:
 
 ![](img/ref-pattern-0.jpg)
 [Source](https://www.alamy.com/seamless-geometric-ornament-based-on-traditional-arabic-art-muslim-mosaicblack-lines-and-white-backgroundgreat-design-for-fabrictextilecoverwrap-image339544071.html)
 
 #### Specification:
-- Outline the main features of your project.
 
-The project will be a Houdini node that will have take geometry as its input, and cut from it the
+The project will be a Houdini node that will take geometry as its input, and cut from it the
 specified geometric pattern. The geometry will be specified by a node parameter that the user will
-ahve to set themselves. I will be developing the node with the assumption that simple wooden
+have to set themselves. I will be developing the node with the assumption that simple wooden
 slab-like geometry is being input into the node, and so not all geometry will result in the desired output.
 
 The user will have control over:
-  - the pattern type
-  - the scale of the pattern within the object
-  - whether the object is animating and the speed of which
-  - pattern fade
+  1. the pattern type
+  2. the scale of the pattern within the object
+  3. whether the object is animating 
+  4. animation speed
+  5. pattern fade
       - the user can select two patterns, and the node will cyclicly interpolate back and forth
         between the two different patterns.
 
@@ -63,19 +72,36 @@ The user will have control over:
   - It will be deterministic, so the patterns maintain their intended look which I will be curating
 
 #### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+
+![](img/readme-fbd-0.jpeg)
 
 #### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly
-  outline what each group member's duties will be.
 
 [11/8 &rarr; 11/15] 
+- [ ] Create Houdini node that fills a input geometry (rectangluar slab) with a basic LSystem design
+  in the form of a cutout.
+- [ ] Write LSystem grammars for two of the patterns from Reference #1 above
+- [ ] Implement animation loop for individual pattern selections
 
 [11/15 &rarr; 11/22] 
+- [ ] Implement the interpolation between two patterns
+- [ ] Implement UI in the node that allows user to select two patterns to interpolate between
+- [ ] Add more pattern options
 
 [11/22 &rarr; 11/27] 
+- [ ] Create simple scene to display node's output
+    - As stated in the Goal section, creating a user-facing node is the goal of the project,
+      however, in order to display the capability of the node, I will be making a low-fidelity scene
+      for demonstration purposes.
+- [ ] Add more pattern options
+- [ ] In order to enhance the effect of being carved, add some fine noise to the cutout to mimic the
+  imperfections of a hard-carved craft
 
-[11/22 &rarr; 12/5] 
+[11/27 &rarr; 12/5] 
+- [ ] Polish scene so that the final output can eloquently display the node's capabilities
+- [ ] Add any more patterns that haven't already been implemented
+- [ ] Clean up the node UI so it is user-friendly
+- [ ] Sort out any outstanding bugs
 
 ## Milestone 1: Implementation part 1 (due 11/15)
 Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
