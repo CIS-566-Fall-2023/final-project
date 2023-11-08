@@ -20,7 +20,6 @@ In this project, I hope to use this opportunity to expand my skills in procedura
 
 
 #### Specification:
-- Outline the main features of your project.
 - Upon opening the program, there will be a waterfall of particles falling down the screen.
 - Many aspects of this scene will be customizable like particle size, particle color, and physical forces like gravity.
 - The user can move the camera to change the perspective of the scene, like zooming out or rotating.
@@ -30,12 +29,10 @@ In this project, I hope to use this opportunity to expand my skills in procedura
 - There will be an additional parameter to customize the noise at which the particles are generated to the scene, affecting the way the particles enter the scene. 
 
 #### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
 - I will be implementing this paper Particle Animation and Rendering Using Data Parallel Computation](https://www.karlsims.com/papers/ParticlesSiggraph90.pdf) by Karl Sims, which essentially outlines a method for particle simulation via the parallel computing of the GPU.
 - The particles will be generated and controlled using vertex and fragment shaders. 
 
 #### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
 - The main function has the controls and generates the scene. Based on these specifications, we set the particle size, color, forces, obstacle size etc.
 - The main function checks for the user's mouse controls and adds obstacles or changes the camera accordingly.
 - The main function holds the particles for the scene via a Particle and Particle Collection class, such that all transformations and renderings can be applied to each particle. 
@@ -43,13 +40,21 @@ In this project, I hope to use this opportunity to expand my skills in procedura
 - When rendering, there are particle vertex and fragment shaders and obstacles vertex and frag shaders.
 - The obstacle vert shader collects the position of the obstacle. Its vertex shader colors the obstacles according to the parameters set in the controls.
 - The particle vert shader generates the particles based on the specified noise, and controls the particle's position based on the simulation from its physical forces. Finally, the particle frag shader colors the point.
-
-
+![image](https://github.com/kyraSclark/final-project/assets/60115638/27c99502-19db-4dc4-9dfa-11a8f71b0313)
 
 #### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
+##### 11/08: Design Doc Due
+At this stage, I have completed my initial research of the project and completed the design doc. 
 
-Submit your Design doc as usual via pull request against this repository.
+##### 11/15: Milestone 1 Due
+Implement the basic waterfall physics with basic controls. My goal is that I can generate random particles on the screen and have them move around (preferably fall down). I will also implement some basic controls, like controlling the color of the particles.  
+
+##### 11/27: Milestone 2 Due
+Implement obstacles and collision physics. At this point, all physical simulations should be complete, including gravity acceleration, collisions, etc. It might be rudimentary, but it should work at its core. This checkpoint should mark the completion of the "engine". 
+
+##### 12/04: Final Project Due 
+Implement customizable generation control and polish. Now, all the GUI controls should be implemented and it should have a polished look. We should be able to control how and if the obstacles appear, and have control over the particle simulation, color, and generation based on noise. 
+
 ## Milestone 1: Implementation part 1 (due 11/15)
 Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
 
