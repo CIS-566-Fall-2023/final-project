@@ -44,5 +44,11 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
       - Polish + Merge everything
 
   ## Techniques:
+  - Map Generation:
+    - Wave Function Collapse(Labs WFC Initalize Grid in Houdini)
+  - Individual Islands Generation:
+    - 
+  - Cloud:
+    - 
 </details>
 
