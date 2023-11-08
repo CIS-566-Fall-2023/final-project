@@ -38,11 +38,11 @@ I aim to use a wide variety of Houdini nodes. Ideally, I hope to work with multi
 
 #### Timeline:
 
-Week 1 (by 11/15): Create the base geometry of all building elements (house, windows, door, staircase, inner details).
+Milestone 1 (by 11/15): Create the base geometry of all building elements (house, windows, door, staircase, inner details).
 
-Week 2 (by 11/27): Refine geometry (bricks, outer details, color).
+Milestone 2 (by 11/27): Refine geometry (bricks, outer details, color).
 
-Week 3 (by 11/5): Implement stretch goals if possible (randomization, trees). Polish GUI controls and reate renders.
+Milestone 3 (by 11/5): Implement stretch goals if possible (randomization, trees). Polish GUI controls and reate renders.
 
 
 
