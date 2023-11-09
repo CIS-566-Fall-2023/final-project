@@ -15,7 +15,17 @@ A tool made in Unity that allows the user to create roughly spherical characters
 
 [Spore](https://store.steampowered.com/app/17390/SPORE/) uses a signed distance field (SDF) (more specifically, metaballs) based approach for its extremely robust character creation engine. While this engine is ahead of its time and really technologically complex, I wish to create a tool that could replicate a small chunk of its functionality.
 
+|Spore Character Creator|
+|:-:|
+|<img src="img/sporeScreenshot.png" width=500>|
+
 Most of this will be achieved by referencing [IQ's amazing articles](https://iquilezles.org/articles/) on SDFs, raymarching and procedural texturing of SDFs.
+
+The hope is to create a tool for quick creation of spherical characters that would fit the aesthetic of Fling to the Finish.
+
+|Fling to the Finish Characters|
+|:-:|
+|<img src="img/flingCharacters.png" width=300>|
 
 ## Specifications
 
