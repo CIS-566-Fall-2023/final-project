@@ -1,4 +1,5 @@
 # Final Project: Townhouse Generator
+by Sherry Li
 
 ## Design Doc
 
@@ -10,18 +11,21 @@ During the Procedural Jellyfish assignment, I really enjoyed making a tool that 
 
 #### Goal
 
-With this project, I intend to create a Houdini tool that lets artists generate variations of townhouse facades by customizing the parameters of a controller node.
+With this project, I intend to create a Houdini procedural modelling tool that lets artists generate variations of townhouse facades by customizing the parameters of a controller node.
 
 #### Inspiration/reference:
 
 My inspiration comes from the buildings around me. Specifically, I aim to reference the architectural style of flat-roof conjoined rowhouses that are [distinctive to Philadelphia](https://philadelphiaencyclopedia.org/essays/row-houses/).
 
-<img width="794" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/bd64e481-cfdb-4a37-90ba-1615943fe35f">
+<p align="center">
+<img width="600" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/588fd1c7-869c-47c5-be21-4cd627137c96">
+</p>
 
 I want to have a substantial degree of realism, but not to the point of hyperrealism. Stylistically, I want to match the environments of animated films and games that have stylized characters but much more realistic buildings.
 
-<img width="734" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/9b4c2c2e-ac9a-4e3b-8e2b-1d5493f56208">
-
+<p align="center">
+<img width="600" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/6e32bf31-babb-4b7f-b2c9-988345c570a5">
+</p>
 
 #### Specification:
 
@@ -34,7 +38,10 @@ Stretch goals include having the user be able to simply scrub through a seed to 
 I aim to use a wide variety of Houdini nodes. Ideally, I hope to work with multiparms and Python scripting to customize instances of geometry. YouTube tutorials I'm looking at include [(x)](https://www.youtube.com/watch?v=gmYvA05orbs), [(x)](https://www.youtube.com/watch?v=h1JK3HL7Sb8), and [(x)](https://www.youtube.com/watch?v=uIe97023sDk).
 
 #### Design:
-<img width="700" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/1b9efc7b-181d-483a-9441-aa16d52d0ac3">
+
+<p align="center">
+<img width="600" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/1b9efc7b-181d-483a-9441-aa16d52d0ac3">
+</p>
 
 #### Timeline:
 
