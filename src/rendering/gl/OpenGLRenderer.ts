@@ -6,6 +6,8 @@ import ShaderProgram from './ShaderProgram';
 import { ParticlesGroup } from '../../Particle';
 
 const POSITION_LOCATION = 2;
+const COLOR_LOCATION = 4;
+
 
 // In this file, `gl` is accessible because it is imported above
 class OpenGLRenderer {
@@ -75,6 +77,7 @@ class OpenGLRenderer {
 
         // Attributes per-instance when drawing 1 when drawing instances
         gl.vertexAttribDivisor(POSITION_LOCATION, 1);
+        gl.vertexAttribDivisor(COLOR_LOCATION, 1);
 
         // draw instances
         prog.drawParticles(drawable, particles[i].numParticles);
