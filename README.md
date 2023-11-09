@@ -5,9 +5,9 @@ by Sherry Li
 
 #### Introduction
 
-When walking around my neighborhood near the west end of campus, I always find myself admiring the facades of the townhouses. Although they all follow a similar structure, each has its own unique charm. 
+When walking around my neighborhood near the west end of campus, I always find myself admiring the facades of the townhouses. Although they share a common structure, each has its own unique charm. 
 
-During the Procedural Jellyfish assignment, I really enjoyed making a tool that lets artists tweak many parameters to achieve a desired result and also instantly generate random variations to quickly populate a scene. I think this sort of procedural tool would be perfect to generate townhouses, which are often needed in large numbers along a street and impractical to model individually.
+During the Procedural Jellyfish assignment, I really enjoyed making a tool that lets artists tweak many parameters to achieve a desired result and also instantly generate random variations to quickly populate a scene. I believe a similar procedural tool would be ideal for generating townhouses, which are often needed in large numbers along a street and impractical to model individually.
 
 #### Goal
 
@@ -15,13 +15,13 @@ With this project, I intend to create a Houdini procedural modelling tool that l
 
 #### Inspiration/reference:
 
-My inspiration comes from the buildings around me. Specifically, I aim to reference the architectural style of flat-roof conjoined rowhouses that are [distinctive to Philadelphia](https://philadelphiaencyclopedia.org/essays/row-houses/).
+Specifically, I aim to reference the architectural style of flat-roof conjoined rowhouses that are [distinctive to Philadelphia](https://philadelphiaencyclopedia.org/essays/row-houses/).
 
 <p align="center">
 <img width="600" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/588fd1c7-869c-47c5-be21-4cd627137c96">
 </p>
 
-I want to have a substantial degree of realism, but not to the point of hyperrealism. Stylistically, I want to match the environments of animated films and games that have stylized characters but much more realistic buildings.
+My goal is to achieve a substantial degree of realism, though not to the point of hyperrealism.  Stylistically, I aim to match the environments of animated films and games with stylized characters but much more realistic buildings.
 
 <p align="center">
 <img width="600" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/6e32bf31-babb-4b7f-b2c9-988345c570a5">
@@ -29,13 +29,13 @@ I want to have a substantial degree of realism, but not to the point of hyperrea
 
 #### Specification:
 
-The user will be able to control a wide variety of parameters that affect building dimensions, roof styles, brick styles, window and shutter styles, door styles, staircase/door height, colors of each component, presence of items like AC units, flags, and lamps, and other details. I aim to strike a balance between specification and noise/proceduralism such that the user has a high level of control, but not so much that it becomes tedious to construct one house. 
+The user will be able to control various parameters affecting building dimensions, roof styles, brick styles, window and shutter styles, door styles, staircase/door height, colors of each component, presence of items like AC units, flags, and lamps, and other details. I aim to strike a balance between specification and noise/proceduralism such that the user has a high level of control, but not so much that it becomes tedious to construct one house. 
 
-Stretch goals include having the user be able to simply scrub through a seed to generate infinite random townhouse variations, and generating houses in a row along a street.
+Stretch goals include allowing users to simply scrub through a seed to generate infinite random townhouse variations and generating houses in a row along a street.
 
 #### Techniques:
 
-I aim to use a wide variety of Houdini nodes. Ideally, I hope to work with multiparms and Python scripting to customize instances of geometry. YouTube tutorials I'm looking at include [(x)](https://www.youtube.com/watch?v=gmYvA05orbs), [(x)](https://www.youtube.com/watch?v=h1JK3HL7Sb8), and [(x)](https://www.youtube.com/watch?v=uIe97023sDk).
+I aim to use a range of Houdini nodes. Ideally, I hope to work with multiparms and Python scripting to customize instances of geometry. YouTube tutorials I'm looking at include [(x)](https://www.youtube.com/watch?v=gmYvA05orbs), [(x)](https://www.youtube.com/watch?v=h1JK3HL7Sb8), and [(x)](https://www.youtube.com/watch?v=uIe97023sDk).
 
 #### Design:
 
