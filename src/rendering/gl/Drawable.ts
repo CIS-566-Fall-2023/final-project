@@ -6,10 +6,12 @@ abstract class Drawable {
   bufIdx: WebGLBuffer;
   bufPos: WebGLBuffer;
   bufNor: WebGLBuffer;
+  bufCol: WebGLBuffer; 
 
   idxBound: boolean = false;
   posBound: boolean = false;
   norBound: boolean = false;
+  colBound: boolean = false;
 
   abstract create() : void;
 
@@ -53,6 +55,13 @@ abstract class Drawable {
       gl.bindBuffer(gl.ARRAY_BUFFER, this.bufNor);
     }
     return this.norBound;
+  }
+
+  bindCol(): boolean {
+    if (this.colBound) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.bufCol);
+    }
+    return this.colBound;
   }
 
   elemCount(): number {

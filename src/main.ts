@@ -13,11 +13,7 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 let time = 0.0;
 
 const controls = {
-  Speed: 0.4,
-  Tail_Size: 4.0,
   Particle_Color: [ 255, 0, 0 ],
-  Middle_Color: [ 255, 178.5, 0 ],
-  Front_Color: [ 0, 0, 255 ],
 };
 
 let icosphere: Icosphere;
@@ -33,19 +29,15 @@ function loadScene() {
   cube = new Cube(vec3.fromValues(0, 0, 0));
   cube.create();
 
-  // particles = new ParticlesGroup(10);
-  // particles.create();
-  // particles.setVBOs();
+  particles = new ParticlesGroup(10);
+  particles.create();
+  //particles.setVBOs();
 }
 
 
 function main() {
   const gui = new DAT.GUI();
-  gui.add(controls, 'Speed', 0.025, 0.5).step(0.005).name("Meteor Speed");
-  gui.add(controls, 'Tail_Size', 2.0, 10.0).step(1).name("Tail Size");
   gui.addColor(controls, 'Particle_Color').name("Main Color");
-  gui.addColor(controls, 'Middle_Color').name("Middle Color");
-  gui.addColor(controls, 'Front_Color').name("Tip/Front Detail Color");
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
   const gl = <WebGL2RenderingContext> canvas.getContext('webgl2');
@@ -56,12 +48,15 @@ function main() {
 
   loadScene();
 
+  // Create Camera
   const camera = new Camera(vec3.fromValues(0, 0, 5), vec3.fromValues(0, 0, 0));
 
+  // Create Renderer
   const renderer = new OpenGLRenderer(canvas);
   renderer.setClearColor(0.1, 0.1, 0.1, 1);
   gl.enable(gl.DEPTH_TEST);
 
+  // Create Shaders
   const particleShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/particle-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/particle-frag.glsl')),
@@ -74,13 +69,20 @@ function main() {
   
   // This function will be called every frame
   function tick() {
+    // Update Camera and Time
     camera.update();
     time = time + 1.0;
 
+    // Render objects using Renderers
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
     renderer.render(camera, lambert, 
       [icosphere],
+      vec4.fromValues(controls.Particle_Color[0]/255.0,controls.Particle_Color[1]/255.0,controls.Particle_Color[2]/255.0,1),
+    );
+
+    renderer.render(camera, lambert, 
+      [cube],
       vec4.fromValues(controls.Particle_Color[0]/255.0,controls.Particle_Color[1]/255.0,controls.Particle_Color[2]/255.0,1),
     );
 
