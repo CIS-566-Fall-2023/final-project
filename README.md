@@ -27,8 +27,8 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   - Cloud simulation
   - Floating + Animated islands
   - Lighting Effect 
-  - Advanced features (might not be able to accomplish):
-      - Port it to Unity 
+  - Advanced features
+      - Port it to Unity for rendering
       - Birds flying around islands
       - Waterfall and lakes on islands
 
