@@ -1,36 +1,62 @@
-# Final Project!
+# :dvd:AlgebRave:dvd:
 
-This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
+## Design Doc
 
-## Project planning: Design Doc (due 11/8)
-Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
 
-### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
+## Introduction
+Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in middle school on my Xbox 360/kinect, I was mesmerized by the amalgamation of music and graphics that I got to experience. Fast forward to Fall 2023, when I am taking the Procedural Graphics class at Penn and with every new lecture, thinking back on how could I recreate a fraction of the experience that Dance Central provided me with. And here I am, trying to attempt it for the final project of that class!
 
-#### Introduction
-- What motivates your project?
+## Goals
+* **Technical Goal:** I want to create a procedural beat detection system for audio files, and use that to drive custom graphics & visual effects based on live input from Kinect.  
+* **Intrinsic Goal:** Having fun! I want both the user of the tool as well as myself during its development to have a blast. I want to create something wherein one could play any song of their liking, and have fun interacting with the splash of graphics appearing on their screen - maybe bust a move or two :dancers:
 
-#### Goal
-- What do you intend to achieve with this project?
+## Inspiration/References
+- Although I am not creating a dance-based pose-matching game, but the inspiration for the environment and the experience is certainly based on Dance Central. [This](https://www.youtube.com/watch?v=kuwB05ASh7E) is a trailer of their sequel, that gives an idea of what the game is about. [This](https://www.gdcvault.com/play/1014487/Break-It-Down-How-Harmonix) is a GDC talk where they _Break It Down_ their game design & development approach, which isn't relevant to this project but definitely is a good inspiration.
+- [Wayne Wu](https://www.wuwayne.com/), a graduate from the same program did a very similar [project](https://github.com/wayne-wu/interactive-dance-projection/tree/main) last year. This will be a good reference point for me for the user interactivity & background parts.
+- [John Alberse](https://www.johnalberse.com/), a fellow intern I met at Activision in Summer'23 had some experience with Projective Graphics. He shared [this](https://drive.google.com/file/d/1RECgq3cEmV_nBFP9xX_NIgyAxvJbxDen/view) piece of his work with me which I found really inspirational.
+- [Fluid Simulation using TouchDesigner](https://www.youtube.com/watch?v=2k6H5Qa_fCE)
+- [Making Audio Reactive systems using TouchDesigner](https://www.youtube.com/watch?v=rGoCbVmGtPE)
+- [Example of using TouchDesigner + Kinect](https://www.youtube.com/watch?v=tPYTXt1hSx4)
 
-#### Inspiration/reference:
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
-- Include in your design doc links to and images of your reference material.
+## Specifications
+- A **Procedural Beat Detection** system created uisng **TouchDesigner** to identfiy basic parts of music like beats, drums, snares, bass, etc.
+- Live input streaming from **Kinect** into TouchDesigner and using it to drive interactive visual elements.
+- Incorporate **noise/toolbox functions** with **custom GLSL shaders** to write simple background effects driven off of music.
 
-#### Specification:
-- Outline the main features of your project.
+## Techniques
+- **Procedural node-based tool**: Only recently I started gaining some experience with node-based tools like Houdini and Unity Shader Graphs. For this project, I will be using (and also, learning from scratch) **TouchDesigner** because of its ability to provide both great interactivity with Kinect as well as nodes to write custom GLSL shaders.
+- **Kinect**: Since I already own a Kinect, even though the old one that shipped with the XBOX 360,, it is nonetheless a powerful device and therefore I'll be using the same for this project for its befitting abilities.
+- **Toolbox Functions:** Writing custom shaders for visual effects almost never goes with using Toolbox and Noise functions. Although I haven't finalized each and every single visual aspect of the shaders, I am pretty sure I'll be routinely employing these tools for whatever I would want to achieve.
+- **Optical Flow, Particle Simulation, Fluid Simulation, etc:** All such concepts fit really well with the vision for the project, and I will choose a subset of these while researching on the ease of their impolementation that aligns with the project's timeline.
 
-#### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
-
-#### Design:
+## Design
 - How will your program fit together? Make a simple free-body diagram illustrating the pieces.
 
-#### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
+## Timeline
 
-Submit your Design doc as usual via pull request against this repository.
+### Week 1 ( 8 Nov'23 - 15 Nov'23)
+* Implement the audio detection system in TouchDesigner that for a given audio file is able to generate signals for musical elements like beats, drums, snares, bass, etc.
+* Target generating 4 such audio signals.
+* Do a proof-of-concept by driving some basic graphics off a subset/all of these signals.
+
+### Week 2 ( 15 Nov'23 - 22 Nov'23)
+* Get started on the user input - hook up Kinect with TouchDesigner.
+* Follow basic tutorial(s) to get some easy wins like particle system interactions.
+* Implement at least 2 user-interactive features using tools like Optical Flow and Fluid Simulation.
+* Hook up audio signals into these features.
+
+### Week 3 ( 22 Nov'23 - 29 Nov'23)
+* Work on developing simple yet visually pleasing audio-driven backgrounds.
+* Implement 4 different backgrounds driven off of the generated audio signals.
+* Combine everything together - audio signals, user input-based Kinect signals, and shader backgrounds.
+
+### Week 4 ( 29 Nov'23 - 6 Dec'23)
+* Tackle any delays from the previous milestones.
+* Polish, polish, polish!
+* Work on documentation.
+* Ask fellow students to experiment with the tool and capture some recordings.
+* Make a trailer for AlgebRave!
+
 ## Milestone 1: Implementation part 1 (due 11/15)
 Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
 
