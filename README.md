@@ -30,7 +30,8 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 - **Optical Flow, Particle Simulation, Fluid Simulation, etc:** All such concepts fit really well with the vision for the project, and I will choose a subset of these while researching on the ease of their impolementation that aligns with the project's timeline.
 
 ## Design
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+![algebrave_design](https://github.com/Saksham03/algeb-rave/assets/20259371/a1f6e6b1-4dfb-4f01-9f1d-dc35cab7d551)
+
 
 ## Timeline
 
