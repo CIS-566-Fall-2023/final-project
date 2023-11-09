@@ -41,8 +41,9 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
       - Lighting effect
       - Advanced features if possible
   - Milestone 3 (12/5 8 days):
-      - Polish + Merge everything
-
+      - Polish
+      - Birds implmentation in Unity
+      - Merge everything in Unity for demo
   ## Techniques:
 
   We will do our islands generations on Houdini 
@@ -55,7 +56,7 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
     - VBD node 
   - Birds:
     - Flocking system 
-    - birds animation (still deciding)
+    - birds animation
 
 </details>
 
