@@ -44,11 +44,18 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
       - Polish + Merge everything
 
   ## Techniques:
+
+  We will do our islands generations on Houdini 
   - Map Generation:
     - Wave Function Collapse(Labs WFC Initalize Grid in Houdini)
-  - Individual Islands Generation:
-    - 
+  - Individual Island Generation:
+    - Vines (hair simulation)
+    - Water/ Waterfall(fluid particle simulation)
   - Cloud:
-    - 
+    - VBD node 
+  - Birds:
+    - Flocking system 
+    - birds animation (still deciding)
+
 </details>
 
