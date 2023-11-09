@@ -1,36 +1,40 @@
-# Final Project!
+# Design Doc
+## Specification:
+- Procedural Tool that will create a base layout of the city walls/buildings (Houdini/PCG)
+- Procedural Tool that will take in base meshes and add bevels and indents to make it look like a more mechanized Killer AI Generated City (Houdini)
+- Procedural Tool that will take in faces from two different buildings and generate a techno bridge mesh in between them
+- Procedural Tool that will generate pipes inside hand-created volumes and along the sides of buildings
+- Procedural Tool that will generate wire meshes around/across the buildings
+- Procedural Concrete/Metallic Material Variations that have customizable parameters which can be procedurally placed on to building meshes
+- Grime Decal that can be procedurally placed on windows with Unreal PCG 
+- Unreal PCG System that will scatter props and debris around scene
+- Post process filter to make it look like manga
 
-This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
+## Techniques:
+We will be working between 3 main software packages - Houdini, Substance, and Unreal.
+Houdini:
+Base layout of city buildings will use random point scattering, booleans with varied other scattered shapes, mesh → volume → mesh
+Window/bevel/indent tool will use use separate voxel 
 
-## Project planning: Design Doc (due 11/8)
-Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
+## Design:
+![FBD](https://github.com/xcupsilon/project-blame/assets/50472308/4cc702f3-330a-4d7d-8e01-b33ff53fd0a8)
 
-### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
+## Timeline:
+- Milestone 1 – 11/15
+General Vertical Slice:
+Rain: general art direction, general building shape construction, bridge placement – in Maya/Houdini
+Thomas: rain’s output → punch holes for windows, cut some detail into things, place mid-small size details – all in Houdini m
+Dineth: Materials: Concrete material, grime decal coming from windows – in Substance Designer/Painter and Unreal
+- Milestone 2 - 11/27
+Rain: lighting first pass, bringing into Engine, simple post processes, wires
+Thomas: Pipes from some volume input, mid-small size detail modeling + placing
+Dineth: Metallic, Black wire material, Cracks decal on the wall
+- Final - 12/6
+Rain: lighting polish, post processes & materials (potentially manga), scattering small props & garbage using PCG 
+Wires
+Thomas: Adding additional procedural models that would suit the scene
+Dineth: Adding Additional Materials that would look good for the scene
 
-#### Introduction
-- What motivates your project?
-
-#### Goal
-- What do you intend to achieve with this project?
-
-#### Inspiration/reference:
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
-- Include in your design doc links to and images of your reference material.
-
-#### Specification:
-- Outline the main features of your project.
-
-#### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
-
-#### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
-
-#### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
-
-Submit your Design doc as usual via pull request against this repository.
 ## Milestone 1: Implementation part 1 (due 11/15)
 Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
 
