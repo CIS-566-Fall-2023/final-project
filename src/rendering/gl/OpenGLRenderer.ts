@@ -40,7 +40,7 @@ class OpenGLRenderer {
     prog.setModelMatrix(model);
     prog.setViewProjMatrix(viewProj);
     // prog.setGeometryColor(vec4.fromValues(1,0,0,1));
-    prog.setParticleColor(main);
+    prog.setColor(main);
 
     for (let drawable of drawables) {
       prog.draw(drawable);

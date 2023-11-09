@@ -22,8 +22,6 @@ out vec4 out_Col; // This is the final output color that you will see on your
 
 void main()
 {
-    float dist = 1.0 - 2.0 * length(fs_Pos.xyz); // ?????
-    out_Col = vec4(dist) * fs_Col;
 }
 
 

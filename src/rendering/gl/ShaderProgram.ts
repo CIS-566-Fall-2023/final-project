@@ -1,4 +1,4 @@
-import {vec4, mat4, mat3} from 'gl-matrix';
+import {vec4, vec3, mat4, mat3} from 'gl-matrix';
 import Drawable from './Drawable';
 import {gl} from '../../globals';
 
@@ -34,14 +34,24 @@ class ShaderProgram {
   unifModelInvTr: WebGLUniformLocation;
   unifViewProj: WebGLUniformLocation;
   unifColor: WebGLUniformLocation;
+
   unifCameraAxes: WebGLUniformLocation;
 
-  constructor(shaders: Array<Shader>) {
+  unifAcceleration: WebGLUniformLocation;
+  unifParticleCol: WebGLUniformLocation;
+
+
+  constructor(shaders: Array<Shader>, isTransformFeedback: boolean = false, variable_buffer_data: string[] = []) {
     this.prog = gl.createProgram();
 
     for (let shader of shaders) {
       gl.attachShader(this.prog, shader.shader);
     }
+
+    if(isTransformFeedback == true){
+      gl.transformFeedbackVaryings(this.prog, variable_buffer_data, gl.SEPARATE_ATTRIBS);
+    }
+
     gl.linkProgram(this.prog);
     if (!gl.getProgramParameter(this.prog, gl.LINK_STATUS)) {
       throw gl.getProgramInfoLog(this.prog);
@@ -56,6 +66,10 @@ class ShaderProgram {
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
     this.unifColor      = gl.getUniformLocation(this.prog, "u_Color");
     this.unifCameraAxes = gl.getUniformLocation(this.prog, "u_CameraAxes");
+  
+    this.unifAcceleration = gl.getUniformLocation(this.prog, 'u_Acceleration');
+    this.unifParticleCol = gl.getUniformLocation(this.prog, "u_ParticleColor");
+
   }
 
   use() {
@@ -86,13 +100,6 @@ class ShaderProgram {
     }
   }
 
-  setParticleColor(color: vec4) {
-    this.use();
-    if (this.unifColor !== -1) {
-      gl.uniform4fv(this.unifColor, color);
-    }
-  }
-
   setTime(time: GLfloat) {
     this.use();
     if (this.unifTime !== -1) {
@@ -106,6 +113,30 @@ class ShaderProgram {
       gl.uniformMatrix3fv(this.unifCameraAxes, false, axes);
     }
   }
+
+  // TRANSFORM FEEDBACK
+  setParticleColor(color: vec3) {
+    this.use();
+    if (this.unifParticleCol !== -1) {
+      gl.uniform4fv(this.unifParticleCol, color);
+    }
+  }
+
+  setParticleAcceleration(a: vec3) {
+    this.use();
+    if (this.unifAcceleration !== -1) {
+      let scale = 5.0;
+      gl.uniform3f(this.unifAcceleration, scale * a[0], scale * a[1], scale * a[2]);
+    }
+  }
+
+  setColor(color: vec4) {
+    this.use();
+    if (this.unifColor !== -1) {
+      gl.uniform4fv(this.unifColor, color);
+    }
+  }
+
 
   draw(d: Drawable) {
     this.use();

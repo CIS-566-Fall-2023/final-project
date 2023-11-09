@@ -14,6 +14,7 @@ let time = 0.0;
 
 const controls = {
   Particle_Color: [ 0, 0, 255 ],
+  Gravity: 30.0,
 };
 
 let icosphere: Icosphere;
@@ -39,7 +40,8 @@ function loadScene() {
 
 function main() {
   const gui = new DAT.GUI();
-  gui.addColor(controls, 'Particle_Color').name("Particle Color");
+  gui.addColor(controls, 'Particle_Color').name("Particle Color").onChange(setParticleColor);
+  gui.add(controls, 'Gravity', 1.0, 100.0).step(1.0).onChange(setParticleAcceleration);
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
   const gl = <WebGL2RenderingContext> canvas.getContext('webgl2');
@@ -74,6 +76,37 @@ function main() {
     new Shader(gl.VERTEX_SHADER, require('./shaders/lambert-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/lambert-frag.glsl')),
   ]);
+
+  // Transform Feedback for Particles
+  // Transform Feedback is the process for capturing Primitives from the Vertex
+  // Processing steps, recording that data in Buffer Objects, which allows one to
+  // resubmit data multiple times. Transform Feedback allows shaders to write vertices
+  // back to VBOs. We are using them to update te changing variables like position, 
+  // velocity, acceleration, and color back to the buffer as they change.  
+  let variable_buffer_data = ["v_pos", "v_vel", "v_col"];
+  const transformFeedbackShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/particle-transfeed-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/particle-transfeed-frag.glsl')),
+    ], true, variable_buffer_data
+  );
+
+  // SETTER FUNCTIONS
+  function setParticleColor() {
+    transformFeedbackShader.setParticleColor(vec3.fromValues(
+      controls.Particle_Color[0]/255.0,
+      controls.Particle_Color[1]/255.0,
+      controls.Particle_Color[2]/255.0
+    ));
+  }
+
+  function setParticleAcceleration() {
+    transformFeedbackShader.setParticleAcceleration(vec3.fromValues(0.0, controls.Gravity, 0.0));
+  }
+
+  // SET SHADER VALUES
+  transformFeedbackShader.setColor(vec4.fromValues(0.0, 1.0, 1.0, 1.0));
+  setParticleColor();
+  setParticleAcceleration();
   
   // This function will be called every frame
   function tick() {
@@ -91,11 +124,6 @@ function main() {
       vec4.fromValues(controls.Particle_Color[0]/255.0,controls.Particle_Color[1]/255.0,controls.Particle_Color[2]/255.0,1),
     );
 
-    renderer.render(camera, lambert, 
-      [cube],
-      vec4.fromValues(controls.Particle_Color[0]/255.0,controls.Particle_Color[1]/255.0,controls.Particle_Color[2]/255.0,1),
-    );
-
     renderer.renderParticles(camera, particleShader, square, [particles]);
 
     // Tell the browser to call `tick` again whenever it renders a new frame
@@ -106,6 +134,7 @@ function main() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.setAspectRatio(window.innerWidth / window.innerHeight);
     camera.updateProjectionMatrix();
+    
   }, false);
 
   renderer.setSize(window.innerWidth, window.innerHeight);

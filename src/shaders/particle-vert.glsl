@@ -9,7 +9,8 @@
 
 #define POSITION_LOCATION 2
 #define VELOCITY_LOCATION 3
-#define ID_LOCATION 4
+#define COLOR_LOCATION 4
+#define ID_LOCATION 5
 
 uniform mat4 u_Model;       // The matrix that defines the transformation of the
                             // object we're rendering. In this assignment,
@@ -45,10 +46,12 @@ out vec4 fs_Col;            // The color of each vertex. This is implicitly pass
 // This line vvv gets the attribute located at POSTION, and puts it IN the 
 // specified variable. The location specifies the number of the attribute  
 layout(location = POSITION_LOCATION) in vec3 updated_pos;
+layout(location = COLOR_LOCATION) in vec3 color;
+
 
 void main()
 {
-    fs_Col = vs_Col;                         // Pass the vertex colors to the fragment shader for interpolation
+    fs_Col = vec4(color, 1.0);                         // Pass the vertex colors to the fragment shader for interpolation
     fs_Pos = vs_Pos;
     vec4 modelposition = u_Model * vs_Pos;   // Temporarily store the transformed vertex positions for use below
 
