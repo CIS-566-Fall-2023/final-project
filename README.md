@@ -1,36 +1,107 @@
-# Final Project!
-
-This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
+# Final Project - Debby Lin and Will Cai 
 
 ## Project planning: Design Doc (due 11/8)
-Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
-
-### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
-
 #### Introduction
-- What motivates your project?
+We are inspired by infinite procedural landscape generation in games and the sense of both exploration and tranquility that they can offer. We want to create this type of experience with something visually appealing that simulates a slow, calming activity like sailing a boat down a peaceful river.
 
 #### Goal
-- What do you intend to achieve with this project?
+With this project, we intend to create a stylistically rendered interactive infinite boating game using Unity.
 
 #### Inspiration/reference:
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
-- Include in your design doc links to and images of your reference material.
+We were inspired by the visuals of Dredge and the gameplay of Slow Roads.io 
+- Dredge gameplay photos 
+
+<img src='https://github.com/debbylin02/final-project/assets/82790216/1eea2778-ea77-4014-b8a0-14b425fba9fc' width='300'>
+
+<img src='https://github.com/debbylin02/final-project/assets/82790216/a101bb91-84fd-44d4-a061-4c195c0ef255' width='300'>
+
+<img src='https://github.com/debbylin02/final-project/assets/82790216/920aaaef-220e-4c42-9662-efa765c934e3' width='300'>
+
+<img src='https://github.com/debbylin02/final-project/assets/82790216/393040b1-99ff-4100-a3ee-099aba5f7979' width='300'> 
+
+<img src='https://github.com/debbylin02/final-project/assets/82790216/f3d2e59b-d7ed-41d2-8918-370cea5a8fc9' width='300'>
+
+- Slow Roads.io gameplay
+  
+<img src='https://github.com/debbylin02/final-project/assets/82790216/10715850-73dd-4ab6-8174-48cf37e5886c' width='300'>
+
+<img src='https://github.com/debbylin02/final-project/assets/82790216/a7b014c9-1288-4cca-90a7-44aeec5dfa01' width='300'> 
+
+<img src='https://github.com/debbylin02/final-project/assets/82790216/cd09162e-96f7-43a6-b616-cd64f4e1b889' width='300'> 
+
 
 #### Specification:
-- Outline the main features of your project.
+The main features of our project will include: 
+- Infinite procedurally generated environment 
+- Water effects/interactions with objects 
+- Stylized shaders to replicate the look of Dredge 
+- Skybox with a day/night cycle as well as clouds and distance fog   
+- User controlled boat/moving camera to make the environment interactable 
+- Post-processing effects/filters 
+
 
 #### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
+- Sky/non-terrain environment 
+  - Sky box with day-night cycle
+    - https://timcoster.com/2020/02/26/unity-shadergraph-procedural-skybox-tutorial-pt-2-day-night-cycle/ 
+    - Example reference: https://www.youtube.com/watch?v=L4t2c1_Szdk 
+  - Cloud generation 
+    - Individual stylized clouds: https://medium.com/@mikeyoung_97230/creating-stylized-clouds-with-shader-graph-and-shuriken-in-unity3d-ec8f12fb5f0a
+    - Infinite cloud plane: https://www.youtube.com/watch?v=Y7r5n5TsX_E&ab_channel=RomanPapush 
+  - Distance fog 
+    - Tutorial: https://www.youtube.com/watch?v=EFt_lLVDeRo&ab_channel=Acerola 
+- Procedural environment generation  
+  - Chunking to render terrain chunks within a certain distance of the player
+    - Tutorial: https://gamedevacademy.org/split-terrain-unity-tutorial/ 
+  - Multithreading (if needed) 
+  - Noise/toolbox functions to determine height map for terrain 
+  - Cliff face generation will be done with noise/vertex deformation shaders 
+  - Procedurally placed assets (i.e. trees, buildings, rocks, etc.) using noise functions 
+- Shaders
+  - Stylized asset and environment shaders
+  - Cel shading with specular highlights/lighting techniques applied (Homework 4 as reference)
+  - Water shader
+    - Foam/ripple effects
+    - Viewing objects below surface
+    - Example shader: https://ameye.dev/notes/stylized-water-shader/ 
+    - Ripples in water can be generated as separate objects that look the same as the “foam” surrounding objects in water, generated behind the boat when it is moving and lifted above the water plane
+- Post-processing effects for lighting/filters
+  - Use sun to determine flare
+    - Reference: https://www.shadertoy.com/view/4sX3Rs 
+  - Vignette
+    - Reference: https://www.shadertoy.com/view/lsKSWR 
 
 #### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+
+![Design Doc Diagram](https://github.com/debbylin02/final-project/assets/82790216/9fd2b7fe-692f-4845-ad19-79f445cf90c2)
 
 #### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
+- Week 1 (11/8 - 11/15)
+  - Procedural terrain:  Will and Debby
+    - Chunking + multithreading (if needed) - Debby
+    - Height map + cliffs - Will
+    - Asset placement (with basic models) - Debby
+  - Moving camera - Will
+  - Skybox + day-night cycle - Will
+- Week 2 (11/15 - 11/22)
+  - Cliff shader (vertex deformation) - Debby
+  - Water shader (foam + look of objects underwater) - Will
+  - Boat & moving interaction (forward, rotate left/right) - Will
+- Week 3 (11/22 - 11/27)
+  - Distance fog - Debby
+  - Clouds - Debby
+  - Stylized shaders for assets - Will/Debby 
+  - Attach light to boat (it turns on at night) - Will
+  - Water ripple effects - Will
+  - Sound & music - Will
+- Week 4 (11/27 - 12/5)
+  - Post-processing - Will
+  - Extremely Basic Fishing Mechanic - Will
+  - GUI for user controls - Debby
+  - Extra sound effects - Debby
+  - Final model imports -  Will/Debby
 
-Submit your Design doc as usual via pull request against this repository.
+
 ## Milestone 1: Implementation part 1 (due 11/15)
 Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
 
@@ -62,56 +133,3 @@ Submission:
   - final results with images and a live demo if possible
   - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
 
-## Topic Suggestions
-
-### Create a generator in Houdini
-
-### A CLASSIC 4K DEMO
-- In the spirit of the demo scene, create an animation that fits into a 4k executable that runs in real-time. Feel free to take inspiration from the many existing demos. Focus on efficiency and elegance in your implementation.
-- Example: 
-  - [cdak by Quite & orange](https://www.youtube.com/watch?v=RCh3Q08HMfs&list=PLA5E2FF8E143DA58C)
-
-### A RE-IMPLEMENTATION
-- Take an academic paper or other pre-existing project and implement it, or a portion of it.
-- Examples:
-  - [2D Wavefunction Collapse Pokémon Town](https://gurtd.github.io/566-final-project/)
-  - [3D Wavefunction Collapse Dungeon Generator](https://github.com/whaoran0718/3dDungeonGeneration)
-  - [Reaction Diffusion](https://github.com/charlesliwang/Reaction-Diffusion)
-  - [WebGL Erosion](https://github.com/LanLou123/Webgl-Erosion)
-  - [Particle Waterfall](https://github.com/chloele33/particle-waterfall)
-  - [Voxelized Bread](https://github.com/ChiantiYZY/566-final)
-
-### A FORGERY
-Taking inspiration from a particular natural phenomenon or distinctive set of visuals, implement a detailed, procedural recreation of that aesthetic. This includes modeling, texturing and object placement within your scene. Does not need to be real-time. Focus on detail and visual accuracy in your implementation.
-- Examples:
-  - [The Shrines](https://github.com/byumjin/The-Shrines)
-  - [Watercolor Shader](https://github.com/gracelgilbert/watercolor-stylization)
-  - [Sunset Beach](https://github.com/HanmingZhang/homework-final)
-  - [Sky Whales](https://github.com/WanruZhao/CIS566FinalProject)
-  - [Snail](https://www.shadertoy.com/view/ld3Gz2)
-  - [Journey](https://www.shadertoy.com/view/ldlcRf)
-  - [Big Hero 6 Wormhole](https://2.bp.blogspot.com/-R-6AN2cWjwg/VTyIzIQSQfI/AAAAAAAABLA/GC0yzzz4wHw/s1600/big-hero-6-disneyscreencaps.com-10092.jpg)
-
-### A GAME LEVEL
-- Like generations of game makers before us, create a game which generates an navigable environment (eg. a roguelike dungeon, platforms) and some sort of goal or conflict (eg. enemy agents to avoid or items to collect). Aim to create an experience that will challenge players and vary noticeably in different playthroughs, whether that means procedural dungeon generation, careful resource management or an interesting AI model. Focus on designing a system that is capable of generating complex challenges and goals.
-- Examples:
-  - [Rhythm-based Mario Platformer](https://github.com/sgalban/platformer-gen-2D)
-  - [Pokémon Ice Puzzle Generator](https://github.com/jwang5675/Ice-Puzzle-Generator)
-  - [Abstract Exploratory Game](https://github.com/MauKMu/procedural-final-project)
-  - [Tiny Wings](https://github.com/irovira/TinyWings)
-  - Spore
-  - Dwarf Fortress
-  - Minecraft
-  - Rogue
-
-### AN ANIMATED ENVIRONMENT / MUSIC VISUALIZER
-- Create an environment full of interactive procedural animation. The goal of this project is to create an environment that feels responsive and alive. Whether or not animations are musically-driven, sound should be an important component. Focus on user interactions, motion design and experimental interfaces.
-- Examples:
-  - [The Darkside](https://github.com/morganherrmann/thedarkside)
-  - [Music Visualizer](https://yuruwang.github.io/MusicVisualizer/)
-  - [Abstract Mesh Animation](https://github.com/mgriley/cis566_finalproj)
-  - [Panoramical](https://www.youtube.com/watch?v=gBTTMNFXHTk)
-  - [Bound](https://www.youtube.com/watch?v=aE37l6RvF-c)
-
-### YOUR OWN PROPOSAL
-- You are of course welcome to propose your own topic . Regardless of what you choose, you and your team must research your topic and relevant techniques and come up with a detailed plan of execution. You will meet with some subset of the procedural staff before starting implementation for approval.
