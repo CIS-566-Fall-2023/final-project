@@ -42,10 +42,10 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   - Milestone 2 (11/27 12 days):
       - Merge three main features on houdini (Crystal)
       - Lighting effect (Keyu)
-      - Birds implmentation in Unity
+      - Birds implmentation in Unity (Daniel)
   - Milestone 3 (12/5 8 days):
-      - Polish
-      - Merge everything in Unity for demo
+      - Polish (Together)
+      - Merge everything in Unity for demo (Together)
   ## Techniques:
 
   We will do our islands generations on Houdini 
