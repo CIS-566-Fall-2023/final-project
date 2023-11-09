@@ -35,14 +35,16 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   ## Timeline:
 
   - Milestone 1 (11/15 7 days): 
-      -  Main Features (cloud+island+map-animation generation) working individually on houdini
+      - Main Features working individually on houdini
+      - cloud (Keyu)
+      - island (Crystal)
+      - map (Daniel)
   - Milestone 2 (11/27 12 days):
-      - Merge three main features on houdini
-      - Lighting effect
-      - Advanced features if possible
+      - Merge three main features on houdini (Crystal)
+      - Lighting effect (Keyu)
+      - Birds implmentation in Unity
   - Milestone 3 (12/5 8 days):
       - Polish
-      - Birds implmentation in Unity
       - Merge everything in Unity for demo
   ## Techniques:
 
