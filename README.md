@@ -14,16 +14,20 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 - Although I am not creating a dance-based pose-matching game, but the inspiration for the environment and the experience is certainly based on Dance Central. [This](https://www.youtube.com/watch?v=kuwB05ASh7E) is a trailer of their sequel, that gives an idea of what the game is about. [This](https://www.gdcvault.com/play/1014487/Break-It-Down-How-Harmonix) is a GDC talk where they _Break It Down_ their game design & development approach, which isn't relevant to this project but definitely is a good inspiration.
 - [Wayne Wu](https://www.wuwayne.com/), a graduate from the same program did a very similar [project](https://github.com/wayne-wu/interactive-dance-projection/tree/main) last year. This will be a good reference point for me for the user interactivity & background parts.
 - [John Alberse](https://www.johnalberse.com/), a fellow intern I met at Activision in Summer'23 had some experience with Projective Graphics. He shared [this](https://drive.google.com/file/d/1RECgq3cEmV_nBFP9xX_NIgyAxvJbxDen/view) piece of his work with me which I found really inspirational. Screenshot from his work:  
-- <img width="400px" src="images/designdoc/ref_fluid.png">
+  <img width="400px" src="images/designdoc/ref_fluid.png">
+
 - [Fluid Simulation using TouchDesigner](https://www.youtube.com/watch?v=2k6H5Qa_fCE)
 - [Making Audio Reactive systems using TouchDesigner](https://www.youtube.com/watch?v=rGoCbVmGtPE)
 - [Example of using TouchDesigner + Kinect](https://www.youtube.com/watch?v=tPYTXt1hSx4)
-- [Audioreactive Kinect Dancer](https://www.youtube.com/watch?v=8ZgvxwmQGZw)  
-<img width="400px" src="images/designdoc/dance.gif">
+- [Audioreactive Kinect Dancer](https://www.youtube.com/watch?v=8ZgvxwmQGZw)   
+  <img width="400px" src="images/designdoc/dance.gif">
+
 - An example of particle system interaction in TouchDesigner:  
-<img width="400px" src="images/designdoc/particles.gif">
+  <img width="400px" src="images/designdoc/particles.gif">
+
 - An example of audio visualization in TouchDesigner:  
-<img width="400px" src="images/designdoc/visuals.gif">
+  <img width="400px" src="images/designdoc/visuals.gif">
+
 
 ## Specifications
 - A **Procedural Beat Detection** system created uisng **TouchDesigner** to identfiy basic parts of music like beats, drums, snares, bass, etc.
