@@ -1,10 +1,13 @@
+***<h3 style="text-align: center;">We solemnly swear that we are up to no good . . .</h3>***
+<p style="text-align: center"><img src="map_logo.jpg"></p>
+
 # Meet the Team
 - Nadine Adnane
 - Nick Liu
 - Insha Lakhani
 
 # Introduction
-Fantasy maps are awesome, and awesome procedural graphics people make them. One of the most iconic and beloved fantasy maps of all time is the Marauder's Map from Harry Potter! 
+Fantasy maps are awesome, and awesome procedural graphics people make them! One of the most iconic and beloved fantasy maps of all time is the Marauder's Map from Harry Potter! 
 
 The Marauder's Map was a magical document that revealed all of Hogwarts School of Witchcraft and Wizardry. Not only did it show every classroom, every hallway, and every corner of the castle, but it also showed every inch of the grounds, as well as all the secret passages that were hidden within its walls and the location of every person in the grounds, portrayed by a dot. It was also capable of accurately identifying each person, and was not fooled by animagi, Polyjuice Potions, or Invisibility Cloaks; even the Hogwarts ghosts or Peeves were not exempt.
 
@@ -19,7 +22,7 @@ While looking for reference materials, we also came across this Marauder's map s
 
 ### Important features we'd like to implement:
 
-Walls made of text & a roughly rectangular but overall non-uniform map shape
+Walls made of text & a roughly rectangular but overall non-uniform map shape</br>
 <img src="Footprint.png" height="200">
 
 **Blocky rooms** which are generally rectangular </br>
