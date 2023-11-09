@@ -33,9 +33,9 @@ function loadScene() {
   cube = new Cube(vec3.fromValues(0, 0, 0));
   cube.create();
 
-  particles = new ParticlesGroup(10);
-  particles.create();
-  particles.setVBOs();
+  // particles = new ParticlesGroup(10);
+  // particles.create();
+  // particles.setVBOs();
 }
 
 
@@ -62,6 +62,11 @@ function main() {
   renderer.setClearColor(0.1, 0.1, 0.1, 1);
   gl.enable(gl.DEPTH_TEST);
 
+  const particleShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/particle-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/particle-frag.glsl')),
+  ]);
+
   const lambert = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/lambert-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/lambert-frag.glsl')),
@@ -76,12 +81,7 @@ function main() {
     renderer.clear();
     renderer.render(camera, lambert, 
       [icosphere],
-      time,
-      controls.Speed,
-      controls.Tail_Size,
       vec4.fromValues(controls.Particle_Color[0]/255.0,controls.Particle_Color[1]/255.0,controls.Particle_Color[2]/255.0,1),
-      vec4.fromValues(controls.Middle_Color[0]/255.0,controls.Middle_Color[1]/255.0,controls.Middle_Color[2]/255.0,1),
-      vec4.fromValues(controls.Front_Color[0]/255.0,controls.Front_Color[1]/255.0,controls.Front_Color[2]/255.0,1),
     );
 
     // Tell the browser to call `tick` again whenever it renders a new frame

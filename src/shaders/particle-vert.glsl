@@ -56,7 +56,7 @@ void main()
     vec3 alignedBillboard = modelposition.x * u_CameraAxes[0] + modelposition.y * u_CameraAxes[1];
     
     // Add the new updated particle position to the aligned billboard
-    vec3 alignedBillboard += pos;
+    vec3 particlePos = updated_pos + alignedBillboard;
 
     gl_Position = u_ViewProj * vec4(alignedBillboard, 1.0);
     // gl_Position is a built-in variable of OpenGL which is
