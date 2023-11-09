@@ -15,10 +15,14 @@ abstract class Drawable {
 
   abstract create() : void;
 
+  numInstances: number = 0;
+
   destory() {
     gl.deleteBuffer(this.bufIdx);
     gl.deleteBuffer(this.bufPos);
     gl.deleteBuffer(this.bufNor);
+    gl.deleteBuffer(this.bufCol);
+
   }
 
   generateIdx() {
@@ -34,6 +38,11 @@ abstract class Drawable {
   generateNor() {
     this.norBound = true;
     this.bufNor = gl.createBuffer();
+  }
+
+  generateCol() {
+    this.colBound = true;
+    this.bufCol = gl.createBuffer();
   }
 
   bindIdx(): boolean {
@@ -70,6 +79,10 @@ abstract class Drawable {
 
   drawMode(): GLenum {
     return gl.TRIANGLES;
+  }
+
+  setNumInstances(n: number) {
+    this.numInstances = n;
   }
 };
 
