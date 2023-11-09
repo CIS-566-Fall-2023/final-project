@@ -85,6 +85,8 @@ Below is a free-body diagram which illustrates how the components of our project
 <ul>
     <li>Nick & Nadine</li>
     - Refine shape grammar/make sure the 4 core map features (blocky rooms, circular towers, slanted rooms, and multi-rooms) are working and looking good! </br>
+    - Add detail to rooms (stairs, furniture, etc)
+    - Apply text to shapes
     - Add interactive toggles for various parameters </br>
     <li>Insha</li>
     - Refine path-finding/address any bugs </br>
