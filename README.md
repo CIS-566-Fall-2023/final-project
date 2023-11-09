@@ -1,4 +1,22 @@
 # Design Doc
+## Introduction:
+For this project, we wanted to achieve a procedural science fiction environment that invoked a massive sense of scale. We were initially motivated by the art of the Manga: BLAME, which showcases city environments that were designed by a hostile AI that gives an awe-inspiring yet eerie feeling.
+
+## Goal:
+We intend to create tools that would aid in a procedural construction of this sort of environment. These tools would eventually result in a fully explorable 3D scene constructed within Unreal Engine. This scene would also result in some aesthetic still shots that can be showcased with a specific artistic vision with some manual tweaking.
+
+## Inspiration/Reference:
+Environment Reference: Mostly taken from either BLAME or thematically related fan arts.
+
+<img width="232" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/8b525a52-b443-4f0e-9a8d-bb667cf38e76">
+<img width="209" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/6c527fc4-57c1-404e-a5e5-f81d57420f76">
+<img width="311" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/3aa2b20a-ffb3-4b29-abd0-b431a0174db4">
+
+Material Reference: Mostly taken from games such as Star Wars Jedi: Survivor
+<img width="466" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/6b921521-d17f-44c1-a38c-50f388574cd5">
+<img width="464" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/dfc7ba25-982c-4244-93f9-29d6bb0c5ef1">
+<img width="351" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/a9dea891-dc95-40b2-8d8d-7c41f43695f4">
+
 ## Specification:
 - Procedural Tool that will create a base layout of the city walls/buildings (Houdini/PCG)
 - Procedural Tool that will take in base meshes and add bevels and indents to make it look like a more mechanized Killer AI Generated City (Houdini)
