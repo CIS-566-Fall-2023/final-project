@@ -111,5 +111,10 @@ class ParticlesGroup
             gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 1, this.particleVBOs[i][VELOCITY_LOCATION]);
         }
     }
+
+    getVAO(i: number): WebGLVertexArrayObject
+    {
+        return this.particleVAOs[i];
+    }
 }
 export {Particle, ParticlesGroup};

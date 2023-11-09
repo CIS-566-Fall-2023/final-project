@@ -1,12 +1,18 @@
-import {mat4, vec4, vec3} from 'gl-matrix';
+import {mat4, vec4, vec3, mat3} from 'gl-matrix';
 import Drawable from './Drawable';
 import Camera from '../../Camera';
 import {gl} from '../../globals';
 import ShaderProgram from './ShaderProgram';
+import { ParticlesGroup } from '../../Particle';
+
+const POSITION_LOCATION = 2;
 
 // In this file, `gl` is accessible because it is imported above
 class OpenGLRenderer {
+  currentVAOIdx: number;
+  
   constructor(public canvas: HTMLCanvasElement) {
+    this.currentVAOIdx = 0;
   }
 
   setClearColor(r: number, g: number, b: number, a: number) {
@@ -36,6 +42,43 @@ class OpenGLRenderer {
 
     for (let drawable of drawables) {
       prog.draw(drawable);
+    }
+  }
+
+  renderParticles(camera: Camera, prog: ShaderProgram, 
+    drawable: Drawable, particles: Array<ParticlesGroup>)
+  {
+    if (particles.length !== 0)
+    {
+      let model = mat4.create();
+      let viewProj = mat4.create();
+
+      // Get the axes of the camera. This will be used to align the textures with the camera
+      // Each column of the mat3 is an axes: Right, Up, Forward
+      let axes = mat3.fromValues(
+        camera.right[0], camera.right[1], camera.right[2],
+        camera.up[0], camera.up[1], camera.up[2],
+        camera.forward[0], camera.forward[1], camera.forward[2]
+      );
+      prog.setCameraAxes(axes);
+
+      mat4.identity(model);
+      mat4.multiply(viewProj, camera.projectionMatrix, camera.viewMatrix);
+      prog.setModelMatrix(model);
+      prog.setViewProjMatrix(viewProj);
+
+      for (let i = 0; i < particles.length; ++i)
+      {
+        var sourceVAO = particles[i].getVAO(this.currentVAOIdx);
+
+        gl.bindVertexArray(sourceVAO);
+
+        // Attributes per-instance when drawing 1 when drawing instances
+        gl.vertexAttribDivisor(POSITION_LOCATION, 1);
+
+        // draw instances
+        prog.drawParticles(drawable, particles[i].numParticles);
+      }
     }
   }
 };

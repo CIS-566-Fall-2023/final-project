@@ -1,4 +1,4 @@
-import {vec4, vec3, mat4} from 'gl-matrix';
+import {vec4, mat4, mat3} from 'gl-matrix';
 import Drawable from './Drawable';
 import {gl} from '../../globals';
 
@@ -29,17 +29,12 @@ class ShaderProgram {
   // and provide each instance with some unique attributes. 
   // Each particle will have a slightly different color, so it needs to be instanced.
 
-  
   unifTime: WebGLUniformLocation;
-  unifSpeed: WebGLUniformLocation;
-  unifTailSize: WebGLUniformLocation;
-  unifMagic: WebGLUniformLocation;
   unifModel: WebGLUniformLocation;
   unifModelInvTr: WebGLUniformLocation;
   unifViewProj: WebGLUniformLocation;
   unifColor: WebGLUniformLocation;
-  unifMiddleColor: WebGLUniformLocation;
-  unifFrontColor: WebGLUniformLocation;
+  unifCameraAxes: WebGLUniformLocation;
 
   constructor(shaders: Array<Shader>) {
     this.prog = gl.createProgram();
@@ -56,14 +51,11 @@ class ShaderProgram {
     this.attrNor = gl.getAttribLocation(this.prog, "vs_Nor");
     this.attrCol = gl.getAttribLocation(this.prog, "vs_Col");
     this.unifTime       = gl.getUniformLocation(this.prog, "u_Time");
-    this.unifSpeed      = gl.getUniformLocation(this.prog, "u_Speed");
-    this.unifTailSize   = gl.getUniformLocation(this.prog, "u_TailSize");
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
     this.unifColor      = gl.getUniformLocation(this.prog, "u_Color");
-    this.unifMiddleColor      = gl.getUniformLocation(this.prog, "u_MiddleColor");
-    this.unifFrontColor      = gl.getUniformLocation(this.prog, "u_FrontColor");
+    this.unifCameraAxes = gl.getUniformLocation(this.prog, "u_CameraAxes");
   }
 
   use() {
@@ -108,17 +100,10 @@ class ShaderProgram {
     }
   }
 
-  setSpeed(speed: GLfloat) {
+  setCameraAxes(axes: mat3) {
     this.use();
-    if(this.unifSpeed !== -1) {
-      gl.uniform1f(this.unifSpeed, speed);
-    }
-  }
-
-  setTailSize(tail: GLfloat) {
-    this.use();
-    if(this.unifTailSize !== -1) {
-      gl.uniform1f(this.unifTailSize, tail);
+    if (this.unifCameraAxes !== -1) {
+      gl.uniformMatrix3fv(this.unifCameraAxes, false, axes);
     }
   }
 
@@ -150,7 +135,7 @@ class ShaderProgram {
   // is a tiny instance of square particle texture.
   // Next, drawParticles also takes in the number of particles such 
   // that we can draw every one. 
-  drawParticle(d: Drawable, numParticles: number)
+  drawParticles(d: Drawable, numParticles: number)
   {
     this.use();
 
