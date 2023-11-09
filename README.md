@@ -5,7 +5,7 @@
 ## Introduction
 
 This project will serve as a base for a procedural character creation system that could hopefully be integrated into my game,
-[Fling to the Finish](https://store.steampowered.com/app/1054430/Fling_to_the_Finish/), in the future. The game uses an art-style where all characters fit within a bounding-sphere, and must be *roughly* round shaped. So far, all the characters in the game have been hand-created by our amazing team. This is a difficult and time consuming process, and also limits our ability to release unlockable content more freely.
+[Fling to the Finish](https://store.steampowered.com/app/1054430/Fling_to_the_Finish/), in the future. The game uses an art-style where all characters fit within a bounding-sphere, and must be *roughly* round shaped.
 
 ## Goal
 
