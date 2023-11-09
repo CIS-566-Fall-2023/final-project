@@ -68,7 +68,7 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 * Work on documentation.
 * Ask fellow students to experiment with the tool and capture some recordings.
 * Make a trailer for AlgebRave!
-* 
+
 </details>  
 
 <details>
