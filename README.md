@@ -60,6 +60,9 @@ This is required for use in a traditional rasterized pipeline, which is what mos
 
 ## Design
 
+|![](img/designDiagram.png)|
+|:-:|
+
 ## Timeline
 
 - **Week 1 | Milestone 1 (11/15)**
