@@ -61,6 +61,10 @@ Time permitting, we may implement changes in the level of detail depending on th
 # Design
 We are currently planning to implement our project using WebGL, which will allow us to generate a live demo.
 
+Below is a free-body diagram which illustrates how the components of our project will work together:
+
+<img src="FBD.png" height="200">
+
 # Timeline
 <details>
   <summary>Milestone 1:</summary>
