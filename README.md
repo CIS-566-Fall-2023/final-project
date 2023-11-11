@@ -16,6 +16,7 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 - [John Alberse](https://www.johnalberse.com/), a fellow intern I met at Activision in Summer'23 had some experience with Projective Graphics. He shared [this](https://drive.google.com/file/d/1RECgq3cEmV_nBFP9xX_NIgyAxvJbxDen/view) piece of his work with me which I found really inspirational. Screenshot from his work:  
   <img width="400px" src="images/designdoc/ref_fluid.png">
 
+- Super helpful in getting started: [Introduction to TouchDesigner - Ben Voigt](https://www.youtube.com/watch?v=wmM1lCWtn6o)
 - [Fluid Simulation using TouchDesigner](https://www.youtube.com/watch?v=2k6H5Qa_fCE)
 - [Making Audio Reactive systems using TouchDesigner](https://www.youtube.com/watch?v=rGoCbVmGtPE)
 - [Example of using TouchDesigner + Kinect](https://www.youtube.com/watch?v=tPYTXt1hSx4)
