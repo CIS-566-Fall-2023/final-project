@@ -59,28 +59,28 @@ Implement customizable generation control and polish. Now, all the GUI controls 
 My original goal for this week was to implement the basic waterfall physics with basic control. The goal was that the final output should have random particles on the screen, perhaps moving, with some basic control over them like particle color. 
 
 This week, I was able to accomplish this goal. First, as I dove into my research, I was really overwhelmed at first by how to implement this. In my head, I pictured some implementations of particle simulation I have seen and built before, but I had not fully comprehended what that would look like when using the parallel computing on the GPU. I was faced with a lot more academic challenges than I expected. Instead of diving into implementation like I expected, I spent much of this week studying GPU programming techniques that were completely new to me. But as a result, I learned about the following techniques which proved usuful in my later implementation:
-- VAOs: VAOs are Vertex Array Objects. They store attributes about each particle, in assoiation with the particle's buffer. Such that each buffer object, has a list of attributes encapsulating it's buffer's current state. On the CPU side, when I created a VAO, I described each attribute by saying "this data in this buffer will be attribute 0 (position), the data next to it will be attribute 1 (velocity), etc." The VAO only stores this information of the location of this buffer's attributes. On the other hand, the vertex data is stored in the VBO.
-- Instanced Rendering: Instance Rendering means we can render multiple instances in a single draw call and provide each instance with some unique attributes. Things that are instanced rendered (like the particles) have instanced rendering attributes like color. That means that each particle will have a slightly different color, so it needs to be instanced.
-- Billboard: A billboard is a textured polygon (usually a quad) used for drawing particles, such that elements with low-level detail will always we drawn plane-aligned, facing the camera.
-- Transform Feedback: Transform Feedback is the process for capturing Primitives from the Vertex Processing steps, recording that data in Buffer Objects, which allows one to resubmit data multiple times. Transform Feedback allows shaders to write vertices back to VBOs. We are using them to update the changing variables like position, velocity, and color back to the buffer as they change. This is also where instanced rendering comes in, as each of these changing buffers is an instanced attribute. 
+- **VAOs**: VAOs are Vertex Array Objects. They store attributes about each particle, in assoiation with the particle's buffer. Such that each buffer object, has a list of attributes encapsulating it's buffer's current state. On the CPU side, when I created a VAO, I described each attribute by saying "this data in this buffer will be attribute 0 (position), the data next to it will be attribute 1 (velocity), etc." The VAO only stores this information of the location of this buffer's attributes. On the other hand, the vertex data is stored in the VBO.
+- **Instanced Rendering**: Instance Rendering means we can render multiple instances in a single draw call and provide each instance with some unique attributes. Things that are instanced rendered (like the particles) have instanced rendering attributes like color. That means that each particle will have a slightly different color, so it needs to be instanced.
+- **Billboard**: A billboard is a textured polygon (usually a quad) used for drawing particles, such that elements with low-level detail will always we drawn plane-aligned, facing the camera.
+- **Transform Feedback**: Transform Feedback is the process for capturing Primitives from the Vertex Processing steps, recording that data in Buffer Objects, which allows one to resubmit data multiple times. Transform Feedback allows shaders to write vertices back to VBOs. We are using them to update the changing variables like position, velocity, and color back to the buffer as they change. This is also where instanced rendering comes in, as each of these changing buffers is an instanced attribute. 
 
 After finishing my research from the paper, other tutorials and implementations, and personal research about OpenGL GPU programming techniques that were new to me, I began my implementation work. I started with code from hw1, to make a simple rendered sphere. 
 
-[PICTURE]
+![m1](https://github.com/kyraSclark/final-project/assets/60115638/370b7509-b282-498c-9529-a3e306ade454)
 
 Then, after create my Particle class, I implemented a particle vert and frag shader that relied on the square Drawable. The frag shader colored in a circular shape on square, to create a "particle".
 
-[PICTURE]
+![m1 1](https://github.com/kyraSclark/final-project/assets/60115638/5421f220-bd27-4fb4-8532-931f575b8631)
 
-Then, I adjusted camera parameters to make the particle the correct size. I also implemented instanced rendering here and implemented customizable coloring.
+Then, I adjusted the camera parameters to make the particle the correct size. I also implemented instanced rendering here and implemented customizable coloring.
 
-[PICTURE]
- 
+![m1 21](https://github.com/kyraSclark/final-project/assets/60115638/1154a2cf-4d9e-46a3-954e-503cc4394daf)
+
 Finally, I created the Transform Feedback shaders to realize the many many particles all moving around. To start, these shaders initialize the particles randomly, but they are affected by gravity.  
 
-[PICTURE]
+![m1 3](https://github.com/kyraSclark/final-project/assets/60115638/f9a68485-1cdb-4328-8aec-4af49fe6cda8)
 
-Now, we have completed milestone, as you can see in this live demo: 
+Now, we have completed milestone1, as you can see in this live demo: 
 The Gravity slider still does not work. Next week, I will work on obstacles and collision/bounce physics! 
 
 ## Milestone 2: Implementation part 2 (due 11/27)
