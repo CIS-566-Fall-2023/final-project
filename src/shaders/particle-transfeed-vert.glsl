@@ -1,0 +1,146 @@
+#version 300 es
+
+//This is a vertex shader. While it is called a "shader" due to outdated conventions, this file
+//is used to apply matrix transformations to the arrays of vertex data passed to it.
+//Since this code is run on your GPU, each vertex is transformed simultaneously.
+//If it were run on your CPU, each vertex would have to be processed in a FOR loop, one at a time.
+//This simultaneous transformation allows your program to run much faster, especially when rendering
+//geometry with millions of vertices.
+
+#define POSITION_LOCATION 2
+#define VELOCITY_LOCATION 3
+#define COLOR_LOCATION 4
+#define TIME_LOCATION 5
+#define ID_LOCATION 6
+
+uniform mat4 u_Model;       // The matrix that defines the transformation of the
+                            // object we're rendering. In this assignment,
+                            // this will be the result of traversing your scene graph.
+
+uniform mat4 u_ModelInvTr;  // The inverse transpose of the model matrix.
+                            // This allows us to transform the object's normals properly
+                            // if the object has been non-uniformly scaled.
+
+uniform mat4 u_ViewProj;    // The matrix that defines the camera's transformation.
+                            // We've written a static matrix for you to use for HW2,
+                            // but in HW3 you'll have to generate one yourself
+
+uniform mat3 u_CameraAxes;  // A billboard is a textured polygon (usually a quad) used 
+                            // for drawing particles, such that elements with low-level 
+                            // detail will always we drawn plane-aligned, facing the camera
+
+uniform float u_Time;
+uniform vec3  u_Acceleration;
+uniform vec3 u_ParticleColor;
+
+in vec4 vs_Pos;             // Not used. The array of vertex positions passed to the shader
+in vec4 vs_Nor;             // Not used. The array of vertex normals passed to the shader
+in vec4 vs_Col;             // Instanced Rendering Attribute. Each particle instance has a 
+                            // different color attribute. The array of vertex colors passed to the shader.
+
+out vec4 fs_Pos;
+out vec4 fs_Col;            // The color of each vertex. This is implicitly passed to the fragment shader.
+
+// Output physical forces used in the frag shader
+out vec3 v_pos;
+out vec3 v_vel;
+out vec3 v_col;
+out vec2 v_time;
+
+// On the CPU side, when I created a VAO, I described each attribute by saying
+// "this data in this buffer will be attribute 0, the data next to it wil be 
+// attribute 1, etc." The VAO only stores this information of the location of 
+// this buffer's attributes. The vertex data is stored in the VBO. 
+// This line vvv gets the attribute located at POSTION, and puts it IN the 
+// specified variable. The location specifies the number of the attribute  
+layout(location = POSITION_LOCATION) in vec3 current_pos;
+layout(location = VELOCITY_LOCATION) in vec3 current_vel;
+layout(location = COLOR_LOCATION) in vec3 current_color;
+layout(location = TIME_LOCATION) in vec2 current_time;
+layout(location = ID_LOCATION) in float i;
+
+
+float random2(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+float random3(vec3 p) {
+  return fract(sin(dot(p, vec3(987.654, 123.456, 531.975))) * 85734.3545);
+}
+
+// randomly distributed in a space (this will be the area visible on screen)
+vec3 getParticlePos(float spaceSize){
+    vec3 position = vec3(
+        random2(vec2(i, 1.5 * i)) * spaceSize * 2.0 - spaceSize,
+        random2(vec2(i, 2.5 * i)) * spaceSize - spaceSize/2.0,
+        random2(vec2(i, 0.5 * i)) * spaceSize*0.5  - spaceSize*0.25
+    );
+
+    return position;
+}
+
+const float MAX_SPEED = 80.0;
+
+void main()
+{
+    float spaceSize = 100.0;
+    float distToCenter = length(current_pos);
+
+    if (current_time.x == 0.0)
+    {
+        // create a new particle
+        v_pos = getParticlePos(spaceSize);
+
+        // randomize position and velocity
+        v_pos.x = (random3(current_pos + v_vel) - 0.5) * spaceSize * 2.0;
+   
+        v_vel = vec3(random2(vec2(i, 0.0)) - 0.5, random2(vec2(i, i)) - 0.5, random2(vec2(2.0 * i, 2.0 * i)) - 0.5);
+        v_vel = normalize(v_vel);
+
+        // Color based on a smooth blend based on velocity and position
+        float e = length(v_vel) / 150.0;
+        float a = smoothstep(0.8, 1.0, length(v_pos.xy));
+        vec4 new_color = pow(mix(vec4(u_ParticleColor, 1.0), vec4(0,0,0,0), a), vec4(e));
+    
+        v_col = new_color.rgb;//+ (1.0 / pow((-(v_pos.y / 1.2) + spaceSize * 0.5) * 0.01, 5.0));
+
+        v_time.x = u_Time;
+        //v_time.y = 1000.0;
+    }
+    else 
+    {
+        float deltaTime = 0.01;
+
+        vec3 new_v = current_vel + deltaTime * u_Acceleration;
+    
+        // if Particle is out of bounds
+        if (current_pos.y < -spaceSize * 0.5 ) {
+            new_v.x = 0.1 * MAX_SPEED * (2.0 * random3(100.0 * current_pos) - 1.0);
+            new_v.y = MAX_SPEED * random3(current_pos + current_vel);
+        }
+        vec2 position_next = vec2(-current_pos.x/(spaceSize*2.0) + 0.5, current_pos.y/spaceSize + 0.6);
+
+        // Color based on a smooth blend based on velocity and position
+        float e = length(new_v) / 150.0;
+        float a = smoothstep(0.8, 1.0, length(current_pos.xy) / spaceSize);
+        vec4 new_color = pow(mix(vec4(u_ParticleColor, 1.0), vec4(0,0,0,0), a), vec4(e));
+        v_col = new_color.rgb; //+ (1.0 / pow((-(current_pos.y / 1.2) + spaceSize * 0.5) / 10.0, 5.0));
+
+        new_v *= min(1.0, 1.2 * MAX_SPEED / length(new_v));
+        v_vel = new_v;
+
+        vec3 new_p = current_pos - deltaTime * v_vel;
+
+        // if Particle new postion is out of bounds
+        if (new_p.y < -spaceSize * 0.5 ) {
+            // randomize XZ and move back to top of spaceSize
+            new_p.x = (random3(new_p + v_vel) - 0.5) * spaceSize * 2.0;
+            new_p.y += spaceSize + 0.5 * random3(new_p) * (spaceSize - spaceSize*0.5);
+            new_p.z = random2(vec2(i, 0.5 * i)) * spaceSize * 0.5 - spaceSize*0.25;
+        }
+        
+        v_pos = new_p;
+        v_time = current_time;
+    }
+
+}
