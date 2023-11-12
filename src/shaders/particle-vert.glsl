@@ -33,7 +33,6 @@ uniform mat3 u_CameraAxes;  // A billboard is a textured polygon (usually a quad
 in vec4 vs_Pos;             // Not used. The array of vertex positions passed to the shader
 in vec4 vs_Nor;             // Not used. The array of vertex normals passed to the shader
 in vec4 vs_Col;             // The array of vertex colors passed to the shader.
-in vec3 vs_Offset;
 
 uniform float u_Time;
 
