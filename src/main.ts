@@ -29,7 +29,6 @@ function loadScene() {
   square.setNumInstances(1); // Grid of Particles
 }
 
-
 function main() {
   const gui = new DAT.GUI();
   gui.addColor(controls, 'Particle_Color').name("Particle Color").onChange(setParticleColor);
@@ -57,7 +56,6 @@ function main() {
   gl.disable(gl.BLEND);
   gl.clearColor(0.1, 0.1, 0.1, 1);
   gl.blendFunc(gl.ONE, gl.ONE); // Additive blending
-
 
   // Create Particle Shader
   const particleShader = new ShaderProgram([
@@ -99,7 +97,6 @@ function main() {
   // This function will be called every frame
   function tick() {
     // Update Camera and Time
-    //camera.reset(vec3.fromValues(0, 0, -100.0), vec3.fromValues(0.0, -10, 0));
     camera.update();
     time = time + 1.0;
     transformFeedbackShader.setTime(time);
@@ -108,14 +105,11 @@ function main() {
     // Render objects using Renderers
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
 
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
     renderer.clear();
-    //gl.disable(gl.BLEND); // We don't want the obstacles to blend into the background
 
+    // Blend the uncolored part of the square with the background of the image, making a circle
     gl.enable(gl.BLEND); 
-    // Blends the uncolored part of the square with the background of the image, making a circle
+
     renderer.transformParticles(camera, transformFeedbackShader, [particles]);
 
     renderer.renderParticles(camera, particleShader, square, [particles]);

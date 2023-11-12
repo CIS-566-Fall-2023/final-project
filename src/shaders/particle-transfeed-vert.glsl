@@ -60,19 +60,21 @@ layout(location = TIME_LOCATION) in vec2 current_time;
 layout(location = ID_LOCATION) in float i;
 
 
-float random2( vec2 p , vec2 seed) {
-  return fract(sin(dot(p + seed, vec2(127.1, 311.7))) * 43758.5453);
+float random2(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
 }
 
-float random3( vec3 p , vec3 seed) {
-  return fract(sin(dot(p + seed, vec3(987.654, 123.456, 531.975))) * 85734.3545);
+float random3(vec3 p) {
+  return fract(sin(dot(p, vec3(987.654, 123.456, 531.975))) * 85734.3545);
 }
 
 // randomly distributed in a space (this will be the area visible on screen)
 vec3 getParticlePos(float spaceSize){
-    vec3 position = vec3(random2(vec2(i, 1.5 * i), vec2(0.0, 0.0)) * spaceSize * 2.0 - spaceSize,
-                    random2(vec2(i, 2.5 * i), vec2(0.0, 0.0)) * spaceSize - spaceSize/2.0,
-                    random2(vec2(i, 0.5 * i), vec2(0.0, 0.0)) * spaceSize/2.0  - spaceSize/4.0);
+    vec3 position = vec3(
+        random2(vec2(i, 1.5 * i)) * spaceSize * 2.0 - spaceSize,
+        random2(vec2(i, 2.5 * i)) * spaceSize - spaceSize/2.0,
+        random2(vec2(i, 0.5 * i)) * spaceSize*0.5  - spaceSize*0.25
+    );
 
     return position;
 }
@@ -88,49 +90,53 @@ void main()
     {
         // create a new particle
         v_pos = getParticlePos(spaceSize);
-        v_pos.x = (random3(current_pos + v_vel, vec3(0.0)) - 0.5) * spaceSize * 2.0;
+
+        // randomize position and velocity
+        v_pos.x = (random3(current_pos + v_vel) - 0.5) * spaceSize * 2.0;
    
-        v_vel = vec3(random2(vec2(i, 0.0), vec2(0.0, 0.0)) - 0.5, random2(vec2(i, i), vec2(0.0, 0.0)) - 0.5, random2(vec2(2.0 * i, 2.0 * i), vec2(0.0, 0.0)) - 0.5);
+        v_vel = vec3(random2(vec2(i, 0.0)) - 0.5, random2(vec2(i, i)) - 0.5, random2(vec2(2.0 * i, 2.0 * i)) - 0.5);
         v_vel = normalize(v_vel);
 
+        // Color based on a smooth blend based on velocity and position
         float e = length(v_vel) / 150.0;
         float a = smoothstep(0.8, 1.0, length(v_pos.xy));
         vec4 new_color = pow(mix(vec4(u_ParticleColor, 1.0), vec4(0,0,0,0), a), vec4(e));
     
-        v_col = new_color.rgb + (1.0 / pow((-(v_pos.y / 1.2) + spaceSize / 2.0) / 10.0, 5.0));
+        v_col = new_color.rgb;//+ (1.0 / pow((-(v_pos.y / 1.2) + spaceSize * 0.5) * 0.01, 5.0));
 
         v_time.x = u_Time;
-        v_time.y = 1000.0;
+        //v_time.y = 1000.0;
     }
     else 
     {
-        float rotationSpeed = 0.1;
         float deltaTime = 0.01;
 
         vec3 new_v = current_vel + deltaTime * u_Acceleration;
     
         // if Particle is out of bounds
         if (current_pos.y < -spaceSize * 0.5 ) {
-            new_v.x = 0.1 * MAX_SPEED * (2.0 * random3(100.0 * current_pos, vec3(0.0)) - 1.0);
-            new_v.y = MAX_SPEED * random3(current_pos + current_vel, vec3(0.0));
+            new_v.x = 0.1 * MAX_SPEED * (2.0 * random3(100.0 * current_pos) - 1.0);
+            new_v.y = MAX_SPEED * random3(current_pos + current_vel);
         }
-        vec2 position_next = vec2(-current_pos.x/(spaceSize*2.0) + 0.5, current_pos.y/(spaceSize/1.0) + 0.6);
+        vec2 position_next = vec2(-current_pos.x/(spaceSize*2.0) + 0.5, current_pos.y/spaceSize + 0.6);
 
+        // Color based on a smooth blend based on velocity and position
         float e = length(new_v) / 150.0;
         float a = smoothstep(0.8, 1.0, length(current_pos.xy) / spaceSize);
         vec4 new_color = pow(mix(vec4(u_ParticleColor, 1.0), vec4(0,0,0,0), a), vec4(e));
-        v_col = new_color.rgb + (1.0 / pow((-(current_pos.y / 1.2) + spaceSize / 2.0) / 10.0, 5.0));
+        v_col = new_color.rgb; //+ (1.0 / pow((-(current_pos.y / 1.2) + spaceSize * 0.5) / 10.0, 5.0));
 
-        new_v *= min(1.0,  1.2 * MAX_SPEED / length(new_v));
+        new_v *= min(1.0, 1.2 * MAX_SPEED / length(new_v));
         v_vel = new_v;
 
         vec3 new_p = current_pos - deltaTime * v_vel;
 
+        // if Particle new postion is out of bounds
         if (new_p.y < -spaceSize * 0.5 ) {
-            new_p.x = (random3(new_p + v_vel, vec3(0.0)) - 0.5) * spaceSize * 2.0;
-            new_p.y += spaceSize + 0.5 * random3(new_p, vec3(0.0)) * (spaceSize - spaceSize/2.0);
-            new_p.z = random2(vec2(i, 0.5 * i), vec2(0.0, 0.0)) * spaceSize / 2.0 - spaceSize/4.0;
-
+            // randomize XZ and move back to top of spaceSize
+            new_p.x = (random3(new_p + v_vel) - 0.5) * spaceSize * 2.0;
+            new_p.y += spaceSize + 0.5 * random3(new_p) * (spaceSize - spaceSize*0.5);
+            new_p.z = random2(vec2(i, 0.5 * i)) * spaceSize * 0.5 - spaceSize*0.25;
         }
         
         v_pos = new_p;
