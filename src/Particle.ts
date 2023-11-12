@@ -1,7 +1,7 @@
 import {vec3} from 'gl-matrix';
 import {gl} from './globals';
 
-class Particle 
+class Particle
 {
     p: vec3; // Position
     v: vec3; // Velocity
@@ -36,7 +36,7 @@ const ID_LOCATION = 6;
 
 const NUM_LOCATIONS = 7;
 
-class ParticlesGroup 
+class ParticlesGroup
 {
     numParticles: number;
     positions: Float32Array;
@@ -94,27 +94,23 @@ class ParticlesGroup
         }
     }
 
-    setVBOs()
-    {
+    setVBOs() {
         this.particleVBOs = new Array(this.particleVAOs.length);
 
-        for (let i = 0; i < this.particleVAOs.length; ++i)
-        {
-            // each VBO is an array with a number of attributes
+        for (let i = 0; i < this.particleVAOs.length; ++i) {
             this.particleVBOs[i] = new Array(NUM_LOCATIONS);
 
             gl.bindVertexArray(this.particleVAOs[i]);
 
-            // Here we will use STREAM_COPY because we are not going to be referring to the data very often
             this.particleVBOs[i][POSITION_LOCATION] = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.particleVBOs[i][POSITION_LOCATION]);
             gl.bufferData(gl.ARRAY_BUFFER, this.positions, gl.STREAM_COPY);
             gl.vertexAttribPointer(POSITION_LOCATION, 3, gl.FLOAT, false, 0, 0);
             gl.enableVertexAttribArray(POSITION_LOCATION);
-            
+
             this.particleVBOs[i][VELOCITY_LOCATION] = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.particleVBOs[i][VELOCITY_LOCATION]);
-            gl.bufferData(gl.ARRAY_BUFFER, this.positions, gl.STREAM_COPY);
+            gl.bufferData(gl.ARRAY_BUFFER, this.velocities, gl.STREAM_COPY);
             gl.vertexAttribPointer(VELOCITY_LOCATION, 3, gl.FLOAT, false, 0, 0);
             gl.enableVertexAttribArray(VELOCITY_LOCATION);
 
@@ -129,10 +125,10 @@ class ParticlesGroup
             gl.bufferData(gl.ARRAY_BUFFER, this.timeArray, gl.STREAM_COPY);
             gl.vertexAttribPointer(TIME_LOCATION, 2, gl.FLOAT, false, 0, 0);
             gl.enableVertexAttribArray(TIME_LOCATION);
-            
+
             this.particleVBOs[i][ID_LOCATION] = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.particleVBOs[i][ID_LOCATION]);
-            gl.bufferData(gl.ARRAY_BUFFER, this.positions, gl.STREAM_COPY);
+            gl.bufferData(gl.ARRAY_BUFFER, this.particleIDs, gl.STATIC_READ);
             gl.vertexAttribPointer(ID_LOCATION, 1, gl.FLOAT, false, 0, 0);
             gl.enableVertexAttribArray(ID_LOCATION);
 

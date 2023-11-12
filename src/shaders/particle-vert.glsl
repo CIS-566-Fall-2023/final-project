@@ -33,6 +33,7 @@ uniform mat3 u_CameraAxes;  // A billboard is a textured polygon (usually a quad
 in vec4 vs_Pos;             // Not used. The array of vertex positions passed to the shader
 in vec4 vs_Nor;             // Not used. The array of vertex normals passed to the shader
 in vec4 vs_Col;             // The array of vertex colors passed to the shader.
+in vec3 vs_Offset;
 
 uniform float u_Time;
 
@@ -46,23 +47,26 @@ out vec4 fs_Col;            // The color of each vertex. This is implicitly pass
 // this buffer's attributes. The vertex data is stored in the VBO. 
 // This line vvv gets the attribute located at POSTION, and puts it IN the 
 // specified variable. The location specifies the number of the attribute  
-layout(location = POSITION_LOCATION) in vec3 updated_pos;
-layout(location = COLOR_LOCATION) in vec3 color;
+layout(location = POSITION_LOCATION) in vec3 current_pos;
+layout(location = COLOR_LOCATION) in vec3 current_color;
 
 
 void main()
 {
-    fs_Col = vec4(color, 1.0);                         // Pass the vertex colors to the fragment shader for interpolation
+    fs_Col = vec4(current_color, 1.0);
     fs_Pos = vs_Pos;
+
+    vec3 offset = current_pos;
+
     vec4 modelposition = u_Model * vs_Pos;   // Temporarily store the transformed vertex positions for use below
 
     // Put the position of the model (particle) in line with the refernce frame of the camera
     vec3 alignedBillboard = modelposition.x * u_CameraAxes[0] + modelposition.y * u_CameraAxes[1];
     
     // Add the new updated particle position to the aligned billboard
-    vec3 particlePos = updated_pos + alignedBillboard;
+    vec3 particlePos = current_pos + alignedBillboard;
 
-    gl_Position = u_ViewProj * vec4(alignedBillboard, 1.0);
+    gl_Position = u_ViewProj * vec4(particlePos, 1.0);
     // gl_Position is a built-in variable of OpenGL which is
     // used to render the final positions of the geometry's vertices
 }

@@ -52,8 +52,8 @@ function main() {
   renderer.setClearColor(0.1, 0.1, 0.1, 1);
   
   // GL Settings
-  gl.enable(gl.DEPTH_TEST);
   gl.disable(gl.CULL_FACE);
+  gl.enable(gl.DEPTH_TEST);
   gl.disable(gl.BLEND);
   gl.clearColor(0.1, 0.1, 0.1, 1);
   gl.blendFunc(gl.ONE, gl.ONE); // Additive blending
@@ -114,6 +114,8 @@ function main() {
     renderer.clear();
     //gl.disable(gl.BLEND); // We don't want the obstacles to blend into the background
 
+    gl.enable(gl.BLEND); 
+    // Blends the uncolored part of the square with the background of the image, making a circle
     renderer.transformParticles(camera, transformFeedbackShader, [particles]);
 
     renderer.renderParticles(camera, particleShader, square, [particles]);
