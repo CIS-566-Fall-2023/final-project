@@ -23,14 +23,10 @@ let cube: Cube;
 let particles: ParticlesGroup;
 
 function loadScene() {
-  icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, 5);
-  icosphere.create();
   square = new Square();
   square.create();
-  cube = new Cube(vec3.fromValues(0, 0, 0));
-  cube.create();
 
-  particles = new ParticlesGroup(1);
+  particles = new ParticlesGroup(1000);
   particles.create();
   particles.setVBOs();
 
@@ -53,7 +49,7 @@ function main() {
   loadScene();
 
   // Create Camera
-  const camera = new Camera(vec3.fromValues(0, 0, 5), vec3.fromValues(0, 0, 0));
+  const camera = new Camera(vec3.fromValues(0, 0, -100.0), vec3.fromValues(0, -10, 0));
 
   // Create Renderer
   const renderer = new OpenGLRenderer(canvas);
@@ -63,18 +59,14 @@ function main() {
   gl.enable(gl.DEPTH_TEST);
   gl.disable(gl.CULL_FACE);
   gl.disable(gl.BLEND);
+  gl.clearColor(0.1, 0.1, 0.1, 1);
   gl.blendFunc(gl.ONE, gl.ONE); // Additive blending
 
 
-  // Create Shaders
+  // Create Particle Shader
   const particleShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/particle-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/particle-frag.glsl')),
-  ]);
-
-  const lambert = new ShaderProgram([
-    new Shader(gl.VERTEX_SHADER, require('./shaders/lambert-vert.glsl')),
-    new Shader(gl.FRAGMENT_SHADER, require('./shaders/lambert-frag.glsl')),
   ]);
 
   // Transform Feedback for Particles
@@ -111,18 +103,21 @@ function main() {
   // This function will be called every frame
   function tick() {
     // Update Camera and Time
+    //camera.reset(vec3.fromValues(0, 0, -100.0), vec3.fromValues(0.0, -10, 0));
     camera.update();
     time = time + 1.0;
+    transformFeedbackShader.setTime(time);
 
     // Render objects using Renderers
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
     renderer.clear();
     //gl.disable(gl.BLEND); // We don't want the obstacles to blend into the background
-    
-    renderer.render(camera, lambert, 
-      [icosphere],
-      vec4.fromValues(controls.Particle_Color[0]/255.0,controls.Particle_Color[1]/255.0,controls.Particle_Color[2]/255.0,1),
-    );
+
+    renderer.transformParticles(camera, transformFeedbackShader, [particles]);
 
     renderer.renderParticles(camera, particleShader, square, [particles]);
 

@@ -6,6 +6,7 @@ import ShaderProgram from './ShaderProgram';
 import { ParticlesGroup } from '../../Particle';
 
 const POSITION_LOCATION = 2;
+const VELOCITY_LOCATION = 3;
 const COLOR_LOCATION = 4;
 
 
@@ -69,7 +70,7 @@ class OpenGLRenderer {
       prog.setModelMatrix(model);
       prog.setViewProjMatrix(viewProj);
 
-      for (let i = 0; i < particles.length; ++i)
+      for (let i = 0; i < particles.length; i++)
       {
         var sourceVAO = particles[i].getVAO(this.currentVAOIdx);
 
@@ -84,6 +85,55 @@ class OpenGLRenderer {
       }
     }
   }
+
+  transformParticles(camera: Camera, prog: ShaderProgram, particles: Array<ParticlesGroup>)
+  {
+    if (particles.length !== 0)
+    {
+      let viewProj = mat4.create();
+      let model = mat4.create();
+      mat4.identity(model);
+
+      mat4.multiply(viewProj, camera.projectionMatrix, camera.viewMatrix);
+      prog.setModelMatrix(model);
+      prog.setViewProjMatrix(viewProj);
+
+      prog.use();
+
+      // access the next open VAO index
+      var nextVAOIdx = (this.currentVAOIdx + 1) % 2;
+
+      for (let i = 0; i < particles.length; i++)
+      {
+        // get current VAO
+        var sourceVAO = particles[i].getVAO(this.currentVAOIdx);
+        var nextTransformFeedback = particles[i].getTransformFeedback(nextVAOIdx);
+
+        gl.bindVertexArray(sourceVAO);
+        gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, nextTransformFeedback);
+
+        // Attributes per-vertex (set to 0 for Transform Feedback)
+        gl.vertexAttribDivisor(POSITION_LOCATION, 0);
+        gl.vertexAttribDivisor(VELOCITY_LOCATION, 0);
+        gl.vertexAttribDivisor(COLOR_LOCATION, 0); 
+
+        gl.enable(gl.RASTERIZER_DISCARD);
+
+        // Update position and rotation using transform feedback
+        gl.beginTransformFeedback(gl.POINTS);
+        gl.drawArrays(gl.POINTS, 0, particles[i].numParticles);
+        gl.endTransformFeedback();
+
+        // Restore state
+        gl.disable(gl.RASTERIZER_DISCARD);
+        gl.useProgram(null);
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+        gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
+      }
+      this.currentVAOIdx = (this.currentVAOIdx + 1) % 2;
+    }
+  }
+
 };
 
 export default OpenGLRenderer;

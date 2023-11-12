@@ -134,5 +134,10 @@ class ParticlesGroup
     {
         return this.particleVAOs[i];
     }
+
+    getTransformFeedback(i: number): WebGLTransformFeedback
+    {
+        return this.particleTransformFeedbacks[i];
+    }
 }
 export {Particle, ParticlesGroup};
