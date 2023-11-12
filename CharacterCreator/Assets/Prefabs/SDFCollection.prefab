@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4366768084799261681}
   - component: {fileID: 994102351982839998}
   - component: {fileID: 844501084684181830}
-  - component: {fileID: 5658471011635447985}
+  - component: {fileID: -6209997732454454564}
   m_Layer: 0
-  m_Name: AABB_SDF
+  m_Name: SDFCollection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,16 +84,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5658471011635447985
-BoxCollider:
+--- !u!114 &-6209997732454454564
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3008206429116624049}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fe064fe8a616748b70533c9f9fde45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sdfObjects: []
+  sdfObjectPrefab: {fileID: 6614881445600462594, guid: 1facfc22c29c7284885f1b2273c4c400,
+    type: 3}
