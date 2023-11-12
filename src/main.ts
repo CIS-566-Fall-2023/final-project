@@ -1,8 +1,6 @@
 import {vec3, vec4} from 'gl-matrix';
 import * as DAT from 'dat.gui';
-import Icosphere from './geometry/Icosphere';
 import Square from './geometry/Square';
-import Cube from './geometry/Cube';
 import {Particle, ParticlesGroup} from './Particle';
 
 import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
@@ -17,9 +15,7 @@ const controls = {
   Gravity: 30.0,
 };
 
-let icosphere: Icosphere;
 let square: Square;
-let cube: Cube;
 let particles: ParticlesGroup;
 
 function loadScene() {
