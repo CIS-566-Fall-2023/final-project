@@ -47,6 +47,8 @@ class ParticlesGroup
 
     particleIDs: Float32Array;
 
+    offsets: Float32Array;
+
     particleVBOs: WebGLBuffer[][];
     particleTransformFeedbacks: WebGLTransformFeedback[];
     particleVAOs: WebGLVertexArrayObject[]; // Store attributes about each particle, in assoiation with the particle's buffer

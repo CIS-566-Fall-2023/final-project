@@ -28,6 +28,7 @@ class ShaderProgram {
   // Instance Rendering means we can render multiple instances in a single draw call
   // and provide each instance with some unique attributes. 
   // Each particle will have a slightly different color, so it needs to be instanced.
+  attrOffset: number; // Vertex Shader during instance rendering to offset the vertex positions to the particle's drawn position
 
   unifTime: WebGLUniformLocation;
   unifModel: WebGLUniformLocation;
@@ -57,9 +58,10 @@ class ShaderProgram {
       throw gl.getProgramInfoLog(this.prog);
     }
 
-    this.attrPos = gl.getAttribLocation(this.prog, "vs_Pos");
-    this.attrNor = gl.getAttribLocation(this.prog, "vs_Nor");
-    this.attrCol = gl.getAttribLocation(this.prog, "vs_Col");
+    this.attrPos    = gl.getAttribLocation(this.prog, "vs_Pos");
+    this.attrNor    = gl.getAttribLocation(this.prog, "vs_Nor");
+    this.attrCol    = gl.getAttribLocation(this.prog, "vs_Col");
+    this.attrOffset = gl.getAttribLocation(this.prog, "vs_Offset");
     this.unifTime       = gl.getUniformLocation(this.prog, "u_Time");
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
@@ -191,16 +193,31 @@ class ShaderProgram {
       gl.vertexAttribDivisor(this.attrCol, 1); // 1 instances will pass between updates of this attribute
     }
 
+    if (this.attrOffset != -1 && d.bindOff()) {
+      gl.enableVertexAttribArray(this.attrOffset);
+      gl.vertexAttribPointer(this.attrOffset, 3, gl.FLOAT, false, 0, 0);
+      gl.vertexAttribDivisor(this.attrOffset, 1); // Advance 1 index in translate VBO for each drawn instance
+    }
+
     d.bindIdx();
     
-    // Instead of drawElements, we need to called drawElementsInstanced because
-    // we are using instanced rendering, so we can draw multiple of these particles
-    // in one draw call
+    // Instead of drawElements, we need to called drawElementsInstanced because we are using
+    // instanced rendering, so we can draw multiple of these particles in one draw call.
+    
     gl.drawElementsInstanced(d.drawMode(), d.elemCount(), gl.UNSIGNED_INT, 0, numParticles);
+    // drawElementsInstanced uses the vertexAttribDivisor for each "in" variable to determine 
+    // how to link it to each drawn instance of the bound VBO. For example, the index used to 
+    // look in the VBO associated with vs_Pos (attrPos) is advanced by 1 for each thread of the 
+    // GPU running the vertex shader since its divisor is 0.
+    // On the other hand, the index used to look in the VBO associated with vs_Translate 
+    // (attrTranslate) is advanced by 1 only when the next instance of our drawn object 
+    // (the square) is processed by the GPU, thus being the same value for the first set of four 
+    // vertices, then advancing to a new value for the next four, then the next four, and so on.
   
     if (this.attrPos != -1) gl.disableVertexAttribArray(this.attrPos);
     if (this.attrNor != -1) gl.disableVertexAttribArray(this.attrNor);
     if (this.attrCol != -1) gl.disableVertexAttribArray(this.attrCol);
+    if (this.attrOffset != -1) gl.disableVertexAttribArray(this.attrOffset);
 
   }
 };

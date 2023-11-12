@@ -37,7 +37,7 @@ in vec4 vs_Pos;             // Not used. The array of vertex positions passed to
 in vec4 vs_Nor;             // Not used. The array of vertex normals passed to the shader
 in vec4 vs_Col;             // Instanced Rendering Attribute. Each particle instance has a 
                             // different color attribute. The array of vertex colors passed to the shader.
-in vec3 vs_Translate;       // Instanced Rendering Attribute. The postiion of each quad instance in the scene.
+in vec3 vs_Offset;       // Instanced Rendering Attribute. The postiion of each quad instance in the scene.
 
 
 
