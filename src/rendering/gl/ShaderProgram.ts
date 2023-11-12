@@ -118,7 +118,7 @@ class ShaderProgram {
   setParticleColor(color: vec3) {
     this.use();
     if (this.unifParticleCol !== -1) {
-      gl.uniform4fv(this.unifParticleCol, color);
+      gl.uniform3fv(this.unifParticleCol, color);
     }
   }
 

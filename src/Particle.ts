@@ -45,6 +45,7 @@ class ParticlesGroup
     particleIDs: Float32Array;
 
     particleVBOs: WebGLBuffer[][];
+    particleTransformFeedbacks: WebGLTransformFeedback[];
     particleVAOs: WebGLVertexArrayObject[]; // Store attributes about each particle, in assoiation with the particle's buffer
 
     constructor(numParticles: number)
@@ -59,6 +60,7 @@ class ParticlesGroup
         // The VAO gives us room to bind these attributes to the VBO
         // [particle, attribute]
         this.particleVAOs = [gl.createVertexArray(), gl.createVertexArray()];
+        this.particleTransformFeedbacks = [gl.createTransformFeedback(), gl.createTransformFeedback()];
     }
 
     create() 
@@ -120,9 +122,11 @@ class ParticlesGroup
 
             gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
+            gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, this.particleTransformFeedbacks[i]);
             gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, this.particleVBOs[i][POSITION_LOCATION]);
             gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 1, this.particleVBOs[i][VELOCITY_LOCATION]);
             gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 2, this.particleVBOs[i][COLOR_LOCATION]);
+            gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
         }
     }
 
