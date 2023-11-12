@@ -10,7 +10,8 @@
 #define POSITION_LOCATION 2
 #define VELOCITY_LOCATION 3
 #define COLOR_LOCATION 4
-#define ID_LOCATION 5
+#define TIME_LOCATION 5
+#define ID_LOCATION 6
 
 uniform mat4 u_Model;       // The matrix that defines the transformation of the
                             // object we're rendering. In this assignment,

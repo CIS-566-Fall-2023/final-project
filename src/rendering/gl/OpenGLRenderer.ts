@@ -8,6 +8,7 @@ import { ParticlesGroup } from '../../Particle';
 const POSITION_LOCATION = 2;
 const VELOCITY_LOCATION = 3;
 const COLOR_LOCATION = 4;
+const TIME_LOCATION = 5;
 
 
 // In this file, `gl` is accessible because it is imported above
@@ -116,6 +117,7 @@ class OpenGLRenderer {
         gl.vertexAttribDivisor(POSITION_LOCATION, 0);
         gl.vertexAttribDivisor(VELOCITY_LOCATION, 0);
         gl.vertexAttribDivisor(COLOR_LOCATION, 0); 
+        gl.vertexAttribDivisor(TIME_LOCATION, 0); 
 
         gl.enable(gl.RASTERIZER_DISCARD);
 

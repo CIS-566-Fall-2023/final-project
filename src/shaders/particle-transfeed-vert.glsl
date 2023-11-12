@@ -10,7 +10,8 @@
 #define POSITION_LOCATION 2
 #define VELOCITY_LOCATION 3
 #define COLOR_LOCATION 4
-#define ID_LOCATION 5
+#define TIME_LOCATION 5
+#define ID_LOCATION 6
 
 uniform mat4 u_Model;       // The matrix that defines the transformation of the
                             // object we're rendering. In this assignment,
@@ -47,6 +48,7 @@ out vec4 fs_Col;            // The color of each vertex. This is implicitly pass
 out vec3 v_pos;
 out vec3 v_vel;
 out vec3 v_col;
+out vec2 v_time;
 
 // On the CPU side, when I created a VAO, I described each attribute by saying
 // "this data in this buffer will be attribute 0, the data next to it wil be 
@@ -57,6 +59,7 @@ out vec3 v_col;
 layout(location = POSITION_LOCATION) in vec3 current_pos;
 layout(location = VELOCITY_LOCATION) in vec3 current_vel;
 layout(location = COLOR_LOCATION) in vec3 current_color;
+layout(location = TIME_LOCATION) in vec2 current_time;
 layout(location = ID_LOCATION) in float i;
 
 
@@ -84,7 +87,7 @@ void main()
     float spaceSize = 100.0;
     float distToCenter = length(current_pos);
 
-    if (u_Time == 0.0)
+    if (current_time.x == 0.0)
     {
         // create a new particle
         v_pos = getParticlePos(spaceSize);
@@ -98,6 +101,9 @@ void main()
         vec4 new_color = pow(mix(vec4(u_ParticleColor, 1.0), vec4(0,0,0,0), a), vec4(e));
     
         v_col = new_color.rgb + (1.0 / pow((-(v_pos.y / 1.2) + spaceSize / 2.0) / 10.0, 5.0));
+
+        v_time.x = u_Time;
+        v_time.y = 1000.0;
     }
     else 
     {
@@ -131,6 +137,7 @@ void main()
         }
         
         v_pos = new_p;
+        v_time = current_time;
     }
 
 }

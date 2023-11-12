@@ -100,10 +100,10 @@ class ShaderProgram {
     }
   }
 
-  setTime(time: GLfloat) {
+  setTime(t: number) {
     this.use();
     if (this.unifTime !== -1) {
-      gl.uniform1f(this.unifTime, time);
+      gl.uniform1f(this.unifTime, t);
     }
   }
 

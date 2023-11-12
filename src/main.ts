@@ -8,13 +8,13 @@ import Camera from './Camera';
 import {setGL} from './globals';
 import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 
-let time = 0.0;
 
 const controls = {
   Particle_Color: [ 0, 0, 255 ],
   Gravity: 30.0,
 };
 
+let time: number = 0.0;
 let square: Square;
 let particles: ParticlesGroup;
 
@@ -71,7 +71,7 @@ function main() {
   // resubmit data multiple times. Transform Feedback allows shaders to write vertices
   // back to VBOs. We are using them to update te changing variables like position, 
   // velocity, acceleration, and color back to the buffer as they change.  
-  let variable_buffer_data = ["v_pos", "v_vel", "v_col"];
+  let variable_buffer_data = ["v_pos", "v_vel", "v_col", "v_time"];
   const transformFeedbackShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/particle-transfeed-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/particle-transfeed-frag.glsl')),
@@ -103,6 +103,7 @@ function main() {
     camera.update();
     time = time + 1.0;
     transformFeedbackShader.setTime(time);
+    particleShader.setTime(time);
 
     // Render objects using Renderers
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);

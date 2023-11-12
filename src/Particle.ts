@@ -31,9 +31,10 @@ class Particle
 const POSITION_LOCATION = 2;
 const VELOCITY_LOCATION = 3;
 const COLOR_LOCATION = 4;
-const ID_LOCATION = 5;
+const TIME_LOCATION = 5;
+const ID_LOCATION = 6;
 
-const NUM_LOCATIONS = 6;
+const NUM_LOCATIONS = 7;
 
 class ParticlesGroup 
 {
@@ -41,6 +42,8 @@ class ParticlesGroup
     positions: Float32Array;
     velocities: Float32Array;
     colors: Float32Array;
+
+    timeArray: Float32Array;
 
     particleIDs: Float32Array;
 
@@ -54,6 +57,8 @@ class ParticlesGroup
         this.positions = new Float32Array(this.numParticles * 3);
         this.velocities = new Float32Array(this.numParticles * 3);
         this.colors = new Float32Array(this.numParticles * 3);
+
+        this.timeArray = new Float32Array(this.numParticles * 2);
 
         this.particleIDs  = new Float32Array(this.numParticles);
 
@@ -81,6 +86,9 @@ class ParticlesGroup
             this.colors[i*3] = 0.0;
             this.colors[i*3 + 1] = 0.0;
             this.colors[i*3 + 2] = 0.0;
+
+            this.timeArray[i * 2] = 0.0;
+            this.timeArray[i * 2 + 1] = 0.0;
         }
     }
 
@@ -113,6 +121,12 @@ class ParticlesGroup
             gl.bufferData(gl.ARRAY_BUFFER, this.colors, gl.STREAM_COPY);
             gl.vertexAttribPointer(COLOR_LOCATION, 3, gl.FLOAT, false, 0, 0);
             gl.enableVertexAttribArray(COLOR_LOCATION);
+
+            this.particleVBOs[i][TIME_LOCATION] = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.particleVBOs[i][TIME_LOCATION]);
+            gl.bufferData(gl.ARRAY_BUFFER, this.timeArray, gl.STREAM_COPY);
+            gl.vertexAttribPointer(TIME_LOCATION, 2, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(TIME_LOCATION);
             
             this.particleVBOs[i][ID_LOCATION] = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, this.particleVBOs[i][ID_LOCATION]);
@@ -126,6 +140,7 @@ class ParticlesGroup
             gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, this.particleVBOs[i][POSITION_LOCATION]);
             gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 1, this.particleVBOs[i][VELOCITY_LOCATION]);
             gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 2, this.particleVBOs[i][COLOR_LOCATION]);
+            gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 3, this.particleVBOs[i][TIME_LOCATION]);
             gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
         }
     }
