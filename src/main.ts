@@ -67,7 +67,7 @@ function main() {
   // Transform Feedback is the process for capturing Primitives from the Vertex
   // Processing steps, recording that data in Buffer Objects, which allows one to
   // resubmit data multiple times. Transform Feedback allows shaders to write vertices
-  // back to VBOs. We are using them to update te changing variables like position, 
+  // back to VBOs. We are using them to update the changing variables like position, 
   // velocity, acceleration, and color back to the buffer as they change.  
   let variable_buffer_data = ["v_pos", "v_vel", "v_col", "v_time"];
   const transformFeedbackShader = new ShaderProgram([

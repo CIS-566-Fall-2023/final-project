@@ -56,15 +56,34 @@ Implement obstacles and collision physics. At this point, all physical simulatio
 Implement customizable generation control and polish. Now, all the GUI controls should be implemented and it should have a polished look. We should be able to control how and if the obstacles appear, and have control over the particle simulation, color, and generation based on noise. 
 
 ## Milestone 1: Implementation part 1 (due 11/15)
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
+My original goal for this week was to implement the basic waterfall physics with basic control. The goal was that the final output should have random particles on the screen, perhaps moving, with some basic control over them like particle color. 
 
-Put all your code in your forked repository.
+This week, I was able to accomplish this goal. First, as I dove into my research, I was really overwhelmed at first by how to implement this. In my head, I pictured some implementations of particle simulation I have seen and built before, but I had not fully comprehended what that would look like when using the parallel computing on the GPU. I was faced with a lot more academic challenges than I expected. Instead of diving into implementation like I expected, I spent much of this week studying GPU programming techniques that were completely new to me. But as a result, I learned about the following techniques which proved usuful in my later implementation:
+- VAOs: VAOs are Vertex Array Objects. They store attributes about each particle, in assoiation with the particle's buffer. Such that each buffer object, has a list of attributes encapsulating it's buffer's current state. On the CPU side, when I created a VAO, I described each attribute by saying "this data in this buffer will be attribute 0 (position), the data next to it will be attribute 1 (velocity), etc." The VAO only stores this information of the location of this buffer's attributes. On the other hand, the vertex data is stored in the VBO.
+- Instanced Rendering: Instance Rendering means we can render multiple instances in a single draw call and provide each instance with some unique attributes. Things that are instanced rendered (like the particles) have instanced rendering attributes like color. That means that each particle will have a slightly different color, so it needs to be instanced.
+- Billboard: A billboard is a textured polygon (usually a quad) used for drawing particles, such that elements with low-level detail will always we drawn plane-aligned, facing the camera.
+- Transform Feedback: Transform Feedback is the process for capturing Primitives from the Vertex Processing steps, recording that data in Buffer Objects, which allows one to resubmit data multiple times. Transform Feedback allows shaders to write vertices back to VBOs. We are using them to update the changing variables like position, velocity, and color back to the buffer as they change. This is also where instanced rendering comes in, as each of these changing buffers is an instanced attribute. 
 
-Submission: Add a new section to your README titled: Milestone #1, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far
-We'll check your repository for updates. No need to create a new pull request.
-## Milestone 3: Implementation part 2 (due 11/27)
+After finishing my research from the paper, other tutorials and implementations, and personal research about OpenGL GPU programming techniques that were new to me, I began my implementation work. I started with code from hw1, to make a simple rendered sphere. 
+
+[PICTURE]
+
+Then, after create my Particle class, I implemented a particle vert and frag shader that relied on the square Drawable. The frag shader colored in a circular shape on square, to create a "particle".
+
+[PICTURE]
+
+Then, I adjusted camera parameters to make the particle the correct size. I also implemented instanced rendering here and implemented customizable coloring.
+
+[PICTURE]
+ 
+Finally, I created the Transform Feedback shaders to realize the many many particles all moving around. To start, these shaders initialize the particles randomly, but they are affected by gravity.  
+
+[PICTURE]
+
+Now, we have completed milestone, as you can see in this live demo: 
+The Gravity slider still does not work. Next week, I will work on obstacles and collision/bounce physics! 
+
+## Milestone 2: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
 Put all your code in your forked repository.
