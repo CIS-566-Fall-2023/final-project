@@ -80,7 +80,7 @@ Finally, I created the Transform Feedback shaders to realize the many many parti
 
 ![m1 3](https://github.com/kyraSclark/final-project/assets/60115638/f9a68485-1cdb-4328-8aec-4af49fe6cda8)
 
-Now, we have completed milestone1, as you can see in this live demo: 
+Now, we have completed milestone1, as you can see in this [live demo](https://kyrasclark.github.io/final-project/)!
 The Gravity slider still does not work. Next week, I will work on obstacles and collision/bounce physics! 
 
 ## Milestone 2: Implementation part 2 (due 11/27)
