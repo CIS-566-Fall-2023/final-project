@@ -1,5 +1,6 @@
-import {vec4, vec3, mat4, mat3} from 'gl-matrix';
+import {vec2, vec3, vec4, mat4, mat3} from 'gl-matrix';
 import Drawable from './Drawable';
+import Camera from '../../Camera';
 import {gl} from '../../globals';
 
 var activeProgram: WebGLProgram = null;
@@ -40,6 +41,8 @@ class ShaderProgram {
   unifAcceleration: WebGLUniformLocation;
   unifParticleCol: WebGLUniformLocation;
 
+  unifObstaclePos: WebGLUniformLocation;
+
 
   constructor(shaders: Array<Shader>, isTransformFeedback: boolean = false, variable_buffer_data: string[] = []) {
     this.prog = gl.createProgram();
@@ -69,6 +72,8 @@ class ShaderProgram {
   
     this.unifAcceleration = gl.getUniformLocation(this.prog, 'u_Acceleration');
     this.unifParticleCol = gl.getUniformLocation(this.prog, "u_ParticleColor");
+
+    this.unifObstaclePos = gl.getUniformLocation(this.prog, "u_ObstaclePos");
 
   }
 
@@ -137,6 +142,14 @@ class ShaderProgram {
     }
   }
 
+  setObstaclePos(pos: vec2, camera: Camera) {
+    this.use();
+    if (this.unifObstaclePos !== -1) {
+      gl.uniform2fv(this.unifObstaclePos, pos);
+    }
+  }
+
+  // DRAWING
 
   draw(d: Drawable) {
     this.use();

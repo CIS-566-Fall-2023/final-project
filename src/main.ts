@@ -1,7 +1,8 @@
-import {vec3, vec4} from 'gl-matrix';
+import {vec2, vec3, vec4} from 'gl-matrix';
 import * as DAT from 'dat.gui';
 import Square from './geometry/Square';
 import {Particle, ParticlesGroup} from './Particle';
+import ScreenBuffer from './geometry/ScreenBuffer';
 
 import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
 import Camera from './Camera';
@@ -15,12 +16,20 @@ const controls = {
 };
 
 let time: number = 0.0;
-let square: Square;
 let particles: ParticlesGroup;
+let square: Square; // for each particle
+let screenBuf: ScreenBuffer;
+
+let obstacle_positions: Array<vec2>;
+obstacle_positions = new Array<vec2>();
+obstacle_positions.push(vec2.fromValues(0.5, 0.5)); // Default starting obstacle
 
 function loadScene() {
   square = new Square();
   square.create();
+
+  screenBuf = new ScreenBuffer(0, 0, 1, 1);
+  screenBuf.create();
 
   particles = new ParticlesGroup(1000);
   particles.create();
@@ -62,6 +71,17 @@ function main() {
     new Shader(gl.VERTEX_SHADER, require('./shaders/particle-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/particle-frag.glsl')),
   ]);
+
+  const obstacleBufferShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-buf-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/obstacle-buf-frag.glsl')),
+  ], false, ["sampleCoords"]);
+  
+  const obstacleAddToBufferShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-add-to-buf-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/obstacle-add-to-buf-frag.glsl')),
+  ], false, ["sampleCoords"]);
+
 
   // Transform Feedback for Particles
   // Transform Feedback is the process for capturing Primitives from the Vertex
@@ -115,7 +135,7 @@ function main() {
   setParticleColor();
   setParticleAcceleration();
 
-  // INITIALIZE TEXTURE
+  // INITIALIZE TEXTURE AND FRAME BUFFER FOR OBSTACLES
   gl.viewport(0, 0, window.innerWidth, window.innerHeight);
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -145,6 +165,8 @@ function main() {
 
     renderer.clear();
 
+    gl.disable(gl.BLEND); // We do not want the obstacles to blend in 
+    renderer.renderObs(camera, obstacleBufferShader, [screenBuf]);
     // Blend the uncolored part of the square with the background of the image, making a circle
     gl.enable(gl.BLEND); 
 
@@ -167,6 +189,66 @@ function main() {
   camera.setAspectRatio(window.innerWidth / window.innerHeight);
   camera.updateProjectionMatrix();
 
+
+  // OBSTACLE-USER INTERACTION CODE 
+  function addObstacle(x: number, y: number)
+  {
+    obstacleAddToBufferShader.setObstaclePos(vec2.fromValues(x, 1.0 - y), camera);
+    gl.useProgram(obstacleAddToBufferShader.prog);
+    _FBO.bind(gl, texture, null);
+
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    renderer.renderObs(camera, obstacleAddToBufferShader, [screenBuf]);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.bindTexture(gl.TEXTURE_2D, null);
+  }
+
+  var rightClick = 2;
+  var isMouseDragging = false;
+
+  canvas.onmousedown = function(event) 
+  {
+    if(event.button === rightClick)
+    {
+      if(isMouseDragging)
+      {
+        addObstacle((event.clientX / window.innerWidth), (event.clientY / window.innerHeight));
+      }
+    }
+    transformFeedbackShader.setObstaclePos(vec2.fromValues(
+      (2.0 * event.clientX / window.innerWidth) - 1.0,
+      1.0 - (2.0 * event.clientY / window.innerHeight)
+      ), camera);
+
+    isMouseDragging = true;
+  }
+
+  for (let i = 0; i < obstacle_positions.length; i++)
+  {
+    addObstacle(obstacle_positions[i][0], obstacle_positions[i][0]);
+  }
+
+  canvas.onmouseup = function(event)
+  {
+    if(event.button === rightClick)
+    {
+      obstacle_positions.push(vec2.fromValues(
+        (event.clientX / window.innerWidth),
+        (event.clientY / window.innerHeight)
+      ));
+    }
+    isMouseDragging = false;
+  }
+
+  canvas.onmousemove = function(event)
+  {
+    if(isMouseDragging) {
+      addObstacle((event.clientX / window.innerWidth), (event.clientY / window.innerHeight));
+    }
+  }
 
   // Start the render loop
   tick();
