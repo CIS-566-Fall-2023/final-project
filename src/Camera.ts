@@ -17,6 +17,9 @@ class Camera {
   right: vec3 = vec3.create();
   forward: vec3 = vec3.create();
 
+  lockedPos: vec3;
+  lockedTarget: vec3;
+
   updateCameraAxes()
   {
     this.position = this.controls.eye;
@@ -28,6 +31,9 @@ class Camera {
   }
 
   constructor(position: vec3, target: vec3) {
+    this.lockedPos = position;
+    this.lockedTarget = target;
+    
     this.controls = CameraControls(document.getElementById('canvas'), {
       eye: position,
       center: target,
@@ -51,6 +57,20 @@ class Camera {
     vec3.add(this.target, this.position, this.direction);
     mat4.lookAt(this.viewMatrix, this.controls.eye, this.controls.center, this.controls.up);
   
+    this.updateCameraAxes();
+  }
+
+  reset(position: vec3, target: vec3)
+  {
+    this.lockedPos = position;
+    this.lockedTarget = target;
+    this.controls = CameraControls(document.getElementById('canvas'), {
+      eye: position, 
+      center: target,
+    });
+
+    vec3.add(this.target, this.position, this.direction);
+    mat4.lookAt(this.viewMatrix, this.controls.eye, this.controls.center, this.controls.up);
     this.updateCameraAxes();
   }
 };

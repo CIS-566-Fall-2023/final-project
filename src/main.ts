@@ -13,9 +13,12 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 const controls = {
   Particle_Color: [ 0, 0, 255 ],
   Gravity: 30.0,
+  'Lock Camera': true,
 };
 
 let time: number = 0.0;
+let camera_locked = true;
+
 let particles: ParticlesGroup;
 let square: Square; // for each particle
 let screenBuf: ScreenBuffer;
@@ -23,6 +26,7 @@ let screenBuf: ScreenBuffer;
 let obstacle_positions: Array<vec2>;
 obstacle_positions = new Array<vec2>();
 obstacle_positions.push(vec2.fromValues(0.5, 0.5)); // Default starting obstacle
+
 
 function loadScene() {
   square = new Square();
@@ -42,6 +46,7 @@ function main() {
   const gui = new DAT.GUI();
   gui.addColor(controls, 'Particle_Color').name("Particle Color").onChange(setParticleColor);
   gui.add(controls, 'Gravity', 1.0, 100.0).step(1.0).onChange(setParticleAcceleration);
+  gui.add(controls, 'Lock Camera').onChange(lockCamera);
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
   const gl = <WebGL2RenderingContext> canvas.getContext('webgl2');
@@ -109,6 +114,11 @@ function main() {
     transformFeedbackShader.setParticleAcceleration(vec3.fromValues(0.0, controls.Gravity, 0.0));
   }
 
+  function lockCamera()
+  {
+    camera_locked = controls["Lock Camera"];
+  }
+
   function setupTexture(width: number, height: number)
   {
     let texelData : any = [];
@@ -134,6 +144,7 @@ function main() {
   transformFeedbackShader.setColor(vec4.fromValues(0.0, 1.0, 1.0, 1.0));
   setParticleColor();
   setParticleAcceleration();
+  lockCamera();
 
   // INITIALIZE TEXTURE AND FRAME BUFFER FOR OBSTACLES
   gl.viewport(0, 0, window.innerWidth, window.innerHeight);
@@ -147,8 +158,13 @@ function main() {
 
   // This function will be called every frame
   function tick() {
-    // Update Camera and Time
+    // Update Camera
+    if (camera_locked)
+    {
+      camera.reset(vec3.fromValues(0, 0, -100.0), vec3.fromValues(0.0, -10, 0));
+    }
     camera.update();
+    // Update time
     time = time + 1.0;
     transformFeedbackShader.setTime(time);
     particleShader.setTime(time);
@@ -209,9 +225,9 @@ function main() {
   var rightClick = 2;
   var isMouseDragging = false;
 
-  canvas.onmousedown = function(event) 
+  canvas.onmousedown = function(event) // ADD OBSTACLE
   {
-    if(event.button === rightClick)
+    if(event.button === rightClick && camera_locked)
     {
       if(isMouseDragging)
       {
@@ -233,7 +249,7 @@ function main() {
 
   canvas.onmouseup = function(event)
   {
-    if(event.button === rightClick)
+    if(event.button === rightClick && camera_locked)
     {
       obstacle_positions.push(vec2.fromValues(
         (event.clientX / window.innerWidth),
@@ -245,7 +261,7 @@ function main() {
 
   canvas.onmousemove = function(event)
   {
-    if(isMouseDragging) {
+    if(isMouseDragging && camera_locked) {
       addObstacle((event.clientX / window.innerWidth), (event.clientY / window.innerHeight));
     }
   }
