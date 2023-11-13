@@ -12,10 +12,8 @@ void main()
     {
         discard;
     }
-    else 
-    {
-        vec2 normal = normalize(fromCenter);
-        out_Col = vec4(0.5 * normal + 0.5, 0, 1);
-    }
+
+    vec2 normal = normalize(fromCenter);
+    out_Col = vec4(0.5 * normal + 0.5, 0, 1);
 
 }

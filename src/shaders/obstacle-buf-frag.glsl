@@ -13,7 +13,7 @@ void main()
     vec4 tex_color = texture(u_ObstacleBuffer, sampleCoords);
     vec2 normal = 2.0 * tex_color.rg - 1.0;
 
-    if (dot(normal, normal) < 1.0) {
+    if (dot(normal, normal) < 0.1) {
         discard; // abandon coloring 
     }
 

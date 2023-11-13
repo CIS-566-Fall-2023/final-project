@@ -1,7 +1,7 @@
 import {vec2, vec3, vec4} from 'gl-matrix';
 import * as DAT from 'dat.gui';
 import Square from './geometry/Square';
-import {Particle, ParticlesGroup} from './Particle';
+import {ParticlesGroup} from './Particle';
 import ScreenBuffer from './geometry/ScreenBuffer';
 
 import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
@@ -22,7 +22,8 @@ let camera_locked = true;
 
 let particles: ParticlesGroup;
 let square: Square; // for each particle
-let screenBuf: ScreenBuffer; // for obstacles
+let screenBuf: ScreenBuffer;  // for obstacles color
+let screenBufP: ScreenBuffer; // for obstacles area
 
 let obstacle_positions: Array<vec2>;
 obstacle_positions = new Array<vec2>();
@@ -35,6 +36,8 @@ function loadScene() {
 
   screenBuf = new ScreenBuffer(0, 0, 1, 1);
   screenBuf.create();
+  screenBufP = new ScreenBuffer(-0.5, -0.5, 0.5, 0.5);
+  screenBufP.create();
 
   particles = new ParticlesGroup(1000);
   particles.create();
@@ -232,7 +235,7 @@ function main() {
     gl.useProgram(addObstacleShader.prog);
     _FBO.bind(gl, texture, null);
 
-    renderer.renderObs(camera, addObstacleShader, [screenBuf]);
+    renderer.renderObs(camera, addObstacleShader, [screenBufP]);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.bindTexture(gl.TEXTURE_2D, null);
