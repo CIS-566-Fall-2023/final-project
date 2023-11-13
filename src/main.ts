@@ -21,7 +21,7 @@ let camera_locked = true;
 
 let particles: ParticlesGroup;
 let square: Square; // for each particle
-let screenBuf: ScreenBuffer;
+let screenBuf: ScreenBuffer; // for obstacles
 
 let obstacle_positions: Array<vec2>;
 obstacle_positions = new Array<vec2>();
@@ -81,6 +81,11 @@ function main() {
     new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-buf-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/obstacle-buf-frag.glsl')),
   ], false, ["sampleCoords"]);
+
+  const addObstacleShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-add-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/obstacle-add-frag.glsl')),
+  ], false, ["from Center"]);
   
   const obstacleAddToBufferShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-add-to-buf-vert.glsl')),
@@ -167,7 +172,6 @@ function main() {
     // Update time
     time = time + 1.0;
     transformFeedbackShader.setTime(time);
-    particleShader.setTime(time);
 
     // Render objects using Renderers
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
@@ -209,6 +213,16 @@ function main() {
   // OBSTACLE-USER INTERACTION CODE 
   function addObstacle(x: number, y: number)
   {
+    addObstacleShader.setObstaclePos(vec2.fromValues(x, 1.0 - y), camera);
+    gl.useProgram(addObstacleShader.prog);
+    _FBO.bind(gl, texture, null);
+
+    renderer.renderObs(camera, addObstacleShader, [screenBuf]);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.bindTexture(gl.TEXTURE_2D, null);
+
+
     obstacleAddToBufferShader.setObstaclePos(vec2.fromValues(x, 1.0 - y), camera);
     gl.useProgram(obstacleAddToBufferShader.prog);
     _FBO.bind(gl, texture, null);
