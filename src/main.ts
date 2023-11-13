@@ -5,7 +5,7 @@ import {Particle, ParticlesGroup} from './Particle';
 
 import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
 import Camera from './Camera';
-import {setGL} from './globals';
+import {setGL, FBO} from './globals';
 import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 
 
@@ -89,11 +89,42 @@ function main() {
     transformFeedbackShader.setParticleAcceleration(vec3.fromValues(0.0, controls.Gravity, 0.0));
   }
 
+  function setupTexture(width: number, height: number)
+  {
+    let texelData : any = [];
+    let obstacleColor = [127, 127, 0, 0];
+    // Add color to every texture cell
+    for (let i = 0; i < width * height; ++i)
+    {
+      texelData.push.apply(texelData, obstacleColor);
+    }
+
+    // GL work to set up a texture
+    let texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture); // bind texture to this texture slot
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(texelData));
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    return texture;
+  }
+
   // SET SHADER VALUES
   transformFeedbackShader.setColor(vec4.fromValues(0.0, 1.0, 1.0, 1.0));
   setParticleColor();
   setParticleAcceleration();
-  
+
+  // INITIALIZE TEXTURE
+  gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  var width = gl.drawingBufferWidth;
+  var height = gl.drawingBufferHeight;
+
+  var texture = setupTexture(width, height);
+  let _FBO = FBO.create(gl, width, height);
+
   // This function will be called every frame
   function tick() {
     // Update Camera and Time
@@ -104,6 +135,13 @@ function main() {
 
     // Render objects using Renderers
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+    // clear current frame buffer (old obstacle data)
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    // activate texture slot with obstacle texture
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
 
     renderer.clear();
 
@@ -128,6 +166,7 @@ function main() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.setAspectRatio(window.innerWidth / window.innerHeight);
   camera.updateProjectionMatrix();
+
 
   // Start the render loop
   tick();
