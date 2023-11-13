@@ -2,6 +2,8 @@
 precision highp float;
 
 uniform vec2 u_ObstaclePos;
+uniform float u_ObstacleSize;
+uniform vec2 u_Dimensions;
 uniform sampler2D u_Texture;
 
 in vec4 fs_Pos;
@@ -11,7 +13,8 @@ out vec4 out_Col;
 
 void main()
 {
-    vec2 fromCenter = 2.0 * (sampleCoords - u_ObstaclePos);
+    vec2 size = vec2(u_ObstacleSize / u_Dimensions.x, u_ObstacleSize / u_Dimensions.y);
+    vec2 fromCenter = 2.0 * (sampleCoords - u_ObstaclePos) / size;
     
     if (dot(fromCenter, fromCenter) < 1.0)
     {

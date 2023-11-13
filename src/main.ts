@@ -13,6 +13,7 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 const controls = {
   Particle_Color: [ 0, 0, 255 ],
   Gravity: 30.0,
+  'Obstacle Size': 30.0,
   'Lock Camera': true,
 };
 
@@ -46,6 +47,7 @@ function main() {
   const gui = new DAT.GUI();
   gui.addColor(controls, 'Particle_Color').name("Particle Color").onChange(setParticleColor);
   gui.add(controls, 'Gravity', 1.0, 100.0).step(1.0).onChange(setParticleAcceleration);
+  gui.add(controls, 'Obstacle Size', 5.0, 200.0).step(1.0).onChange(setObstacleSize);
   gui.add(controls, 'Lock Camera').onChange(lockCamera);
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -124,6 +126,12 @@ function main() {
     camera_locked = controls["Lock Camera"];
   }
 
+  function setObstacleSize()
+  {
+    addObstacleShader.setObstacleSize(controls["Obstacle Size"]);
+    obstacleAddToBufferShader.setObstacleSize(controls["Obstacle Size"]);
+  }
+
   function setupTexture(width: number, height: number)
   {
     let texelData : any = [];
@@ -149,6 +157,7 @@ function main() {
   transformFeedbackShader.setColor(vec4.fromValues(0.0, 1.0, 1.0, 1.0));
   setParticleColor();
   setParticleAcceleration();
+  setObstacleSize();
   lockCamera();
 
   // INITIALIZE TEXTURE AND FRAME BUFFER FOR OBSTACLES
@@ -160,6 +169,9 @@ function main() {
 
   var texture = setupTexture(width, height);
   let _FBO = FBO.create(gl, width, height);
+
+  addObstacleShader.setDimensions(width, height);
+  obstacleAddToBufferShader.setDimensions(width, height);
 
   // This function will be called every frame
   function tick() {
@@ -202,6 +214,9 @@ function main() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.setAspectRatio(window.innerWidth / window.innerHeight);
     camera.updateProjectionMatrix();
+
+    addObstacleShader.setDimensions(window.innerWidth, window.innerHeight);
+    obstacleAddToBufferShader.setDimensions(window.innerWidth, window.innerHeight);
     
   }, false);
 

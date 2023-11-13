@@ -34,6 +34,7 @@ class ShaderProgram {
   unifModel: WebGLUniformLocation;
   unifModelInvTr: WebGLUniformLocation;
   unifViewProj: WebGLUniformLocation;
+  unifDimensions: WebGLUniformLocation;
   unifColor: WebGLUniformLocation;
 
   unifCameraAxes: WebGLUniformLocation;
@@ -42,7 +43,7 @@ class ShaderProgram {
   unifParticleCol: WebGLUniformLocation;
 
   unifObstaclePos: WebGLUniformLocation;
-
+  unifObstacleSize: WebGLUniformLocation;
 
   constructor(shaders: Array<Shader>, isTransformFeedback: boolean = false, variable_buffer_data: string[] = []) {
     this.prog = gl.createProgram();
@@ -67,6 +68,7 @@ class ShaderProgram {
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
+    this.unifDimensions = gl.getUniformLocation(this.prog, "u_Dimensions");
     this.unifColor      = gl.getUniformLocation(this.prog, "u_Color");
     this.unifCameraAxes = gl.getUniformLocation(this.prog, "u_CameraAxes");
   
@@ -74,6 +76,7 @@ class ShaderProgram {
     this.unifParticleCol = gl.getUniformLocation(this.prog, "u_ParticleColor");
 
     this.unifObstaclePos = gl.getUniformLocation(this.prog, "u_ObstaclePos");
+    this.unifObstacleSize = gl.getUniformLocation(this.prog, "u_ObstacleSize");
 
   }
 
@@ -105,6 +108,14 @@ class ShaderProgram {
     }
   }
 
+  setDimensions(w: number, h: number)
+  {
+    this.use();
+    if (this.unifDimensions !== -1) {
+      gl.uniform2fv(this.unifDimensions, vec2.fromValues(w, h));
+    }
+  }
+
   setTime(t: number) {
     this.use();
     if (this.unifTime !== -1) {
@@ -116,6 +127,21 @@ class ShaderProgram {
     this.use();
     if (this.unifCameraAxes !== -1) {
       gl.uniformMatrix3fv(this.unifCameraAxes, false, axes);
+    }
+  }
+
+  setObstaclePos(pos: vec2, camera: Camera) {
+    this.use();
+    if (this.unifObstaclePos !== -1) {
+      gl.uniform2fv(this.unifObstaclePos, pos);
+    }
+  }
+
+  setObstacleSize(s: number) {
+    this.use();
+    if (this.unifObstacleSize !== -1)
+    {
+      gl.uniform1f(this.unifObstacleSize, s);
     }
   }
 
@@ -139,13 +165,6 @@ class ShaderProgram {
     this.use();
     if (this.unifColor !== -1) {
       gl.uniform4fv(this.unifColor, color);
-    }
-  }
-
-  setObstaclePos(pos: vec2, camera: Camera) {
-    this.use();
-    if (this.unifObstaclePos !== -1) {
-      gl.uniform2fv(this.unifObstaclePos, pos);
     }
   }
 
