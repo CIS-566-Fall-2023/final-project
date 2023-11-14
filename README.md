@@ -84,16 +84,37 @@ Now, we have completed milestone1, as you can see in this [live demo](https://ky
 The Gravity slider still does not work. Next week, I will work on obstacles and collision/bounce physics! 
 
 ## Milestone 2: Implementation part 2 (due 11/27)
-We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
+This week is all about coding obstacles and collision physics. First, before I tackled collisions, I just wanted to be able to draw obstacles onto the scene. It was tricky to understand how I was going to build something that could be "drawn" onto the screen. Thinking of "drawing" on the screen gave me the idea of screen buffers, where the drawn obstacles are added to a frame buffer that is overlayed on the screen. 
 
-Put all your code in your forked repository.
+### Screen Buffers and Obstacle Shaders 
+The first step to implement frame buffers and textures in this OpenGL environment. Next, I also implement a "screen buffer" geometry that would be written onto to by the obstacle shaders and displays over the whole screen. There would be two screen buffers that work together, one saves the obstacles position, the other colors it in. 
+Then, I coded the necessary obstacle shaders. There are three obstacle shaders that work together in a couple ways. 
+1. **obstacle-add** shader: based on drawings, defines an area in the buffer that is an obstacle
+2. **obstacle-add-to-buffer** shader: colors that defined area, then adds the newly drawn obstacle to the obstacle buffer. 
+3. **obstacle-buffer** shader: pulls from the obstacle buffer and literally displays it on screen. 
 
-Submission: Add a new section to your README titled: Milestone #3, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what did you have to cut and why? 
-- Detailed output from your generator, images, video, etc.
-We'll check your repository for updates. No need to create a new pull request.
+### Mouse Events and Lock Camera Control 
+With these implemented, I still cannot see any obstacles on screen because I have no way to add obstacles. So, next, I decided to implement the mouse-click and drag events that should add obstacles to the scene. However, after implementing this, I quickly ran into another problem. Although my mouse events were implemented, when I tried clicking and dragging on the scene, my events were overridden by the higher-priority functionality to adjust the camera position. I needed a way to manage this. So, I implemented a **Lock Camera** control, set to true by default. When, Lock_Camera is on, the camera movement update is not called, allowing my mouse events to add obstacles to work. Conversely, when Lock_Camera is off, you cannot add obstacles to the scene and the camera will move around as expected. Having moved the camera, when Lock_Camera is turned back on, we return to the default drawing position. 
 
-Come to class on the due date with a WORKING COPY of your project. We'll be spending time in class critiquing and reviewing your work so far.
+### Obstacle Size and finishing Obstacles
+Armed with the ability to lock the camera, I was able to test by obstacle shaders. The first result was not promising. Upon clicking on the screen, one giant obstacle took over the whole screen. 
+
+PICTURE
+
+To fix this, I needed a way to easily control the size of my obstacles such that they don't take over the whole of the screen. Furthermore, because it is drawn onto the screen buffer, the size of the obstacle must be reliant on the dimensions of the screen.  So, I implemented the Obstacle Size control which is used by the obstacle-add and obstacle-add-to-buffer shaders to control the size of the obstacles added to the buffers. As you can see in the image below, I now have lots of black blobs (the obstacles) of various size on the screen. 
+
+PICTURE
+
+However, as you can see, this still isn't quite right. The parts that I thought would be set to null, still show the obstacle color on screen. It's as if it is inverse. After some digging, I realized I needed to enable gl.BLEND before adding obstacles in order to blend away and remove the null parts of the texture buffer, leaving only whats explicitly added. This fixed the issue! Now, you can see, that we have control over obstacle size and can drawn onto the scene. 
+
+PICTURE
+
+### Collisions
+Now, we're just missing collisions! First, I added the obstacle position and obstacle buffer attributes to the particle transform feedback shader, where the physics is computed. How this implementation works, is that the new calculated position and velocity of the particle is checked against the obstacle buffer. If the buffer returns the obstacle color (as oposed to 0), then it has collided with the obstacle. In this case, we push the particle outside of the obstacle, update the color, and update the velocity to reflect the bounce motion we are looking for. 
+
+PICTURE
+
+However, as you might notice in the image below there is a slight positioning bug. Going over my code with a fine-tooth comb, I realized I accidentally wrote vs_Pos.yx instead of vs_Pos.xy. The biggest bugs always have the smallest solutions. Oh well! Now! We have our Milestone 2 final product, now with obstacles and collision physics!!! Next up, polishing user-controls and customization over particle generation. 
 
 ## Final submission (due 12/5)
 Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
@@ -104,57 +125,3 @@ Submission:
 - Update your README with two sections 
   - final results with images and a live demo if possible
   - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
-
-## Topic Suggestions
-
-### Create a generator in Houdini
-
-### A CLASSIC 4K DEMO
-- In the spirit of the demo scene, create an animation that fits into a 4k executable that runs in real-time. Feel free to take inspiration from the many existing demos. Focus on efficiency and elegance in your implementation.
-- Example: 
-  - [cdak by Quite & orange](https://www.youtube.com/watch?v=RCh3Q08HMfs&list=PLA5E2FF8E143DA58C)
-
-### A RE-IMPLEMENTATION
-- Take an academic paper or other pre-existing project and implement it, or a portion of it.
-- Examples:
-  - [2D Wavefunction Collapse Pokémon Town](https://gurtd.github.io/566-final-project/)
-  - [3D Wavefunction Collapse Dungeon Generator](https://github.com/whaoran0718/3dDungeonGeneration)
-  - [Reaction Diffusion](https://github.com/charlesliwang/Reaction-Diffusion)
-  - [WebGL Erosion](https://github.com/LanLou123/Webgl-Erosion)
-  - [Particle Waterfall](https://github.com/chloele33/particle-waterfall)
-  - [Voxelized Bread](https://github.com/ChiantiYZY/566-final)
-
-### A FORGERY
-Taking inspiration from a particular natural phenomenon or distinctive set of visuals, implement a detailed, procedural recreation of that aesthetic. This includes modeling, texturing and object placement within your scene. Does not need to be real-time. Focus on detail and visual accuracy in your implementation.
-- Examples:
-  - [The Shrines](https://github.com/byumjin/The-Shrines)
-  - [Watercolor Shader](https://github.com/gracelgilbert/watercolor-stylization)
-  - [Sunset Beach](https://github.com/HanmingZhang/homework-final)
-  - [Sky Whales](https://github.com/WanruZhao/CIS566FinalProject)
-  - [Snail](https://www.shadertoy.com/view/ld3Gz2)
-  - [Journey](https://www.shadertoy.com/view/ldlcRf)
-  - [Big Hero 6 Wormhole](https://2.bp.blogspot.com/-R-6AN2cWjwg/VTyIzIQSQfI/AAAAAAAABLA/GC0yzzz4wHw/s1600/big-hero-6-disneyscreencaps.com-10092.jpg)
-
-### A GAME LEVEL
-- Like generations of game makers before us, create a game which generates an navigable environment (eg. a roguelike dungeon, platforms) and some sort of goal or conflict (eg. enemy agents to avoid or items to collect). Aim to create an experience that will challenge players and vary noticeably in different playthroughs, whether that means procedural dungeon generation, careful resource management or an interesting AI model. Focus on designing a system that is capable of generating complex challenges and goals.
-- Examples:
-  - [Rhythm-based Mario Platformer](https://github.com/sgalban/platformer-gen-2D)
-  - [Pokémon Ice Puzzle Generator](https://github.com/jwang5675/Ice-Puzzle-Generator)
-  - [Abstract Exploratory Game](https://github.com/MauKMu/procedural-final-project)
-  - [Tiny Wings](https://github.com/irovira/TinyWings)
-  - Spore
-  - Dwarf Fortress
-  - Minecraft
-  - Rogue
-
-### AN ANIMATED ENVIRONMENT / MUSIC VISUALIZER
-- Create an environment full of interactive procedural animation. The goal of this project is to create an environment that feels responsive and alive. Whether or not animations are musically-driven, sound should be an important component. Focus on user interactions, motion design and experimental interfaces.
-- Examples:
-  - [The Darkside](https://github.com/morganherrmann/thedarkside)
-  - [Music Visualizer](https://yuruwang.github.io/MusicVisualizer/)
-  - [Abstract Mesh Animation](https://github.com/mgriley/cis566_finalproj)
-  - [Panoramical](https://www.youtube.com/watch?v=gBTTMNFXHTk)
-  - [Bound](https://www.youtube.com/watch?v=aE37l6RvF-c)
-
-### YOUR OWN PROPOSAL
-- You are of course welcome to propose your own topic . Regardless of what you choose, you and your team must research your topic and relevant techniques and come up with a detailed plan of execution. You will meet with some subset of the procedural staff before starting implementation for approval.
