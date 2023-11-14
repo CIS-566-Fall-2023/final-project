@@ -99,22 +99,25 @@ With these implemented, I still cannot see any obstacles on screen because I hav
 ### Obstacle Size and finishing Obstacles
 Armed with the ability to lock the camera, I was able to test by obstacle shaders. The first result was not promising. Upon clicking on the screen, one giant obstacle took over the whole screen. 
 
-PICTURE
+![m2](https://github.com/kyraSclark/final-project/assets/60115638/96904fd6-c096-448a-8f9d-e4df551e2d6f)
 
 To fix this, I needed a way to easily control the size of my obstacles such that they don't take over the whole of the screen. Furthermore, because it is drawn onto the screen buffer, the size of the obstacle must be reliant on the dimensions of the screen.  So, I implemented the Obstacle Size control which is used by the obstacle-add and obstacle-add-to-buffer shaders to control the size of the obstacles added to the buffers. As you can see in the image below, I now have lots of black blobs (the obstacles) of various size on the screen. 
 
-PICTURE
+![can_add_and_change_size](https://github.com/kyraSclark/final-project/assets/60115638/b204c6e5-0411-4914-8bb9-6eb82e45b306)
 
 However, as you can see, this still isn't quite right. The parts that I thought would be set to null, still show the obstacle color on screen. It's as if it is inverse. After some digging, I realized I needed to enable gl.BLEND before adding obstacles in order to blend away and remove the null parts of the texture buffer, leaving only whats explicitly added. This fixed the issue! Now, you can see, that we have control over obstacle size and can drawn onto the scene. 
 
-PICTURE
+![m2 1](https://github.com/kyraSclark/final-project/assets/60115638/a3aa0e65-7264-434e-8058-6c0f8f807c09)
 
 ### Collisions
 Now, we're just missing collisions! First, I added the obstacle position and obstacle buffer attributes to the particle transform feedback shader, where the physics is computed. How this implementation works, is that the new calculated position and velocity of the particle is checked against the obstacle buffer. If the buffer returns the obstacle color (as opposed to 0), then it has collided with the obstacle. In this case, we push the particle outside of the obstacle, update the color, and update the velocity to reflect the bounce motion we are looking for. 
 
-PICTURE
+![position is not right](https://github.com/kyraSclark/final-project/assets/60115638/93e17d07-7f8f-4efa-8ee9-d505ddd8626a)
 
-However, as you might notice in the image below there is a slight positioning bug. Going over my code with a fine-tooth comb, I realized I accidentally wrote vs_Pos.yx instead of vs_Pos.xy. The biggest bugs always have the smallest solutions. Oh well! Now! We have our Milestone 2 final product, now with obstacles and collision physics!!! Next up, polishing user-controls and customization over particle generation. 
+However, as you might notice in the image below there is a slight positioning bug. Going over my code with a fine-tooth comb, I realized I accidentally wrote vs_Pos.yx instead of vs_Pos.xy. The biggest bugs always have the smallest solutions. Oh well! Now! We have our Milestone 2 final product, now with obstacles and collision physics!!! Next up, polishing user controls and customization over particle generation.
+![m2_done](https://github.com/kyraSclark/final-project/assets/60115638/72c5f4af-9e3a-4164-bf66-e81703726944)
+
+[live demo](https://kyrasclark.github.io/final-project/)!
 
 ## Final submission (due 12/5)
 Time to polish! Spend this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
