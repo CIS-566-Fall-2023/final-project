@@ -137,7 +137,7 @@ function main() {
 
   function setupTexture(width: number, height: number)
   {
-    let texelData : any = [];
+    let texelData: any = [];
     let obstacleColor = [127, 127, 0, 0];
     // Add color to every texture cell
     for (let i = 0; i < width * height; ++i)
@@ -163,19 +163,6 @@ function main() {
   setObstacleSize();
   lockCamera();
 
-  // INITIALIZE TEXTURE AND FRAME BUFFER FOR OBSTACLES
-  gl.viewport(0, 0, window.innerWidth, window.innerHeight);
-  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  var width = gl.drawingBufferWidth;
-  var height = gl.drawingBufferHeight;
-
-  var texture = setupTexture(width, height);
-  let _FBO = FBO.create(gl, width, height);
-
-  addObstacleShader.setDimensions(width, height);
-  obstacleAddToBufferShader.setDimensions(width, height);
-
   // This function will be called every frame
   function tick() {
     // Update Camera
@@ -184,6 +171,7 @@ function main() {
       camera.reset(vec3.fromValues(0, 0, -100.0), vec3.fromValues(0.0, -10, 0));
     }
     camera.update();
+
     // Update time
     time = time + 1.0;
     transformFeedbackShader.setTime(time);
@@ -227,6 +215,21 @@ function main() {
   camera.setAspectRatio(window.innerWidth / window.innerHeight);
   camera.updateProjectionMatrix();
 
+
+  // INITIALIZE TEXTURE AND FRAME BUFFER FOR OBSTACLES
+  gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  var width = gl.drawingBufferWidth;
+  var height = gl.drawingBufferHeight;
+
+  var texture = setupTexture(width, height);
+  let _FBO = FBO.create(gl, width, height);
+
+  addObstacleShader.setDimensions(width, height);
+  obstacleAddToBufferShader.setDimensions(width, height);
+
+  gl.enable(gl.BLEND); // Blends away the null parts of the obstacle textures
 
   // OBSTACLE-USER INTERACTION CODE 
   function addObstacle(x: number, y: number)
@@ -293,7 +296,8 @@ function main() {
 
   canvas.onmousemove = function(event)
   {
-    if(isMouseDragging && camera_locked) {
+    if(isMouseDragging && camera_locked)
+    {
       addObstacle((event.clientX / window.innerWidth), (event.clientY / window.innerHeight));
     }
   }
