@@ -12,5 +12,5 @@ void main()
 {
     sampleCoords = vs_Pos.xy;
     // remap
-    gl_Position = vec4(2.0 * vs_Pos.yx - 1.0, 0.0, 1.0);
+    gl_Position = vec4(2.0 * vs_Pos.xy - 1.0, 0.0, 1.0);
 }

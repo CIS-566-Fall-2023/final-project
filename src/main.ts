@@ -11,7 +11,7 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 
 
 const controls = {
-  Particle_Color: [ 0, 0, 255 ],
+  Particle_Color: [0, 0, 255],
   Gravity: 30.0,
   'Obstacle Size': 30.0,
   'Lock Camera': true,
@@ -21,7 +21,7 @@ let time: number = 0.0;
 let camera_locked = true;
 
 let particles: ParticlesGroup;
-let square: Square; // for each particle
+let square: Square;           // for each particle
 let screenBuf: ScreenBuffer;  // for obstacles color
 let screenBufP: ScreenBuffer; // for obstacles area
 
@@ -39,7 +39,7 @@ function loadScene() {
   screenBufP = new ScreenBuffer(-0.5, -0.5, 0.5, 0.5);
   screenBufP.create();
 
-  particles = new ParticlesGroup(1000);
+  particles = new ParticlesGroup(10000);
   particles.create();
   particles.setVBOs();
 
