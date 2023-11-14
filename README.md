@@ -48,12 +48,12 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
 ### Timeline:
 
 - Week 1 (milestone 1) [due 11/15]:
-  - [ ] Build a corridor map given an input curve that connects grids when the curve overlaps (Houdini - Tianyi). 
-  - [ ] Figure out where the convex and concave corners are on the map to apply appropriate corner geometry (Houdini - Linda).
-  - [ ] Link Houdini asset output to a Unity scene using the plugin Houdini Engine for Unity (Unity - Linda).
+  - [x] Build a corridor map given an input curve that connects grids when the curve overlaps (Houdini - Tianyi). 
+  - [x] Figure out where the convex and concave corners are on the map to apply appropriate corner geometry (Houdini - Linda).
+  - [x] Link Houdini asset output to a Unity scene using the plugin Houdini Engine for Unity (Unity - Linda).
 
 - Week 2:
-  - [ ] Figure out where to place the walls, ceiling tiles and floor tiles (start off with some default prefabs) (Houdini + Unity - Linda).
+  - [x] Figure out where to place the walls, ceiling tiles and floor tiles (start off with some default prefabs) (Houdini + Unity - Linda).
   - [ ] Start digital assets generation using procedural modelling: doors and wall panels (Houdini - Tianyi).
   - [ ] Populate the scene with realistic lighting and other shading effects (Unity - Tianyi). 
 
