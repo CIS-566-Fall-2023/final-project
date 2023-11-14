@@ -10,16 +10,38 @@ namespace Planetile
         Desert = 0x01 << 1,
         Tree = 0x01 << 2,
         House = 0x01 << 3,
+        PentagonOcean = 0x01 << 4,
+        PentagonDesert = 0x01 << 5,
+        PentagonTree = 0x01 << 6,
+        PentagonHouse = 0x01 << 7,
+        Null = 0xFFFF,
     }
     public class Cell : MonoBehaviour
     {
         [SerializeField]
+        Tile tile;
+        [SerializeField]
         CellType type;
-        CellType Type
+        public CellType Type
         {
             get { return type; }
         }
+        public Tile Tile
+        {
+            get { return tile; }
+        }
+
+        public bool IsPlaced { get; private set; }
+        public void PlaceItem(Item item)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Cell[] GetAdjacentCells()
+        {
+            throw new System.NotImplementedException();
+        }
+        public Cell[] GetAdjacentCellsInTile(Tile tile)
         {
             throw new System.NotImplementedException();
         }

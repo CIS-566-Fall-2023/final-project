@@ -7,18 +7,19 @@ namespace Planetile
     public class Tile : MonoBehaviour
     {
         [SerializeField]
-        Cell[] cells;
+        bool isHexagon = true;
+        [SerializeField]
+        Cell[] cells /*= new Cell[TILE_CELL_NUM]*/;
 
-        public Cell this[int index]
+        public bool IsHexagon { get { return IsHexagon; } }
+        public IEnumerable<Cell> Cells { get { return cells; } }
+        public bool HasCell(Cell cell)
         {
-            get
-            {
-                return cells[index];
-            }
+            throw new System.NotImplementedException();
         }
-        void OnEnable()
+        public Tile[] GetAdjacentTiles()
         {
-            //cells = new Cell[TILE_CELL_NUM];
+            throw new System.NotImplementedException();
         }
     }
 }
