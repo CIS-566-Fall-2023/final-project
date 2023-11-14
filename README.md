@@ -110,14 +110,14 @@ However, as you can see, this still isn't quite right. The parts that I thought 
 PICTURE
 
 ### Collisions
-Now, we're just missing collisions! First, I added the obstacle position and obstacle buffer attributes to the particle transform feedback shader, where the physics is computed. How this implementation works, is that the new calculated position and velocity of the particle is checked against the obstacle buffer. If the buffer returns the obstacle color (as oposed to 0), then it has collided with the obstacle. In this case, we push the particle outside of the obstacle, update the color, and update the velocity to reflect the bounce motion we are looking for. 
+Now, we're just missing collisions! First, I added the obstacle position and obstacle buffer attributes to the particle transform feedback shader, where the physics is computed. How this implementation works, is that the new calculated position and velocity of the particle is checked against the obstacle buffer. If the buffer returns the obstacle color (as opposed to 0), then it has collided with the obstacle. In this case, we push the particle outside of the obstacle, update the color, and update the velocity to reflect the bounce motion we are looking for. 
 
 PICTURE
 
 However, as you might notice in the image below there is a slight positioning bug. Going over my code with a fine-tooth comb, I realized I accidentally wrote vs_Pos.yx instead of vs_Pos.xy. The biggest bugs always have the smallest solutions. Oh well! Now! We have our Milestone 2 final product, now with obstacles and collision physics!!! Next up, polishing user-controls and customization over particle generation. 
 
 ## Final submission (due 12/5)
-Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
+Time to polish! Spend this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
 
 Submission:
 - Push all your code / files to your repository
