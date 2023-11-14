@@ -2,6 +2,29 @@
 
 Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
 
+## Milestone 1
+
+<details>
+  <summary> Specifications </summary>
+
+  ## Cloud Simulation (Keyu Lu)
+  ### Objective:
+  The primary objective of this milestone was to develop a dynamic cloud simulation that realistically mimics the movement, merging, and interaction of clouds in a natural environment.
+  
+  ### Approach and Technologies Used:
+  To achieve this, I employed  Houdini metaball to simulate the dynamic behavior of clouds. This method allowed for the creation of clouds that not only move fluidly but also interact with each other in a natural way, such as merging or bouncing off each other.
+  
+  ### Fine-Tuning Details:
+  **Mountain Noise Integration**: To add a touch of realism, I incorporated mountain noise node. This addition helps in simulating how clouds interact with mountainous terrain, effectively changing their shape and movement patterns.
+  **Cloud Noise Enhancement**: To further refine the cloud's appearance, I added Houdini cloud noise. This ensures that each cloud has a unique, lifelike texture, enhancing the overall visual appeal.
+  
+  ### Demonstration and Insights:
+  To showcase the results of this milestone, a demo video is provided below. The video highlights the dynamic cloud simulation in action, showcasing the realistic movement and interactions of the clouds. It offers a glimpse into the intricate details and the level of realism achieved through the combination of metaballs, noise algorithms, and Houdini's advanced capabilities.
+  
+  [![Cloud Simulation Demo](path/to/your/thumbnail.jpg)](https://vimeo.com/884540553)
+
+
+
 ## Design Doc
 
 <details>
