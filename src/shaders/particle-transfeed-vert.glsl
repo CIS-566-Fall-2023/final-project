@@ -33,6 +33,9 @@ uniform float u_Time;
 uniform vec3  u_Acceleration;
 uniform vec3 u_ParticleColor;
 
+uniform sampler2D u_ObstacleBuffer;
+uniform vec3 u_ObstaclePos;
+
 in vec4 vs_Pos;             // Not used. The array of vertex positions passed to the shader
 in vec4 vs_Nor;             // Not used. The array of vertex normals passed to the shader
 in vec4 vs_Col;             // Instanced Rendering Attribute. Each particle instance has a 
@@ -41,7 +44,7 @@ in vec4 vs_Col;             // Instanced Rendering Attribute. Each particle inst
 out vec4 fs_Pos;
 out vec4 fs_Col;            // The color of each vertex. This is implicitly passed to the fragment shader.
 
-// Output physical forces used in the frag shader
+// Variable parameters being stored and updated here for transform feedback & instanced attributes
 out vec3 v_pos;
 out vec3 v_vel;
 out vec3 v_col;
@@ -125,11 +128,47 @@ void main()
         float a = smoothstep(0.8, 1.0, length(current_pos.xy) / spaceSize);
         vec4 new_color = pow(mix(vec4(u_ParticleColor, 1.0), vec4(0,0,0,0), a), vec4(e));
         v_col = new_color.rgb; //+ (1.0 / pow((-(current_pos.y / 1.2) + spaceSize * 0.5) / 10.0, 5.0));
+        
+        // Check new position against obstacle buffer
+        vec4 tex_color_v = texture(u_ObstacleBuffer, position_next);
+        vec2 obstacleNor = 2.0 * tex_color_v.rg - 1.0; // remap
+
+        if (length(obstacleNor) > 0.1)
+        {
+            // new position has hit an obstacle
+            if (length(new_v) < 5.0)
+            {
+                // If new_v is small, update new_v without disminishng velocity too much 
+                // (we are faking some physics here so that we never have particles that are too still)
+                // Bounce along obstacle's normal with half the speed
+                new_v.xy = obstacleNor * 0.5;
+
+                // Update particle color bc bounce
+                v_col = vec3(1.0);
+            }
+            else 
+            {
+                // If new_v is large enough, bounce should be a reflection of velocity
+                new_v = reflect(vec3(-new_v.x, new_v.y, new_v.z), vec3(obstacleNor, 0.0)) * 2.0;
+                new_v *= min(1.0, 0.4 * MAX_SPEED / length(new_v));
+
+                // Update particle color bc bounce
+                v_col = vec3(1.0);
+            }
+        }
 
         new_v *= min(1.0, 1.2 * MAX_SPEED / length(new_v));
         v_vel = new_v;
 
+        // Velocity has been updated, now update position
         vec3 new_p = current_pos - deltaTime * v_vel;
+
+        // Check if colliding with obstacle (if so, push out of obstacle)
+        // Sample Obstacle buffer with padded postion
+        vec4 tex_color_p = texture(u_ObstacleBuffer, vec2(-v_pos.x / (spaceSize * 2.0) + 0.5, v_pos.y / (spaceSize) + 0.6));
+        vec2 push = 2.0 * tex_color_p.rg - 1.0; 
+        // if in obstacle, push will have values, else it will just be 0 and the next calculation will have no effect
+        new_p.y += 10.0 * deltaTime * push.y;
 
         // if Particle new postion is out of bounds
         if (new_p.y < -spaceSize * 0.5 ) {
@@ -138,6 +177,10 @@ void main()
             new_p.y += spaceSize + 0.5 * random3(new_p) * (spaceSize - spaceSize*0.5);
             new_p.z = random2(vec2(i, 0.5 * i)) * spaceSize * 0.5 - spaceSize*0.25;
         }
+        
+        // check again for collisions
+        new_p.y += 10.0 * deltaTime * obstacleNor.y;
+        new_p.x -= 10.0 * deltaTime * obstacleNor.x;
         
         v_pos = new_p;
         v_time = current_time;
