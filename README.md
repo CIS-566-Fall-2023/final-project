@@ -47,24 +47,24 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
 
 ### Timeline:
 
-- Week 1 (milestone 1):
-  - Build a corridor map given an input curve that connects grids when the curve overlaps (Houdini - Tianyi). 
-  - Figure out where the convex and concave corners are on the map to apply appropriate corner geometry (Houdini - Linda).
-  - Link Houdini asset output to a Unity scene using the plugin Houdini Engine for Unity (Unity - Linda).
+- Week 1 (milestone 1) [due 11/15]:
+  - [ ] Build a corridor map given an input curve that connects grids when the curve overlaps (Houdini - Tianyi). 
+  - [ ] Figure out where the convex and concave corners are on the map to apply appropriate corner geometry (Houdini - Linda).
+  - [ ] Link Houdini asset output to a Unity scene using the plugin Houdini Engine for Unity (Unity - Linda).
 
 - Week 2:
-  - Figure out where to place the walls, ceiling tiles and floor tiles (start off with some default prefabs) (Houdini + Unity - Linda).
-  - Start digital assets generation using procedural modelling: doors and wall panels (Houdini - Tianyi).
-  - Populate the scene with realistic lighting and other shading effects (Unity - Tianyi). 
+  - [ ] Figure out where to place the walls, ceiling tiles and floor tiles (start off with some default prefabs) (Houdini + Unity - Linda).
+  - [ ] Start digital assets generation using procedural modelling: doors and wall panels (Houdini - Tianyi).
+  - [ ] Populate the scene with realistic lighting and other shading effects (Unity - Tianyi). 
 
-- Week 3 (milestone 2):
-  - Collect/ Create more textures (Online + Substance Designer - Tianyi).
-  - Instead of using the same wall/floor/ceiling tiles everywhere, place procedurally generated digital assets with different sizes in the scene (Houdini - Linda).
-  - Create more props and room objects, e.g. toolbox, machine, etc., for the scene (Houdini - Linda). 
+- Week 3 (milestone 2) [due 11/27]:
+  - [ ] Collect/ Create more textures (Online + Substance Designer - Tianyi).
+  - [ ] Instead of using the same wall/floor/ceiling tiles everywhere, place procedurally generated digital assets with different sizes in the scene (Houdini - Linda).
+  - [ ] Create more props and room objects, e.g. toolbox, machine, etc., for the scene (Houdini - Linda). 
 
-- Week 4 (final):
-  - Figure out where to procedurally place the props in the scene, e.g. around the corner or at the end of the corridor (Houdini - Linda). 
-  - Decorate the scene by placing props and add other post-processing effects (Unity - Tianyi).
-  - Do more testing and fix bugs (Both).
-  - Create final renders to showcase and complete README (Both).
+- Week 4 (final) [due 12/5]:
+  - [ ] Figure out where to procedurally place the props in the scene, e.g. around the corner or at the end of the corridor (Houdini - Linda). 
+  - [ ] Decorate the scene by placing props and add other post-processing effects (Unity - Tianyi).
+  - [ ] Do more testing and fix bugs (Both).
+  - [ ] Create final renders to showcase and complete README (Both).
 
