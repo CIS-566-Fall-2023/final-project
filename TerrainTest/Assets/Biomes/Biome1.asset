@@ -12,13 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84bc5866b5fb8594b823cf28a3bfc026, type: 3}
   m_Name: Biome1
   m_EditorClassIdentifier: 
+  blendNearMid: 1
+  midNearRatio: 0.8
+  blendMidFar: 0
+  farMidRatio: 0
   near:
+    width: 2
     meshes:
-    - {fileID: 0}
-    material: {fileID: 0}
+    - {fileID: 8598159772378286561, guid: db15377d8e428b4498c64ae0b8817561, type: 3}
+    - {fileID: 9219758427260941236, guid: 990b47c63baffae498f68312019acc04, type: 3}
+    - {fileID: 1495801216899893060, guid: 41189d4cd9026344392ed43caafde860, type: 3}
+    material: {fileID: 2100000, guid: 60a42decc36d87944a23efd427b01731, type: 2}
   mid:
-    meshes: []
-    material: {fileID: 0}
+    width: 1
+    meshes:
+    - {fileID: 8462614397845747776, guid: aa91ba573a0d6ab4fbf4781a833de1e9, type: 3}
+    material: {fileID: 2100000, guid: e0281e89824fa2c498bd82f3a936c5e8, type: 2}
   far:
-    meshes: []
-    material: {fileID: 0}
+    width: 2
+    meshes:
+    - {fileID: 5310724817394783291, guid: 11e638d1b503d9f4186ab491f3ec0c73, type: 3}
+    material: {fileID: 2100000, guid: 474faface03d15149914528adcee5f6c, type: 2}
