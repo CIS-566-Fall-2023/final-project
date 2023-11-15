@@ -1,7 +1,17 @@
 # Sci-Fi Corridor Generator
 Authors: Tianyi Xiao and Linda Zhu
 
-## Design Doc
+<details>
+  <summary> Milestone 1 </summary>
+The main highlight of our project is to generate a corridor scene solely based on an input curve, and the user can customize/ edit the curve nodes to update the map dynamically. So our first task was to tackle the gridification of a 3D curve and project that into a 2D map. 
+  - Figure out where the convex and concave corners are on the map to apply appropriate corner geometry (Houdini - Linda).
+  - Link Houdini asset output to a Unity scene using the plugin Houdini Engine for Unity (Unity - Linda).
+  - Figure out where to place the walls, ceiling tiles and floor tiles (start off with some default prefabs) (Houdini + Unity - Linda).
+</details>
+
+<details>
+  <summary> Design Doc </summary>
+
 ### Introduction
 - We are interested in creating a procedural generator of Sci-Fi game levels to assist artists with faster authoring of stylized scenes.
 - We want to utilize various procedural graphics knowledge we learned from this class, e.g. shape grammars, and explore integrating popular 3D tools into one content authoring workflow.
@@ -68,3 +78,4 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
   - Do more testing and fix bugs (Both).
   - Create final renders to showcase and complete README (Both).
 
+</details>
