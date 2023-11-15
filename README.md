@@ -62,11 +62,16 @@ We would like to provide a train view generator in Unity to simulate the passeng
 
 ---
 ## Milestone 1: Implementation part 1 (due 11/15)
+[<img src="https://github.com/xchennnw/final-project/blob/main/img/train_view_milestone1.png" width="60%">](https://www.youtube.com/watch?v=p49DG-7GNyk "Video!")
 
-![](img/train_view_milestone1.png)
-In this week, we've researched on the stylized shader and terrain biome. We use toon shader as a starting point and add comic post processing shader to produce a style mimicing the reference image. Currently we create three biomes: snowy island, rocky island and lake in a hex map for better extension in endless terrain generator in next milestone. We will provide an editor to create biome with three layers for user definition of the train view.
-
-We decided to use hex map for a relatively easy control of interpolation between different biomes. This will reduce our time in adjusting parameter of the noise for terrain generation. In next milestone, we're going to add some procedural generated tree and pedestrian in the scene.
+Above image is a link to video :)
+- Stylized shader
+  - In this week, we've played around the stylized shader. We used toon shader as a starting point and added paper post processing to produce a style mimicing the reference image.
+- Terrain
+  - We decided to use hex map for a relatively easy control of different biomes. Now we implemented a endless hex terrain generator that dynamically changes biome as the camera moves.
+- Biome
+  - We implemented a basic biome config system. Each biome is composed by 3 layers: near, mid, and far (from the train's view). The hex tile mesh and material can be defined for each layer. For instance, in the current video, there is a snow land biome where the snow is the near layer, the lake is the middle layer, and the black stone is the far layer.
+  
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
