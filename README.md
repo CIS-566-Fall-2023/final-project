@@ -3,7 +3,9 @@
 As the final project for my Procedural Computer Graphics course at Penn, I will be developing a SideFX Houdini Generator Tool that allows users to create variations of succulents using procedural modeling.
 
 ## Design Doc
-
+<details>
+<summary>Click Here to Open / Close Design Doc</summary>
+  
 ### Introduction
 
 <img align="right" src="https://debraleebaldwin.com/wp-content/uploads/IMG_1820-1240x827.jpg" width=330 height=auto>
@@ -82,10 +84,10 @@ For this project, I anticipate using Houdini procedural modeling techniques lear
   - Add some soil and/or rocks into the terrariums
   - Add lighting and apply materials
 
----
+</details>
 
-## Milestone 1: Implementation part 1 (due 11/15)
-TBD
+## Milestone 1
+
 
 ## Milestone 3: Implementation part 2 (due 11/27)
 TBD
