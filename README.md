@@ -71,7 +71,7 @@ Next Steps:
 
 * Overall, I think I stuck pretty well to my goal of creating a usable tool. I also tried to maintain a clean wireframe. I noticed that many computation-heavy parts of the carousel slowed things down, so I was conscious about keeping the mesh clean and organized. Below is a screenshot of my wireframe.
 
-<img src="https://github.com/yuhanliu-tech/final-project/blob/main/wireframe.png" width="400" />
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/wireframe.png" width="200" />
 
 * As my next steps, I'm excited to continue adding fine details, organizing the controller for my tool, and further cleaning up my network by organizing subnets. I really want to make a polished-looking tool, and hope to explore Houdini Digital Assets. 
 
