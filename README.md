@@ -55,7 +55,7 @@ My Process:
 * Using a chain node, we can repeat this pattern and place it along the circumference of our carousel. Below is an example of what this might look like with a basic sphere mesh.
 <img src = "https://github.com/yuhanliu-tech/final-project/assets/102630261/33f02ad7-63cd-40dd-a1af-6ce79446682f" width = "600" />
 
-## Introduction: Wooden Toy Generator
+# Project Proposal: Wooden Toy Generator
 
 * We are interested in procedural tool development for artists, as well as algorithmic mesh manipulation. 
 * In exploring wooden toys, we have to solve such problems, including slicing mesh to become wooden figures, and creating user–customizable tools that produce stylized objects. 
