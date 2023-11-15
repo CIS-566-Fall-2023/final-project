@@ -13,11 +13,12 @@
 
 ## Procedural Animated Carousel Tool - Yuhan Liu
 
-Overview: 
+Goal: I wanted to dive deeper into Houdini's techniques and resources by creating an animated carousel generator, challenging myself to balance parameters that always produce desirable results with flexibility and aesthetic input in user design.
 
+I currently have a tool that can create a variety of carousel types, with three shown below, and plans to further build on the generator and develop stylistic details.
 
+ <img src="https://github.com/yuhanliu-tech/final-project/blob/main/carousels.png" width="600" />
 
-Process: 
 
 ## Procedural Ornament Tool - Claire Lu
 
