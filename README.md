@@ -57,19 +57,16 @@ We would like to provide a train view generator in Unity to simulate the passeng
 |  |  Janet  | Yue| 
 |---|---|---|
 |Milestone 1 (11.8 - 11.15) | Research on stylized shader; Terrain biome  | Research on real-time procedural terrain generator|
-|Milestone 2 (11.15 - 11.27)| Stone and grass generation; Skybox amd cloud| Tree and any other object; Object scattering|
+|Milestone 2 (11.15 - 11.27)| Biome generation; Stone and grass generation;|  Skybox amd cloud & Tree and any other object; Object scattering|
 |Final (11.27 - 12.5)| Better biome interpolation; Polish stylized shader | Overall controlling and interaction|
 
 ---
 ## Milestone 1: Implementation part 1 (due 11/15)
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
 
-Put all your code in your forked repository.
+![](img/train_view_milestone1.png)
+In this week, we've researched on the stylized shader and terrain biome. We use toon shader as a starting point and add comic post processing shader to produce a style mimicing the reference image. Currently we create three biomes: snowy island, rocky island and lake in a hex map for better extension in endless terrain generator in next milestone. We will provide an editor to create biome with three layers for user definition of the train view.
 
-Submission: Add a new section to your README titled: Milestone #1, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far
-We'll check your repository for updates. No need to create a new pull request.
+We decided to use hex map for a relatively easy control of interpolation between different biomes. This will reduce our time in adjusting parameter of the noise for terrain generation. In next milestone, we're going to add some procedural generated tree and pedestrian in the scene.
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
