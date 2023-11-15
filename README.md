@@ -24,6 +24,22 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   **Click on the Image below to checkout the demo video, or [watch it here](https://vimeo.com/884540553):** 
   [![Cloud Simulation Demo](https://github.com/Cryszzz/final-project/blob/main/566%20Milestone%201%20Cloud.jpeg)](https://vimeo.com/884540553)
 
+  # Island Map Generation (Ruijun(Daniel) Zhong)
+  ### Objective:
+  The objective is to create a randomly generated map with unique island shapes and sizes, utilizing the wave function collapse method. The core concept is to generate a map pattern where each island's characteristics are determined by the underlying pattern.
+  ![](./images/milestone1_demo_daniel2.png)
+  ![](./images/milestone1_demo_daniel3.png)
+  ### implementation:
+  To begin, I crafted a pattern texture in Photoshop, meticulously arranging pixels to simulate a distinct pattern. This custom pattern serves as the foundation for the map generation process. The map generation leverages the wave function collapse node, which uses the created pattern as a base to spawn a diverse range of island shapes and sizes using following information & algorithm:
+  * Area Calculation: The area of the grid cell is determined.
+  * Radius Computation: Using the area, the radius for a torus that fits this area is calculated.
+  * Center Positioning: The center of the grid cell is computed by averaging the positions of the cell's points.
+  * Island Spawn: Create new primitives from the second input and position to the center. Calculate the size and characteristics based on grid area and radius.
+  ![](./images/milestone1_demo_daniel.png)
+  ![](./images/milestone1_demo_daniel1.png)
+  
+  
+
 </details>
 
 ## Design Doc
