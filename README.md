@@ -3,11 +3,11 @@
 
 #### Table of Contents
 
-[Project Proposal](https://github.com/yuhanliu-tech/final-project/#project-proposal-wooden-toy-generator)
+* [Project Proposal](https://github.com/yuhanliu-tech/final-project/#project-proposal-wooden-toy-generator)
 
-[Milestone 1: Claire Lu, Ornamental Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
+* [Milestone 1: Claire Lu, Ornamental Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
 
-[]
+* [Milestone 1: Yuhan Liu, Carousel Tool](https://github.com/yuhanliu-tech/final-project/#procedural-animated-carousel-tool---yuhan-liu)
 
 
 # Milestone 1:
