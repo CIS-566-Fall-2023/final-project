@@ -61,13 +61,17 @@ Process:
     * I integrated my teammates milestone projects into my own in order to create the assembled carousel.
     * I first imported Diana's sliced wooden horse mesh as an FBX. I decided not to use the HIP file because of input mesh dependencies, but I'll fix this next week.
          * I found that Diana's processed mesh really slowed things down, so I decided to pack them, which meant that in animating and clipping my horses, I was limited to working with the poles as I couldn't edit the mesh.
-    * I also imported Claire's HIP file for ornamental designs. I turned her project into a subnetwork to create the ring of designs on the music box. Next week, I'll add the controls for her tool to the interface for mine. I also hope to add some designs on the panels. 
+    * I also imported Claire's HIP file for ornamental designs. I turned her project into a subnetwork to create the ring of designs on the music box. Next week, I'll add the controls for her tool to the interface for mine. I also hope to add some designs on the panels.
+
+* Optimizations
+
+    * This project taught me to dive deeper into Houdini's performance tools, particularly its Performance Monitor and Dependency List view. As I worked with heavily processed meshes and attempted to animate them, the performance monitor was a huge help in figuring out bottlenecks when my frame rate was slow. I used it to figure out that the bounding box test for the horses' poles was too inefficient, leading me to switch to clip nodes. Furthermore, I used Dependency List views to keep track of the interrelated variables that I use at many parts in my network. 
 
 Next Steps: 
 
 * Overall, I think I stuck pretty well to my goal of creating a usable tool. I also tried to maintain a clean wireframe. I noticed that many computation-heavy parts of the carousel slowed things down, so I was conscious about keeping the mesh clean and organized. Below is a screenshot of my wireframe.
 
-<img src="https://github.com/yuhanliu-tech/final-project/blob/main/network.png" width="400" />
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/wireframe.png" width="400" />
 
 * As my next steps, I'm excited to continue adding fine details, organizing the controller for my tool, and further cleaning up my network by organizing subnets. I really want to make a polished-looking tool, and hope to explore Houdini Digital Assets. 
 
