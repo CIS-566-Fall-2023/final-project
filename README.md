@@ -1,7 +1,19 @@
 # Laugh Out Loud's Handmade Toy Co.
 ### Est 2023, by Liu, Ouyang, Lu
 
+#### Table of Contents
+
+[Project Proposal](https://github.com/yuhanliu-tech/final-project/#project-proposal-wooden-toy-generator)
+
+[Milestone 1: Claire Lu, Ornamental Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
+
+[]
+
+
 # Milestone 1:
+
+## Procedural Animated Carousel Tool - Yuhan Liu
+
 ## Procedural Ornament Tool - Claire Lu
 
 Overview:
