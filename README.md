@@ -7,7 +7,7 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
 <details>
   <summary> Specifications </summary>
   
-  ## Island Object Generation (Xiaoxiao(Crystal) Zou)
+  ## Island Object Generation (Crystal Zou)
   ### Objective:
   The primary goal of Milestone 1 was to craft a realistic and visually captivating island environment in Houdini. This involved a series of intricate procedures aimed at simulating natural terrain and elements.
   ![Milestone1 Island](https://github.com/Cryszzz/final-project/blob/main/images/Milestone1%20Island.png)
