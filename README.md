@@ -60,8 +60,8 @@ For my parts of the milestone, I did some simple primitive modeling in blender a
 I decided then to switch to working in blender using the geometry node. Here are my results of a modifier tool I created that allowed us to scatter meshes on an existing mesh's surface. The tools had 7 exposed parameters allowing me to fine-tune and art direct the result. Here is what I ended up with for the blockout:
 
 <img width="610" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/2234d012-f3b8-41c8-81b8-c9282331d157">
-<img width="1179" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/ac89311f-1ca9-4e46-adb2-d53a509811ba">
 <img width="281" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/2e9d46fe-1166-4ad2-8249-4469157d7854">
+<img width="1179" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/ac89311f-1ca9-4e46-adb2-d53a509811ba">
 
 Here is something simple visdev in Blender using Cycles.
 ![image](https://github.com/xcupsilon/project-blame/assets/50472308/9a497495-f8ea-4a68-b28c-9a597c238777)
