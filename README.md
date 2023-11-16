@@ -52,7 +52,15 @@ Because we are using Houdini and we think it’s best if we work on the project 
   
 
 ## Milestone 1: Implementation part 1 (due 11/15)
-TBA
+https://github.com/kishayan02/final-project/assets/97490525/ea37a7f1-424c-4565-9f7c-5b190d590593
+
+For our first milestone, our goal was to be able to procedurally place assets into a room. This initial implementation uses four beveled rectangles as placeholders for the assets, but we have implemented it so that we should be able to easily scale it up to have even more pieces of furniture. We achieved this implementation by utilizing similar logic to the lego assignment with the basic logic based on iterating through the points of the floor grid and attempting to place an asset, placing it if it could fit in the room and then moving on to the next asset or moving onto the next point if it could not fit.
+
+For procedurally generating several different rooms, we randomized the order in which we iterated through the grid points. This allowed us to adjust the seed of the randomization to achieve different rooms.
+
+### Goals for the Next Milestone
+As stated in our original timeline, we hope to focus on procedurally generated assets for the next milestone. However, some additional goals have emerged due to our current implementation of our tool. Firstly, we need to adjust the centers and boundaries of the assets to ensure that they are entirely within the boundaries of the room. Next, we would like to think more about restrictions regarding the assets like their proximity to one another, their orientation, and whether certain assets should appear or not. Finally, we also might want to consider the edge case of what the behavior of the tool should be if it is unable to place all the desired assets.
+
 
 ## Milestone 3: Implementation part 2 (due 11/27)
 TBA
