@@ -1,5 +1,24 @@
 # Character Creator
 
+# Table of Contents
+
+- [Character Creator](#character-creator)
+- [Table of Contents](#table-of-contents)
+- [Design Doc](#design-doc)
+  - [Introduction](#introduction)
+  - [Goal](#goal)
+  - [Inspiration](#inspiration)
+  - [Specifications](#specifications)
+  - [Techniques](#techniques)
+  - [Design](#design)
+  - [Timeline](#timeline)
+- [Milestone #1: Setup SDFs and Raymarching (11/15/23)](#milestone-1-setup-sdfs-and-raymarching-111523)
+- [Implementation Details](#implementation-details)
+  - [1. Raymarch shader](#1-raymarch-shader)
+  - [2. Lighting and Shading](#2-lighting-and-shading)
+  - [3. Animations ???](#3-animations-)
+- [References](#references)
+
 # Design Doc
 
 ## Introduction
@@ -93,7 +112,7 @@ This is required for use in a traditional rasterized pipeline, which is what mos
   - Improve visual fidelity
   - Final tweaking and adjustments of visual parameters
 
-# Milestone #1: Setup SDFs and Raymarching
+# Milestone #1: Setup SDFs and Raymarching (11/15/23)
 
 ![](/img/anim1.gif)
 
@@ -118,15 +137,15 @@ I hit pretty much most of my goals for Milestone 1, which is awesome! In summary
 |:-:|:-:|
 |<img src="img/sdfCollection.png" width=300>|<img src="img/sdfObject.png" width=500>|
 
-## Implementation Details
+# Implementation Details
 
-### 1. Raymarch shader
+## 1. Raymarch shader
 
 This is a rather simple shader that performs raymarching on a collection of `SDFObject`s. The material created from this shader is attached to the `SDFCollection` object that holds all the `SDFObject`s. The `SDFCollection` object has a `MeshRenderer` component which renders a Unity cube. The Raymarch shader is a fragment shader that renders this cube and shows SDFs inside of it.
 
 The actual raymarching is a very standard [sphere tracing algorithm](https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/) that runs for `n` iterations and a maximum distance `max_dist` over all the objects in the `SDFCollection`. Each `SDFObject`s individual SDF is calculated and blended with the `SDFCollection` SDF based on the blend operation specified by it.
 
-Data from the `SDFCollection` is transferred into the shader at each frame in an `Update` call using a `MaterialPropertyBlock`. It looks something like this:
+Data from the `SDFCollection` is transferred into the shader at each frame in an `Update` call using a `MaterialPropertyBlock`. I learned this trick from [this article](https://bronsonzgeb.com/index.php/2021/03/06/particle-metaballs-in-unity-using-urp-and-shader-graph-part-2/) on rendering particles as metaballs. It looks something like this:
 
 ```C#
 [RequireComponent(typeof(MeshRenderer))]
@@ -171,7 +190,7 @@ float4 SDFPositions[MAX_SDF_OBJECTS];
 
 These SDFPositions are then used in the shader to calculate each `SDFObject`'s SDF and blend it with the overall `SDFCollection`.
 
-### 2. Lighting and Shading
+## 2. Lighting and Shading
 
 I was able to get the basic setup done fairly quickly, so I got a head start on milestone 2's shading feature. There is a very basic Lambertian shading model that affects the SDFs. Admittedly, as simple as this code is, I spent 3 days debugging one very tiny and pesky bug in my shader code that was incorrectly calculating the normals:
 
@@ -193,7 +212,7 @@ float3 GetNormal(vec3 pos)
 
 The return type was incorrect and was simply chopping of the `normal.yz` components of the normal vector! I wish Unity had errors (or at least warnings!) notifying you that you're trying to return a `float3` in a function that returns a single `float`.
 
-### 3. Animations ???
+## 3. Animations ???
 
 This is not a feature I implemented, rather something that worked simply because of the way SDFs work and how awesome Unity is. Just as a fun experiment, I made a Unity animation and keyframed each `SDFObject` of the character I made to different positions. This works because the SDFs can move and update the shader in real-time! What's even more satisfying is the fact that any inspector-exposed variable in the SDFObject can be keyframed. This is how I made the character's mouth open and close: its size value is animated.
 
@@ -202,5 +221,6 @@ This is not a feature I implemented, rather something that worked simply because
 - Adam Mally's course slides from CIS 560 and CIS 561 at University of Pennsylvania
 - [IQ's awesome articles on SDFs](https://iquilezles.org/articles/)
 - [Ray marching article](https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/)
+- [Particle metaballs in Unity](https://bronsonzgeb.com/index.php/2021/03/06/particle-metaballs-in-unity-using-urp-and-shader-graph-part-2/)
 - [Spore](https://store.steampowered.com/app/17390/SPORE/)
 - [Fling to the Finish](https://store.steampowered.com/app/1054430/Fling_to_the_Finish/)
