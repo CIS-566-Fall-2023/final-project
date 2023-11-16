@@ -92,3 +92,115 @@ This is required for use in a traditional rasterized pipeline, which is what mos
   - Improve UI of the tool
   - Improve visual fidelity
   - Final tweaking and adjustments of visual parameters
+
+# Milestone #1: Setup SDFs and Raymarching
+
+![](/img/anim1.gif)
+
+I hit pretty much most of my goals for Milestone 1, which is awesome! In summary, I have created the following systems:
+
+- `SDFObject` MonoBehaviour
+  - Data holder for describing an SDF object's properties
+    - `Type` - the shape of the object (Sphere and Cube implemented)
+    - `Size` - scale of the object
+    - `Blend Operation` - Add (Union), Subtract, or Intersect
+    - `Blend Factor` - Strength of the blending (currently only works with Add mode, but will make it work with the other two blend operations in future milestones)
+- `SDFCollection` MonoBehaviour
+  - Contains multiple `SDFObject` children
+  - Renders all its children in the heirarchy that lie inside an axis-aligned bounding box
+  - Children blend with their siblings based on their order in the heirarchy. This ordering can be restructured anytime to update how the children are blended together.
+  - Transfers data from its children into the Raymarching shader
+- `Raymarch` Shader
+  - Simple unlit shader that performs raymarched rendering of the scene
+  - Potential to improve performance by shifting scene SDF calculation to a compute shader (stretch goal)
+
+|SDFCollection|SDFObject|
+|:-:|:-:|
+|<img src="img/sdfCollection.png" width=300>|<img src="img/sdfObject.png" width=500>|
+
+## Implementation Details
+
+### 1. Raymarch shader
+
+This is a rather simple shader that performs raymarching on a collection of `SDFObject`s. The material created from this shader is attached to the `SDFCollection` object that holds all the `SDFObject`s. The `SDFCollection` object has a `MeshRenderer` component which renders a Unity cube. The Raymarch shader is a fragment shader that renders this cube and shows SDFs inside of it.
+
+The actual raymarching is a very standard [sphere tracing algorithm](https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/) that runs for `n` iterations and a maximum distance `max_dist` over all the objects in the `SDFCollection`. Each `SDFObject`s individual SDF is calculated and blended with the `SDFCollection` SDF based on the blend operation specified by it.
+
+Data from the `SDFCollection` is transferred into the shader at each frame in an `Update` call using a `MaterialPropertyBlock`. It looks something like this:
+
+```C#
+[RequireComponent(typeof(MeshRenderer))]
+public class SDFCollection: MonoBehaviour
+{
+  private Renderer renderer;
+  private MaterialPropertyBlock materialPropertyBlock;
+
+  private static readonly int SDFPositionsShaderPropertyID= Shader.PropertyToID("SDFPositions");     // handle pointing to the SDFPositions array in the shader
+  private Vector4[] sdfPositions;   // array that will contain all SDFObject children positions
+
+  ... // more properties
+  
+  private void Initialize()
+  {
+    renderer = GetComponent<Renderer>();
+    materialPropertyBlock = new MaterialPropertyBlock();
+  }
+
+  ... // code
+
+  private void Update()
+  {
+    sdfPositions = // update sdfPositions if they have moved
+
+    materialPropertyBlock.SetVectorArray(SDFPositionsShaderPropertyID sdfPositions);
+
+    ... // Add more properties to the material property block
+
+    // send this data to the shader
+    renderer.SetPropertyBlock(materialPropertyBlock);
+  }
+}
+```
+
+In the HLSL shader, this can simply be read by declaring an array:
+
+```
+#define MAX_SDF_OBJECTS 256
+float4 SDFPositions[MAX_SDF_OBJECTS];
+```
+
+These SDFPositions are then used in the shader to calculate each `SDFObject`'s SDF and blend it with the overall `SDFCollection`.
+
+### 2. Lighting and Shading
+
+I was able to get the basic setup done fairly quickly, so I got a head start on milestone 2's shading feature. There is a very basic Lambertian shading model that affects the SDFs. Admittedly, as simple as this code is, I spent 3 days debugging one very tiny and pesky bug in my shader code that was incorrectly calculating the normals:
+
+```HLSL
+float GetNormal(vec3 pos)
+{
+  return normalize(float3(gradient of SDF at pos)) // normal code
+}
+```
+
+There was nothing wrong in the actual normal calculation, and it drove me crazy! I referenced 6 different articles on normal calculation for SDFs, including a project that handles SDF rendering in Unity, and they all did the exact same thing I did. Eventually I asked my friend Saksham to help debug the issue, and - to my extreme embarassment and frustration - found that my function declaration was incorrect and should have been:
+
+```
+float3 GetNormal(vec3 pos)
+{
+  return normalize(float3(gradient of SDF at pos)) // normal code
+}
+```
+
+The return type was incorrect and was simply chopping of the `normal.yz` components of the normal vector! I wish Unity had errors (or at least warnings!) notifying you that you're trying to return a `float3` in a function that returns a single `float`.
+
+### 3. Animations ???
+
+This is not a feature I implemented, rather something that worked simply because of the way SDFs work and how awesome Unity is. Just as a fun experiment, I made a Unity animation and keyframed each `SDFObject` of the character I made to different positions. This works because the SDFs can move and update the shader in real-time! What's even more satisfying is the fact that any inspector-exposed variable in the SDFObject can be keyframed. This is how I made the character's mouth open and close: its size value is animated.
+
+# References
+
+- Adam Mally's course slides from CIS 560 and CIS 561 at University of Pennsylvania
+- [IQ's awesome articles on SDFs](https://iquilezles.org/articles/)
+- [Ray marching article](https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/)
+- [Spore](https://store.steampowered.com/app/17390/SPORE/)
+- [Fling to the Finish](https://store.steampowered.com/app/1054430/Fling_to_the_Finish/)
