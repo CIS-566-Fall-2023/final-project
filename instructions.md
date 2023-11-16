@@ -116,9 +116,14 @@ The user will have control over:
 
 ### Milestone 1: Implementation part 1 (due 11/15)
 
-![](img/milestone1-pattern-0.jpeg)
-![](img/milestone1-lsystem-0.png)
-![](img/milestone1-lsystem-1.png)
+Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
+
+Put all your code in your forked repository.
+
+Submission: Add a new section to your README titled: Milestone #1, which should include
+- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
+- Examples of your generators output so far
+We'll check your repository for updates. No need to create a new pull request.
 
 
 ## Milestone 3: Implementation part 2 (due 11/27)
