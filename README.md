@@ -51,12 +51,17 @@ The following diagram demonstrates the basic workflow of the algorithm.
 
 #### Demo
 <p align = "middle">
-   <img src = "images/milestone1_demo_1.gif">
+   <img src = "images/milestone1_demo_1.gif" width="600">
 </p>
 
 <p align = "middle">
-   <img src = "images/wood_tex_result_1.png">
+   <img src = "images/wood_tex_result_1.png" width="600">
 </p>
+
+<p align = "middle">
+<img src = "https://github.com/LichengCAO/final-project/assets/81556019/7665529a-488b-4d36-a5ed-6d244afce875" width="600">
+</p>
+
 
 #### Progress
 After reading the paper, we rearranged our milestone to firstly make the wood texture visible, which can benifit the debugging in our further develop.
@@ -64,4 +69,5 @@ After reading the paper, we rearranged our milestone to firstly make the wood te
 Therefore, in the milestone #1:
    1. Explored shader lib in Unity
    2. Implement basic SDF function and wood texture
-   3. Allow geometry to have dynamic 
+   3. Allow texture to vary with respect to position in virtual trunk
+   4. Render virtual trunk in wireframe
