@@ -7,10 +7,10 @@ namespace Planetile
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
     [DisallowMultipleComponent]
-    public class Item : MonoBehaviour, IRule
+    public class Item : MonoBehaviour, IWFCItem
     {
         [SerializeField]
-        CellType type;
+        WFCType type;
 
         /// <summary>
         /// Available meshes. Randomly select one when being placed.
@@ -18,9 +18,9 @@ namespace Planetile
         [SerializeField]
         List<Mesh> meshes;
 
-        public CellType Type { get { return type; } }
+        public WFCType Type { get { return type; } }
 
-        public float Entropy(Cell[] cells)
+        public float Entropy(IWFCCell[] cells)
         {
             throw new System.NotImplementedException();
         }

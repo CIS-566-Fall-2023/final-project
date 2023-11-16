@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Planetile
 {
-    public interface IRule
+    public interface IWFCItem
     {
-        float Entropy(Cell[] cells);
+        float Entropy(IWFCCell[] cells);
     }
 }
