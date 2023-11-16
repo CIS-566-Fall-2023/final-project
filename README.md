@@ -1,3 +1,5 @@
+# CIS 5660 Final Project
+
 #### Introduction
 We were inspired to create this character by the various beautiful visuals of our favorite video game characters. 
 
@@ -55,3 +57,13 @@ Unreal Engine:
   - Lighting
   - Background
   - Post process shaders
+
+# Milestone 1 Updates
+
+#### Accomplishments
+- Modelled the head, body, and hair for our character.
+- Finished modelling embellishments for character.
+- Started on procedural generator for the branches. Plan to watch tutorials to create a branch generator, get only the endpoints of the branches, and adding leaves on there.
+  - That will probably be the more difficult part for me to figure out, since I already have been having trouble trying to figure out how to parametrise my tool.
+  - I am also simultaneously trying to figure out how to map a spline onto a mesh, since that will be where the procedural branch generator starts to grow.
+
