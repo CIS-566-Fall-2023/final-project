@@ -46,6 +46,8 @@ Milestone 3: Improve the game level, create procedural planets based on differen
 # Milestone 1
 ## Jiefu Ling
 
+## Xiaoyue Ma
+![](Milestone1xym.gif)
 
 # Milestone 2
 
