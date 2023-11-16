@@ -59,3 +59,9 @@ The following diagram demonstrates the basic workflow of the algorithm.
 </p>
 
 #### Progress
+After reading the paper, we rearranged our milestone to firstly make the wood texture visible, which can benifit the debugging in our further develop.
+
+Therefore, in the milestone #1:
+   1. Explored shader lib in Unity
+   2. Implement basic SDF function and wood texture
+   3. Allow geometry to have dynamic 
