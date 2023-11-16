@@ -10,7 +10,8 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   ## Island Object Generation (Crystal Zou)
   ### Objective:
   The primary goal of Milestone 1 was to craft a realistic and visually captivating island environment in Houdini. This involved a series of intricate procedures aimed at simulating natural terrain and elements.
-  ![Milestone1 Island](https://github.com/Cryszzz/final-project/blob/main/images/Milestone1%20Island.png)
+  Below is the rendered image of the island with vines: 
+  ![Milestone1 Island with vines](https://github.com/Cryszzz/final-project/blob/main/images/Island%20Houdini.png)
   
   ### Implementation:
   The journey began with the creation of the main island. Here, I employed node point jitter to shape the terrain, followed by a refinement of node displays for enhanced visualization. To bring the main island to fruition, I employed a color gradient, utilizing it to drive mesh displacement, thereby laying down a foundation for the subsequent stages.
@@ -20,9 +21,6 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   Next, I focused on crafting a small stone wall that would gracefully trace along a curve.The key step in this process was the alignment of the normals with the curve, ensuring a natural flow and contouring of the wall. I achieved the desired randomization through the strategic use of a Group Expression node, complemented by a series of adjustments in the viewport, curve type modifications, segment length fine-tuning, jitter settings optimization, and precise definition of curve tangents. The culmination of these efforts was a stone wall that was not only randomized in its placement but also perfectly attuned to the island's topography.
 
   The final task in this milestone was the creation of vines. Initially, I experimented with a scatter node and a foreach loop, seeking a method that offered precise control and intricate detailing. However, encountering challenges with this approach, I transitioned to a hair simulation method, which proved to be a more effective and efficient solution. This successful implementation, however, is not the end of the journey. I am committed to revisiting and refining the initial foreach loop method, aiming to further perfect this technique in future project iterations for more realistic effect.
-
-  Below is the rendered image of the island with vines: 
-  ![Milestone1 Island with vines](https://github.com/Cryszzz/final-project/blob/main/images/Island%20Houdini.png)
 
   ## Cloud Simulation (Keyu Lu)
   ### Objective:
