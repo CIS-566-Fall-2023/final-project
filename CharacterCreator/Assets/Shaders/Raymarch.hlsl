@@ -1,7 +1,11 @@
-#define MAX_SDF_OBJECTS 256
+#ifndef RAYMARCHSHADERINCLUDE
+#define RAYMARCHSHADERINCLUDE
+
+#define MAX_SDF_OBJECTS 512
 #define MAX_ITERS 64
 #define MAX_DIST 1000
-#define EPSILON float3(0.0f, 0.001f, 0.0f)
+#define MIN_DIST 0.001
+#define EPSILON float3(0.0f, MIN_DIST, 0.0f)
 
 float SDFType[MAX_SDF_OBJECTS];
 float4 SDFPositions[MAX_SDF_OBJECTS];
@@ -86,29 +90,29 @@ float sceneSdf(float3 pos)
 	return sdf;
 }
 
-float calculateNormal(float3 pos)
+float3 CalculateNormal(float3 pos)
 {
 	return normalize(float3(sceneSdf(pos + EPSILON.yxx) - sceneSdf(pos - EPSILON.yxx),
 							sceneSdf(pos + EPSILON.xyx) - sceneSdf(pos - EPSILON.xyx),
 							sceneSdf(pos + EPSILON.xxy) - sceneSdf(pos - EPSILON.xxy)));
 }
 
-void Raymarch_float(float3 rayOrigin, float3 rayDirection, out float4 color, out float3 normal)
+void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float4 outColor, out float3 objectSpaceNormal)
 {
-	float dist = 0.00001f;
-	float4 outColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float dist = MIN_DIST;
+	outColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	for (int i = 0; i < MAX_ITERS; i++)
 	{
-		float3 p = rayOrigin + rayDirection * dist;
+		float3 p = rayOriginObjectSpace + rayDirectionObjectSpace * dist;
 
 		float m = sceneSdf(p);
 
-		if (m <= 0.00001f)
+		if (m <= MIN_DIST)
 		{
 			// hit the sphere
 			outColor = float4(1, 1, 1, 1);
-			normal = calculateNormal(p);
+			objectSpaceNormal = CalculateNormal(p);
 			break;
 		}
 
@@ -118,6 +122,19 @@ void Raymarch_float(float3 rayOrigin, float3 rayDirection, out float4 color, out
 			break;
 		}
 	}
-
-	color = outColor;
 }
+
+void GetLighting_float(float3 worldSpaceNormal, out float3 outColor)
+{
+#if defined(SHADERGRAPH_PREVIEW)
+	outColor = float3(1, 1, 1);
+#else
+	Light mainLight = GetMainLight();
+
+	half NdotL = saturate(dot(worldSpaceNormal, mainLight.direction));
+	NdotL += 0.2;	// ambient term
+	outColor = mainLight.color * NdotL;
+#endif
+}
+
+#endif
