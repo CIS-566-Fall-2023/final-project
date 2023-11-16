@@ -1,3 +1,65 @@
+# Design Document
+## Introduction
+In this tile-laying game, players must strategically place procedurally generated tiles onto a hexagonal grid, ensuring that each tile connects appropriately to its neighbors; for instance, a forest tile must connect to another forest tile. 
+We were initially inspired by the game Dorfromantik, which all of our team members deeply enjoy, particularly the satisfying experience of placing tiles to construct a town. Motivated by this, we've decided to develop a planetary version. Looking ahead, we plan to enrich the game by introducing a variety of new tiles, including animals, boats, and rivers. 
+
+## Goal
+We want to let the player create a procedural planet by putting tiles. At first, the planet is covered by ocean. Players will be provided with tiles that are associated with specific environments (such as forests, deserts, mountains, cities, etc.) Therefore, the player has the freedom to craft their own unique planet.
+When the player places a tile, we fill it with Wave Function Collapse to ensure the most realistic appearance is achieved.  
+![](https://github.com/Jeff-Ling/final-project/assets/74678923/79b4b1cb-ffef-423d-af91-c3db1b25816a)  
+
+## Inspiration/reference
+Our inspiration is drawn from a game known as Dorfromantik, which is a tile-laying game offering an escape from reality. We are quite fond of its mechanics and aim to create a planetary version of it.  
+[Dorfromantik:](https://store.steampowered.com/app/1455840/Dorfromantik/?l=schinese&curator_clanid=27093039)    
+![](https://github.com/Jeff-Ling/final-project/assets/74678923/72163181-0c1d-4408-9a7b-04e812c2d51c)  
+
+[Pan’orama:](https://store.steampowered.com/app/1730250/Panorama/)    
+![](https://github.com/Jeff-Ling/final-project/assets/74678923/de655da1-438d-4199-9caf-9c454a6d9480)
+
+## Specification
+Procedural part: 
+1. Edge matching with wave function.
+2. Procedural properties and elements for planets.
+
+## Techniques:
+1. Use Wave Function Collapse to fill the grid with the attention of adjacent grids. Reference: Stalberg, O. "[Wave Function Collapse in Bad North.](https://www.youtube.com/watch?v=0bcZb-SsnrA)" (2016).
+2. The initial planet covered by the ocean is a perfect sphere rendered with an implicit surface.
+3. Use noise function to generate clouds.
+
+## Design
+![](https://github.com/Jeff-Ling/final-project/assets/74678923/13e13846-b4a5-4bf8-853b-3264e27514dd)  
+
+## Timeline
+Milestone 1: Construct basic game level features and assets, develop the mapping of regular polygons on the surface of the planet.
+
+Milestone 2: Enrich the integrity of the game level, implement Wave Function Collapse and disinform for regular polygons matching.
+
+Milestone 3: Improve the game level, create procedural planets based on different properties like proportion of ocean, proportion of land, etc.
+
+|             | MileStone 1                                                                     | MileStone 2                                                                      | MileStone 3 |
+|  ----       | ----                                                                            | ----                                                                             | ----  |
+| Alex Fu     | Finish the framework of Wave Function Collapse                                  | Adding attention to the adjacent tiles to the wave function. Make tiles seamless | Polish the procedural generation| 
+| Jiefu Ling  | Design the Shader for the Planet and Get Modeling Prefabs of House, Trees, Ice. | Design atmosphere shader (cloud)                                                 | Create diverse planet surface shader    |
+| Xiaoyue Ma  | Implement the mapping of regular polygons on the planet                         | Create procedural terrain on the planet                                          | Create procedural diverse planets   |
+
+
+# Milestone 1
+## Jiefu Ling
+ - Water Shader
+![](https://github.com/Jeff-Ling/final-project/assets/74678923/ba9f2277-427d-4077-b3a5-488159f8e5e9)
+
+- Sand Shader
+![7 (1)](https://github.com/Jeff-Ling/final-project/assets/74678923/64f428dd-73f3-4596-a351-01264b6ae4a9)
+
+
+## Xiaoyue Ma
+![](Milestone1xym.gif)
+
+# Milestone 2
+
+# Milestone 3
+
+
 # Final Project!
 
 This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
