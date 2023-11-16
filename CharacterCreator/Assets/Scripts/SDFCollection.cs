@@ -1,6 +1,7 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
+[ExecuteAlways]
+[RequireComponent(typeof(MeshRenderer))]
 public class SDFCollection : MonoBehaviour
 {
     #region Shader Properties
@@ -13,7 +14,7 @@ public class SDFCollection : MonoBehaviour
     private static readonly int SDFCountShaderPropertyID = Shader.PropertyToID("SDFCount");
     #endregion
 
-    private SDFObject[] sdfObjects = new SDFObject[MAX_SDF_OBJECTS];
+    private SDFObject[] sdfObjects;
     int numSDFObjects;
     [SerializeField] private SDFObject sdfObjectPrefab;
 
@@ -26,14 +27,53 @@ public class SDFCollection : MonoBehaviour
     private float[] sdfBlendOperations = new float[MAX_SDF_OBJECTS];
     private float[] sdfBlends = new float[MAX_SDF_OBJECTS];
 
+    private bool hasInitialized = false;
+
     private void OnEnable()
     {
+        Initialize();
+    }
+
+    private void OnTransformChildrenChanged()
+    {
+        ValidateTransformChildrenChange();
+    }
+
+    private void OnValidate()
+    {
+        hasInitialized = false;
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        if (hasInitialized)
+        {
+            return;
+        }
+
+        sdfObjects = new SDFObject[MAX_SDF_OBJECTS];
+        sdfPositions = new Vector4[MAX_SDF_OBJECTS];
+        sdfTypes = new float[MAX_SDF_OBJECTS];
+        sdfSizes = new float[MAX_SDF_OBJECTS];
+        sdfBlendOperations = new float[MAX_SDF_OBJECTS];
+        sdfBlends = new float[MAX_SDF_OBJECTS];
         renderer = GetComponent<Renderer>();
+
         materialPropertyBlock = new MaterialPropertyBlock();
+
+        ValidateTransformChildrenChange();
+
+        hasInitialized = true;
     }
 
     private void Update()
     {
+        if (!hasInitialized)
+        {
+            return;
+        }
+
         for (int i = 0; i < numSDFObjects; i++)
         {
             SDFObject sdf = sdfObjects[i];
@@ -55,6 +95,11 @@ public class SDFCollection : MonoBehaviour
 
     private void OnDisable()
     {
+        if (!hasInitialized)
+        {
+            return;
+        }
+
         materialPropertyBlock.Clear();
         materialPropertyBlock = null;
         renderer.SetPropertyBlock(null);
@@ -74,5 +119,21 @@ public class SDFCollection : MonoBehaviour
         sdfObjects[numSDFObjects] = sdfObject;
         numSDFObjects++;
     }
+
+    private void ValidateTransformChildrenChange()
+    {
+        SDFObject[] objects = GetComponentsInChildren<SDFObject>();
+        numSDFObjects = Mathf.Clamp(objects.Length, 0, MAX_SDF_OBJECTS);
+        for (int i = 0; i < numSDFObjects; i++)
+        {
+            sdfObjects[i] = objects[i];
+        }
+    }
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(transform.position, transform.localScale);
+    }
 }
