@@ -58,6 +58,7 @@ Dineth: Adding Additional Materials that would look good for the scene
 For my parts of the milestone, I did some simple primitive modeling in blender and experimented with Unreal's PCG system to scatter buildings on the pillars. Unfortunately, I realized that I am unable to export the generated mesh out as fbx to integrate into our houdini pipeline.
 
 I decided then to switch to working in blender using the geometry node. Here are my results of a modifier tool I created that allowed us to scatter meshes on an existing mesh's surface. The tools had 7 exposed parameters allowing me to fine-tune and art direct the result. Here is what I ended up with for the blockout:
+
 <img width="610" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/2234d012-f3b8-41c8-81b8-c9282331d157">
 <img width="1179" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/ac89311f-1ca9-4e46-adb2-d53a509811ba">
 <img width="281" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/2e9d46fe-1166-4ad2-8249-4469157d7854">
@@ -68,6 +69,7 @@ Here is something simple visdev in Blender using Cycles.
 I then migrated the assets over to Unreal and started doing more art directing & visdev there:
 ![HighresScreenshot_2023 11 15-23 22 15](https://github.com/xcupsilon/project-blame/assets/50472308/4212487c-d1a3-44e7-a75e-6390f8b0379d)
 Here are the references I used for this lighting scenario:
+
 <img width="561" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/68e50c02-8a1d-4a74-98d3-77bea578b89a">
 
 - Dineth
