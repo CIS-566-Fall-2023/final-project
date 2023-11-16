@@ -2,8 +2,6 @@
 
 # Table of Contents
 
-- [Character Creator](#character-creator)
-- [Table of Contents](#table-of-contents)
 - [Design Doc](#design-doc)
   - [Introduction](#introduction)
   - [Goal](#goal)
@@ -136,6 +134,13 @@ I hit pretty much most of my goals for Milestone 1, which is awesome! In summary
 |SDFCollection|SDFObject|
 |:-:|:-:|
 |<img src="img/sdfCollection.png" width=300>|<img src="img/sdfObject.png" width=500>|
+
+|Character creation process|
+|:-:|
+
+
+https://github.com/utkarshdwivedi3997/character-creator/assets/22533563/a13740c8-93d7-497b-a462-8231ef2bc678
+
 
 # Implementation Details
 
