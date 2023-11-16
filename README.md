@@ -63,6 +63,26 @@ Unreal Engine:
 #### Accomplishments
 - Modelled the head, body, and hair for our character.
 - Finished modelling embellishments for character.
+  - Hairpins, Shoes, Dress designs, etc.
+
+ ##### Maya Modelling
+ 
+| ![](Pictures/bodyHeadHairModelRAW.png) |
+|:--:|
+|Body, hair, and head model.|
+
+| ![](Pictures/shoesRAW.png) |
+|:--:|
+|Shoes model.|
+
+| ![](Pictures/ginkgoHairPin2RAW.png) | ![](Pictures/ginkgoHairPinRAW.png) | ![](Pictures/extraGinkgoAssetsRAW.png) |
+|:--:|:--:|:--:|
+|Pin Model 1|Pin Model 2|Pin Model 3|
+
+| ![](Pictures/ginkgoClipsRAW.png) | ![](Pictures/ginkgoOrnamentRAW.png) |
+|:--:|:--:|
+|Ginkgo Clips|Ginkgo Ornament|
+
 - Started on procedural generator for the branches. Plan to watch tutorials to create a branch generator, get only the endpoints of the branches, and adding leaves on there.
   - That will probably be the more difficult part for me to figure out, since I already have been having trouble trying to figure out how to parametrise my tool.
   - I am also simultaneously trying to figure out how to map a spline onto a mesh, since that will be where the procedural branch generator starts to grow.
