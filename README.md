@@ -51,6 +51,9 @@ Milestone 3: Improve the game level, create procedural planets based on differen
 - Sand Shader
 ![7 (1)](https://github.com/Jeff-Ling/final-project/assets/74678923/64f428dd-73f3-4596-a351-01264b6ae4a9)
 
+## Alex Fu
+
+I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and designed the interfaces `Tile`, `Cell`, `Item`, and `Rule`. In Milestone 2 I will try to write a parser for `Rule`.
 
 ## Xiaoyue Ma
 ![](Milestone1xym.gif)
