@@ -74,12 +74,11 @@ namespace Planetile
             foreach (var cell in cells)
             {
                 int count = 0;
-                var neighbors = cell.GetAdjacentCells();
                 foreach (var item in itemPool)
                 {
                     // if it's null type, we can use any kind of item.
                     if (cell.Type != WFCType.Null && cell.Type != item.Type) continue;
-                    float entropy = item.Entropy(neighbors);
+                    float entropy = item.Entropy(cell);
                     if (entropy > 0)
                     {
                         waves.Add(entropy, new System.Tuple<IWFCCell, Item>(cell, item));

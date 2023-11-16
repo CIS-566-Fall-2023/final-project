@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace Planetile
         /// Place one item and change this cell's type to item's.
         /// </summary>
         /// <param name="item"></param>
-        void PlaceItem(Item item);
+        void PlaceItem(IWFCItem item);
         int EdgeNum { get; }
 
         IWFCCell[] GetAdjacentCells();
