@@ -53,15 +53,30 @@ Wires
 Thomas: Adding additional procedural models that would suit the scene
 Dineth: Adding Additional Materials that would look good for the scene
 
-## Milestone 1: Implementation part 1 (due 11/15)
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
+## Milestone 1
+- Rain:
+For my parts of the milestone, I did some simple primitive modeling in blender and experimented with Unreal's PCG system to scatter buildings on the pillars. Unfortunately, I realized that I am unable to export the generated mesh out as fbx to integrate into our houdini pipeline.
 
-Put all your code in your forked repository.
+I decided then to switch to working in blender using the geometry node. Here are my results of a modifier tool I created that allowed us to scatter meshes on an existing mesh's surface. The tools had 7 exposed parameters allowing me to fine-tune and art direct the result. Here is what I ended up with for the blockout:
+<img width="610" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/2234d012-f3b8-41c8-81b8-c9282331d157">
+<img width="1179" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/ac89311f-1ca9-4e46-adb2-d53a509811ba">
+<img width="281" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/2e9d46fe-1166-4ad2-8249-4469157d7854">
 
+Here is something simple visdev in Blender using Cycles.
+![image](https://github.com/xcupsilon/project-blame/assets/50472308/9a497495-f8ea-4a68-b28c-9a597c238777)
+
+I then migrated the assets over to Unreal and started doing more art directing & visdev there:
+![HighresScreenshot_2023 11 15-23 22 15](https://github.com/xcupsilon/project-blame/assets/50472308/4212487c-d1a3-44e7-a75e-6390f8b0379d)
+Here are the references I used for this lighting scenario:
+<img width="561" alt="image" src="https://github.com/xcupsilon/project-blame/assets/50472308/68e50c02-8a1d-4a74-98d3-77bea578b89a">
+
+- Dineth
+
+- Thomas
 Submission: Add a new section to your README titled: Milestone #1, which should include
 - written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
 - Examples of your generators output so far
-We'll check your repository for updates. No need to create a new pull request.
+
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
