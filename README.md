@@ -22,7 +22,7 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   The final task in this milestone was the creation of vines. Initially, I experimented with a scatter node and a foreach loop, seeking a method that offered precise control and intricate detailing. However, encountering challenges with this approach, I transitioned to a hair simulation method, which proved to be a more effective and efficient solution. This successful implementation, however, is not the end of the journey. I am committed to revisiting and refining the initial foreach loop method, aiming to further perfect this technique in future project iterations for more realistic effect.
 
   Below is the rendered image of the island with vines: 
-  ![]()
+  ![Milestone1 Island with vines](https://github.com/Cryszzz/final-project/blob/main/images/Island%20Milestone.png)
 
   ## Cloud Simulation (Keyu Lu)
   ### Objective:
