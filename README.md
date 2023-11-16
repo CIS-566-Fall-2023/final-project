@@ -16,9 +16,11 @@ The process is approximately as following:
   - Next we can give the curve some width by `Copy`ing a base grid/square `ToPoints` on the curve.
   - After fusing the tiles into one single object, we `Dissolve` the inner edges and do some other group cleanup to get the final 2D plane. This step we use node functionalities from the SideFX Labs plug-in.
 
-Input | Gridification | Tiling | Grouping
----|---|---|---
-![](/img/milestone1/inputCurve.png) | ![](/img/milestone1/gridifyCurve.png) | ![](/img/milestone1/copytoptsGround.png) | ![](/img/milestone1/ground.png)
+Input | ![](/img/milestone1/inputCurve.png)
+---|---
+**Gridification** | ![](/img/milestone1/gridifyCurve.png) 
+**Tiling** | ![](/img/milestone1/copytoptsGround.png) 
+**Grouping** | ![](/img/milestone1/ground.png)
 
 
 ### Corners
@@ -27,9 +29,10 @@ Once we have the ground plane, it's convenient to detect the concave (green) and
   - Use a `Labs Measure Curvature` node to measure convex and concave curvature values.
   - Extract the corner points using `Blast` nodes.
 
-Tiling | Extrusion & Curvature | Corner Points
----|---|---
-![](/img/milestone1/copytoptsGround.png) | ![](/img/milestone1/measureCurv.png) | ![](/img/milestone1/corners.png)
+Tiling | ![](/img/milestone1/copytoptsGround.png)
+---|---
+**Extrusion & Curvature** | ![](/img/milestone1/measureCurv.png)
+**Corner Points** | ![](/img/milestone1/corners.png)
 
   
 ### Digital Assets for Unity
@@ -50,9 +53,11 @@ The platform that hosts the complex game (or more precisely, 3D content) develop
 
 For milestone 1, we are only using native Unity geometries to test our corridor map HDA. Starting from milestone 2 we will create procedurally modeled assets in Houdini and import them into Unity as prefabs to replace the current walls and floor tiles.
 
-Unity Demo | Output
----|---
-![](/img/milestone1/unityDemo.gif) | ![](/img/milestone1/unityHDA.png)
+Unity Demo |
+---|
+![](/img/milestone1/unityDemo.gif) | 
+**Final Output** |
+![](/img/milestone1/unityHDA.png) |
 
 
 ### Walls
