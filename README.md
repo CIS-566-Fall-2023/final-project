@@ -45,6 +45,12 @@ Milestone 3: Improve the game level, create procedural planets based on differen
 
 # Milestone 1
 ## Jiefu Ling
+ - Water Shader
+![](https://github.com/Jeff-Ling/final-project/assets/74678923/ba9f2277-427d-4077-b3a5-488159f8e5e9)
+
+- Sand Shader
+![7 (1)](https://github.com/Jeff-Ling/final-project/assets/74678923/64f428dd-73f3-4596-a351-01264b6ae4a9)
+
 
 ## Xiaoyue Ma
 ![](Milestone1xym.gif)
