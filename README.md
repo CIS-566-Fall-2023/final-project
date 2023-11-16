@@ -35,7 +35,7 @@ Stretch goals include allowing users to simply scrub through a seed to generate 
 
 #### Techniques:
 
-I aim to use a range of Houdini nodes. Ideally, I hope to work with multiparms and Python scripting to customize instances of geometry. YouTube tutorials I'm looking at include [(x)](https://www.youtube.com/watch?v=gmYvA05orbs), [(x)](https://www.youtube.com/watch?v=h1JK3HL7Sb8), and [(x)](https://www.youtube.com/watch?v=uIe97023sDk).
+I aim to use a range of Houdini nodes. Ideally, I hope to work with multiparms to customize instances of geometry. 
 
 #### Design:
 
@@ -52,16 +52,17 @@ Milestone 2 (by 11/27): Refine geometry (bricks, outer details, color).
 Milestone 3 (by 11/5): Implement stretch goals if possible (randomization, trees). Polish GUI controls and reate renders.
 
 
+## Milestone 1
 
-## Milestone 1: Implementation part 1 (due 11/15)
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
 
-Put all your code in your forked repository.
+<img width="1512" alt="image" src="https://github.com/sherryli02/final-project/assets/97941858/ec5e5f14-27a5-468f-aedd-fda2d10a9dcd">
 
-Submission: Add a new section to your README titled: Milestone #1, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far
-We'll check your repository for updates. No need to create a new pull request.
+For this milestone, I created the base elements of the generator. Before I began constructing my node networks, I spent some time thinking through how I wanted to structure the generator in Houdini, particularly in regards to making it possible for me to later implement my stretch goal of having customization and randomization for a series of houses along a street. I decided on first creating a network to generate a single townhouse with an internal controller node. Later, I can convert it to a HDA and use multiparms with a for loop to generate multiple customizable townhouses.
+
+I procedurally modelled initial versions of the walls, windows, doors, roof, foundation, and staircase, connecting parameters to a controller node as I went along. 
+
+
+
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
