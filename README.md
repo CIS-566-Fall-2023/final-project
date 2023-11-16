@@ -86,11 +86,18 @@ For this project, I anticipate using Houdini procedural modeling techniques lear
 
 </details>
 
-## Milestone 1
+## Milestone 2
+<details>
+  <summary>Click Here to Open / Close Milestone 2</summary>
+</details>
 
 
-## Milestone 3: Implementation part 2 (due 11/27)
-TBD
+## Milestone 3
+<details>
+  <summary>Click Here to Open / Close Milestone 3</summary>
+</details>
 
 ## Final submission (due 12/5)
-TBD
+<details>
+  <summary>Click Here to Open/Close Final Submission</summary>
+</details>
