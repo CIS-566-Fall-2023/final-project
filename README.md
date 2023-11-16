@@ -12,11 +12,11 @@ The main highlight of our project is to generate a corridor scene solely based o
 
 The process is approximately as following:
   - Use a `Transform` to scale down the input curve in Y so it's flatten onto the x-z plane.
-  - Create multiple points on the curve using `Resample` to better grid-ify, i.e. snap the points to the cloest grid, later using `Fuse`.
+  - Create multiple points on the curve using `Resample` to better grid-ify, i.e. snap the points to the cloest grid, the curve later using `Fuse`.
   - Next we can give the curve some width by `Copy`ing a base grid/square `ToPoints` on the curve.
-  - After fusing the tiles into one single object, we `Dissolve` the inner edges and other group cleanup to output the final ground plane. This step we use functionalities from the SideFX Labs plug-in.
+  - After fusing the tiles into one single object, we `Dissolve` the inner edges and do some other group cleanup to get the final 2D plane. This step we use node functionalities from the SideFX Labs plug-in.
 
-Input | Gridification | Tiling | Group
+Input | Gridification | Tiling | Grouping
 ---|---|---|---
 ![](/img/milestone1/inputCurve.png) | ![](/img/milestone1/gridifyCurve.png) | ![](/img/milestone1/copytoptsGround.png) | ![](/img/milestone1/ground.png)
 
@@ -33,22 +33,22 @@ Tiling | Extrusion & Curvature | Corner Points
 
   
 ### Digital Assets for Unity
-This part is the trickiest due to the software compatibility. Figuring out the working versions of Houdini, Houdini Engine for Unity, and Unity is necessary for the corridor map exported as a Houdini Digital Asset (.hda file) to be editable inside Unity. To understand the workflow better here's a summary of the roles of each software:
+This part is the trickiest due to software compatibility. Figuring out the working versions of Houdini, Houdini Engine for Unity, and Unity is necessary for the corridor map exported as a Houdini Digital Asset (.hda file) to be editable inside Unity. To understand the workflow better here's a summary of the roles of each software:
 
 #### Houdini
-Where we procedurally generate the map and calculate points necessary for out assets placement, e.g. points to place floor tiles, long and short wall panels, ceiling pipes, etc. Similar to the algorithm we learned in LEGO-ifier.
+Where we procedurally generate the map and calculate points necessary for scene assets placement, e.g. points to place floor tiles, long and short wall panels, ceiling pipes, etc. Similar to the algorithm we learned in LEGO-ifier where we calculate the points to place differenty types of blocks.
 
 #### Houdini Engine for Unity
 In Houdini, networks of nodes can be easily wrapped up into HDAs then shared with other artists. With the Houdini Engine, these assets can be loaded into the Unity game editor with procedural controls available to artists.
 
 The results can then be further manipulated in Unity. Anytime a parameter is changed on the asset, the Houdini Engine is called upon to "cook" the network of nodes and publish the results to Unity. This allows for deep integration of HDAs into a Unity game development pipeline. The game content is baked out when the game is published.
 
-In short, only with the Untiy plug-in of Houdini Engine installed will we be able to edit the exposed parameters from the node network and dynamically adjust the output INSIDE Unity. In out project the exposed parameter is the input curve. The user will be able to view, add, or edit any node on the curve to get a desirable corridor system.
+In short, only with the Untiy plug-in of Houdini Engine installed will we be able to edit the exposed parameters from the node network and dynamically adjust the output INSIDE Unity. In our project, the exposed parameter is the input curve. The user will be able to view, add, or edit any node on the curve to get a desirable corridor system.
 
 #### Unity
-The platform that hosts the complex game (or more precisely, 3D content) development pipeline. Since we leverage the heavy computation of points, aka asset positions, using Houdini, the output of the HDA is just plain geometry such as curves, points and quads. To assemble the actual scene with visually pleasing and stylistic 3D models/assets, we assign prefabs to the HDA inside Unity. This allows artists to quickly populate places alike using the same assets, and freely change/update what prefabs they want to replace at certain places on the map. 
+The platform that hosts the complex game (or more precisely, 3D content) development pipeline. Since we leverage the heavy computation of points, aka asset positions, using Houdini, the output of the HDA is just a group of plain geometries, e.g. curves, points and quads. To assemble the actual scene with visually pleasing and stylistic 3D models/assets, we assign prefabs to the HDA output inside Unity. This allows artists to quickly populate places alike using the same assets, and freely change/update what prefabs they want to replace at certain places on the map. 
 
-For milestone 1, we are only using basic geometries to test our corridor map HDA. Starting from milestone 2 we will create procedurally modeled assets in Houdini and import into Unity as prefabs to replace the current walls and floor tiles.
+For milestone 1, we are only using native Unity geometries to test our corridor map HDA. Starting from milestone 2 we will create procedurally modeled assets in Houdini and import them into Unity as prefabs to replace the current walls and floor tiles.
 
 Unity Demo | Output
 ---|---
