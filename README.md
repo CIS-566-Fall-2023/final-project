@@ -43,6 +43,19 @@ The following diagram demonstrates the basic workflow of the algorithm.
 ### Timeline:
 ||Finish the L-system |
 |:---:|:---:|
-|Milestone 1|Finish the L-system representation of branches|
-|Milestone 2|Sign distance field representation & Final shading|
-|Milestone 3|Bark texture & create demo scene|
+|Milestone 1| Sign distance field representation of branches|
+|Milestone 2| Finish the L-system representation & Final shading|
+|Milestone 3| Bark texture & create demo scene|
+
+### Milestone #1
+
+#### Demo
+<p align = "middle">
+   <img src = "images/milestone1_demo_1.gif">
+</p>
+
+<p align = "middle">
+   <img src = "images/wood_tex_result_1.png">
+</p>
+
+#### Progress
