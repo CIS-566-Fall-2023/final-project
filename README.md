@@ -37,7 +37,18 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   * Island Spawn: Create new primitives from the second input and position to the center. Calculate the size and characteristics based on grid area and radius.
   ![](./images/milestone1_demo_daniel.png)
   ![](./images/milestone1_demo_daniel1.png)
-  
+
+  # Island Object Generation (Xiaoxiao(Crystal) Zou)
+  ### Objective:
+  The primary goal of Milestone 1 was to meticulously craft a realistic and visually captivating island environment in Houdini. This involved a series of intricate and sophisticated procedures aimed at simulating natural terrain and elements, setting a high standard for digital landscape creation.
+  ### Implementation:
+  The journey began with the creation of the main island. Here, I employed node point jitter to meticulously shape the terrain, followed by a careful refinement of node displays for enhanced visualization. To bring the main island to fruition, I harnessed the power of a color gradient, utilizing it to drive mesh displacement, thereby laying down a robust foundation for the subsequent stages.
+
+  The process then moved to the construction of a Druid Stone Circle, a task that allowed me to delve into the capabilities of Houdini's advanced boolean tools. These tools facilitated complex operations, such as intricately carving and merging geometries. The placement of the stones was achieved through the strategic use of a copy stamp node, pivotal for imparting a randomized yet coherent appearance to each stone. This phase included the meticulous arrangement of stones in a grid circle pattern, crafting a basic stone box shape, and applying boolean operations. The process was further refined by subdividing nodes, adjusting transform modes, adding surface noise, and incorporating elements of randomness to infuse the circle with a touch of authenticity and depth.
+
+  Next, I focused on crafting a small stone wall that would gracefully trace along a curve. Critical to this endeavor was the alignment of the normals with the curve, ensuring a natural flow and contouring of the wall. I achieved the desired randomization through the strategic use of a Group Expression node, complemented by a series of adjustments in the viewport, curve type modifications, segment length fine-tuning, jitter settings optimization, and precise definition of curve tangents. The culmination of these efforts was a stone wall that was not only randomized in its placement but also perfectly attuned to the island's topography.
+
+  The final task in this milestone was the creation of vines. Initially, I experimented with a scatter node and a foreach loop, seeking a method that offered precise control and intricate detailing. However, encountering challenges with this approach, I transitioned to a hair simulation method, which proved to be a more effective and efficient solution. This successful implementation, however, is not the end of the journey. I am committed to revisiting and refining the initial foreach loop method, aiming to further perfect this technique in future project iterations.
   
 
 </details>
