@@ -11,8 +11,8 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 
  
 const controls = {
-  Particle_Color: [0, 0, 255],
-  Particle_Size : 1.0,
+  Particle_Color: [0, 72, 255],
+  Particle_Size : 0.7,
   Gravity: 30.0,
   Obstacle_Size: 30.0,
   'Show Obstacles': true,

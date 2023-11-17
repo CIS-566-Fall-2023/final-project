@@ -9,7 +9,6 @@
 
 #define POSITION_LOCATION 2
 #define VELOCITY_LOCATION 3
-#define COLOR_LOCATION 4
 #define TIME_LOCATION 5
 #define ID_LOCATION 6
 
@@ -58,7 +57,6 @@ out vec2 v_time;
 // specified variable. The location specifies the number of the attribute  
 layout(location = POSITION_LOCATION) in vec3 current_pos;
 layout(location = VELOCITY_LOCATION) in vec3 current_vel;
-layout(location = COLOR_LOCATION) in vec3 current_color;
 layout(location = TIME_LOCATION) in vec2 current_time;
 layout(location = ID_LOCATION) in float i;
 
@@ -171,7 +169,7 @@ void main()
         new_p.y += 10.0 * deltaTime * push.y;
 
         // if Particle new postion is out of bounds
-        if (new_p.y < -spaceSize * 0.5 ) {
+        if (current_pos.y < -spaceSize * 0.5 ) {
             // randomize XZ and move back to top of spaceSize
             new_p.x = (random3(new_p + v_vel) - 0.5) * spaceSize * 2.0;
             new_p.y += spaceSize + 0.5 * random3(new_p) * (spaceSize - spaceSize*0.5);
