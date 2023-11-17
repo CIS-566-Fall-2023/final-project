@@ -9,7 +9,7 @@ import Camera from './Camera';
 import {setGL, FBO} from './globals';
 import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 
-
+ 
 const controls = {
   Particle_Color: [0, 0, 255],
   Gravity: 30.0,
