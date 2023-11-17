@@ -57,8 +57,6 @@ Implement customizable generation control and polish. Now, all the GUI controls 
 
 ## Milestone 1: Implementation part 1 (due 11/15)
 
-[LIVE DEMO](https://kyrasclark.github.io/final-project/)
-
 My original goal for this week was to implement the basic waterfall physics with basic control. The goal was that the final output should have random particles on the screen, perhaps moving, with some basic control over them like particle color. 
 
 This week, I was able to accomplish this goal. First, as I dove into my research, I was really overwhelmed at first by how to implement this. In my head, I pictured some implementations of particle simulation I have seen and built before, but I had not fully comprehended what that would look like when using the parallel computing on the GPU. I was faced with a lot more academic challenges than I expected. Instead of diving into implementation like I expected, I spent much of this week studying GPU programming techniques that were completely new to me. But as a result, I learned about the following techniques which proved useful in my later implementation:
@@ -87,6 +85,9 @@ Now, we have completed milestone1, as you can see in this [live demo](https://ky
 The Gravity slider still does not work. Next week, I will work on obstacles and collision/bounce physics! 
 
 ## Milestone 2: Implementation part 2 (due 11/27)
+
+[LIVE DEMO](https://kyrasclark.github.io/final-project/)
+
 This week is all about coding obstacles and collision physics. First, before I tackled collisions, I just wanted to be able to draw obstacles onto the scene. It was tricky to understand how I was going to build something that could be "drawn" onto the screen. Thinking of "drawing" on the screen gave me the idea of screen buffers, where the drawn obstacles are added to a frame buffer that is overladed on the screen. 
 
 ### Screen Buffers and Obstacle Shaders 
