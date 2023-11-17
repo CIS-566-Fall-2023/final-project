@@ -2,6 +2,7 @@
 precision highp float;
 
 uniform sampler2D u_ObstacleBuffer;
+uniform float u_ShowObs;
 
 in vec4 fs_Pos;
 in vec2 sampleCoords;
@@ -17,6 +18,13 @@ void main()
         discard; // abandon coloring 
     }
 
-    out_Col = vec4(vec3(0.32, 0.4, 0.8), 1.0);
+    if (u_ShowObs == 1.0)
+    {
+        out_Col = vec4(vec3(0.32, 0.4, 0.8), 1.0);
+    }
+    else 
+    {
+        discard;
+    }
 
 }

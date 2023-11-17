@@ -14,11 +14,13 @@ const controls = {
   Particle_Color: [0, 0, 255],
   Gravity: 30.0,
   'Obstacle Size': 30.0,
+  'Show Obstacle': true,
   'Lock Camera': true,
 };
 
 let time: number = 0.0;
 let camera_locked = true;
+let show_obstacles = true;
 
 let particles: ParticlesGroup;
 let square: Square;           // for each particle
@@ -51,6 +53,7 @@ function main() {
   gui.addColor(controls, 'Particle_Color').name("Particle Color").onChange(setParticleColor);
   gui.add(controls, 'Gravity', 1.0, 100.0).step(1.0).onChange(setParticleAcceleration);
   gui.add(controls, 'Obstacle Size', 5.0, 200.0).step(1.0).onChange(setObstacleSize);
+  gui.add(controls, 'Show Obstacle').onChange(showObstacles);
   gui.add(controls, 'Lock Camera').onChange(lockCamera);
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -114,14 +117,27 @@ function main() {
   // SETTER FUNCTIONS
   function setParticleColor() {
     transformFeedbackShader.setParticleColor(vec3.fromValues(
-      controls.Particle_Color[0]/255.0,
-      controls.Particle_Color[1]/255.0,
-      controls.Particle_Color[2]/255.0
+      controls.Particle_Color[0] / 255.0,
+      controls.Particle_Color[1] / 255.0,
+      controls.Particle_Color[2] / 255.0
     ));
   }
 
   function setParticleAcceleration() {
     transformFeedbackShader.setParticleAcceleration(vec3.fromValues(0.0, controls.Gravity, 0.0));
+  }
+
+  function showObstacles()
+  {
+    show_obstacles = controls["Show Obstacle"];
+    if (show_obstacles)
+    {
+      obstacleBufferShader.setShowObstacles(1.0);
+    }
+    else 
+    {
+      obstacleBufferShader.setShowObstacles(0.0);
+    }
   }
 
   function lockCamera()
@@ -161,6 +177,7 @@ function main() {
   setParticleColor();
   setParticleAcceleration();
   setObstacleSize();
+  showObstacles();
   lockCamera();
 
   // This function will be called every frame
@@ -262,7 +279,7 @@ function main() {
 
   canvas.onmousedown = function(event) // ADD OBSTACLE
   {
-    if(event.button === rightClick && camera_locked)
+    if(event.button === rightClick && camera_locked && show_obstacles)
     {
       if(isMouseDragging)
       {
@@ -284,7 +301,7 @@ function main() {
 
   canvas.onmouseup = function(event)
   {
-    if(event.button === rightClick && camera_locked)
+    if(event.button === rightClick && camera_locked && show_obstacles)
     {
       obstacle_positions.push(vec2.fromValues(
         (event.clientX / window.innerWidth),
@@ -296,7 +313,7 @@ function main() {
 
   canvas.onmousemove = function(event)
   {
-    if(isMouseDragging && camera_locked)
+    if(isMouseDragging && camera_locked && show_obstacles)
     {
       addObstacle((event.clientX / window.innerWidth), (event.clientY / window.innerHeight));
     }
