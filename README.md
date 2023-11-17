@@ -176,7 +176,7 @@ public class SDFCollection: MonoBehaviour
   {
     sdfPositions = // update sdfPositions if they have moved
 
-    materialPropertyBlock.SetVectorArray(SDFPositionsShaderPropertyID sdfPositions);
+    materialPropertyBlock.SetVectorArray(SDFPositionsShaderPropertyID, sdfPositions);
 
     ... // Add more properties to the material property block
 
@@ -208,7 +208,7 @@ float GetNormal(vec3 pos)
 
 There was nothing wrong in the actual normal calculation, and it drove me crazy! I referenced 6 different articles on normal calculation for SDFs, including a project that handles SDF rendering in Unity, and they all did the exact same thing I did. Eventually I asked my friend Saksham to help debug the issue, and - to my extreme embarassment and frustration - found that my function declaration was incorrect and should have been:
 
-```
+```HLSL
 float3 GetNormal(vec3 pos)
 {
   return normalize(float3(gradient of SDF at pos)) // normal code
