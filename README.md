@@ -46,7 +46,7 @@ Unreal Engine:
 
 11/27: 
 - Complete a working ginkgo branch generator
-- Create fabric textiles + all procedural Substance textures
+- Create fabric textiles
 - Unreal particle sim for falling ginkgo leaves
 - Merge all elements together in UE5 (Preliminary)
 - Create cel-shaded materials for skin and hair
