@@ -84,8 +84,12 @@ For my milestone 1, I was able to achieve the following:
    - Audio visualization
 3. Getting input from Spotify instead of a local audio file to make the system more widely usable.
 
-Here is a demo video of the audio detection system in action:  
-TODO  
+Here is a demo video of the audio detection system in action (with the default TouchDesigner audio file):  
+ 
+
+https://github.com/Saksham03/algeb-rave/assets/20259371/2beda103-c26e-4a3c-933e-2a7a72884350
+
+
 
 ### TouchDesigner Basics
 - The [Introduction To TouchDesginer by Ben Voigt](https://www.youtube.com/watch?v=wmM1lCWtn6o) is a superb resource to get started on the software. I had already gone through the whole thing during the Summer when I was playing around with TouchDesigner, but now was a good time to brush up on the snippets from that video that I thought would come in handy.
@@ -117,7 +121,7 @@ Again, the highlighted path in the above image is to show that the snare detecti
 
 ### Summary - Milestone 1
 - I achieved most of my milestones, and seem to be in a pretty good shape to proceed with my next milestone.
-- I wasn't able to achieve just one milestone - generating 4 audio signals. I was able to get essentially only 2, due to the lack of both resources as well as my experience with TouchDesigner/Audio manipulation. This is not a problem though, as those 2 signals should be enough to get fun audo-driven graphics.
+- I wasn't able to achieve just one milestone - generating 4 audio signals. I was able to get essentially only 2 (3 if you count the visualizer, although it is not a 'signal' that I would use to drive visuals), due to the lack of both resources as well as my experience with TouchDesigner/Audio manipulation. This is not a problem though, as those 2 signals should be enough to get fun audo-driven graphics.
 - Because I couldn't fully complete one of the milestone tasks, I took on the additional task of hooking up AlgebRave with Spotify, and it works. I also added the audio visualizer in this milestone itself, which would give me a headstart for the next one.
 - The system as it stands is not ideal - the parameters need some tweaking for different audio inputs, and work well mostly in the middle parts of the song. This is something out of my hands, because TouchDesigner works with the audio files on-the-fly instead of a preprocess, and since we work with normalized values, the beginning/ending of songs usually have a different music pattern than the rest of the track that throws off the system a bit. But, I am taking this as good learning for myself and proceeding with the project with what I have.
 
