@@ -12,9 +12,9 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
  
 const controls = {
   Particle_Color: [0, 0, 255],
-  'Particle Size' : 1.0,
+  Particle_Size : 1.0,
   Gravity: 30.0,
-  'Obstacle Size': 30.0,
+  Obstacle_Size: 30.0,
   'Show Obstacles': true,
   'Lock Camera': true,
 };
@@ -52,9 +52,9 @@ function loadScene() {
 function main() {
   const gui = new DAT.GUI();
   gui.addColor(controls, 'Particle_Color').name("Particle Color").onChange(setParticleColor);
-  gui.add(controls, 'Particle Size', 0.4, 2.0).step(0.1).onChange(setParticleSize);
+  gui.add(controls, 'Particle_Size', 0.4, 2.0).step(0.1).name("Particle Size").onChange(setParticleSize);
   gui.add(controls, 'Gravity', 1.0, 100.0).step(1.0).onChange(setParticleAcceleration);
-  gui.add(controls, 'Obstacle Size', 5.0, 200.0).step(1.0).onChange(setObstacleSize);
+  gui.add(controls, 'Obstacle_Size', 5.0, 200.0).step(1.0).name("Obstacle Size").onChange(setObstacleSize);
   gui.add(controls, 'Show Obstacles').onChange(showObstacles);
   gui.add(controls, 'Lock Camera').onChange(lockCamera);
 
@@ -126,7 +126,7 @@ function main() {
   }
 
   function setParticleSize() {
-    particleShader.setParticleSize(controls["Particle Size"]);
+    particleShader.setParticleSize(controls.Particle_Size);
   }
 
   function setParticleAcceleration() {
@@ -148,8 +148,8 @@ function main() {
 
   function setObstacleSize()
   {
-    addObstacleShader.setObstacleSize(controls["Obstacle Size"]);
-    obstacleAddToBufferShader.setObstacleSize(controls["Obstacle Size"]);
+    addObstacleShader.setObstacleSize(controls.Obstacle_Size);
+    obstacleAddToBufferShader.setObstacleSize(controls.Obstacle_Size);
   }
 
   function lockCamera()
