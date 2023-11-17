@@ -1,32 +1,4 @@
-import {vec3} from 'gl-matrix';
 import {gl} from './globals';
-
-class Particle
-{
-    p: vec3; // Position
-    v: vec3; // Velocity
-    a: vec3; // Acceleration
-
-    constructor(position: vec3, velocity: vec3, acceleration: vec3)
-    {
-        this.p = position;
-        this.v = velocity;
-        this.a = acceleration;
-    }
-
-    update(deltaTime: number)
-    {
-        // update position
-        let deltaPos = vec3.create();
-        vec3.scale(deltaPos, this.v, deltaTime);
-        vec3.add(this.p, deltaPos, this.p);
-
-        // update velocity
-        let deltaVel = vec3.create();
-        vec3.scale(deltaVel, this.a, deltaTime);
-        vec3.add(this.v, deltaVel, this.v);
-    }
-}
 
 const POSITION_LOCATION = 2;
 const VELOCITY_LOCATION = 3;
@@ -151,4 +123,4 @@ class ParticlesGroup
         return this.particleTransformFeedbacks[i];
     }
 }
-export {Particle, ParticlesGroup};
+export {ParticlesGroup};
