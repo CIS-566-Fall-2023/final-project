@@ -75,8 +75,16 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 <details>
   <summary> Milestone 1 </summary>
 
-## Milestone 1: Implementation part 1 (due 11/15)
-For my milestone 1, I was able to achieve the following:  
+## Milestone 1
+
+### Components
+1. [TouchDesigner Basics](#touchdesigner-basics)
+2. [Kick Detection](#kick-detection)
+3. [Snare Detection](#snare-detection)
+4. [Spotify Connectivity](#spotify-connectivity)
+5. [Summary](#summary---milestone-1)
+
+For my Milestone 1, I was able to achieve the following:  
 1. Getting familiar with TouchDesigner and the most common tools/functionalities that I'd be needing.
 2. Making 3 audio signals that would help me drive graphics:  
    - Bass/kick detection
@@ -84,7 +92,7 @@ For my milestone 1, I was able to achieve the following:
    - Audio visualization
 3. Getting input from Spotify instead of a local audio file to make the system more widely usable.
 
-Here is a demo video of the audio detection system in action (with the default TouchDesigner audio file):  
+Here is a demo video of the audio detection system in action (with the default TouchDesigner audio file)(Sound ON:sound:):  
  
 
 https://github.com/Saksham03/algeb-rave/assets/20259371/2beda103-c26e-4a3c-933e-2a7a72884350
