@@ -12,9 +12,10 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
  
 const controls = {
   Particle_Color: [0, 0, 255],
+  'Particle Size' : 1.0,
   Gravity: 30.0,
   'Obstacle Size': 30.0,
-  'Show Obstacle': true,
+  'Show Obstacles': true,
   'Lock Camera': true,
 };
 
@@ -51,9 +52,10 @@ function loadScene() {
 function main() {
   const gui = new DAT.GUI();
   gui.addColor(controls, 'Particle_Color').name("Particle Color").onChange(setParticleColor);
+  gui.add(controls, 'Particle Size', 0.4, 2.0).step(0.1).onChange(setParticleSize);
   gui.add(controls, 'Gravity', 1.0, 100.0).step(1.0).onChange(setParticleAcceleration);
   gui.add(controls, 'Obstacle Size', 5.0, 200.0).step(1.0).onChange(setObstacleSize);
-  gui.add(controls, 'Show Obstacle').onChange(showObstacles);
+  gui.add(controls, 'Show Obstacles').onChange(showObstacles);
   gui.add(controls, 'Lock Camera').onChange(lockCamera);
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -123,13 +125,17 @@ function main() {
     ));
   }
 
+  function setParticleSize() {
+    particleShader.setParticleSize(controls["Particle Size"]);
+  }
+
   function setParticleAcceleration() {
     transformFeedbackShader.setParticleAcceleration(vec3.fromValues(0.0, controls.Gravity, 0.0));
   }
 
   function showObstacles()
   {
-    show_obstacles = controls["Show Obstacle"];
+    show_obstacles = controls["Show Obstacles"];
     if (show_obstacles)
     {
       obstacleBufferShader.setShowObstacles(1.0);
@@ -140,15 +146,15 @@ function main() {
     }
   }
 
-  function lockCamera()
-  {
-    camera_locked = controls["Lock Camera"];
-  }
-
   function setObstacleSize()
   {
     addObstacleShader.setObstacleSize(controls["Obstacle Size"]);
     obstacleAddToBufferShader.setObstacleSize(controls["Obstacle Size"]);
+  }
+
+  function lockCamera()
+  {
+    camera_locked = controls["Lock Camera"];
   }
 
   function setupTexture(width: number, height: number)
@@ -175,6 +181,7 @@ function main() {
   // SET SHADER VALUES
   transformFeedbackShader.setColor(vec4.fromValues(0.0, 1.0, 1.0, 1.0));
   setParticleColor();
+  setParticleSize();
   setParticleAcceleration();
   setObstacleSize();
   showObstacles();

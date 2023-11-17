@@ -41,6 +41,7 @@ class ShaderProgram {
 
   unifAcceleration: WebGLUniformLocation;
   unifParticleCol: WebGLUniformLocation;
+  unifParticleSize: WebGLUniformLocation;
 
   unifObstaclePos: WebGLUniformLocation;
   unifObstacleSize: WebGLUniformLocation;
@@ -75,6 +76,7 @@ class ShaderProgram {
   
     this.unifAcceleration = gl.getUniformLocation(this.prog, 'u_Acceleration');
     this.unifParticleCol = gl.getUniformLocation(this.prog, "u_ParticleColor");
+    this.unifParticleSize = gl.getUniformLocation(this.prog, "u_ParticleSize");
 
     this.unifObstaclePos = gl.getUniformLocation(this.prog, "u_ObstaclePos");
     this.unifObstacleSize = gl.getUniformLocation(this.prog, "u_ObstacleSize");
@@ -160,6 +162,13 @@ class ShaderProgram {
     this.use();
     if (this.unifParticleCol !== -1) {
       gl.uniform3fv(this.unifParticleCol, color);
+    }
+  }
+
+  setParticleSize(size: number) {
+    this.use();
+    if (this.unifParticleSize !== -1) {
+      gl.uniform1f(this.unifParticleSize, size);
     }
   }
 

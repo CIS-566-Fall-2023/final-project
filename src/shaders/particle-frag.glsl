@@ -11,6 +11,8 @@
 // position, light position, and vertex color.
 precision highp float;
 
+uniform float u_ParticleSize;
+
 // These are the interpolated values out of the rasterizer, so you can't know
 // their specific values without knowing the vertices that contributed to them
 in vec4 fs_Col;
@@ -23,7 +25,7 @@ out vec4 out_Col; // This is the final output color that you will see on your
 void main()
 {
     // Create circle radius of color in the square
-    float dist = 1.0 - 2.0 * length(fs_Pos.xyz);  
+    float dist = 1.0 - ((2.0 * length(fs_Pos.xyz)) / u_ParticleSize);  
     out_Col = vec4(dist) * fs_Col;
 }
 

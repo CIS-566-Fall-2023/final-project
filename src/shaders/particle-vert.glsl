@@ -55,8 +55,6 @@ void main()
     fs_Col = vec4(current_color, 1.0);
     fs_Pos = vs_Pos;
 
-    vec3 offset = current_pos;
-
     vec4 modelposition = u_Model * vs_Pos;   // Temporarily store the transformed vertex positions for use below
 
     // Put the position of the model (particle) in line with the refernce frame of the camera
