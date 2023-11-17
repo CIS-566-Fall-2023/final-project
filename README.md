@@ -75,9 +75,34 @@ Here are the references I used for this lighting scenario:
 - Dineth
 
 - Thomas
-Submission: Add a new section to your README titled: Milestone #1, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far
+
+We've very quickly realized that, for our purposes, Blender's geometry nodes cover the majority of our needs in terms of procedural modeling. This would greatly speed up our workflow, as it would both reduce the number of software packages we used, but also generally speed up our workflow as its interface is a bit more straightforward. In order to better hit our performance target (realtime scene), we decided to work using a pre-generated pool of instances which we would scatter in a scene.
+
+For my first foray into geo nodes, I built a facade generator, in order to generate singular "apartment" structures that could be scattered on our great big cylinder, as per the reference. I started by just making a procedural single building generator, taking some given inputs for width, height, window density, etc.
+
+![Building generator node network](https://github.com/xcupsilon/project-blame/assets/22186744/fd92e0b6-dcf0-4151-a21e-98018d8c73b7)
+
+This was then used in another node network which would randomly choose building parameters based on a given seed.
+
+![image](https://github.com/xcupsilon/project-blame/assets/22186744/da31ebc7-d995-4e20-b672-1d5ba9c6bf63)
+
+It also loops through a couple points, instantiating unique buildings for each point. This ended up giving us a nice result with a lot of variation in appearance.
+
+https://github.com/xcupsilon/project-blame/assets/22186744/a5e4de99-17fa-4f62-88ec-35420acca2e4
+
+Now that I had a better grasp on geo nodes, I decided to work on a pipe generator. Ideally, it would repeatedly jump through a spline, each time going some randomized distance, and outputting a separate spline for that distance. That way, we could fill in the caps on each spline and bevel them, giving it the look in the reference of plain cylinders connected by divots around the circumference.
+
+First I set up a node structure which would, given a curve containing a single spline, iterate through it and output all its randomized spline sections. Figuring out where to re-sample the curve and adjust the spline resolution for maximal performance provided some pain points while developing, but it ended up working quite nicely after bugfixing. The most painful thing is the way the repeat zone (very recently added to Blender) works - there's no way to manually break out of a repeat zone in Blender (it uses an external repeat count) so I just had to set it to the maximum possible repeats assuming all segments were super tiny. Even though I have a switch that would cancel any generation past the end of the spline's length, it still kills performance when "minimum section length" is set to a low value (based on what I read on the repeat zone PR this is something they still need to optimize). If I were to refactor this I would definitely precompute all the midpoints and iterate through those afterwards to do actual section generation.
+
+![Single pipe spline generator](https://github.com/xcupsilon/project-blame/assets/22186744/a9f135e6-111f-4a46-8b24-11e69fd39561)
+
+Next, I set up a node structure which would just iterate through every independent spline in a given curve object, and apply the previous node group to each spline. This was a bit more tricky to implement, as again, Blender only recently added support for general-purpose "repeat zones," and so there was no clean way to iterate through separate spline chunks besides converting it to a mesh, working based off mesh islands, then converting it back.
+
+![Multi spline pipe generator](https://github.com/xcupsilon/project-blame/assets/22186744/5d81279b-d7c8-4bf8-9b11-e01f0070a89f)
+
+All together, however, this allows us to very quickly hand-draw pipes (and even vary the radius using spline control point parameters). Next up will be getting UVs to work...
+
+https://github.com/xcupsilon/project-blame/assets/22186744/da863eb0-31fe-4054-b51a-b1a6fd6f5879
 
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
