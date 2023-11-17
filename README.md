@@ -76,14 +76,50 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
   <summary> Milestone 1 </summary>
 
 ## Milestone 1: Implementation part 1 (due 11/15)
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
+For my milestone 1, I was able to achieve the following:  
+1. Getting familiar with TouchDesigner and the most common tools/functionalities that I'd be needing.
+2. Making 3 audio signals that would help me drive graphics:  
+   - Bass/kick detection
+   - Snare detetion
+   - Audio visualization
+3. Getting input from Spotify instead of a local audio file to make the system more widely usable.
 
-Put all your code in your forked repository.
+Here is a demo video of the audio detection system in action:  
+TODO  
 
-Submission: Add a new section to your README titled: Milestone #1, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far
-We'll check your repository for updates. No need to create a new pull request.
+### TouchDesigner Basics
+- The [Introduction To TouchDesginer by Ben Voigt](https://www.youtube.com/watch?v=wmM1lCWtn6o) is a superb resource to get started on the software. I had already gone through the whole thing during the Summer when I was playing around with TouchDesigner, but now was a good time to brush up on the snippets from that video that I thought would come in handy.
+- As I was just getting started, I had the bigger picture in mind of a vast, unmanageable node network - one that is pretty common when using node-based softwares. Hence from the get go, I wanted to make separate isolated and independently manageable components for as many things as I could. [This video](https://www.youtube.com/watch?v=oTFZXL2xbvw) by [bileam tschepe (elekktronaut)](https://www.youtube.com/@elekktronaut) was extremely helpful in guiding me towards building **Components** in TouchDesigner, and **exposing the parameters** on these custom nodes that I would possibly want to tweak later.
+
+### Kick Detection
+- The first thing I build was the bass/kick detection, and I followed [this](https://www.youtube.com/watch?v=gUELH_B2wsE) video by [elekktronaut](https://www.youtube.com/@elekktronaut). I also looked up a couple of other resources and tweaked the parameters to my liking, but that video established the solid groundwork of my understanding of how kick detection was supposed to work. This is what my kick detection workflow looks like:
+![](images/ms1/kick_deets.png)  
+The highlighted path in the above image is to show that the kick detection was built as a separate component so that it is easy to manage, and lives one level inside the root level of the project.
+-  As stated above, I built the kick detetor as a separate component. On the custom node, I exposed several parameters that I thought were enough to provide me with the control to tweak the output kick detection signal to my liking. These are the parameters that are available for this node at the project's root level:  
+![](images/ms1/kick_params.png)
+
+### Snare Detection
+- I moved on to snare detection, and pretty much followed the same resource as the kick deteciton one. I had to combine some learnings from [this](https://www.youtube.com/watch?v=rGoCbVmGtPE&t=2s) video as well, and snares became an easy win after kick detection. This is what my snare detection workflow looks like:
+![](images/ms1/snare_deets.png)  
+Again, the highlighted path in the above image is to show that the snare detection was built as a separate component.
+-  On the custom node, there are several parameters that are available for this node at the project's root level to tweak the result to my liking:  
+![](images/ms1/snare_params.png)
+
+### Audio Visualization
+- As stated initially in my design doc, I was aiming to get 4 audio signals out of an input audio. But I couldn't find enough resources apart from the basic kick and snare detection. I looked at some audio-specific tutorials that were independent of TouchDesigner, but they were either too detailed an went over my head or were not possible to be implemented in TouchDesigner. Besides, I figured that these 2 signals were enough for me to drive some cool graphics/visuals.
+- What I really wanted to do was to isolate the vocals from a track and display them as pulsating bars. Although I failed to figure out a way to isloate the vocals, I did manage to find [this great resource](https://www.youtube.com/watch?v=VwEoniNx5e8&list=PLFrhecWXVn59fuqALP_Hb6qRKEXy4LVQp&index=12) that helped me build an audio visualizer.
+- I also built my audio visualizer in a separate component of its own. The node-based workflow for my audio visualizer looks something like this:
+![](images/ms1/vis.png)
+
+### Spotify connectivity
+- Since I wasn't able to get more audio-related signals from the input as I had planned, I thought of other ways of making my project more fun - and one of them was certainly being able to plug and play any song, and not just from the limited audio files residing on my local machine.
+- I was able to achieve this using a 3rd party software called VB-Cable. And [this video](https://www.youtube.com/watch?v=HR6Ot3w6qTo), again by the amazing [elekktronaut](https://www.youtube.com/@elekktronaut) was very helpful in guiding me how to do it.
+
+### Summary - Milestone 1
+- I achieved most of my milestones, and seem to be in a pretty good shape to proceed with my next milestone.
+- I wasn't able to achieve just one milestone - generating 4 audio signals. I was able to get essentially only 2, due to the lack of both resources as well as my experience with TouchDesigner/Audio manipulation. This is not a problem though, as those 2 signals should be enough to get fun audo-driven graphics.
+- Because I couldn't fully complete one of the milestone tasks, I took on the additional task of hooking up AlgebRave with Spotify, and it works. I also added the audio visualizer in this milestone itself, which would give me a headstart for the next one.
+- The system as it stands is not ideal - the parameters need some tweaking for different audio inputs, and work well mostly in the middle parts of the song. This is something out of my hands, because TouchDesigner works with the audio files on-the-fly instead of a preprocess, and since we work with normalized values, the beginning/ending of songs usually have a different music pattern than the rest of the track that throws off the system a bit. But, I am taking this as good learning for myself and proceeding with the project with what I have.
 
 </details>  
 
