@@ -200,7 +200,7 @@ These SDFPositions are then used in the shader to calculate each `SDFObject`'s S
 I was able to get the basic setup done fairly quickly, so I got a head start on milestone 2's shading feature. There is a very basic Lambertian shading model that affects the SDFs. Admittedly, as simple as this code is, I spent 3 days debugging one very tiny and pesky bug in my shader code that was incorrectly calculating the normals:
 
 ```HLSL
-float GetNormal(vec3 pos)
+float GetNormal(float3 pos)
 {
   return normalize(float3(gradient of SDF at pos)) // normal code
 }
@@ -209,7 +209,7 @@ float GetNormal(vec3 pos)
 There was nothing wrong in the actual normal calculation, and it drove me crazy! I referenced 6 different articles on normal calculation for SDFs, including a project that handles SDF rendering in Unity, and they all did the exact same thing I did. Eventually I asked my friend Saksham to help debug the issue, and - to my extreme embarassment and frustration - found that my function declaration was incorrect and should have been:
 
 ```HLSL
-float3 GetNormal(vec3 pos)
+float3 GetNormal(float3 pos)
 {
   return normalize(float3(gradient of SDF at pos)) // normal code
 }
