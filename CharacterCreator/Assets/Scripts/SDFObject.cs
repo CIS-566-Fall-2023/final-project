@@ -4,8 +4,9 @@ public class SDFObject : MonoBehaviour
 {
     public enum SDFObjectType
     {
-        Sphere,
-        Cube
+        Sphere = 0,
+        Cube = 1,
+        Torus = 2,
     }
 
     public enum BlendOperationEnum

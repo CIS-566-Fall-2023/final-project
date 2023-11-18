@@ -7,7 +7,7 @@ public class SDFCollection : MonoBehaviour
     #region Shader Properties
     private const int MAX_SDF_OBJECTS = 256;
     private static readonly int SDFTypeShaderPropertyID = Shader.PropertyToID("SDFType");
-    private static readonly int SDFPositionsShaderPropertyID= Shader.PropertyToID("SDFPositions");
+    private static readonly int SDFTransformMatricesPropertyID = Shader.PropertyToID("SDFTransformMatrices");
     private static readonly int SDFSizeShaderPropertyID = Shader.PropertyToID("SDFSizes");
     private static readonly int SDFBlendOperationShaderPropertyID = Shader.PropertyToID("SDFBlendOperation");
     private static readonly int SDFBlendFactorShaderPropertyID = Shader.PropertyToID("SDFBlendFactor");
@@ -21,7 +21,7 @@ public class SDFCollection : MonoBehaviour
     private Renderer renderer;
     private MaterialPropertyBlock materialPropertyBlock;
 
-    private Vector4[] sdfPositions = new Vector4[MAX_SDF_OBJECTS];
+    private Matrix4x4[] sdfTransformMatrices = new Matrix4x4[MAX_SDF_OBJECTS];
     private float[] sdfTypes = new float[MAX_SDF_OBJECTS];
     private float[] sdfSizes = new float[MAX_SDF_OBJECTS];
     private float[] sdfBlendOperations = new float[MAX_SDF_OBJECTS];
@@ -53,7 +53,7 @@ public class SDFCollection : MonoBehaviour
         }
 
         sdfObjects = new SDFObject[MAX_SDF_OBJECTS];
-        sdfPositions = new Vector4[MAX_SDF_OBJECTS];
+        sdfTransformMatrices = new Matrix4x4[MAX_SDF_OBJECTS];
         sdfTypes = new float[MAX_SDF_OBJECTS];
         sdfSizes = new float[MAX_SDF_OBJECTS];
         sdfBlendOperations = new float[MAX_SDF_OBJECTS];
@@ -78,14 +78,14 @@ public class SDFCollection : MonoBehaviour
         {
             SDFObject sdf = sdfObjects[i];
             sdfTypes[i] = (int)sdf.Type;
-            sdfPositions[i] = sdf.transform.position;
+            sdfTransformMatrices[i] = sdf.transform.worldToLocalMatrix;
             sdfSizes[i] = sdf.Size;
             sdfBlendOperations[i] = (int)sdf.BlendOperation;
             sdfBlends[i] = sdf.BlendFactor;
         }
 
         materialPropertyBlock.SetFloatArray(SDFTypeShaderPropertyID, sdfTypes);
-        materialPropertyBlock.SetVectorArray(SDFPositionsShaderPropertyID, sdfPositions);
+        materialPropertyBlock.SetMatrixArray(SDFTransformMatricesPropertyID, sdfTransformMatrices);
         materialPropertyBlock.SetFloatArray(SDFSizeShaderPropertyID, sdfSizes);
         materialPropertyBlock.SetFloatArray(SDFBlendOperationShaderPropertyID, sdfBlendOperations);
         materialPropertyBlock.SetFloatArray(SDFBlendFactorShaderPropertyID, sdfBlends);

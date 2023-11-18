@@ -8,10 +8,11 @@
 #define EPSILON float3(0.0f, MIN_DIST, 0.0f)
 
 float SDFType[MAX_SDF_OBJECTS];
-float4 SDFPositions[MAX_SDF_OBJECTS];
+//float4 SDFPositions[MAX_SDF_OBJECTS];
 float SDFSizes[MAX_SDF_OBJECTS];
 float SDFBlendFactor[MAX_SDF_OBJECTS];
 float SDFBlendOperation[MAX_SDF_OBJECTS];
+float4x4 SDFTransformMatrices[MAX_SDF_OBJECTS];
 float SDFCount;
 
 struct Ray
@@ -42,35 +43,48 @@ float intersect(float a, float b)
 	return max(a, b);
 }
 
-float sdfBox(float3 pos, float3 center, float3 size)
+float sdfBox(float3 pos, float3 size)
 {
-	float3 q = abs(pos - center) - size;
+	float3 q = abs(pos) - size;
 	return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
 }
 
-float sdfSphere(float3 pos, float3 center, float radius)
+float sdfSphere(float3 pos, float radius)
 {
-	return (lengthSqr(pos - center) - radius * radius);
+	return (lengthSqr(pos) - radius * radius);
+}
+
+float sdfTorus(float3 pos, float2 size)
+{
+	float2 q = float2(length(pos.xz) - size.x, pos.y);
+	return length(q) - size.y;
 }
 
 float sceneSdf(float3 pos)
 {
 	float sdf = FLT_MAX;
+	float3 posTransformed;
 	for (int i = 0; i < SDFCount; i++)
 	{
-		float3 center = SDFPositions[i];
 		float size = SDFSizes[i];
 		int blendOp = SDFBlendOperation[i];
 		int sdfType = SDFType[i];
 
+		float4x4 transform = SDFTransformMatrices[i];
+		posTransformed = mul(transform, float4(pos, 1.0)).xyz;
+
 		float curSdf = 0.0f;
 		if (sdfType == 0)
 		{
-			curSdf = sdfSphere(pos, center, size);
+			curSdf = sdfSphere(posTransformed, size);
 		}
-		else
+		else if (sdfType == 1)
 		{
-			curSdf = sdfBox(pos, center, size);
+			curSdf = sdfBox(posTransformed, size);
+		}
+		else if (sdfType == 2)
+		{
+			curSdf = sdfTorus(posTransformed, float2(size * 2.0f, size * 0.5));
 		}
 
 		if (blendOp == 0)
