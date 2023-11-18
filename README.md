@@ -188,7 +188,7 @@ public class SDFCollection: MonoBehaviour
 
 In the HLSL shader, this can simply be read by declaring an array:
 
-```
+```HLSL
 #define MAX_SDF_OBJECTS 256
 float4 SDFPositions[MAX_SDF_OBJECTS];
 ```
