@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Wood
-  m_Shader: {fileID: 4800000, guid: 4647aa84dd37d9c43b84c15c864f5636, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9c1805878f7dbe448a3f7045d23786b6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4f34229e179ba2a4b8c5eaeddc2604a7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 79f7f25de92971e4f98108c0f88f14aa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 79f7f25de92971e4f98108c0f88f14aa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
