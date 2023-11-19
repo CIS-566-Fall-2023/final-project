@@ -7,6 +7,10 @@ public class SDFObject : MonoBehaviour
         Sphere = 0,
         Cube = 1,
         Torus = 2,
+        Cylinder = 3,
+        Capsule = 4,
+        Octahedron = 5,
+        Cone = 6,
     }
 
     public enum BlendOperationEnum

@@ -27,15 +27,17 @@ float lengthSqr(float3 vec)
 }
 
 // from IQ
-float smoothMin(float a, float b, float k)
+float add(float a, float b, float k)
 {
 	float h = max(k - abs(a - b), 0.0) / k;
 	return min(a, b) - h * h * k * 0.25f;
 }
 
-float subtract(float a, float b)
+float subtract(float a, float b, float k)
 {
-	return max(a, -b);
+	//return max(a, -b);
+	float h = clamp(0.5 - 0.5 * (a + b) / k, 0.0, 1.0);
+	return lerp(a, -b, h) + k * h * (1.0 - h);
 }
 
 float intersect(float a, float b)
@@ -60,6 +62,38 @@ float sdfTorus(float3 pos, float2 size)
 	return length(q) - size.y;
 }
 
+float sdfCylinder(float3 pos, float height, float radius)
+{
+	float2 d = abs(float2(length(pos.xz), pos.y)) - float2(radius, height);
+	return min(max(d.x, d.y), 0.0) + length(max(d, 0.0));
+}
+
+float sdfCapsule(float3 pos, float height, float radius)
+{
+	float halfHeight = height * 0.5;
+	pos.y -= clamp(pos.y, -halfHeight, halfHeight);		// modified from IQ's version: move this to the center of axis!
+	return length(pos) - radius;
+}
+
+float sdfOctahedron(float3 pos, float size)
+{
+	pos = abs(pos);
+	return (pos.x + pos.y + pos.z - size) * 0.57735027;
+}
+
+float sdfCone(float3 pos, float angle, float height)
+{
+	float2 c = float2(sin(angle), cos(angle));
+	float q = length(pos.xz);
+	//pos.y -= height;
+	return max(dot(c.xy, float2(q, pos.y)), -height - pos.y);
+}
+
+float sdfRoundness(float sdf, float roundness)
+{
+	return sdf - roundness;
+}
+
 float sceneSdf(float3 pos)
 {
 	float sdf = FLT_MAX;
@@ -72,6 +106,8 @@ float sceneSdf(float3 pos)
 
 		float4x4 transform = SDFTransformMatrices[i];
 		posTransformed = mul(transform, float4(pos, 1.0)).xyz;
+
+		float roundness = SDFData[i].w;	// .w is always roundness
 
 		float curSdf = 0.0f;
 		if (sdfType == 0)
@@ -86,14 +122,35 @@ float sceneSdf(float3 pos)
 		{
 			curSdf = sdfTorus(posTransformed, float2(size, SDFData[i].y));
 		}
+		else if (sdfType == 3)
+		{
+			curSdf = sdfCylinder(posTransformed, SDFData[i].y, size);
+		}
+		else if (sdfType == 4)
+		{
+			curSdf = sdfCapsule(posTransformed, SDFData[i].y, size);
+		}
+		else if (sdfType == 5)
+		{
+			curSdf = sdfOctahedron(posTransformed, size);
+		}
+		else if (sdfType == 6)
+		{
+			curSdf = sdfCone(posTransformed, size, SDFData[i].y);
+		}
+
+		if (roundness > 0.0)
+		{
+			curSdf = sdfRoundness(curSdf, roundness);
+		}
 
 		if (blendOp == 0)
 		{
-			sdf = smoothMin(sdf, curSdf, SDFBlendFactor[i]);
+			sdf = add(sdf, curSdf, SDFBlendFactor[i]);
 		}
 		else if (blendOp == 1)
 		{
-			sdf = subtract(sdf, curSdf);
+			sdf = subtract(sdf, curSdf, SDFBlendFactor[i]);
 		}
 		else
 		{
