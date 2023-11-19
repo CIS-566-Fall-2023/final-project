@@ -18,8 +18,9 @@ public class SDFObject : MonoBehaviour
 
     [SerializeField] private SDFObjectType type;
     public SDFObjectType Type => type;
-    [SerializeField] private float size = 0.02f;
-    public float Size => size;
+
+    [SerializeField] private Vector4 data;
+    public Vector4 Data => data;
 
     [SerializeField] private BlendOperationEnum blendOperation;
     public BlendOperationEnum BlendOperation => blendOperation;

@@ -9,7 +9,7 @@
 
 float SDFType[MAX_SDF_OBJECTS];
 //float4 SDFPositions[MAX_SDF_OBJECTS];
-float SDFSizes[MAX_SDF_OBJECTS];
+float4 SDFData[MAX_SDF_OBJECTS];
 float SDFBlendFactor[MAX_SDF_OBJECTS];
 float SDFBlendOperation[MAX_SDF_OBJECTS];
 float4x4 SDFTransformMatrices[MAX_SDF_OBJECTS];
@@ -66,7 +66,7 @@ float sceneSdf(float3 pos)
 	float3 posTransformed;
 	for (int i = 0; i < SDFCount; i++)
 	{
-		float size = SDFSizes[i];
+		float size = SDFData[i].x;
 		int blendOp = SDFBlendOperation[i];
 		int sdfType = SDFType[i];
 
