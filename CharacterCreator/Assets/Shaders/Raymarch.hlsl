@@ -84,7 +84,7 @@ float sceneSdf(float3 pos)
 		}
 		else if (sdfType == 2)
 		{
-			curSdf = sdfTorus(posTransformed, float2(size * 2.0f, size * 0.5));
+			curSdf = sdfTorus(posTransformed, float2(size, SDFData[i].y));
 		}
 
 		if (blendOp == 0)
