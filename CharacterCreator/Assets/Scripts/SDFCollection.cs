@@ -105,6 +105,7 @@ public class SDFCollection : MonoBehaviour
             return;
         }
 
+        hasInitialized = false;
         materialPropertyBlock.Clear();
         materialPropertyBlock = null;
         renderer.SetPropertyBlock(null);
