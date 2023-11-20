@@ -47,6 +47,9 @@ class ShaderProgram {
   unifObstacleSize: WebGLUniformLocation;
   unifShowObstacles: WebGLUniformLocation;
 
+  unifGenType: WebGLUniformLocation;
+  unifFBMFreq: WebGLUniformLocation;
+
   constructor(shaders: Array<Shader>, isTransformFeedback: boolean = false, variable_buffer_data: string[] = []) {
     this.prog = gl.createProgram();
 
@@ -82,6 +85,8 @@ class ShaderProgram {
     this.unifObstacleSize = gl.getUniformLocation(this.prog, "u_ObstacleSize");
     this.unifShowObstacles = gl.getUniformLocation(this.prog, "u_ShowObs");
 
+    this.unifGenType = gl.getUniformLocation(this.prog, "u_GenType");
+    this.unifGenType = gl.getUniformLocation(this.prog, "u_FBMFreq");
   }
 
   use() {
@@ -184,6 +189,20 @@ class ShaderProgram {
     this.use();
     if (this.unifColor !== -1) {
       gl.uniform4fv(this.unifColor, color);
+    }
+  }
+
+  setGenerationType(type: number) {
+    this.use();
+    if (this.unifGenType !== -1) {
+      gl.uniform1f(this.unifGenType, type);
+    }
+  }
+
+  setFBMFreq(f: number) {
+    this.use();
+    if (this.unifFBMFreq !== -1) {
+      gl.uniform1f(this.unifFBMFreq, f);
     }
   }
 

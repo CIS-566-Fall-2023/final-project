@@ -35,6 +35,9 @@ uniform vec3 u_ParticleColor;
 uniform sampler2D u_ObstacleBuffer;
 uniform vec3 u_ObstaclePos;
 
+uniform float u_GenType;
+//uniform float u_FBMFreq;
+
 in vec4 vs_Pos;             // Not used. The array of vertex positions passed to the shader
 in vec4 vs_Nor;             // Not used. The array of vertex normals passed to the shader
 in vec4 vs_Col;             // Instanced Rendering Attribute. Each particle instance has a 
@@ -73,8 +76,72 @@ float random3(vec3 p) {
 vec3 getParticlePos(float spaceSize){
     vec3 position = vec3(
         random2(vec2(i, 1.5 * i)) * spaceSize * 2.0 - spaceSize,
-        random2(vec2(i, 2.5 * i)) * spaceSize - spaceSize/2.0,
+        random2(vec2(i, 2.5 * i)) * spaceSize - spaceSize * 0.5,
         random2(vec2(i, 0.5 * i)) * spaceSize*0.5  - spaceSize*0.25
+    );
+
+    return position;
+}
+
+
+float noise3D(vec3 p)
+{
+        return fract(sin(dot(p, vec3(127.1,269.5, 59.137))) *
+                     43758.5453);
+}
+
+float interpNoise3D(float x, float y, float z)
+{
+    int intX = int(floor(x));
+    float fractX = fract(x);
+    int intY = int(floor(y));
+    float fractY = fract(y);
+    int intZ = int(floor(z));
+    float fractZ = fract(z);
+
+    float v1 = noise3D(vec3(intX, intY, intZ));
+    float v2 = noise3D(vec3(intX + 1, intY, intZ));
+    float v3 = noise3D(vec3(intX, intY + 1, intZ));
+    float v4 = noise3D(vec3(intX + 1, intY + 1, intZ));
+    
+    float v5 = noise3D(vec3(intX, intY, intZ+1));
+    float v6 = noise3D(vec3(intX + 1, intY, intZ+1));
+    float v7 = noise3D(vec3(intX, intY + 1, intZ+1));
+    float v8 = noise3D(vec3(intX + 1, intY + 1, intZ+1));
+
+    float i1 = mix(v1, v2, fractX);
+    float i2 = mix(v3, v4, fractX);
+    float i3 = mix(v5, v6, fractX);
+    float i4 = mix(v7, v8, fractX);
+    
+    float j1 = mix(i1, i2, fractY);
+    float j2 = mix(i3, i4, fractY);
+    
+    return mix(j1, j2, fractZ);
+}
+
+float fbm(float x, float y, float z, float amp, float freq)
+{
+    float total = 0.0;
+    float persistence = 0.5f;
+    int octaves = 8;
+
+    for(int i = 1; i <= octaves; i++) {
+        total += interpNoise3D(x * freq,
+                               y * freq,
+                               z * freq) * amp;
+
+        freq *= 2.f;
+        amp *= persistence;
+    }
+    return total;
+}
+
+vec3 getParticlePos_FBM(float spaceSize, float amp, float freq){
+    vec3 position = vec3(
+        fbm(i, 1.5 * i, 1.5 * i, amp, freq) * spaceSize * 2.0 - spaceSize,
+        fbm(i, 2.5 * i, 2.5 * i, amp, freq) * spaceSize - spaceSize * 0.5,
+        fbm(i, 0.5 * i, 0.5 * i, amp, freq) * spaceSize * 0.5  - spaceSize * 0.25
     );
 
     return position;
@@ -86,16 +153,26 @@ void main()
 {
     float spaceSize = 100.0;
     float distToCenter = length(current_pos);
+    float amp = 0.0;
+    float freq = 0.0;
 
     if (current_time.x == 0.0)
     {
         // create a new particle
-        v_pos = getParticlePos(spaceSize);
-
-        // randomize position and velocity
-        v_pos.x = (random3(current_pos + v_vel) - 0.5) * spaceSize * 2.0;
-   
-        v_vel = vec3(random2(vec2(i, 0.0)) - 0.5, random2(vec2(i, i)) - 0.5, random2(vec2(2.0 * i, 2.0 * i)) - 0.5);
+        if (u_GenType == 1.0) {
+            v_pos = getParticlePos_FBM(spaceSize, amp, freq);
+            
+            // randomize position and velocity
+            vec3 temp = current_pos + v_vel;
+            v_pos.x = (fbm(temp.x, temp.y, temp.z, amp, freq) - 0.5) * spaceSize * 2.0;
+            v_vel = vec3(fbm(i, 0.0, 0.0, amp, freq), fbm(i, i, i, amp, freq), fbm(2.0 * i, 2.0 * i, 2.0*i, amp, freq));
+            v_vel = v_vel - vec3(0.5);
+        } 
+        else {
+            v_pos = getParticlePos(spaceSize);
+            v_pos.x = (random3(current_pos + v_vel) - 0.5) * spaceSize * 2.0;
+            v_vel = vec3(random2(vec2(i, 0.0)) - 0.5, random2(vec2(i, i)) - 0.5, random2(vec2(2.0 * i, 2.0 * i)) - 0.5);
+        }
         v_vel = normalize(v_vel);
 
         // Color based on a smooth blend based on velocity and position
@@ -116,8 +193,17 @@ void main()
     
         // if Particle is out of bounds
         if (current_pos.y < -spaceSize * 0.5 ) {
-            new_v.x = 0.1 * MAX_SPEED * (2.0 * random3(100.0 * current_pos) - 1.0);
-            new_v.y = MAX_SPEED * random3(current_pos + current_vel);
+            if (u_GenType == 1.0)
+            {
+               new_v.x = 0.1 * MAX_SPEED * (2.0 * fbm(100.0 * current_pos.x, 100.0 * current_pos.y, 100.0 * current_pos.z, amp, freq) - 1.0);
+               vec3 temp1 = current_pos + current_vel;
+               new_v.y = MAX_SPEED * fbm(temp1.x, temp1.y, temp1.z, amp, freq);
+            }
+            else 
+            {
+                new_v.x = 0.1 * MAX_SPEED * (2.0 * random3(100.0 * current_pos) - 1.0);
+                new_v.y = MAX_SPEED * random3(current_pos + current_vel);
+            }
         }
         vec2 position_next = vec2(-current_pos.x/(spaceSize*2.0) + 0.5, current_pos.y/spaceSize + 0.6);
 
@@ -171,9 +257,18 @@ void main()
         // if Particle new postion is out of bounds
         if (current_pos.y < -spaceSize * 0.5 ) {
             // randomize XZ and move back to top of spaceSize
-            new_p.x = (random3(new_p + v_vel) - 0.5) * spaceSize * 2.0;
-            new_p.y += spaceSize + 0.5 * random3(new_p) * (spaceSize - spaceSize*0.5);
-            new_p.z = random2(vec2(i, 0.5 * i)) * spaceSize * 0.5 - spaceSize*0.25;
+            if (u_GenType == 1.0)
+            {
+                vec3 temp2 = new_p + v_vel;
+                new_p.x = (fbm(temp2.x, temp2.y, temp2.z, amp, freq) -0.5) * spaceSize * 2.0;//16.0;
+                new_p.y += spaceSize + 0.5 * fbm(new_p.x, new_p.y, new_p.z, amp, freq) * (spaceSize - spaceSize*0.5);
+                new_p.z = fbm(i, 0.5 * i, 0.0, amp, freq) * spaceSize * 0.5 - spaceSize*0.25;
+            }
+            else {
+                new_p.x = (random3(new_p + v_vel) - 0.5) * spaceSize * 2.0;
+                new_p.y += spaceSize + 0.5 * random3(new_p) * (spaceSize - spaceSize*0.5);
+                new_p.z = random2(vec2(i, 0.5 * i)) * spaceSize * 0.5 - spaceSize*0.25;
+            }
         }
         
         // check again for collisions

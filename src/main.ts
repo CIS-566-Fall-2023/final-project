@@ -17,6 +17,9 @@ const controls = {
   Obstacle_Size: 30.0,
   'Show Obstacles': true,
   'Lock Camera': true,
+  Default_Gen: default_generation,
+  FBM_Gen: fbm_generation,
+  //fbm_freq: 1.0,
 };
 
 let time: number = 0.0;
@@ -32,6 +35,19 @@ let obstacle_positions: Array<vec2>;
 obstacle_positions = new Array<vec2>();
 obstacle_positions.push(vec2.fromValues(0.5, 0.5)); // Default starting obstacle
 
+let generation_type: number = 1.0;
+// 0 = DEFAULT GENERATION
+// 1 = FBM GENERATION
+
+function default_generation()
+{
+  generation_type = 0.0;
+}
+
+function fbm_generation()
+{
+  generation_type = 1.0;
+}
 
 function loadScene() {
   square = new Square();
@@ -57,6 +73,9 @@ function main() {
   gui.add(controls, 'Obstacle_Size', 5.0, 200.0).step(1.0).name("Obstacle Size").onChange(setObstacleSize);
   gui.add(controls, 'Show Obstacles').onChange(showObstacles);
   gui.add(controls, 'Lock Camera').onChange(lockCamera);
+  gui.add(controls, 'Default_Gen').name('Default Particle Generation').onChange(setGenerationType);;
+  gui.add(controls, 'FBM_Gen').name('FBM Particle Generation').onChange(setGenerationType);
+  //gui.add(controls, 'fbm_freq', 0.1, 10.0).step(0.1).name("FBM Frequency").onChange(setFBMFreq);
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
   const gl = <WebGL2RenderingContext> canvas.getContext('webgl2');
@@ -157,6 +176,21 @@ function main() {
     camera_locked = controls["Lock Camera"];
   }
 
+  function setGenerationType()
+  {
+    transformFeedbackShader.setGenerationType(generation_type);
+    transformFeedbackShader.setParticleColor(vec3.fromValues(
+      generation_type,
+      generation_type,
+      generation_type
+    ));
+  }
+
+  // function setFBMFreq()
+  // {
+  //   transformFeedbackShader.setFBMFreq(controls.fbm_freq);
+  // }
+
   function setupTexture(width: number, height: number)
   {
     let texelData: any = [];
@@ -186,6 +220,8 @@ function main() {
   setObstacleSize();
   showObstacles();
   lockCamera();
+  setGenerationType();
+  //setFBMFreq();
 
   // This function will be called every frame
   function tick() {
