@@ -12,6 +12,7 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
  
 const controls = {
   Particle_Color: [0, 72, 255],
+  num_particles: 10000,
   Particle_Size : 0.7,
   Gravity: 30.0,
   Obstacle_Size: 30.0,
@@ -59,7 +60,7 @@ function loadScene() {
   screenBufP = new ScreenBuffer(-0.5, -0.5, 0.5, 0.5);
   screenBufP.create();
 
-  particles = new ParticlesGroup(10000);
+  particles = new ParticlesGroup(controls.num_particles);
   particles.create();
   particles.setVBOs();
 
@@ -69,6 +70,7 @@ function loadScene() {
 function main() {
   const gui = new DAT.GUI();
   gui.addColor(controls, 'Particle_Color').name("Particle Color").onChange(setParticleColor);
+  gui.add(controls, 'num_particles', 100, 50000).step(10).name("Number of Particles").onChange(loadScene);
   gui.add(controls, 'Particle_Size', 0.4, 2.0).step(0.1).name("Particle Size").onChange(setParticleSize);
   gui.add(controls, 'Gravity', 1.0, 100.0).step(1.0).onChange(setParticleAcceleration);
   gui.add(controls, 'Obstacle_Size', 5.0, 200.0).step(1.0).name("Obstacle Size").onChange(setObstacleSize);
