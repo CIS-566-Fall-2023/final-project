@@ -36,7 +36,7 @@ A tool made in Unity that allows the user to create roughly spherical characters
 |:-:|
 |<img src="img/sporeScreenshot.png" width=500>|
 
-Most of this will be achieved by referencing [IQ's amazing articles](https://iquilezles.org/articles/) on SDFs, raymarching and procedural texturing of SDFs.
+Most of this will be achieved by referencing [Inigo Quilez's amazing articles](https://iquilezles.org/articles/) on SDFs, raymarching and procedural texturing of SDFs.
 
 The hope is to create a tool for quick creation of spherical characters that would fit the aesthetic of Fling to the Finish.
 
