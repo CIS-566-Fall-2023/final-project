@@ -29,6 +29,7 @@ public class SDFObject : MonoBehaviour
     [SerializeField] private BlendOperationEnum blendOperation;
     public BlendOperationEnum BlendOperation => blendOperation;
 
+    [Range(0.0f, 10.0f)]
     [SerializeField] private float blendFactor = 0.02f;
     public float BlendFactor => blendFactor;
 

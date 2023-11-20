@@ -1,14 +1,16 @@
 #ifndef RAYMARCHSHADERINCLUDE
 #define RAYMARCHSHADERINCLUDE
 
+#define RAYMARCH_CONSTANT_STEPS 0
+#define RAYMARCH_SPHERE_TRACE 1
+
 #define MAX_SDF_OBJECTS 256
-#define MAX_ITERS 512
+#define MAX_ITERS 1024
 #define MAX_DIST 100000
 #define MIN_DIST 10e-4
 #define EPSILON float3(0.0f, MIN_DIST, 0.0f)
 
 float SDFType[MAX_SDF_OBJECTS];
-//float4 SDFPositions[MAX_SDF_OBJECTS];
 float4 SDFData[MAX_SDF_OBJECTS];
 float SDFBlendFactor[MAX_SDF_OBJECTS];
 float SDFBlendOperation[MAX_SDF_OBJECTS];
@@ -203,8 +205,11 @@ void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace,
 			break;
 		}
 
+#if RAYMARCH_CONSTANT_STEPS
 		dist += MIN_DIST;
-		//dist += clamp(m, MIN_DIST, m);
+#elif RAYMARCH_SPHERE_TRACE
+		dist += clamp(m, MIN_DIST, m);
+#endif
 		if (dist >= MAX_DIST)
 		{
 			break;
