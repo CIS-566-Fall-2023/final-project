@@ -3,8 +3,8 @@
 
 #define MAX_SDF_OBJECTS 256
 #define MAX_ITERS 512
-#define MAX_DIST 1000
-#define MIN_DIST 0.001
+#define MAX_DIST 100000
+#define MIN_DIST 10e-4
 #define EPSILON float3(0.0f, MIN_DIST, 0.0f)
 
 float SDFType[MAX_SDF_OBJECTS];
@@ -198,13 +198,13 @@ void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace,
 		if (m <= MIN_DIST)
 		{
 			// hit the sphere
-			//outColor = float4(1, 1, 1, 1);
 			outColor = color;
 			objectSpaceNormal = CalculateNormal(p);
 			break;
 		}
 
-		dist += m;
+		dist += MIN_DIST;
+		//dist += clamp(m, MIN_DIST, m);
 		if (dist >= MAX_DIST)
 		{
 			break;

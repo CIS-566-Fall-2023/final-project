@@ -23,7 +23,7 @@ public class SDFObject : MonoBehaviour
     [SerializeField] private SDFObjectType type;
     public SDFObjectType Type => type;
 
-    [SerializeField] private Vector4 data;
+    [SerializeField] private Vector4 data = new Vector4(0.3f, 0, 0, 0);
     public Vector4 Data => data;
 
     [SerializeField] private BlendOperationEnum blendOperation;
@@ -32,6 +32,6 @@ public class SDFObject : MonoBehaviour
     [SerializeField] private float blendFactor = 0.02f;
     public float BlendFactor => blendFactor;
 
-    [SerializeField] private Color color;
+    [SerializeField] private Color color = Color.white;
     public Color Color => color;
 }
