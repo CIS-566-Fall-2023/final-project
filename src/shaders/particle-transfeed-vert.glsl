@@ -36,7 +36,8 @@ uniform sampler2D u_ObstacleBuffer;
 uniform vec3 u_ObstaclePos;
 
 uniform float u_GenType;
-//uniform float u_FBMFreq;
+uniform float u_FBMFreq;
+uniform float u_FBMAmp;
 
 in vec4 vs_Pos;             // Not used. The array of vertex positions passed to the shader
 in vec4 vs_Nor;             // Not used. The array of vertex normals passed to the shader
@@ -153,13 +154,13 @@ void main()
 {
     float spaceSize = 100.0;
     float distToCenter = length(current_pos);
-    float amp = 0.0;
-    float freq = 0.0;
+    float amp = u_FBMAmp;
+    float freq = u_FBMFreq;
 
     if (current_time.x == 0.0)
     {
         // create a new particle
-        if (u_GenType == 1.0) {
+        if (u_GenType > 0.5) {
             v_pos = getParticlePos_FBM(spaceSize, amp, freq);
             
             // randomize position and velocity
@@ -193,7 +194,7 @@ void main()
     
         // if Particle is out of bounds
         if (current_pos.y < -spaceSize * 0.5 ) {
-            if (u_GenType == 1.0)
+            if (u_GenType > 0.5)
             {
                new_v.x = 0.1 * MAX_SPEED * (2.0 * fbm(100.0 * current_pos.x, 100.0 * current_pos.y, 100.0 * current_pos.z, amp, freq) - 1.0);
                vec3 temp1 = current_pos + current_vel;
@@ -257,12 +258,12 @@ void main()
         // if Particle new postion is out of bounds
         if (current_pos.y < -spaceSize * 0.5 ) {
             // randomize XZ and move back to top of spaceSize
-            if (u_GenType == 1.0)
+            if (u_GenType > 0.5)
             {
                 vec3 temp2 = new_p + v_vel;
-                new_p.x = (fbm(temp2.x, temp2.y, temp2.z, amp, freq) -0.5) * spaceSize * 2.0;//16.0;
+                new_p.x = (fbm(temp2.x, temp2.y, temp2.z, amp, freq) -0.5) * spaceSize * 2.5;
                 new_p.y += spaceSize + 0.5 * fbm(new_p.x, new_p.y, new_p.z, amp, freq) * (spaceSize - spaceSize*0.5);
-                new_p.z = fbm(i, 0.5 * i, 0.0, amp, freq) * spaceSize * 0.5 - spaceSize*0.25;
+                new_p.z = fbm(i, 0.5 * i, 0.0, amp, freq) * spaceSize - spaceSize*0.5;
             }
             else {
                 new_p.x = (random3(new_p + v_vel) - 0.5) * spaceSize * 2.0;

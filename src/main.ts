@@ -19,7 +19,8 @@ const controls = {
   'Lock Camera': true,
   Default_Gen: default_generation,
   FBM_Gen: fbm_generation,
-  //fbm_freq: 1.0,
+  fbm_freq: 1.0,
+  fbm_amp: 0.5,
 };
 
 let time: number = 0.0;
@@ -35,7 +36,7 @@ let obstacle_positions: Array<vec2>;
 obstacle_positions = new Array<vec2>();
 obstacle_positions.push(vec2.fromValues(0.5, 0.5)); // Default starting obstacle
 
-let generation_type: number = 1.0;
+let generation_type: number = 0.0;
 // 0 = DEFAULT GENERATION
 // 1 = FBM GENERATION
 
@@ -75,7 +76,8 @@ function main() {
   gui.add(controls, 'Lock Camera').onChange(lockCamera);
   gui.add(controls, 'Default_Gen').name('Default Particle Generation').onChange(setGenerationType);;
   gui.add(controls, 'FBM_Gen').name('FBM Particle Generation').onChange(setGenerationType);
-  //gui.add(controls, 'fbm_freq', 0.1, 10.0).step(0.1).name("FBM Frequency").onChange(setFBMFreq);
+  gui.add(controls, 'fbm_freq', 0.1, 15.0).step(0.1).name("FBM Frequency").onChange(setFBMFreq);
+  gui.add(controls, 'fbm_amp', 0.12, 1.0).step(0.02).name("FBM Amplitude").onChange(setFBMAmp);
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
   const gl = <WebGL2RenderingContext> canvas.getContext('webgl2');
@@ -179,17 +181,17 @@ function main() {
   function setGenerationType()
   {
     transformFeedbackShader.setGenerationType(generation_type);
-    transformFeedbackShader.setParticleColor(vec3.fromValues(
-      generation_type,
-      generation_type,
-      generation_type
-    ));
   }
 
-  // function setFBMFreq()
-  // {
-  //   transformFeedbackShader.setFBMFreq(controls.fbm_freq);
-  // }
+  function setFBMFreq()
+  {
+    transformFeedbackShader.setFBMFreq(controls.fbm_freq);
+  }
+
+  function setFBMAmp()
+  {
+    transformFeedbackShader.setFBMAmp(controls.fbm_amp);
+  }
 
   function setupTexture(width: number, height: number)
   {
@@ -221,7 +223,8 @@ function main() {
   showObstacles();
   lockCamera();
   setGenerationType();
-  //setFBMFreq();
+  setFBMFreq();
+  setFBMAmp();
 
   // This function will be called every frame
   function tick() {
@@ -294,7 +297,7 @@ function main() {
   // OBSTACLE-USER INTERACTION CODE 
   function addObstacle(x: number, y: number)
   {
-    addObstacleShader.setObstaclePos(vec2.fromValues(x, 1.0 - y), camera);
+    addObstacleShader.setObstaclePos(vec2.fromValues(x, 1.0 - y));
     gl.useProgram(addObstacleShader.prog);
     _FBO.bind(gl, texture, null);
 
@@ -304,7 +307,7 @@ function main() {
     gl.bindTexture(gl.TEXTURE_2D, null);
 
 
-    obstacleAddToBufferShader.setObstaclePos(vec2.fromValues(x, 1.0 - y), camera);
+    obstacleAddToBufferShader.setObstaclePos(vec2.fromValues(x, 1.0 - y));
     gl.useProgram(obstacleAddToBufferShader.prog);
     _FBO.bind(gl, texture, null);
 
@@ -332,7 +335,7 @@ function main() {
     transformFeedbackShader.setObstaclePos(vec2.fromValues(
       (2.0 * event.clientX / window.innerWidth) - 1.0,
       1.0 - (2.0 * event.clientY / window.innerHeight)
-      ), camera);
+    ));
 
     isMouseDragging = true;
   }
