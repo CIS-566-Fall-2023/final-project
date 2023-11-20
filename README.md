@@ -79,31 +79,40 @@ For my first milestone, I wanted to create a customizable material with paramete
 As for the actual material, I decided to start with a roof tiles material that would appear on each of the buildings in our procedural sci-fi city. The customizable parameters I wanted were the amount of tiles, tile offset, tile cracks, and the tile color. I wanted these to be easily variable between houses so that the houses didn't look too repetitive.
 
 To start off, I first used several blurs and noise functions to get the overall shape of a tile. Some nodes that were really helpful with this were the square into a trapezoid transform into a directional warp. Through a couple of transformations and gradients, I got this map:
+
 ![image](https://github.com/xcupsilon/project-blame/assets/35506196/b918618f-282a-461e-beab-ee2560cbf66a)
 
 I then created several variations of this base tile and plugged each one into a tile sampler to get a series of tiles in several shapes. I then merged these outputs as tiles themselves into another tile sampler node to create a super set of tiles with increased variation:
+
 ![image](https://github.com/xcupsilon/project-blame/assets/35506196/e1c6edee-8cb1-482e-a7b9-743effd8ff4b)
 ![image](https://github.com/xcupsilon/project-blame/assets/35506196/6ea4103e-0256-4449-8d38-9deab74097d6)
 
 Now that the base tiles have been finished, I can set up two of my wanted parameters. I controlled the tile amount by changing a random mask value that is applied to each of the 3 sub-tile nodes and I controlled the tile offset through a Perlin noise function that influenced tile displacement. Both of these values were parametrized and I could now control the tile structure.
 
 To get the cracks in the tiles, I first applied a blur on the tiles based on a Clouds noise function and then put that into an edge detect node, which highlighted the edges of the blurred tiles, creating a crack like effect. I blended this back into the original tiles and we get an awesome cracking effect, plus it can be controlled with a parameter that drives the blur intensity. Here is a zoomed-in version of the tiles with cracks:
+
 ![image](https://github.com/xcupsilon/project-blame/assets/35506196/7d2d6769-e4a5-45df-a214-1680cb5a5a63)
 
 Next, I wanted to create the material that would exist underneath the tiles. Because we decided that the buildings were made up of exposed concrete, I created a noisy background texture with Perlin noise, grunge maps, and blurring and warping. I then warped it with the existing tiles as a mask, creating this interesting warped texture.
+
 ![image](https://github.com/xcupsilon/project-blame/assets/35506196/6b8ffc05-426e-47ab-90bd-eb00f6fbb892)
 
 Finally, with all of these grayscale maps, infusing colors into them were very simple with the use of Substance Designer's Gradient Maps, which maps the texture's grayscale value to a color on a specified gradient. By making my tile mask subtract from my concrete noise map, I had a new map with the black values marking where tiles went and white values were I wanted more concrete to be. 
+
 ![image](https://github.com/xcupsilon/project-blame/assets/35506196/ff5df0e2-3df0-4d7e-a31c-f479eb106253)
 
 Applying a gradient map that mapped the dark values to the tile values of the brown and the higher values to concrete, I got this output:
+
 ![image](https://github.com/xcupsilon/project-blame/assets/35506196/b611d507-d626-4440-a43c-fb764d970e4f)
 
 In order to make the tiles more defined, I applied a gradient to the original tile map and blended it onto the previous colored texture, giving me my base color texture. I applied this to a HSV node that control the Hue, Saturation, and Value parameters, letting the tile color be customizable.
+
 ![image](https://github.com/xcupsilon/project-blame/assets/35506196/6e8ef6b7-9d56-4042-abc0-5e98b1831877)
 
 Finally, I applied my original black and white tile texture with concrete noise blended into the background to the normal, height, and ambient occlusion, letting me end up with this final material.
-![image](https://github.com/xcupsilon/project-blame/assets/35506196/4d6eca66-652e-4fdf-b4a0-e19cd213e4a0)
+
+![image](https://github.com/xcupsilon/project-blame/assets/35506196/15793da5-0330-4768-bf75-9a481f69645c)
+
 
 
 - Thomas:
