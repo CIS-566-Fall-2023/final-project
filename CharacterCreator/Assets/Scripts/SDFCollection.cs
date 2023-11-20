@@ -12,6 +12,7 @@ public class SDFCollection : MonoBehaviour
     private static readonly int SDFBlendOperationShaderPropertyID = Shader.PropertyToID("SDFBlendOperation");
     private static readonly int SDFBlendFactorShaderPropertyID = Shader.PropertyToID("SDFBlendFactor");
     private static readonly int SDFCountShaderPropertyID = Shader.PropertyToID("SDFCount");
+    private static readonly int SDFColorsPropertyID = Shader.PropertyToID("SDFColors");
     #endregion
 
     private SDFObject[] sdfObjects;
@@ -26,6 +27,7 @@ public class SDFCollection : MonoBehaviour
     private Vector4[] sdfData = new Vector4[MAX_SDF_OBJECTS];
     private float[] sdfBlendOperations = new float[MAX_SDF_OBJECTS];
     private float[] sdfBlends = new float[MAX_SDF_OBJECTS];
+    private Vector4[] sdfColors = new Vector4[MAX_SDF_OBJECTS];
 
     private bool hasInitialized = false;
 
@@ -58,6 +60,7 @@ public class SDFCollection : MonoBehaviour
         sdfData = new Vector4[MAX_SDF_OBJECTS];
         sdfBlendOperations = new float[MAX_SDF_OBJECTS];
         sdfBlends = new float[MAX_SDF_OBJECTS];
+        sdfColors = new Vector4[MAX_SDF_OBJECTS];
         renderer = GetComponent<Renderer>();
 
         materialPropertyBlock = new MaterialPropertyBlock();
@@ -82,6 +85,7 @@ public class SDFCollection : MonoBehaviour
             sdfData[i] = sdf.Data;
             sdfBlendOperations[i] = (int)sdf.BlendOperation;
             sdfBlends[i] = sdf.BlendFactor;
+            sdfColors[i] = sdf.Color;
         }
 
         materialPropertyBlock.SetFloatArray(SDFTypeShaderPropertyID, sdfTypes);
@@ -90,6 +94,7 @@ public class SDFCollection : MonoBehaviour
         materialPropertyBlock.SetFloatArray(SDFBlendOperationShaderPropertyID, sdfBlendOperations);
         materialPropertyBlock.SetFloatArray(SDFBlendFactorShaderPropertyID, sdfBlends);
         materialPropertyBlock.SetInt(SDFCountShaderPropertyID, numSDFObjects);
+        materialPropertyBlock.SetVectorArray(SDFColorsPropertyID, sdfColors);
         renderer.SetPropertyBlock(materialPropertyBlock);
     }
 

@@ -31,4 +31,7 @@ public class SDFObject : MonoBehaviour
 
     [SerializeField] private float blendFactor = 0.02f;
     public float BlendFactor => blendFactor;
+
+    [SerializeField] private Color color;
+    public Color Color => color;
 }

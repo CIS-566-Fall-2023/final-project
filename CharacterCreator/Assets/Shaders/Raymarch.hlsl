@@ -13,6 +13,7 @@ float4 SDFData[MAX_SDF_OBJECTS];
 float SDFBlendFactor[MAX_SDF_OBJECTS];
 float SDFBlendOperation[MAX_SDF_OBJECTS];
 float4x4 SDFTransformMatrices[MAX_SDF_OBJECTS];
+float4 SDFColors[MAX_SDF_OBJECTS];
 float SDFCount;
 
 struct Ray
@@ -27,22 +28,31 @@ float lengthSqr(float3 vec)
 }
 
 // from IQ
-float add(float a, float b, float k)
+
+/// <summary>
+/// Returns the smooth minimum (square) based on a k blend factor.
+/// </summary>
+/// <param name="a"></param>
+/// <param name="b"></param>
+/// <param name="k"></param>
+/// <returns>float2 value. x component is the smooth minimum value, and y component is the blend factor [0,1]</returns>
+float2 add_smoothMin2(float a, float b, float k)
 {
 	float h = max(k - abs(a - b), 0.0) / k;
-	return min(a, b) - h * h * k * 0.25f;
+	float m = h * h * 0.5;
+	float s = m * k * (1.0 / 2.0);
+	return (a < b) ? float2(a - s, m) : float2(b - s, m - 1.0);
 }
 
 float subtract(float a, float b, float k)
 {
-	//return max(a, -b);
 	float h = clamp(0.5 - 0.5 * (a + b) / k, 0.0, 1.0);
-	return lerp(a, -b, h) + k * h * (1.0 - h);
+	return float2(lerp(a, -b, h) + k * h * (1.0 - h), 0);
 }
 
 float intersect(float a, float b)
 {
-	return max(a, b);
+	return float2(max(a, b), 0);
 }
 
 float sdfBox(float3 pos, float3 size)
@@ -94,10 +104,13 @@ float sdfRoundness(float sdf, float roundness)
 	return sdf - roundness;
 }
 
-float sceneSdf(float3 pos)
+float sceneSdf(float3 pos, out float4 outColor)
 {
-	float sdf = FLT_MAX;
 	float3 posTransformed;
+	float2 sdf = float2(FLT_MAX, 1.0);
+
+	outColor = float4(0, 0, 0, 0);
+
 	for (int i = 0; i < SDFCount; i++)
 	{
 		float size = SDFData[i].x;
@@ -146,7 +159,7 @@ float sceneSdf(float3 pos)
 
 		if (blendOp == 0)
 		{
-			sdf = add(sdf, curSdf, SDFBlendFactor[i]);
+			sdf = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
 		}
 		else if (blendOp == 1)
 		{
@@ -156,33 +169,37 @@ float sceneSdf(float3 pos)
 		{
 			sdf = intersect(sdf, curSdf);
 		}
+
+		outColor = lerp(outColor, SDFColors[i], abs(sdf.y));
 	}
 
-	return sdf;
+	return sdf.x;
 }
 
 float3 CalculateNormal(float3 pos)
 {
-	return normalize(float3(sceneSdf(pos + EPSILON.yxx) - sceneSdf(pos - EPSILON.yxx),
-							sceneSdf(pos + EPSILON.xyx) - sceneSdf(pos - EPSILON.xyx),
-							sceneSdf(pos + EPSILON.xxy) - sceneSdf(pos - EPSILON.xxy)));
+	float4 colDiscard;
+	return normalize(float3(sceneSdf(pos + EPSILON.yxx, colDiscard) - sceneSdf(pos - EPSILON.yxx, colDiscard),
+							sceneSdf(pos + EPSILON.xyx, colDiscard) - sceneSdf(pos - EPSILON.xyx, colDiscard),
+							sceneSdf(pos + EPSILON.xxy, colDiscard) - sceneSdf(pos - EPSILON.xxy, colDiscard)));
 }
 
 void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float4 outColor, out float3 objectSpaceNormal)
 {
 	float dist = MIN_DIST;
-	outColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
+	float4 color = float4(0, 0, 0, 0);
 	for (int i = 0; i < MAX_ITERS; i++)
 	{
 		float3 p = rayOriginObjectSpace + rayDirectionObjectSpace * dist;
 
-		float m = sceneSdf(p);
+		float m = sceneSdf(p, color);
 
 		if (m <= MIN_DIST)
 		{
 			// hit the sphere
-			outColor = float4(1, 1, 1, 1);
+			//outColor = float4(1, 1, 1, 1);
+			outColor = color;
 			objectSpaceNormal = CalculateNormal(p);
 			break;
 		}
