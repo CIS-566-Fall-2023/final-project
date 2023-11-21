@@ -1,0 +1,206 @@
+//// Each #kernel tells which function to compile; you can have many kernels
+
+// ProcessDataComputeShader.compute
+
+#pragma kernel CSMain
+
+struct Data
+{
+    float x;
+    float y;
+};
+
+RWStructuredBuffer<Data> positionData;
+RWStructuredBuffer<float> resultData;
+
+//float2 grad(int2 z)
+//{
+//    int n = z.x + z.y * 15731; // Changed the magic number for simplicity
+//
+//    n = (n << 13) ^ n;
+//    n = (n * (n * n * 15731 + 789221) + 1376312589) & 0x7fffffff;
+//
+//    n &= 7;
+//    float2 gr = float2((n < 4) ? n - 1 : n - 4, (n < 4) ? n - 3 : n - 6) * 2.0 - 1.0;
+//    return (n >= 4) ? float2(gr.y, gr.x) : gr;
+//}
+//float Perlin(float2 position) {
+//    int2 i = int2(floor(position));
+//    float2 f = frac(position);
+//
+//    float2 u = f * f * (3.0 - 2.0 * f);
+//
+//    return lerp(lerp(dot(grad(i + int2(0, 0)), f - float2(0.0, 0.0)),
+//        dot(grad(i + int2(1, 0)), f - float2(1.0, 0.0)), u.x),
+//        lerp(dot(grad(i + int2(0, 1)), f - float2(0.0, 1.0)),
+//            dot(grad(i + int2(1, 1)), f - float2(1.0, 1.0)), u.x), u.y);
+//}
+
+float hash(float2 a)
+{
+
+    return frac(sin(a.x * 3433.8 + a.y * 3843.98) * 45933.8);
+
+}
+
+float noise(float2 U)
+{
+    float2 id = floor(U);
+    U = frac(U);
+    U *= U * (3. - 2. * U);
+
+    float2 A = float2(hash(id), hash(id + float2(0, 1))),
+        B = float2(hash(id + float2(1, 0)), hash(id + float2(1, 1))),
+        C = lerp(A, B, U.x);
+
+    return lerp(C.x, C.y, U.y);
+}
+
+float hash2(float2 a)
+{
+
+    return frac(sin(a.x * 343243.8 + a.y * 3863.98) * 42933.8);
+
+}
+
+float noise2(float2 U)
+{
+    float2 id = floor(U);
+    U = frac(U);
+    U *= U * (3. - 2. * U);
+
+    float2 A = float2(hash(id), hash(id + float2(0, 1))),
+        B = float2(hash(id + float2(1, 0)), hash(id + float2(1, 1))),
+        C = lerp(A, B, U.x);
+
+    return lerp(C.x, C.y, U.y);
+}
+
+float detNoise(float2 uv) {
+    float f = 0.0f;
+
+    float noise3_value = noise2(3.0f * uv);
+
+    float edge0 = 0.1f; // Lower edge of the transition
+    float edge1 = 0.25f; // Upper edge of the transition
+
+    float mixFactor = smoothstep(edge0, edge1, noise3_value);
+
+    float noiseScale = 13.0f;
+    float fNoise1 = noise(noiseScale * uv);
+
+    fNoise1 = 0.74f + 0.4f * fNoise1;
+
+    fNoise1 = pow(fNoise1, 1.7);
+
+    float bias = 8.0;
+    fNoise1 = 1.0f - pow(1.4 - fNoise1, bias);
+
+    float fNoise2 = noise(noiseScale * uv);
+    fNoise2 = 0.8f + 0.5f * fNoise2;
+    if (fNoise2 < 0.8f)
+    {
+        fNoise2 = 0.3f * fNoise2;
+    }
+    f = lerp(fNoise1, fNoise2, mixFactor);
+    return 1-f;
+}
+
+
+
+[numthreads(100, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.x + id.y * 100; // Adjust based on your numthreads configuration
+
+    if (index < positionData.Length)
+    {
+        float2 position = float2(positionData[index].x, positionData[index].y);
+        float height = detNoise(position);
+        resultData[index] = height;
+    }
+}
+
+
+//
+//float Perlin(float2 position) {
+//    int2 i = int2(floor(position));
+//    float2 f = frac(position);
+//
+//    float2 u = f * f * (3.0 - 2.0 * f);
+//
+//    return lerp(lerp(dot(grad(i + int2(0, 0)), f - float2(0.0, 0.0)),
+//        dot(grad(i + int2(1, 0)), f - float2(1.0, 0.0)), u.x),
+//        lerp(dot(grad(i + int2(0, 1)), f - float2(0.0, 1.0)),
+//            dot(grad(i + int2(1, 1)), f - float2(1.0, 1.0)), u.x), u.y);
+//}
+//
+//float2 grad(int2 z)
+//{
+//    int n = z.x + z.y * 57; // Changed the magic number for simplicity
+//
+//    n = (n << 13) ^ n;
+//    n = (n * (n * n * 15731 + 789221) + 1376312589) & 0x7fffffff;
+//
+//    n &= 7;
+//    float2 gr = float2((n < 4) ? n - 1 : n - 4, (n < 4) ? n - 3 : n - 6) * 2.0 - 1.0;
+//    return (n >= 4) ? float2(gr.y, gr.x) : gr;
+//}
+
+//
+//#pragma kernel CSMain
+//
+//struct Data {
+//    float x;
+//    float y;
+//};
+//
+//RWStructuredBuffer<Data> InputData;
+//RWStructuredBuffer<float> ResultBuffer;
+//
+//[numthreads(8, 8, 1)]
+//void CSMain(uint3 id : SV_DispatchThreadID) {
+//    Data input = InputData[id.x + id.y * 8];
+//    float result = Perlin(float2(input.x, input.y));
+//    ResultBuffer[id.x + id.y * 8] = result;
+//}
+//
+//float Perlin(float2 position) {
+//    int2 i = int2(floor(position));
+//    float2 f = fract(position);
+//
+//    float2 u = f * f * (3.0 - 2.0 * f);
+//
+//    return mix(mix(dot(grad(i + int2(0, 0)), f - float2(0.0, 0.0)),
+//        dot(grad(i + int2(1, 0)), f - float2(1.0, 0.0)), u.x),
+//        mix(dot(grad(i + int2(0, 1)), f - float2(0.0, 1.0)),
+//            dot(grad(i + int2(1, 1)), f - float2(1.0, 1.0)), u.x), u.y);
+//}
+//
+//float2 grad(int2 z)
+//{
+//    int n = z.x + z.y * 11111;
+//
+//    n = (n << 13) ^ n;
+//    n = (n * (n * n * 15731 + 789221) + 1376312589) >> 16;
+//
+//    n &= 7;
+//    float2 gr = float2(n & 1, n >> 1) * 2.0 - 1.0;
+//    return (n >= 6) ? float2(0.0, gr.x) :
+//        (n >= 4) ? float2(gr.x, 0.0) :
+//        gr;
+//}
+
+
+
+
+
+//#pragma kernel CSMain
+//
+//RWStructuredBuffer<float> ResultBuffer;
+//
+//[numthreads(1, 1, 1)]
+//void CSMain(uint3 id : SV_DispatchThreadID) {
+//    ResultBuffer[0] = 1.0f; // Writing a constant value
+//}
+//
