@@ -15,7 +15,9 @@ NOTE: For this section, we based our code off of this tutorial on infinite proce
     - Worked on editing GenerateMesh.cs which is called by the main chunking controller TerrainController.cs, and takes in user parameters to create a mesh for a single tile
     - Originally used Mathf.Perlin to generate simple perlin noise based on world coordinates, but wanted to make custom noise
     - Made custom noise function with GLSL in shadertoy that uses multiple Perlin noise functions to create different “biomes”
+      
       <img src="https://github.com/debbylin02/final-project/assets/82790216/d2e58d18-246f-4191-a074-603e4d1a4821" width = "400" height = "250">
+
     - Transferred this to Unity in C# but realized it was causing too much lag, so ended up using a compute shader instead
     - Because compute shader is computationally cheap but running multiple is expensive, we now only call it once per tile—taking in an array of x-y world locations and returning an array of heights
     - Current issues: the Perlin noise currently implemented in our HLSL compute shader results in a repeating pattern issue, which I’m still trying to figure out (the coordinate inputs are correct, and it’s the same exact hashing functions as used in our Shadertoy), so for now we have a gradient noise function
