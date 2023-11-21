@@ -1,4 +1,46 @@
-# Final Project - Debby Lin and Will Cai 
+# Final Project - Debby Lin and Will Cai
+
+https://github.com/debbylin02/final-project/assets/82790216/d5bd26bb-46f0-4cd5-ac98-a66d43569a69
+
+## Milestone 1: Implementation part 1 (due 11/15)
+### Procedural terrain:  Will and Debby
+NOTE: For this section, we based our code off of this tutorial on infinite procedural terrain: https://youtu.be/f9uueg_AUZs?si=022T5p3lBSdTLTk6  
+  - #### Chunking - Will and Debby
+    -  Chunking was done in TerrainController.cs
+    -  Kept a dictionary of terrain tiles mapping Vector2 (coordinate of a tile) to GameObjects (terrain tile objects).
+    -  Checked if tiles have changed or no tiles exist yet before enabling new tiles that are within the Radius to Render distance around the center tiles and deactivating old tiles that are out of range. This is so that we can limit the amount of terrain that needs to be generated to just the terrain the player can see.
+    -  Created a Level object to parent the water plane. The dimensions of the water plane was based on the Radius to Render and the size of each tile (i.e. the Terrain Size field).
+
+  - #### Infinite Landscape Generation + HLSL Noise - Will 
+    - Worked on editing GenerateMesh.cs which is called by the main chunking controller TerrainController.cs, and takes in user parameters to create a mesh for a single tile
+    - Originally used Mathf.Perlin to generate simple perlin noise based on world coordinates, but wanted to make custom noise
+    - Made custom noise function with GLSL in shadertoy that uses multiple Perlin noise functions to create different “biomes”
+      <img src="https://github.com/debbylin02/final-project/assets/82790216/d2e58d18-246f-4191-a074-603e4d1a4821" width = "400" height = "250">
+    - Transferred this to Unity in C# but realized it was causing too much lag, so ended up using a compute shader instead
+    - Because compute shader is computationally cheap but running multiple is expensive, we now only call it once per tile—taking in an array of x-y world locations and returning an array of heights
+    - Current issues: the Perlin noise currently implemented in our HLSL compute shader results in a repeating pattern issue, which I’m still trying to figure out (the coordinate inputs are correct, and it’s the same exact hashing functions as used in our Shadertoy), so for now we have a gradient noise function
+    
+  - #### Asset placement (with basic models) - Debby
+    - Created two simple objects, “rocks” (red cubes) and “trees” (green cylinders)
+    - Asset placement was done using the Terrain Controller and the PlaceObjects.cs script.
+      - First a random number of objects was picked between the minimum and maximum number of objects allowed per tile of the terrain (these were variables kept by the Terrain Controller).
+      - Then a random prefab was chosen from the list of “placeable objects” kept by the Terrain Controller (in this case, trees and rock objects) as a variable.
+      - Then a random point was picked above the terrain based on the terrain size (i.e. the size of each terrain tile - another field in Terrain Controller) to place the object.
+      - Unity’s RaycastHit (which gets info back from a raycast) and BoxCast (which casts a box along a ray and returns detailed information on what it collided with) were used to test if an object could be placed at the randomly picked point (i.e. the point was above water level and a box collider around the placed object would intersect with the terrain). 
+
+### Moving camera/player - Will
+  - Implemented simple WASD + arrow key controls to move/turn the player
+  - Player sphere stays around the origin to reduce lag
+  - Camera was made a child of the player object and follows closely behind
+      
+### Skybox/procedural sky with day-night cycle - Debby
+  - I used the unity asset “Simple Sky” to get a skydome mesh and sky texture: https://assetstore.unity.com/packages/3d/environments/simple-sky-cartoon-assets-42373
+  - I added SkyManager.cs to automate the changing of the sky color to showcase the passage of time throughout the day. This script calculated the time of the day by splitting up unity’s “Time.deltaTime” value into 24 hours. Based on the hour, it would offset the texture used by the sky material by some amount to change the sky color. This sky material was then attached to a large skydome mesh. This skydome was then centered around the movement of the player so that the sky could move as the player moved around the space using a PositionOnlyFollow script, which took in the player’s position and set that to the center of the skydome. This was done so that the skydome wouldn’t rotate when the player rotated (i.e. which would occur if the skydome was just set as a child of the player).
+  - In order to replicate a day-night cycle, I created LightingManager.cs and a lighting preset. The lighting preset contained 3 gradients: ambient color, directional color, and fog color. These three gradients were sampled based on the time of day in order to apply some colored lighting to replicate changing sunlight as the directional light moved. Like the sky box, the sunlight is based on the time of the day (a value between 24 hours). The rotation of the light is also based on the time of day times 360 degrees so that as time passes the direction of the light changes.
+  - Current issues: I still need to edit the star/moon assets so that they rise/appear during night time and disappear during the day time. Additionally, I want to attempt to bring clouds into play for a more visually appealing sky. 
+  
+
+----------------------
 
 ## Project planning: Design Doc (due 11/8)
 #### Introduction
@@ -102,15 +144,7 @@ The main features of our project will include:
   - Final model imports -  Will/Debby
 
 
-## Milestone 1: Implementation part 1 (due 11/15)
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
 
-Put all your code in your forked repository.
-
-Submission: Add a new section to your README titled: Milestone #1, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far
-We'll check your repository for updates. No need to create a new pull request.
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
