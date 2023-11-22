@@ -59,6 +59,11 @@ I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and
 ![](Milestone1xym.gif)
 
 # Milestone 2
+## Jiefu Ling  
+ - Atmosphere + Cloud Shader
+ - Fresnel Effect based atmosphere effect + simple noise based cloud effect
+![Atmosphere Shader](https://github.com/Jeff-Ling/final-project/assets/74678923/6670f8d0-70fb-4552-9944-3050200cf384)
+
 
 # Milestone 3
 
