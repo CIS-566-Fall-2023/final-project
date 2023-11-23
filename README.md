@@ -75,7 +75,7 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 <details>
   <summary> Milestone 1 </summary>
 
-## Milestone 1
+## Milestone 1 - Week 1 ( 8 Nov'23 - 15 Nov'23)
 
 ### Components
 1. [TouchDesigner Basics](#touchdesigner-basics)
@@ -137,6 +137,77 @@ Again, the highlighted path in the above image is to show that the snare detecti
 
 <details>
   <summary> Milestone 2 </summary>
+
+## Milestone 2 - Week 2 ( 15 Nov'23 - 22 Nov'23)
+
+### Components
+1. TODO
+
+Milestone 2 was SO MUCH FUN! And not only I was able to hit all my milestones, I was able to do more than that! I had planned to get 2 interactive graphical features implemented, but I was able to get 4, in addition to the other milestones of hooking up kinect and doing a preliminary audio-driven test. These are the 4 effects I was able to make:  
+
+![](images/ms2/ms2_demo.gif)  
+
+### Hooking up Kinect with TouchDesigner
+TouchDesigner has a kinect node which makes it super easy to interact with the device, and also exposes a lot of the features as a black-box which kinect is capable of, e.g. depth buffer, infrared sensor, detecting body parts like hands/neck/legs/etc.  
+<img width="200px" src="images/ms2/kinect_td.png">  
+Next, for connecting Kinect to my system I had to buy an [adapter](https://www.amazon.com/Kinect-Adapter-Compatible-Mircosoft-Charging/dp/B093CYW12Z/ref=sr_1_4?keywords=kinect+pc+adapter&qid=1700714724&sr=8-4) because the Kinect uses a different USB port type. Next, to allow Kinect to talk to my system, I needed the requisite drivers, which are provided by Microsoft's app [Kinect Studio](https://learn.microsoft.com/en-us/windows/apps/design/devices/kinect-for-windows). Once connected, I was able to see the kinect capture being streamed into my TouchDesigner node.
+
+### Network Summary
+As I did with the audio detection milestone, I followed the same principal of making separate nodes for each effect and exposing the relevant parameters on these custom nodes. Hence, the overall network looks super clean and easy to plug-and-play:
+![](images/ms2/../ms2/kinect_network.png)  
+On the left are the 2 different types of Kinect input nodes that give me access to various buffers/data being captured by kinect. The other 4 nodes are my custom effects, which I will explain one by one.
+
+### Ramping Up - Trippy Edges effect
+To get started, I first watched [this](https://www.youtube.com/watch?v=QGuquFiInqY&t=80s) video again by the amazing [elekktronaut](https://www.youtube.com/@elekktronaut). This helped me give an overview of the different kinds of nodes I could use with the kinect input, and create a cool trippy effect with the color scheme I like. In summary, the trippy edges node network looks like this from the outside and exposes just one parater that allows the user to tweak how long they want the outlines to persist for:  
+![](images/ms2/trippy_edges_summary.png)  
+On going inside the network, it looks something like this:  
+![](images/ms2/trippy_edges_details.png)  
+This was a good node to get started with, because I had a decent demo I could follow and then tweak it to my liking. The final result looked something like this:  
+![](images/ms2/trippy_edges_rec.gif)
+
+### Referring Dance Central Again - Trails & Swiggles
+One of the things I found really cool in Dance Central was the cool glowing trails they incorporated into the gameplay that followed the players hands:  
+<table>
+  <tr>
+    <td><img width="300px" src="images/ms2/dc_ref1.jpg" /></td>
+    <td><img width="300px" src="images/ms2/dc_ref2.jpg"  /></td>
+    <td><img width="300px" src="images/ms2/dc_ref3.jpg"  /></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center"><i>Hand Trails in Dance Central</i></td>
+  </tr>
+</table>  
+
+But in addition to the trail effect, I needed some effect to composite it with that gave the player some indication as to where their silhoutte in the scene was. And [this](https://www.youtube.com/watch?v=0z-PxjPOOCY) gave me the perfect effect to incporporate. So, I created a separate node for this effect:  
+![](images/ms2/trails_swiggle_summary.png)  
+The node exposes 2 controls - how large the trail radius needs to be, and how 'laggy' it can be. If you look inside the node, a lot is going on:  
+![](images/ms2/trails_swiggle_details.png)  
+Essentially, the top half of the workflow handles the trail generation while the bottom half makes the squiggly lines. It was particularly difficult to make the trails buttery smooth, because the kinect input was very abrupt and discrete. But poking around with different nodes, watching a bunch of tutorials, and my all my gathered learnings till date helped me achieve the look I wanted. I was really happy with the final result, which looked something like this:  
+![](images/ms2/trails_swiggle.gif)  
+When put next to the trippy edges effect, it looks something like this:  
+![](images/ms2/trails_and_edges.gif)
+
+### Human Torch!
+For my next effect, I wanted to achieve the fluid simulation effect similar to my friend John's work referenced in the design doc. But poking around, I found [this](https://www.youtube.com/watch?v=A-xOp1LTchY) cool video that went over how one could do fire simulation using a new node type recently introduced in TouchDesigner that uses Nvidia's Flow simulation. This was perfect for me, as I could plug and play with the feature instead of writing a fluid simulation from scratch. And hence, this node turned out to be an easy win. Following the tutorial and plugging it into my tutorial was easily doable with a small network like this:  
+![](images/ms2/fire_sim_details.png)
+And after spending a lot of time tweaking dozens of simulation parameters, I was able to get the following effect:  
+![](images/ms2/fire_sim.gif)
+
+### Audio-Reactive Input
+As mentioned in my Week 2 Milestone tasks, I wanted to a proof-of-concept by driving some visuals using the audio detection I done for my 1st milestone. I chose to just apply a simple offset to the edges using snares from the audio. My custom node for the same looks like this:
+![](images/ms2/edges_snare_summary.png)  
+It exposes only one paramter - how much the edges need to be offset by. The network itself looks like this:  
+![](images/ms2/edges_snare_details.png)  
+And the final result turned out to be really fun! Here is a short clip from a test run:
+TODO
+
+### Summary - Milestone 2
+As I said earlier, Milestone 2 was not only fun but I was also able to do more than I had expected. I will have to be really careful while driving the kinect input with audio though, because the background will also be audio-driven and I don't want the visuals to get too messy or overwhelming for the user. I am really excited to work on the background visuals, and finally plug everything together to see how AlgebRave turns out!
+
+</details>  
+
+<details>
+  <summary> Milestone 3 </summary>
 
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
