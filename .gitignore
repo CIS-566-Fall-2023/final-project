@@ -1,0 +1,106 @@
+# ===========================
+# Default GIT Ignore Rules
+# ===========================
+
+# OS Generated
+# ============================---++++asking?
+._*
+.DS_Store
+.Spotlight-V100
+.Trashes
+[Dd]esktop.ini
+ehthumbs.db
+[Tt]humbs.db
+
+# Asset meta data should only be ignored when the corresponding asset is also ignored
+# I don't think this line works because Icons was being ignored but Icons.meta wasn't being ignored. - Utkarsh
+# Let's see what's up with that later.
+![Aa]ssets/**/*.meta
+
+# Visual Studio / MonoDevelop generated
+# =====================================----
+.vs/
+*.booproj
+*.csproj
+*.pdb
+*.pidb
+*.sln
+*.suo
+*.unityproj
+*.user
+*.userprefs
+[Ee]xported[Oo]bj/
+
+# Other IDE / Misc
+==================
+.consulo/
+*.tmp
+*.mdb
+*.opendb
+*.svd
+*.tmp
+*.VC.db
+
+# Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity generated
+# ===============
+.*/
+*.stackdump
+[Bb]uild/
+[Bb]uilds/
+[Ll]ibrary/
+[Ll]ogs/
+[Oo]bj/
+sysinfo.txt
+[Tt]emp/
+[Mm]emoryCaptures/
+[Uu]serSettings/
+[Ss]witchIL2CPPCache/
+[Ss]witchIL2CPPStats/
+
+# Build related
+# =============
+.gradle/
+*.apk
+*.unitypackage
+crashlytics-build.properties
+
+# Third party assets
+
+# ==================
+# Photon
+# ==================
+Assets/Photon/PhotonLibs/GameCore
+Assets/Photon/PhotonLibs/EncryptorNative.cs
+Assets/Photon/PhotonLibs/EncryptorNative.cs.meta
+Assets/Photon/PhotonLibs/SocketNativeSource.cs
+Assets/Photon/PhotonLibs/SocketNativeSource.cs.meta
+
+# ==================
+# FMOD
+# ==================
+fmod*.log
+Assets/StreamingAssets/*.bank
+Assets/StreamingAssets/*.bank.meta
+Assets/Plugins/FMOD/Cache/Editor/
+Assets/Plugins/FMOD/platforms/gamecore
+Assets/Plugins/FMOD/platforms/ps4
+Assets/Plugins/FMOD/platforms/ps5
+Assets/Plugins/FMOD/platforms/gamecore.meta
+Assets/Plugins/FMOD/platforms/ps5.meta
+Assets/Plugins/FMOD/lib/ps4
+Assets/Plugins/FMOD/src/Runtime/wrapper/fmod_ps4.cs
+Assets/Plugins/FMOD/src/Runtime/wrapper/fmod_ps4.cs.meta
+
+# ==================
+# Rewired
+# ==================
+Assets/Rewired/Plugins
+
+# ==================
+# Bakery lightmapper
+# ==================

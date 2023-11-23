@@ -1,117 +1,231 @@
-# Final Project!
+# Character Creator
 
-This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
+# Table of Contents
 
-## Project planning: Design Doc (due 11/8)
-Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
+- [Design Doc](#design-doc)
+  - [Introduction](#introduction)
+  - [Goal](#goal)
+  - [Inspiration](#inspiration)
+  - [Specifications](#specifications)
+  - [Techniques](#techniques)
+  - [Design](#design)
+  - [Timeline](#timeline)
+- [Milestone #1: Setup SDFs and Raymarching (11/15/23)](#milestone-1-setup-sdfs-and-raymarching-111523)
+- [Implementation Details](#implementation-details)
+  - [1. Raymarch shader](#1-raymarch-shader)
+  - [2. Lighting and Shading](#2-lighting-and-shading)
+  - [3. Animations ???](#3-animations-)
+- [References](#references)
 
-### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
+# Design Doc
 
-#### Introduction
-- What motivates your project?
+## Introduction
 
-#### Goal
-- What do you intend to achieve with this project?
+This project will serve as a base for a procedural character creation system that could hopefully be integrated into my game,
+[Fling to the Finish](https://store.steampowered.com/app/1054430/Fling_to_the_Finish/), in the future. The game uses an art-style where all characters fit within a bounding-sphere, and must be *roughly* round shaped.
 
-#### Inspiration/reference:
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
-- Include in your design doc links to and images of your reference material.
+## Goal
 
-#### Specification:
-- Outline the main features of your project.
+A tool made in Unity that allows the user to create roughly spherical characters by using smooth (or hard) blended SDFs and a procedural texturing tool for the generated characters. This tool will allow the user to choose from a bunch of predefined metaball primitive shapes and combine them to make a character. The user will be able to procedurally texture the generated character. Both the geometry and texturing stages will allow the user to tweak parameters to customise the look of their character.
 
-#### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
+## Inspiration
 
-#### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+[Spore](https://store.steampowered.com/app/17390/SPORE/) uses a signed distance field (SDF) (more specifically, metaballs) based approach for its extremely robust character creation engine. While this engine is ahead of its time and really technologically complex, I wish to create a tool that could replicate a small chunk of its functionality.
 
-#### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
+|Spore Character Creator|
+|:-:|
+|<img src="img/sporeScreenshot.png" width=500>|
 
-Submit your Design doc as usual via pull request against this repository.
-## Milestone 1: Implementation part 1 (due 11/15)
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
+Most of this will be achieved by referencing [Inigo Quilez's amazing articles](https://iquilezles.org/articles/) on SDFs, raymarching and procedural texturing of SDFs.
 
-Put all your code in your forked repository.
+The hope is to create a tool for quick creation of spherical characters that would fit the aesthetic of Fling to the Finish.
 
-Submission: Add a new section to your README titled: Milestone #1, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far
-We'll check your repository for updates. No need to create a new pull request.
-## Milestone 3: Implementation part 2 (due 11/27)
-We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
+|Fling to the Finish Characters|
+|:-:|
+|<img src="img/flingCharacters.png" width=300>|
 
-Put all your code in your forked repository.
+## Specifications
 
-Submission: Add a new section to your README titled: Milestone #3, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what did you have to cut and why? 
-- Detailed output from your generator, images, video, etc.
-We'll check your repository for updates. No need to create a new pull request.
+**1. Primitive Metaball based character generator**
 
-Come to class on the due date with a WORKING COPY of your project. We'll be spending time in class critiquing and reviewing your work so far.
+This system will use a number of predefined metaballs including:
 
-## Final submission (due 12/5)
-Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
+- a base body shape (sphere, rounded cube, pyramid)
+- optional accessories, including
+  - eyes, mouth and nose
+  - wings
+  - visual enhancements, such as a torus
 
-Submission:
-- Push all your code / files to your repository
-- Come to class ready to present your finished project
-- Update your README with two sections 
-  - final results with images and a live demo if possible
-  - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
+The user will be allowed to first select a base body shape, and then add up to 4 accessories, by moving, rotating, and scaling them in 3D space near the main body metaball.
 
-## Topic Suggestions
+**2. Raymarching in Unity**
 
-### Create a generator in Houdini
+Since the system will use metaballs, it needs a raymarching algorithm to render these metaballs. This will be implemented as a HLSL shader in Unity.
 
-### A CLASSIC 4K DEMO
-- In the spirit of the demo scene, create an animation that fits into a 4k executable that runs in real-time. Feel free to take inspiration from the many existing demos. Focus on efficiency and elegance in your implementation.
-- Example: 
-  - [cdak by Quite & orange](https://www.youtube.com/watch?v=RCh3Q08HMfs&list=PLA5E2FF8E143DA58C)
+**3. Procedural Texturing**
 
-### A RE-IMPLEMENTATION
-- Take an academic paper or other pre-existing project and implement it, or a portion of it.
-- Examples:
-  - [2D Wavefunction Collapse Pokémon Town](https://gurtd.github.io/566-final-project/)
-  - [3D Wavefunction Collapse Dungeon Generator](https://github.com/whaoran0718/3dDungeonGeneration)
-  - [Reaction Diffusion](https://github.com/charlesliwang/Reaction-Diffusion)
-  - [WebGL Erosion](https://github.com/LanLou123/Webgl-Erosion)
-  - [Particle Waterfall](https://github.com/chloele33/particle-waterfall)
-  - [Voxelized Bread](https://github.com/ChiantiYZY/566-final)
+This will allow the user to colour each part of the generated character based on chosen parameters:
+  - shading model (lambertian/phong/PBR)
+  - colour and glossiness
+  - applying procedural textures on to the shape based on a spherical projection (more explained later)
 
-### A FORGERY
-Taking inspiration from a particular natural phenomenon or distinctive set of visuals, implement a detailed, procedural recreation of that aesthetic. This includes modeling, texturing and object placement within your scene. Does not need to be real-time. Focus on detail and visual accuracy in your implementation.
-- Examples:
-  - [The Shrines](https://github.com/byumjin/The-Shrines)
-  - [Watercolor Shader](https://github.com/gracelgilbert/watercolor-stylization)
-  - [Sunset Beach](https://github.com/HanmingZhang/homework-final)
-  - [Sky Whales](https://github.com/WanruZhao/CIS566FinalProject)
-  - [Snail](https://www.shadertoy.com/view/ld3Gz2)
-  - [Journey](https://www.shadertoy.com/view/ldlcRf)
-  - [Big Hero 6 Wormhole](https://2.bp.blogspot.com/-R-6AN2cWjwg/VTyIzIQSQfI/AAAAAAAABLA/GC0yzzz4wHw/s1600/big-hero-6-disneyscreencaps.com-10092.jpg)
+**Stretch goals:**
 
-### A GAME LEVEL
-- Like generations of game makers before us, create a game which generates an navigable environment (eg. a roguelike dungeon, platforms) and some sort of goal or conflict (eg. enemy agents to avoid or items to collect). Aim to create an experience that will challenge players and vary noticeably in different playthroughs, whether that means procedural dungeon generation, careful resource management or an interesting AI model. Focus on designing a system that is capable of generating complex challenges and goals.
-- Examples:
-  - [Rhythm-based Mario Platformer](https://github.com/sgalban/platformer-gen-2D)
-  - [Pokémon Ice Puzzle Generator](https://github.com/jwang5675/Ice-Puzzle-Generator)
-  - [Abstract Exploratory Game](https://github.com/MauKMu/procedural-final-project)
-  - [Tiny Wings](https://github.com/irovira/TinyWings)
-  - Spore
-  - Dwarf Fortress
-  - Minecraft
-  - Rogue
+**1. Apply different stylized effects for texturing**
 
-### AN ANIMATED ENVIRONMENT / MUSIC VISUALIZER
-- Create an environment full of interactive procedural animation. The goal of this project is to create an environment that feels responsive and alive. Whether or not animations are musically-driven, sound should be an important component. Focus on user interactions, motion design and experimental interfaces.
-- Examples:
-  - [The Darkside](https://github.com/morganherrmann/thedarkside)
-  - [Music Visualizer](https://yuruwang.github.io/MusicVisualizer/)
-  - [Abstract Mesh Animation](https://github.com/mgriley/cis566_finalproj)
-  - [Panoramical](https://www.youtube.com/watch?v=gBTTMNFXHTk)
-  - [Bound](https://www.youtube.com/watch?v=aE37l6RvF-c)
+Instead of simply rendering the mesh, allow the user to generate a stylized character (toon shaded, pixelated, etc.)
 
-### YOUR OWN PROPOSAL
-- You are of course welcome to propose your own topic . Regardless of what you choose, you and your team must research your topic and relevant techniques and come up with a detailed plan of execution. You will meet with some subset of the procedural staff before starting implementation for approval.
+**2. Generated character to mesh conversion, with automated UV mapping and texture projection**
+
+This is required for use in a traditional rasterized pipeline, which is what most games, including Fling to the Finish, use. Since this is not the main focus of the project, this will be a stretch goal based on the progress of the project.
+
+## Techniques
+
+- **Unity Engine** will be used for the development of this tool.
+- [SDFs / metaballs](https://iquilezles.org/articles/raymarchingdf/) for character body parts generation, adjustment, and rendering.
+- For procedurally texturing based on predefined texture maps, the texture maps will be projected on to a sphere similar to [these PBRT approaches](https://www.pbr-book.org/3ed-2018/Monte_Carlo_Integration/2D_Sampling_with_Multidimensional_Transformations), and then projected on to the generated character based on its surface normals. This approach is rather naive, but will serve as a good starting point.
+
+## Design
+
+|![](img/designDiagram.png)|
+|:-:|
+
+## Timeline
+
+- **Week 1 | Milestone 1 (11/15)**
+  - Setup raymarching in Unity
+  - Create basic SDF shapes
+  - Setup moving and combining multiple SDF shapes using smooth and hard blending options
+- **Week 2 | Milestone 2**
+  - Finish moving, rotating and scaling of different SDF shapes
+  - Allow multiple types of blending based on a smoothed interpolation between smooth and hard blending
+    - Based on preset AnimationCurves (stretch goal: allow user to manipulate these curves)
+- **Week 3 | Milestone 3 (11/27)**
+  - Create UI for texturing individual primitives
+    - Lambertian shading model
+    - Phong shading and reflections
+  - Texture mapping based on spherical projection
+- **Week 4 | Final (12/5)**
+  - Improve UI of the tool
+  - Improve visual fidelity
+  - Final tweaking and adjustments of visual parameters
+
+# Milestone #1: Setup SDFs and Raymarching (11/15/23)
+
+![](/img/anim1.gif)
+
+I hit pretty much most of my goals for Milestone 1, which is awesome! In summary, I have created the following systems:
+
+- `SDFObject` MonoBehaviour
+  - Data holder for describing an SDF object's properties
+    - `Type` - the shape of the object (Sphere and Cube implemented)
+    - `Size` - scale of the object
+    - `Blend Operation` - Add (Union), Subtract, or Intersect
+    - `Blend Factor` - Strength of the blending (currently only works with Add mode, but will make it work with the other two blend operations in future milestones)
+- `SDFCollection` MonoBehaviour
+  - Contains multiple `SDFObject` children
+  - Renders all its children in the heirarchy that lie inside an axis-aligned bounding box
+  - Children blend with their siblings based on their order in the heirarchy. This ordering can be restructured anytime to update how the children are blended together.
+  - Transfers data from its children into the Raymarching shader
+- `Raymarch` Shader
+  - Simple unlit shader that performs raymarched rendering of the scene
+  - Potential to improve performance by shifting scene SDF calculation to a compute shader (stretch goal)
+
+|SDFCollection|SDFObject|
+|:-:|:-:|
+|<img src="img/sdfCollection.png" width=300>|<img src="img/sdfObject.png" width=500>|
+
+|Character creation process|
+|:-:|
+
+
+https://github.com/utkarshdwivedi3997/character-creator/assets/22533563/a13740c8-93d7-497b-a462-8231ef2bc678
+
+
+# Implementation Details
+
+## 1. Raymarch shader
+
+This is a rather simple shader that performs raymarching on a collection of `SDFObject`s. The material created from this shader is attached to the `SDFCollection` object that holds all the `SDFObject`s. The `SDFCollection` object has a `MeshRenderer` component which renders a Unity cube. The Raymarch shader is a fragment shader that renders this cube and shows SDFs inside of it.
+
+The actual raymarching is a very standard [sphere tracing algorithm](https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/) that runs for `n` iterations and a maximum distance `max_dist` over all the objects in the `SDFCollection`. Each `SDFObject`s individual SDF is calculated and blended with the `SDFCollection` SDF based on the blend operation specified by it.
+
+Data from the `SDFCollection` is transferred into the shader at each frame in an `Update` call using a `MaterialPropertyBlock`. I learned this trick from [this article](https://bronsonzgeb.com/index.php/2021/03/06/particle-metaballs-in-unity-using-urp-and-shader-graph-part-2/) on rendering particles as metaballs. It looks something like this:
+
+```C#
+[RequireComponent(typeof(MeshRenderer))]
+public class SDFCollection: MonoBehaviour
+{
+  private Renderer renderer;
+  private MaterialPropertyBlock materialPropertyBlock;
+
+  private static readonly int SDFPositionsShaderPropertyID= Shader.PropertyToID("SDFPositions");     // handle pointing to the SDFPositions array in the shader
+  private Vector4[] sdfPositions;   // array that will contain all SDFObject children positions
+
+  ... // more properties
+  
+  private void Initialize()
+  {
+    renderer = GetComponent<Renderer>();
+    materialPropertyBlock = new MaterialPropertyBlock();
+  }
+
+  ... // code
+
+  private void Update()
+  {
+    sdfPositions = // update sdfPositions if they have moved
+
+    materialPropertyBlock.SetVectorArray(SDFPositionsShaderPropertyID, sdfPositions);
+
+    ... // Add more properties to the material property block
+
+    // send this data to the shader
+    renderer.SetPropertyBlock(materialPropertyBlock);
+  }
+}
+```
+
+In the HLSL shader, this can simply be read by declaring an array:
+
+```HLSL
+#define MAX_SDF_OBJECTS 256
+float4 SDFPositions[MAX_SDF_OBJECTS];
+```
+
+These SDFPositions are then used in the shader to calculate each `SDFObject`'s SDF and blend it with the overall `SDFCollection`.
+
+## 2. Lighting and Shading
+
+I was able to get the basic setup done fairly quickly, so I got a head start on milestone 2's shading feature. There is a very basic Lambertian shading model that affects the SDFs. Admittedly, as simple as this code is, I spent 3 days debugging one very tiny and pesky bug in my shader code that was incorrectly calculating the normals:
+
+```HLSL
+float GetNormal(float3 pos)
+{
+  return normalize(float3(gradient of SDF at pos)) // normal code
+}
+```
+
+There was nothing wrong in the actual normal calculation, and it drove me crazy! I referenced 6 different articles on normal calculation for SDFs, including a project that handles SDF rendering in Unity, and they all did the exact same thing I did. Eventually I asked my friend Saksham to help debug the issue, and - to my extreme embarassment and frustration - found that my function declaration was incorrect and should have been:
+
+```HLSL
+float3 GetNormal(float3 pos)
+{
+  return normalize(float3(gradient of SDF at pos)) // normal code
+}
+```
+
+The return type was incorrect and was simply chopping of the `normal.yz` components of the normal vector! I wish Unity had errors (or at least warnings!) notifying you that you're trying to return a `float3` in a function that returns a single `float`.
+
+## 3. Animations ???
+
+This is not a feature I implemented, rather something that worked simply because of the way SDFs work and how awesome Unity is. Just as a fun experiment, I made a Unity animation and keyframed each `SDFObject` of the character I made to different positions. This works because the SDFs can move and update the shader in real-time! What's even more satisfying is the fact that any inspector-exposed variable in the SDFObject can be keyframed. This is how I made the character's mouth open and close: its size value is animated.
+
+# References
+
+- Adam Mally's course slides from CIS 560 and CIS 561 at University of Pennsylvania
+- [IQ's awesome articles on SDFs](https://iquilezles.org/articles/)
+- [Ray marching article](https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/)
+- [Particle metaballs in Unity](https://bronsonzgeb.com/index.php/2021/03/06/particle-metaballs-in-unity-using-urp-and-shader-graph-part-2/)
+- [Spore](https://store.steampowered.com/app/17390/SPORE/)
+- [Fling to the Finish](https://store.steampowered.com/app/1054430/Fling_to_the_Finish/)
