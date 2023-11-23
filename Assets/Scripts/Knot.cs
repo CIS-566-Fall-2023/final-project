@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[System.Serializable]public class Knod
+[System.Serializable]public class Knot
 {
     public AnimationCurve m_HeightMap;
     public float m_Orientation;

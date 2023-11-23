@@ -409,12 +409,13 @@ Shader "Unlit/ProcWood"
             float4 GET_TEXELSIZE(_StateMap);
             sampler2D _PithRadiusMap;
             float4 GET_TEXELSIZE(_PithRadiusMap);
+            float4x4 _ParentWorldToLocal;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.wPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                o.wPos = mul(_ParentWorldToLocal,mul(unity_ObjectToWorld, v.vertex)).xyz;
                 o.uv = v.uv;//TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;

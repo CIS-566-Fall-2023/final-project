@@ -6,40 +6,55 @@ using UnityEngine;
 
 public class Trunk : MonoBehaviour
 {
+    private int m_TextureWidth = 256;
+    private int m_TextureHeight = 256;
     [SerializeField] 
     private Material m_OutputMaterial;
     [SerializeField]
-    private Knod[] m_Knods;
+    private Knot[] m_Knots;
     [SerializeField]
-    public float m_Radius;
+    private float m_MaxHeight = 4000.0f;
+    [SerializeField]
+    private float m_MinRadius = 104.06f;
+    [SerializeField]
+    private float m_MaxRadius = 143.375f;
 
-    public int m_TextureWidth = 256;
-    public int m_TextureHeight = 256;
-    public Texture2D m_KnotHeightMap;
-    public Texture2D m_KnotOrientationMap;
-    public Texture2D m_KnotStateMap;
+    [SerializeField] 
+    private Texture2D m_ColorMap;
+    private Texture2D m_KnotHeightMap;
+    private Texture2D m_KnotOrientationMap;
+    private Texture2D m_KnotStateMap;
+
     // You can perform actions with the array in your script
     void Start()
     {
         GenerateKnotMaps();
         ApplyTexture();
     }
-    private int GetKnotIndex(int y){
-        return (y * m_Knods.Length) / m_TextureHeight;
+
+    void Update(){
+        //Get relative location
+        Matrix4x4 worldToLocalMatrix = transform.parent == null ? Matrix4x4.identity : transform.parent.worldToLocalMatrix;
+        m_OutputMaterial.SetMatrix("_ParentWorldToLocal", worldToLocalMatrix);
     }
-    private Color CalculateHeightMap(Knod knot, float d){
+    private int GetKnotIndex(int y){
+        return (y * m_Knots.Length) / m_TextureHeight;
+    }
+    private Color CalculateHeightMap(Knot knot, float d){
+        //float zRatio = m_MaxHeight / m_MinRadius;
         float r = knot.GetHeight(0);//z0
         float g = knot.GetHeight(d) - r;//z+
         float b = r - knot.GetHeight(d);//z-
         return new Color(r,g,b);
     }
-    private Color CalculateOrientationMap(Knod knot, float d){
-        float r = knot.GetOrientation();//w0
+    private Color CalculateOrientationMap(Knot knot, float d){
+        float r = (knot.GetOrientation()/360);//w0
+        r = r - Mathf.Floor(r); //fract(r)
         float g = 0;//wccw
         float b = 0;//wcw
         return new Color(r,g,b);
     }
-    private Color CalculateStateMap(Knod knot, float d){
+    private Color CalculateStateMap(Knot knot, float d){
         float r = knot.IsDead(d)?0:1;//alive
         float g = knot.m_TimeOfDeath;//time of death
         float b = 0;//nothing
@@ -50,8 +65,8 @@ public class Trunk : MonoBehaviour
         m_KnotHeightMap = new Texture2D(m_TextureWidth, m_TextureHeight);
         m_KnotOrientationMap = new Texture2D(m_TextureWidth, m_TextureHeight);
         m_KnotStateMap = new Texture2D(m_TextureWidth, m_TextureHeight);
-        if(m_Knods.Length < 1){
-            Debug.Log("No knod");
+        if(m_Knots.Length < 1){
+            Debug.Log("No knot");
             return;
         }
 
@@ -62,9 +77,9 @@ public class Trunk : MonoBehaviour
             {
                 int idx = GetKnotIndex(y);
                 float d = ((float)x + 0.5f)/(float)m_TextureWidth;
-                Color heightMapPixel = CalculateHeightMap(m_Knods[idx],d);
-                Color orientationMapPixel = CalculateOrientationMap(m_Knods[idx],d);
-                Color stateMapPixel = CalculateStateMap(m_Knods[idx],d);
+                Color heightMapPixel = CalculateHeightMap(m_Knots[idx],d);
+                Color orientationMapPixel = CalculateOrientationMap(m_Knots[idx],d);
+                Color stateMapPixel = CalculateStateMap(m_Knots[idx],d);
                 m_KnotHeightMap.SetPixel(x,y,heightMapPixel);
                 m_KnotOrientationMap.SetPixel(x,y,orientationMapPixel);
                 m_KnotStateMap.SetPixel(x,y,stateMapPixel);
@@ -78,7 +93,25 @@ public class Trunk : MonoBehaviour
     }
     private void ApplyTexture(){
         if(m_OutputMaterial){
-            m_OutputMaterial.SetTexture("_MainTex", m_KnotHeightMap);
+            // float _MaxHeight;
+            // float _AnimationTime;
+            // float _MinRadius;
+            // float _MaxRadius;
+            // float _KnotCount;
+            // sampler2D _ColorMap;
+            // sampler2D _HeightMap;
+            // sampler2D _OrientationMap;
+            // sampler2D _StateMap;
+            // sampler2D _PithRadiusMap;
+
+            m_OutputMaterial.SetFloat("_MaxHeight", m_MaxHeight);
+            m_OutputMaterial.SetFloat("_MinRadius", m_MinRadius);
+            m_OutputMaterial.SetFloat("_MaxRadius", m_MaxRadius);
+            m_OutputMaterial.SetFloat("_KnotCount", m_Knots.Length);
+            m_OutputMaterial.SetTexture("_ColorMap", m_ColorMap);
+            m_OutputMaterial.SetTexture("_HeightMap", m_KnotHeightMap);
+            m_OutputMaterial.SetTexture("_OrientationMap",m_KnotOrientationMap);
+            m_OutputMaterial.SetTexture("_StateMap", m_KnotStateMap);
             // m_OutputMaterial.SetTexture("_HeightTex", m_KnotHeightMap);
             // m_OutputMaterial.SetTexture("_OrientationTex", m_KnotOrientationMap);
             // m_OutputMaterial.SetTexture("_StateTex",m_KnotStateMap);
