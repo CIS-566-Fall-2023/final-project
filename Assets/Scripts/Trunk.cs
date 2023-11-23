@@ -13,17 +13,19 @@ public class Trunk : MonoBehaviour
     [SerializeField]
     private Knot[] m_Knots;
     [SerializeField]
-    private float m_MaxHeight = 4000.0f;
+    private float m_MaxHeight = 100.0f;
     [SerializeField]
-    private float m_MinRadius = 104.06f;
+    private float m_MinRadius = 1.0f;
     [SerializeField]
-    private float m_MaxRadius = 143.375f;
+    private float m_MaxRadius = 2.0f;
 
     [SerializeField] 
     private Texture2D m_ColorMap;
     private Texture2D m_KnotHeightMap;
     private Texture2D m_KnotOrientationMap;
     private Texture2D m_KnotStateMap;
+    
+    public bool UpdateEveryFrame = false;
 
     // You can perform actions with the array in your script
     void Start()
@@ -36,6 +38,11 @@ public class Trunk : MonoBehaviour
         //Get relative location
         Matrix4x4 worldToLocalMatrix = transform.parent == null ? Matrix4x4.identity : transform.parent.worldToLocalMatrix;
         m_OutputMaterial.SetMatrix("_ParentWorldToLocal", worldToLocalMatrix);
+        if(UpdateEveryFrame)
+        {
+            GenerateKnotMaps();
+            ApplyTexture();
+        }
     }
     private int GetKnotIndex(int y){
         return (y * m_Knots.Length) / m_TextureHeight;
@@ -55,7 +62,7 @@ public class Trunk : MonoBehaviour
         return new Color(r,g,b);
     }
     private Color CalculateStateMap(Knot knot, float d){
-        float r = knot.IsDead(d)?0:1;//alive
+        float r = knot.IsDead(d)? 0:1;//alive
         float g = knot.m_TimeOfDeath;//time of death
         float b = 0;//nothing
         return new Color(r,g,b);

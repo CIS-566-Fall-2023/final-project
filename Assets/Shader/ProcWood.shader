@@ -204,8 +204,11 @@ Shader "Unlit/ProcWood"
 
             void MapLocalPositionTo3DUV_float(float3 uv, float time, float zRatio, out float3 mapped) {
                 mapped.x = uv.x;
-                mapped.y = uv.y + 0.18;
-                mapped.z = (uv.z + mod(0.25 * time, zRatio)) / zRatio;
+                mapped.y = uv.y;
+                mapped.z = uv.z/ zRatio;
+                
+                //mapped.y = uv.y + 0.18;
+                //mapped.z = (uv.z + mod(0.25 * time, zRatio)) / zRatio;
             }
 
             void StemGeometry_float(
@@ -217,9 +220,10 @@ Shader "Unlit/ProcWood"
 
                 float3 pseudoClosestPoint = float3(0, 0, uv.z * zRatio);
                 position = float3(uv.xy, uv.z * zRatio);
-
-                float theta = frac(atan2(uv.x, uv.y) / (2.0 * Pi) + 2.0);
+                float angle = atan2(uv.x, uv.y);
+                float theta = clamp(angle / (2.0 * Pi) + 0.5, 0., 1.f);
                 pithRadius = sampleTextureBicubic(pithRadiusMap, pithMapTexelSize, float2(theta, uv.z)).rgb;
+                //pithRadius = tex2D(pithRadiusMap, float2(theta, uv.z)).rgb;
 
                 localMaxRadius = pithRadius.b * (maxRadius / minRadius - 1.0) + 1.0;
                 horizontalDistance = distance(pseudoClosestPoint, position);
@@ -313,7 +317,7 @@ Shader "Unlit/ProcWood"
 
                 float delta[MaxKnotCount];
 
-                for (uint i = 0; i < MaxKnotCount; i++) {
+                for (uint i = 0; i < numKnots; i++) {
                     delta[i] = 0;
 
                     if (timeValues[i] < 9.0) {
@@ -359,7 +363,7 @@ Shader "Unlit/ProcWood"
                 }
                 minTime = powerSmoothMin(timeValues, 2.0);
 
-                for (uint i = 0; i < MaxKnotCount; i++) {
+                for (uint i = 0; i < numKnots; i++) {
                     float dt = max(timeValue - minTime, 0.0) / timeValue;
                     delta[i] -= delta[i] * smoothstep(0, 1, dt);
                 }
@@ -368,10 +372,16 @@ Shader "Unlit/ProcWood"
                 float minAllTime = min(timeValue, vectorMin(timeValues));
                 combinedTime = minAllTime + sumDelta;
 
+                float3 start = float3(1, 0, 0);
+                float3 end = float3(0, 1, 0);
+
+                color = lerp(start, end, combinedTime);
+
                 color = tex2D(colorMap, float2(combinedTime, 0.5)).rgb;
+
+                //color = tex2D(colorMap, float2(combinedTime, 0.5)).rgb;
                 float3 knotColor = float3(0.2, 0.2, 0.15);
                 float g = 1.0 / pow(clamp(1.2 * minTime - timeValue, 0.001, 1.0) + 1.0, 14);
-
                 color -= g * knotColor;
                 color -= g * clamp(3 * deadColorFactor, 0.0, 0.5) * knotColor;
                 color *= deadOutlineFactor;
@@ -416,6 +426,7 @@ Shader "Unlit/ProcWood"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.wPos = mul(_ParentWorldToLocal,mul(unity_ObjectToWorld, v.vertex)).xyz;
+                //o.wPos = mul(_ParentWorldToLocal, v.vertex).xyz;
                 o.uv = v.uv;//TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
@@ -432,6 +443,8 @@ Shader "Unlit/ProcWood"
                 float horizontalDistance;
                 float timeValue;
                 StemGeometry_float(_PithRadiusMap, GET_TEXELSIZE(_PithRadiusMap), geomUV, zRatio, _MinRadius, _MaxRadius, outPos, localMaxRadius, horizontalDistance, timeValue);
+                
+                
                 float2 distanceRange;
                 DistanceRange_float(horizontalDistance,distanceRange);
 

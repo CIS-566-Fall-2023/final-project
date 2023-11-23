@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material
-  m_Shader: {fileID: 4800000, guid: 332e832b4a325344db341e5b6f103368, type: 3}
+  m_Shader: {fileID: 4800000, guid: 4a0b92115778fdc4796ae05f9b70fc65, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorMap:
-        m_Texture: {fileID: 2800000, guid: 79f7f25de92971e4f98108c0f88f14aa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4f34229e179ba2a4b8c5eaeddc2604a7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -72,7 +72,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PithRadiusMap:
-        m_Texture: {fileID: 2800000, guid: fdaec08d60742334fafa37e7dd49f59f, type: 3}
+        m_Texture: {fileID: 2800000, guid: cff983aa3048a6d44a094ff8912c8055, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _StateMap:
@@ -91,9 +91,9 @@ Material:
     - _GlossyReflections: 1
     - _KnotCount: 1
     - _MaxHeight: 100
-    - _MaxRadius: 14.3375
+    - _MaxRadius: 2
     - _Metallic: 0
-    - _MinRadius: 10.406
+    - _MinRadius: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
