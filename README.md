@@ -141,7 +141,12 @@ Again, the highlighted path in the above image is to show that the snare detecti
 ## Milestone 2 - Week 2 ( 15 Nov'23 - 22 Nov'23)
 
 ### Components
-1. TODO
+1. [Hooking up Kinect with TouchDesigner](#hooking-up-kinect-with-touchdesigner)
+2. [Trippy Edges effect](#ramping-up---trippy-edges-effect)
+3. [Hand Trails & Swiggly Lines](#referring-dance-central-again---trails--swiggles)
+4. [Fire Simulation Effect](#human-torch)
+5. [Audio-Reactive Visuals](#audio-reactive-input)
+6. [Summary](#summary---milestone-2)
 
 Milestone 2 was SO MUCH FUN! And not only I was able to hit all my milestones, I was able to do more than that! I had planned to get 2 interactive graphical features implemented, but I was able to get 4, in addition to the other milestones of hooking up kinect and doing a preliminary audio-driven test. These are the 4 effects I was able to make:  
 
