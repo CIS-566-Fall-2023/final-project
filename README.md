@@ -142,11 +142,12 @@ Again, the highlighted path in the above image is to show that the snare detecti
 
 ### Components
 1. [Hooking up Kinect with TouchDesigner](#hooking-up-kinect-with-touchdesigner)
-2. [Trippy Edges effect](#ramping-up---trippy-edges-effect)
-3. [Hand Trails & Swiggly Lines](#referring-dance-central-again---trails--swiggles)
-4. [Fire Simulation Effect](#human-torch)
-5. [Audio-Reactive Visuals](#audio-reactive-input)
-6. [Summary](#summary---milestone-2)
+2. [Network Summary](#network-summary)
+3. [Trippy Edges effect](#ramping-up---trippy-edges-effect)
+4. [Hand Trails & Swiggly Lines](#referring-dance-central-again---trails--swiggles)
+5. [Fire Simulation Effect](#human-torch)
+6. [Audio-Reactive Visuals](#audio-reactive-input)
+7. [Summary](#summary---milestone-2)
 
 Milestone 2 was SO MUCH FUN! And not only I was able to hit all my milestones, I was able to do more than that! I had planned to get 2 interactive graphical features implemented, but I was able to get 4, in addition to the other milestones of hooking up kinect and doing a preliminary audio-driven test. These are the 4 effects I was able to make:  
 
@@ -203,8 +204,13 @@ As mentioned in my Week 2 Milestone tasks, I wanted to a proof-of-concept by dri
 ![](images/ms2/edges_snare_summary.png)  
 It exposes only one paramter - how much the edges need to be offset by. The network itself looks like this:  
 ![](images/ms2/edges_snare_details.png)  
-And the final result turned out to be really fun! Here is a short clip from a test run:
-TODO
+And the final result turned out to be really fun! Here is a short clip from a test run(Sound ON:sound:):
+
+
+
+https://github.com/Saksham03/algeb-rave/assets/20259371/2e377dd3-8fd5-4453-a2d9-00dcabd1f636
+
+
 
 ### Summary - Milestone 2
 As I said earlier, Milestone 2 was not only fun but I was also able to do more than I had expected. I will have to be really careful while driving the kinect input with audio though, because the background will also be audio-driven and I don't want the visuals to get too messy or overwhelming for the user. I am really excited to work on the background visuals, and finally plug everything together to see how AlgebRave turns out!
