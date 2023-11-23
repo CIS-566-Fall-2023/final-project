@@ -2,6 +2,16 @@
 Authors: Tianyi Xiao and Linda Zhu
 
 <details>
+  <summary> Milestone 2 </summary>
+
+More assets references to check out:
+1. https://www.reddit.com/r/Houdini/comments/12eq4gk/scifi_panel_generator_wip/
+2. https://www.artstation.com/artwork/r9zRXO
+3. 
+
+</details>
+
+<details>
   <summary> Milestone 1 </summary>
 
 ### Ground Plane
@@ -129,7 +139,7 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
   - [ ] Create more props and room objects, e.g. toolbox, machine, etc., for the scene (Houdini - Linda). 
 
 - Week 4 (final) [due 12/5]:
-  - [ ] Figure out where to procedurally place the props in the scene, e.g. around the corner or at the end of the corridor (Houdini - Linda). 
+  - [x] Figure out where to procedurally place the props in the scene, e.g. around the corner or at the end of the corridor (Houdini - Linda). 
   - [ ] Decorate the scene by placing props and add other post-processing effects (Unity - Tianyi).
   - [ ] Do more testing and fix bugs (Both).
   - [ ] Create final renders to showcase and complete README (Both).
