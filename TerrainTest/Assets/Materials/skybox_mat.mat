@@ -58,11 +58,14 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _StarDensity: 10
+    - _SunRadius: 0.05
     - _WindSpeed: 2
     m_Colors:
-    - _DoneColor: {r: 0.54901963, g: 0.37254903, b: 0.5294118, a: 0}
-    - _HorizonColor: {r: 0.05882353, g: 0.38039216, b: 0.64705884, a: 0}
+    - _DoneColor: {r: 0, g: 0.32156864, b: 1, a: 0}
+    - _GroundColor: {r: 0.30196077, g: 0.7254902, b: 0.9333333, a: 1}
+    - _HorizonColor: {r: 1, g: 0.8901961, b: 0, a: 0}
     - _MoonDir: {r: 0, g: 0, b: 0, a: 0}
+    - _SkyColor: {r: 0, g: 0.17254902, b: 1, a: 0}
     - _SunDir: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5508935665007740798
