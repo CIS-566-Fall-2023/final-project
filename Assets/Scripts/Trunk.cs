@@ -36,7 +36,7 @@ public class Trunk : MonoBehaviour
 
     void Update(){
         //Get relative location
-        Matrix4x4 worldToLocalMatrix = transform.parent == null ? Matrix4x4.identity : transform.parent.worldToLocalMatrix;
+        Matrix4x4 worldToLocalMatrix = transform.worldToLocalMatrix;
         m_OutputMaterial.SetMatrix("_ParentWorldToLocal", worldToLocalMatrix);
         if(UpdateEveryFrame)
         {

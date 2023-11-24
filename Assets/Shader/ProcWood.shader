@@ -435,6 +435,7 @@ Shader "Unlit/ProcWood"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                if(i.wPos.z < 0.f || i.wPos.z > _MaxHeight) return float4(1, 1, 1, 1);
                 // sample the texture
                 float zRatio = _MaxHeight / _MinRadius;
                 float3 geomUV; 
@@ -444,7 +445,7 @@ Shader "Unlit/ProcWood"
                 float horizontalDistance;
                 float timeValue;
                 StemGeometry_float(_PithRadiusMap, GET_TEXELSIZE(_PithRadiusMap), geomUV, zRatio, _MinRadius, _MaxRadius, outPos, localMaxRadius, horizontalDistance, timeValue);
-                
+                if(timeValue > 1.f) return float4(1, 1, 1, 1);
                 
                 float2 distanceRange;
                 DistanceRange_float(horizontalDistance,distanceRange);
