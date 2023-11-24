@@ -8,6 +8,7 @@ using UnityEngine;
     public AnimationCurve m_HeightMap;
     public float m_Orientation;
     public float m_TimeOfDeath;
+    public float m_Radius = 0.2f;
 
     public float GetHeight(float d){
         return m_HeightMap.Evaluate(d);
@@ -27,5 +28,9 @@ using UnityEngine;
         }else{
             return t - m_TimeOfDeath;
         }
+    }
+    public float GetRadius()
+    {
+        return m_Radius;
     }
 }

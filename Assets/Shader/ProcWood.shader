@@ -235,7 +235,7 @@ Shader "Unlit/ProcWood"
             }
 
             void WoodTexture_float(
-                sampler2D colorMap, sampler2D heightMap, sampler2D orientationMap, sampler2D stateMap,
+                sampler2D colorMap, sampler2D heightMap, sampler2D orientationMap, sampler2D stateMap, 
                 uint numKnots, float3 position, float localMaxRadius, float horizontalDistance, float timeValue, float zRatio, float2 distanceRange,
                 out float3 color
             ) {
@@ -262,6 +262,7 @@ Shader "Unlit/ProcWood"
                     float3 height = tex2D(heightMap, uv).rgb;
                     float3 orient = tex2D(orientationMap, uv).rgb;
                     float3 state = tex2D(stateMap, uv).rgb;
+                    float knotRadius = state.b;
 
                     float theta = orient.r * 2.0 * Pi + (orient.b - orient.g) * 0.5 * Pi;
 
@@ -283,9 +284,9 @@ Shader "Unlit/ProcWood"
                         float beta01 = orientations[count] / (2.0 * Pi);
                         float seed = float(i) / numKnots;
                         float noiseValue = combinedNoises(float2(beta01, horizontalDistance), float3(1.0, 1.0, 0.1), float3(2.5, 3.0, 0.1), float3(6.0, 7.0, 0.1), seed);
-                        float branchRadius = 0.2 - 0.1 * sqrt(horizontalDistance) + 0.1 * noiseValue;
+                        float branchRadius = knotRadius  +  0.5 * knotRadius *(noiseValue - sqrt(horizontalDistance));
 
-                        timeValues[count] = distToBranch / branchRadius;
+                        timeValues[count] = min(distToBranch / branchRadius,9.0);
                         //count++;
 
                         if (distToBranch > distanceRange.x) {

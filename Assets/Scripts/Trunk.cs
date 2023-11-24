@@ -31,7 +31,7 @@ public class Trunk : MonoBehaviour
     void Start()
     {
         GenerateKnotMaps();
-        ApplyTexture();
+        UpdateTexture();
     }
 
     void Update(){
@@ -41,7 +41,7 @@ public class Trunk : MonoBehaviour
         if(UpdateEveryFrame)
         {
             GenerateKnotMaps();
-            ApplyTexture();
+            UpdateTexture();
         }
     }
     private int GetKnotIndex(int y){
@@ -61,10 +61,12 @@ public class Trunk : MonoBehaviour
         float b = 0;//wcw
         return new Color(r,g,b);
     }
+    //*add branchradius
     private Color CalculateStateMap(Knot knot, float d){
         float r = knot.IsDead(d)? 0:1;//alive
         float g = knot.m_TimeOfDeath;//time of death
-        float b = 0;//nothing
+        //float b = 0;//nothing
+        float b = knot.GetRadius();
         return new Color(r,g,b);
     }
     private void GenerateKnotMaps(){
@@ -98,7 +100,7 @@ public class Trunk : MonoBehaviour
         m_KnotOrientationMap.Apply();
         m_KnotStateMap.Apply();
     }
-    private void ApplyTexture(){
+    private void UpdateTexture(){
         if(m_OutputMaterial){
             // float _MaxHeight;
             // float _AnimationTime;
@@ -110,7 +112,6 @@ public class Trunk : MonoBehaviour
             // sampler2D _OrientationMap;
             // sampler2D _StateMap;
             // sampler2D _PithRadiusMap;
-
             m_OutputMaterial.SetFloat("_MaxHeight", m_MaxHeight);
             m_OutputMaterial.SetFloat("_MinRadius", m_MinRadius);
             m_OutputMaterial.SetFloat("_MaxRadius", m_MaxRadius);
