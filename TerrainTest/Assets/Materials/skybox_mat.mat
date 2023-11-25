@@ -24,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _SampleCubemap_65d7fe0f4535460289cca74837446eaf_Cube_1_Cubemap:
+        m_Texture: {fileID: 8900000, guid: eda2afef13d162a46abced2ee0cc518e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_afd48d21ae384b578405821c4e98b7a5_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 7540374e9522b43449126a6f2d5a6e7c, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -34,6 +38,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_c74e9efaf647462f9a7e41f7afde7ee2_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 3053ff23f80bd224fb9a448d7049982f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StarCubeMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_0b06fe6fab504b5b9fe263f1f99c99ad_Out_0_Texture2D:
@@ -57,13 +65,15 @@ Material:
     - _Height: 2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _StarDensity: 10
+    - _StarBlinkingSpeed: 0.004
+    - _StarDensity: 15
+    - _StarPower: 30
     - _SunRadius: 0.05
     - _WindSpeed: 2
     m_Colors:
     - _DoneColor: {r: 0, g: 0.32156864, b: 1, a: 0}
     - _GroundColor: {r: 0.30196077, g: 0.7254902, b: 0.9333333, a: 1}
-    - _HorizonColor: {r: 1, g: 0.8901961, b: 0, a: 0}
+    - _HorizonColor: {r: 0, g: 0.85882354, b: 0.8039216, a: 1}
     - _MoonDir: {r: 0, g: 0, b: 0, a: 0}
     - _SkyColor: {r: 0, g: 0.17254902, b: 1, a: 0}
     - _SunDir: {r: 0, g: 0, b: 0, a: 0}

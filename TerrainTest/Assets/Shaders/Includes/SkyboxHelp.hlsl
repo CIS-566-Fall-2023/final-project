@@ -48,3 +48,4 @@ void GetGradientSkyColor_float(float2 SkyUV/*[0, 1]*/,
 	else Color = SkyColor_Day;
 }
 
+
