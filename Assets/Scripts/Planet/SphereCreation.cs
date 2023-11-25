@@ -10,12 +10,15 @@ public class SphereCreation : MonoBehaviour
     
     public sHexGrid finalGrid;
     public int size = 0;
-
+    public float planetSize = 1.0f;
+    public int cellDensity = 1;
+    public float cellSize = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
         finalGrid = size_n_grid(size);
         CreateObjects();
+        tileParent.transform.localScale *= planetSize;
     }
 
     sHexGrid size_n_grid(int size)
@@ -34,9 +37,18 @@ public class SphereCreation : MonoBehaviour
     {
         for(int i = 0; i < finalGrid.tiles.Count; i++)
         {
+            List<Vector3> cellPosList = new List<Vector3>();
             var tile = Instantiate(tilePrefab);
             tile.transform.parent = tileParent.transform;
             tile.GetComponent<HexagonTile>().SetupTile(finalGrid.tiles[i].position, finalGrid.tiles[i].corners, finalGrid.tiles[i]);
+            cellPosList = tile.GetComponent<HexagonTile>().SetupCellsPosition(cellDensity, finalGrid.tiles[i].corners);
+            foreach (Vector3 cellPos in cellPosList)
+            {
+                GameObject cell = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube));
+                cell.transform.position = cellPos;
+                cell.transform.parent = tile.transform;
+                cell.transform.localScale *= cellSize;
+            }
             tile.name = i.ToString();
         }
     }
@@ -64,7 +76,6 @@ public class SphereCreation : MonoBehaviour
             {5, 3, 10, 1, 4}, {2, 5, 4, 0, 11}, {3, 7, 6, 1, 8}, {7, 2, 9, 0, 6}
         };
 
-        Debug.Log("Step 5");
         foreach(sTile t in grid.tiles)
         {
             t.position = icosahedronTiles[t.id];
@@ -84,7 +95,6 @@ public class SphereCreation : MonoBehaviour
             AddCorner(i + 5, grid, 3, icosahedronTileNumbers[3, (i+4) % 5], icosahedronTileNumbers[3,i]);
         }
 
-        Debug.Log("Step 8");
         AddCorner(10, grid, 10, 1, 8);
         AddCorner(11, grid, 1, 10, 6);
         AddCorner(12, grid, 6, 10, 7);

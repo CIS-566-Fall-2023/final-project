@@ -89,4 +89,41 @@ public class HexagonTile : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.Optimize();
     }
+
+    public List<Vector3> SetupCellsPosition(int cellDensity, List<sCorner> corners)
+    {
+
+        List<Vector3> cellPosList = new List<Vector3>();
+        if (cellDensity <= 0 || (corners.Count != 5 && corners.Count != 6))
+        {
+            return cellPosList;
+        }
+
+        Vector3 center = new Vector3(0, 0, 0);
+        foreach (var corner in corners)
+        {
+            center += corner.position;
+        }
+        center /= corners.Count;
+
+        for (int i = 0; i < corners.Count; i++)
+        {
+            Vector3 p1 = corners[i].position;
+            Vector3 p2 = corners[(i + 1) % corners.Count].position;
+
+            for (int j = 0; j < cellDensity; j++)
+            {
+                for (int k = 0; k < cellDensity - j; k++)
+                {
+                    float alpha = j / (float)cellDensity;
+                    float beta = k / (float)cellDensity;
+
+                    Vector3 point = (1 - alpha - beta) * center + alpha * p1 + beta * p2;
+                    cellPosList.Add(point);
+                }
+            }
+        }
+
+        return cellPosList;
+    }
 }
