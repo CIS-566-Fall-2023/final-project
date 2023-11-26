@@ -6,29 +6,47 @@ This is it! The culmination of your procedural graphics experience this semester
 Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
 
 ### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
+Group Size = 1
 
 #### Introduction
-- What motivates your project?
+- I played some games where I have to walk through some cave or dungeon terrains. I think they are cool and fits with some of the ideas that we have been learning in class. And in the class the professor said we could do a game level, so I think a procedurally generated cave would be fun to do.  
 
 #### Goal
-- What do you intend to achieve with this project?
+- Design a dungeon game level and make a playable character to move through it
+
 
 #### Inspiration/reference:
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
-- Include in your design doc links to and images of your reference material.
+- Some references that I will look into:
+https://www.redblobgames.com/x/1652-voronoi-moba-mapgen/
+https://www.redblobgames.com/x/1939-planetary-dungeon/
+https://simblob.blogspot.com/search/label/maps
+
+-Some inspiration from other games, Pokemon Let's Go, and Minecraft Dungeon: 
+![](art/Picture1.jpg)
+
+![](art/Picture2.jpg)
+
+![](art/Picture3.jpg)
+
 
 #### Specification:
-- Outline the main features of your project.
+- A game level, it would be a dungeon or cave looking map
+- It has specific paths inside the dungeon that the player can walk on
+- A playable character to move through this map
+- Cube based like, minecraft
 
 #### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
+- Software: Unity
+- Techniques: BFS, Finding Shortest Path, learn from other Procedural Map Generators
 
 #### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+- The idea is that map will likely be generated at once. Thus it would be maps -> add on features -> playable character, designed in this order.  
 
 #### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
+- Milestone 1: Determine which algorithms I will use, possibly create a base prototype of map.
+- Milestone 2: Create a working map, add tools or options for variety.
+- Milestone 3: Create a playable player that can move through the map.
+- Final: Give the map and player textures, fine tune and make things look complete.
 
 Submit your Design doc as usual via pull request against this repository.
 ## Milestone 1: Implementation part 1 (due 11/15)
