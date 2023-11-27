@@ -71,3 +71,16 @@ Therefore, in the milestone #1:
    2. Implement basic SDF function and wood texture
    3. Allow texture to vary with respect to position in virtual trunk
    4. Render virtual trunk in wireframe
+
+### Milestone #2
+#### Demo
+<p align = "middle">
+   <img src = "images/milestone2.png" width="600">
+   <img src = "images/milestone2_s.png" width="600">
+</p>
+
+#### Progress
+In the milestone #2:
+   1. Finish the key procdural wood texture algorithm that automatically generate diverse wood textures that are visually realistic and varied, with flexibility to adjust the positions, color, and size of knots.
+   2. Finish the Branch representation, which support the knots adjustments.
+   3. Allow texture to vary with respect to position in virtual trunk. We further developed this functions from milestone #1 to ensure texture can vary with respect to position in virtual trunk.
