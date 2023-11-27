@@ -234,6 +234,7 @@ void main()
             else 
             {
                 // If new_v is large enough, bounce should be a reflection of velocity
+                // Now they refect off obstacle normal, not just world up, to make it more dynamic
                 new_v = reflect(vec3(-new_v.x, new_v.y, new_v.z), vec3(obstacleNor, 0.0)) * 2.0;
                 new_v *= min(1.0, 0.4 * MAX_SPEED / length(new_v));
 
