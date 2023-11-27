@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 
 namespace Planetile
@@ -18,6 +20,25 @@ namespace Planetile
         PentagonHouse = 0x01 << 7,
         Null = 0xFFFF,
     }
+    public class WFCTypeStrings
+    {
+        public static readonly string[] strings = new string[9]
+        {
+            "Ocean",
+            "Desert",
+            "Tree",
+            "House",
+            "PentagonOcean",
+            "PentagonDesert",
+            "PentagonTree",
+            "PentagonHouse",
+            "Null",
+        };
+        public string this[int index]
+        {
+            get => strings[index];
+        }
+    };
     public interface IWFCCell
     {
         WFCType Type { get; }
@@ -42,7 +63,7 @@ namespace Planetile
         /// </summary>
         /// <param name="cell"></param>
         /// <returns>If not adjacent, return -1. </returns>
-        int Adjacency(IWFCCell cell);
+        //int Adjacency(IWFCCell cell);
         Vector3 GetWorldPos();
         ///// <summary>
         ///// Get the distance between two cells

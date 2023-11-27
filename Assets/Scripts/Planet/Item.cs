@@ -15,11 +15,13 @@ namespace Planetile
         [Tooltip("Identifier used for Rule. Make sure this is unique for each Prefab.")]
         string itemName;
 
+        public string ItemName => itemName;
+
         [SerializeField]
         WFCType type;
 
         [SerializeField]
-        WFCRule rule;
+        WFCRule[] rules;
 
         /// <summary>
         /// Available meshes. Randomly select one when being placed.
@@ -28,11 +30,18 @@ namespace Planetile
         List<Mesh> meshes;
 
         public WFCType Type { get { return type; } }
-        public WFCRule Rule { get { return rule; } }
+
+        public WFCRule[] Rules => throw new NotImplementedException();
 
         public float Entropy(IWFCCell cell)
         {
-            throw new System.NotImplementedException();
+            var neighbors = cell.GetAdjacentCells();
+            float ret = 1f;
+            foreach (var rule in rules)
+            {
+                rule.ApplyRule(ref ret, neighbors);
+            }
+            return ret;
         }
     }
 }

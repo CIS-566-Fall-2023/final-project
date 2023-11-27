@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Planetile
 {
-    using static Unity.Burst.Intrinsics.X86.Avx;
     using Wave = SortedDictionary<float, System.Tuple<IWFCCell, Item>>;
     public class WFCManager : MonoBehaviour
     {
@@ -68,41 +67,90 @@ namespace Planetile
                 }
             }
         }
-        public IWFCCell Collapse(IEnumerable<IWFCCell> cells)
+        /// <summary>
+        /// place an item to a cell
+        /// </summary>
+        /// <param name="cell"></param>
+        public bool Collapse(IWFCCell cell)
         {
-            var waves = new Wave();
-            foreach (var cell in cells)
+            var wave = new SortedDictionary<float, IWFCItem>();
+            foreach (var item in itemPool)
             {
-                int count = 0;
-                foreach (var item in itemPool)
+                // if it's null type, we can use any kind of item.
+                if (cell.Type != WFCType.Null && cell.Type != item.Type) continue;
+                float entropy = item.Entropy(cell);
+                if (entropy > 0)
                 {
-                    // if it's null type, we can use any kind of item.
-                    if (cell.Type != WFCType.Null && cell.Type != item.Type) continue;
-                    float entropy = item.Entropy(cell);
-                    if (entropy > 0)
-                    {
-                        waves.Add(entropy, new System.Tuple<IWFCCell, Item>(cell, item));
-                        count++;
-                    }
+                    wave.Add(entropy, item);
                 }
-                if (count == 0)
-                    Debug.LogWarning("No item is placed.", cell as UnityEngine.Object);
             }
-
+            if (wave.Count == 0)
+            {
+                Debug.LogWarning($"nothing is placed to {cell}");
+                return true;
+            }
             float totalWeight = 0f;
-            foreach (var w in waves.Keys)
+            foreach (var w in wave.Keys)
             {
                 totalWeight += w;
             }
             float randomValue = Random.Range(0f, totalWeight);
-            foreach (var pair in waves.Reverse())
+            foreach (var pair in wave.Reverse())
             {
                 randomValue -= pair.Key;
                 if (randomValue <= 0)
                 {
-                    pair.Value.Item1.PlaceItem(pair.Value.Item2);
-                    return pair.Value.Item1;
+                    cell.PlaceItem(pair.Value);
+                    Debug.Log($"{pair.Value} is placed to {cell}");
+                    return true;
                 }
+            }
+            return false;
+        }
+        /// <summary>
+        /// In a bunch of cells, fill a cell with an item.
+        /// </summary>
+        /// <param name="cells"></param>
+        /// <returns></returns>
+        public IWFCCell Collapse(IEnumerable<IWFCCell> cells)
+        {
+            if (itemPool != null && itemPool.Count > 0)
+            {
+                var waves = new Wave();
+                foreach (var cell in cells)
+                {
+                    int count = 0;
+                    foreach (var item in itemPool)
+                    {
+                        // if it's null type, we can use any kind of item.
+                        if (cell.Type != WFCType.Null && cell.Type != item.Type) continue;
+                        float entropy = item.Entropy(cell);
+                        if (entropy > 0)
+                        {
+                            waves.Add(entropy, new System.Tuple<IWFCCell, Item>(cell, item));
+                            count++;
+                        }
+                    }
+                    if (count == 0)
+                        Debug.LogWarning("No item is placed.");
+                }
+
+                float totalWeight = 0f;
+                foreach (var w in waves.Keys)
+                {
+                    totalWeight += w;
+                }
+                float randomValue = Random.Range(0f, totalWeight);
+                foreach (var pair in waves.Reverse())
+                {
+                    randomValue -= pair.Key;
+                    if (randomValue <= 0)
+                    {
+                        pair.Value.Item1.PlaceItem(pair.Value.Item2);
+                        return pair.Value.Item1;
+                    }
+                }
+                return null;
             }
             return null;
         }
