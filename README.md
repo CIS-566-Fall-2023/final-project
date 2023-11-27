@@ -9,6 +9,83 @@
 
 * [Milestone 1: Claire Lu, Ornamental Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
 
+# Milestone 2:
+
+# Procedural Materials + Applying Textures - Claire Lu
+
+**Overview**:
+* **Goal**: I wanted to learn how to create materials using Substance Designer and figure out a workflow for applying textures to our carousel mesh.
+    * I ended up creating a few basic materials in Substance Designer, including two wood materials and one metal material
+    * I used Substance Painter to apply my custom wooden bark material to the roof of the carousel. I then layered a variety of the provided materials in Substance Painter to create a worn down painted effect.
+
+**Substance Designer Materials**: Wood Grain Texture, Bark Roof, Hammered Metal
+* **Wood Grain**: I created a basic wood grain texture by using noise texture nodes to create a wood pattern and then using level and histogram scan nodes to tweak the amount of noise detail.
+  
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/1b823cd5-2f86-4d73-8201-85edb21140ee" width="300"/>
+    
+    **Step 1**: Creating the knots -- I used a Tile Sampler node to determine the placement of the wood knots and then warped this with anistropic noise as an input to create the basic wood pattern. I used a Histogram Scan node to decrease the level of detail and give it a more stylized look. Then, I used a Clouds node to warp the edges for a more organic lok. 
+  
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/b4a6c533-a449-4ec6-8268-2863bed8a57f" width="300"/>
+
+    **Step 2**: Tweaking knot placement + Adding finer detail -- With the Blend node, I was able to control the placement of the knots more precisely. I also added more texture to the wood grain by using noise nodes for dirt.
+      
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/a6962211-a2df-4ed0-a58b-aca837321008" width="300"/>
+ 
+   **Step 3**: Adding tiling -- Lastly, I added the option for tiling using the Tile Sampler to create panels and the Histogram Scan and Levels node to adjust the variation within panels.
+      
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/babc36c2-c16b-456e-b956-21435b9efb67" width="300"/>
+ 
+   
+* **Bark Roof**: I first created the shape for a single bark shingle and then tiled them and added finer level details like splits and notches.
+
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/b1d2ec61-c536-4292-950e-96da42ea3dd7" width="300"/>
+    
+    **Step 1**: Creating a single bark shingle -- I used a Polygon node to create a square shape and then used a few noise nodes to distort the edges to make the overall shape more organic.
+  
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/8e22d793-d6aa-433c-953f-757ba9801335" width="500"/>
+
+    **Step 2**: Adding wood grain -- I used a Grunge map for the wood grain look and in order to help distinguish different tiles from each other, I offset the noise by a certain amount for each tile, using a vector map based on the tiles to determine where the offsetting should occur.
+      
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/8b82ef7d-4888-4df8-9c30-7f08dfebbbff" width="500"/>
+ 
+   **Step 3**: Adding splits + notches -- For the splits in the wood, I created a split shape using a polygon node and then integrated it using a tile sampler; for the notches, I used Gaussian spots since they have a nice round look, and then blended them into the final output. 
+      
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/80738233-b21f-4a1d-9e64-b267077137f2" width="500"/>
+    
+* **Hammered Metal**: I used a cells node along with some noise to create the hammered effect and then used noise textures to add brushstroke details
+
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/0f0614ef-ff16-4f06-89a6-c9f041fa194f" width="300"/>
+    
+    **Step 1**: Creating the hammered metal effect -- I used a cells node to create the basic dent shape and then a levels node to tweak the intensity. Then, I used Perlin noise to warp the effect and achieve a more organic look.
+  
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/673ea915-88f3-4e8d-bfc9-e921b5d410bc" width="300"/>
+
+    **Step 2**: Adding subtle shading -- I created the variations in the metal color with a gaussian noise node and then tweaked them using a levels node
+
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/d45f1d8e-8367-4e62-bdce-8ffe4cf5319f" width="200"/>
+ 
+   **Step 3**: Adding brushstroke details -- I used a crease node for the basic brushstroke shape and then used slope blur to bucket the colors more and make the edges of the brushstrokes pop out.  
+
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/5eb844be-8e91-4508-8e26-f055a8526e25" width="300"/>
+
+**Applying Materials in Substance Painter**:
+* **Toy Carousel Texturing**:
+  
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/f80a93ab-774f-4473-a8dc-7163e381173b" width="300"/>
+
+    **Washed out paint look on carousel box**: This effect was achieved by layering the Paint Spray and then Paint Roll materials on top of each other, which created an overall paint-like look. Then, using a couple of Grunge Maps, I created the darker paint strokes near the top and bottom, leaving the middle to look lighter and more worn out.
+
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/8e5ee893-6389-48fc-b5b8-86512142a716" width="300"/>
+
+    **Wooden base**: Using a stylized wood material, I created the wood patterning in the base. Then, using Grunge, I added some more variation in the coloring of the wood. 
+
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/e50e95fd-1fb6-4fe3-a7dc-8681bb958ec7" width="500"/>
+ 
+   **Metal ornaments**: I used a metal texture for the ornaments because I thought this would help distinguish them from the rest of the carousel and then added some red undertones to mimic reflection of the carousel's pink base.
+
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/e7b91fd7-eaff-4a17-ad89-9532780f056c" width="500"/>
+    <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/c5e483c0-dc76-4576-af78-96d31ab2dcd8" width="500"/>
+    
 # Milestone 1:
 
 ## Procedural Animated Carousel Tool - Yuhan Liu
