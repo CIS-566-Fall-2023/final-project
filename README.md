@@ -88,26 +88,28 @@ For this project, I anticipate using Houdini procedural modeling techniques lear
 
 ## Milestone 2
 <details>
-  <summary>Click Here to Open / Close Milestone 2</summary
+<summary>Click Here to Open / Close Milestone 2</summary
+                                                   
+#### Building the Succulent Generator
 
- <br/>
- 
-For Milestone 2, I created a working succulent generator that allows the user to adjust the petal's shape and depth using ramps as well as control other parameters such as petal count, petal bend, layers, width, length, and depth. Below are some examples of succulent models created using my generator:
+  For Milestone 2, I created a working succulent generator that allows the user to adjust the petal's shape and depth using ramps as well as control other parameters such as petal count, petal bend, layers,      width, length, and depth. Below are some examples of succulent models created using my generator:
+  
+  ![Screenshot 2023-11-26 190938](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/fa523889-bdf2-4351-afa3-9c95983bcd9a)
+  
+  <p float = "left">
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/c01659e6-0ab0-47fe-b862-cb58c2d2c122" width="240" height=235>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/e49d0e3d-bfe8-4c34-8dfc-1bf72ef97f80" width=240 height="235">
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/c686b4e7-5120-4636-8504-8958ef602768" width="240" height=235>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/00181d0f-53ab-4924-886d-0bcc63878ba9" width="240" height=235>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/813013a4-7550-4c01-ac85-226d6ecf87ab" width=240 height="235">
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/9b60e898-9c4a-4e30-b3a7-e45b0c75ea3e" width="240" height=235>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/337d7072-4b33-4604-b521-86337c80ace5" width="240" height=235>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/b345f905-c5d8-4d34-86eb-0b2fd5fac4b6" width="240" height=235>
+  </p>
 
-![Screenshot 2023-11-26 190938](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/fa523889-bdf2-4351-afa3-9c95983bcd9a)
+One major challenge I faced when building the generator was implementing the "golden ratio" algorithm. I was able to generate points following a phyllotactic pattern using VEX I learned from [this tutorial](https://www.youtube.com/watch?v=7xD1JgQTQKY), but I had a lot of difficulty figuring out how to create a petal shape and attach it correctly to each point. With the deadline approaching, I had to pivot and change my strategy -- mainly using the **skin** node to craft the petals and revolving those petals around circles. While I'm disappointed I couldn't figure out how to implement phyllotaxis as I originally planned, I'm overall satisfied with the look of the current version! 
 
-<p float = "left">
-  <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/c01659e6-0ab0-47fe-b862-cb58c2d2c122" width="240" height=235>
-  <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/e49d0e3d-bfe8-4c34-8dfc-1bf72ef97f80" width=240 height="235">
-  <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/c686b4e7-5120-4636-8504-8958ef602768" width="240" height=235>
-  <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/00181d0f-53ab-4924-886d-0bcc63878ba9" width="240" height=235>
-  <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/813013a4-7550-4c01-ac85-226d6ecf87ab" width=240 height="235">
-  <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/9b60e898-9c4a-4e30-b3a7-e45b0c75ea3e" width="240" height=235>
-  <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/337d7072-4b33-4604-b521-86337c80ace5" width="240" height=235>
-  <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/b345f905-c5d8-4d34-86eb-0b2fd5fac4b6" width="240" height=235>
-</p>
-
-One major challenge I faced when building the generator was implementing the "golden ratio" algorithm. I was able to generate points following a phyllotactic pattern using VEX I learned from [this tutorial](https://www.youtube.com/watch?v=7xD1JgQTQKY), but I had a lot of difficulty figuring out how to create a petal shape and attach it correctly to each point. With the deadline approaching, I had to pivot and change my strategy -- mainly using the **skin** node to craft the petals and revolving those petals around circles. I'm disappointed I couldn't figure out how to implement phyllotaxis as I originally planned, but I'm overall satisfied with the look of the current version. 
+My main goal for the next milestone is to tweak the generator to potentially add more controls for petal bending as well as implement color, which is crucial for creating a variety of visually interesting succulents. I want to try my hand at creating a cacti generator to go alongside the succulents, and I will be following [this tutorial](https://www.youtube.com/watch?v=BhXcOzpDQ1g) to build my ceramic pots with soil/pebbles.
 
 </details>
 
