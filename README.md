@@ -77,11 +77,12 @@ Above image is a link to video :)
 
 Above image is a link to video :)
 - Skybox
-  - In this week, we've added a stylized skybox.  
+  - In this week, we've added a stylized skybox. In next step, we will make the sky color be defined in biome config, so that the sky color changes gradually according to current biome.
 - Trees and Stones
-  - We added L-system trees and stones that user can choose to add for certain layers in a biome, and set the number to spawn. 
+  - We added L-system trees and stones that user can choose to add for certain layers in a biome, and set the number to spawn. To be improved: add an object pool to control them to improve performance.
 - Sand ground shader
   - We added a white sand ground shader to mimic the beach scene in one of the reference images.
+- In next days, we are gonna add more biomes, and do some performance optimization 
     
 ## Final submission (due 12/5)
 Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
