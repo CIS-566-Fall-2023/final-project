@@ -17,7 +17,7 @@ public class Map : MonoBehaviour
     private int m_tileCount = 0;
 
     private const float half_sqr3 = 0.866f;
-    private const float size_adjust = 1.11f;
+    private const float size_adjust = 1.13f;
 
     private void Start()
     {
@@ -76,6 +76,8 @@ public class Map : MonoBehaviour
         spawnedTile.transform.SetParent(this.transform, true);
 
         m_hexTiles[z].Add(spawnedTile);
+
+        SpawnObjectsForLayer(layer, spawnedTile.transform);
     }
 
     public Layer GetBiomeLayer(int z)
@@ -128,6 +130,50 @@ public class Map : MonoBehaviour
                 SpawnHexTile(z, length - 1);
             }
             m_tileCount++;
+        }
+    }
+
+    void SpawnObjectsForLayer(Layer layer, Transform parent)
+    {
+        if(layer.hasTree)
+        {
+            SpawnObjectsOnGrid(layer.treeNumberPerGrid, layer.tree, parent);
+        }
+        if (layer.hasStone)
+        {
+            SpawnObjectsOnGrid(layer.stoneNumberPerGrid, layer.stone, parent);
+        }
+    }
+
+    void SpawnObjectsOnGrid(int numberPerGrid, GameObject objectToSpawn, Transform parent)
+    {
+        for (int i = 0; i < numberPerGrid; i++)
+        {
+            float randomAngle = UnityEngine.Random.Range(0f, 2f * Mathf.PI);
+            float spawnRadius = hexSize * half_sqr3 * 0.5f * UnityEngine.Random.Range(0f, 1f);
+            float randomX = parent.position.x + spawnRadius * Mathf.Cos(randomAngle);
+            float randomZ = parent.position.z + spawnRadius * Mathf.Sin(randomAngle);
+
+            float terrainHeight = GetMeshTerrainHeight(new Vector3(randomX, 0f, randomZ));
+            if (terrainHeight > 0.2) terrainHeight = 0;
+            Vector3 spawnPosition = new Vector3(randomX, terrainHeight, randomZ);
+
+            GameObject newObj = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
+            newObj.transform.Rotate(Vector3.up, UnityEngine.Random.Range(0, 360));
+            newObj.transform.SetParent(parent, true);
+        }
+    }
+
+    float GetMeshTerrainHeight(Vector3 position)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(new Vector3(position.x, 1000f, position.z), Vector3.down, out hit, Mathf.Infinity))
+        {
+            return hit.point.y;
+        }
+        else
+        {
+            return 0f;
         }
     }
 

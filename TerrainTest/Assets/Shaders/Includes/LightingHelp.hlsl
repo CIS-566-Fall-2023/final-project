@@ -31,3 +31,42 @@ void ChooseColor_float(float3 Highlight, float3 Shadow, float Diffuse, float Thr
         OUT = Highlight;
     }
 }
+
+void ChooseColorSand_float(bool Sand, float Rand, 
+                           float3 Sand1, float3 Sand2, float3 Sand3,
+                           float3 Highlight, float3 Shadow, 
+                           float Diffuse, float Threshold, out float3 OUT)
+{
+    if(Sand)
+    {
+        float3 col = Sand1;
+        if (Rand > 0.33)
+        {
+            col = Sand2;
+        }
+        if (Rand > 0.66)
+        {
+            col = Sand3;
+        }
+        
+        if (Diffuse < Threshold)
+        {
+            OUT = col * 0.5;
+        }
+        else
+        {
+            OUT = col;
+        }
+    }
+    else
+    {
+        if (Diffuse < Threshold)
+        {
+            OUT = Shadow;
+        }
+        else
+        {
+            OUT = Highlight;
+        }
+    }   
+}

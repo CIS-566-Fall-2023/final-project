@@ -21,13 +21,31 @@ MonoBehaviour:
     meshes:
     - {fileID: 1495801216899893060, guid: 41189d4cd9026344392ed43caafde860, type: 3}
     material: {fileID: 2100000, guid: ea759fd514a435546a31a84e1b857e7f, type: 2}
+    hasTree: 0
+    tree: {fileID: 0}
+    treeNumberPerGrid: 0
+    hasStone: 0
+    stoneNumberPerGrid: 0
+    stone: {fileID: 0}
   mid:
     width: 1
     meshes:
     - {fileID: 8598159772378286561, guid: db15377d8e428b4498c64ae0b8817561, type: 3}
     material: {fileID: 2100000, guid: 775781adbb6e93c4a8e3899326e3c52c, type: 2}
+    hasTree: 0
+    tree: {fileID: 0}
+    treeNumberPerGrid: 0
+    hasStone: 0
+    stoneNumberPerGrid: 0
+    stone: {fileID: 0}
   far:
     width: 2
     meshes:
     - {fileID: 8598159772378286561, guid: db15377d8e428b4498c64ae0b8817561, type: 3}
     material: {fileID: 2100000, guid: ea759fd514a435546a31a84e1b857e7f, type: 2}
+    hasTree: 1
+    tree: {fileID: 1313749818314350997, guid: 2fd043a687d70594da234cd86ff195d2, type: 3}
+    treeNumberPerGrid: 5
+    hasStone: 0
+    stoneNumberPerGrid: 0
+    stone: {fileID: 0}

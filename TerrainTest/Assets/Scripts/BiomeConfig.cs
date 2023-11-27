@@ -9,6 +9,14 @@ public struct Layer
     public int width;
     public List<GameObject> meshes;
     public Material material;
+
+    public bool hasTree;   
+    public GameObject tree;
+    public int treeNumberPerGrid;
+
+    public bool hasStone;
+    public int stoneNumberPerGrid;
+    public GameObject stone;
 }
 
 [CreateAssetMenu(fileName = "New Biome Config", menuName = "Biome Config")]
