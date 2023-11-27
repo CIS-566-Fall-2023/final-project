@@ -10,6 +10,7 @@ namespace Planetile
 {
     public enum WFCType
     {
+        Null = 0x00,
         Ocean = 0x01,
         Desert = 0x01 << 1,
         Tree = 0x01 << 2,
@@ -18,27 +19,7 @@ namespace Planetile
         PentagonDesert = 0x01 << 5,
         PentagonTree = 0x01 << 6,
         PentagonHouse = 0x01 << 7,
-        Null = 0xFFFF,
     }
-    public class WFCTypeStrings
-    {
-        public static readonly string[] strings = new string[9]
-        {
-            "Ocean",
-            "Desert",
-            "Tree",
-            "House",
-            "PentagonOcean",
-            "PentagonDesert",
-            "PentagonTree",
-            "PentagonHouse",
-            "Null",
-        };
-        public string this[int index]
-        {
-            get => strings[index];
-        }
-    };
     public interface IWFCCell
     {
         WFCType Type { get; }

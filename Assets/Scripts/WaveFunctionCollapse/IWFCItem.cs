@@ -13,23 +13,24 @@ namespace Planetile
     public struct WFCRule
     {
         const string PATTERN = @"(==|!=|&&|\|\||\(|\))";
-        static readonly HashSet<string> OPERATORS = new HashSet<string> { "(", ")", "==", "!=", "&&", "||"/*, ">", "<", ">=", "<="*/ };
+        static readonly HashSet<string> OPERATORS = new HashSet<string> { "(", ")", "==", "!=", "&&", "||"/*, ">", "<", ">=", "<=", "!" */ };
         struct Op
         {
-            public enum Type { Operator, String, Integer };
+            public enum Type { Operator, WFCType, Integer };
             public Type type;
             public string strVal;
             public int intVal;
+            public WFCType typeVal;
             public int Level
             {
                 get
                 {
-                    if (type != Type.Operator || strVal == ")" || strVal == "(") throw new NotImplementedException();
+                    if (type != Type.Operator || strVal == ")") throw new NotImplementedException();
                     switch (this.strVal)
                     {
                         default:
-                        //case "(":
-                        //    return 0;
+                        case "(":
+                            return 0;
                         case "||":
                             return 1;
                         case "&&":
@@ -46,8 +47,8 @@ namespace Planetile
                         //    return 4;
                         //case "<=":
                         //    return 4;
-                        case "!":
-                            return 5;
+                        //case "!":
+                        //    return 5;
                     }
                 }
             }
@@ -62,6 +63,10 @@ namespace Planetile
         public Operation operation;
         public float value;
         List<Op> RPN;
+        public bool Initialized
+        {
+            get => RPN != null && RPN.Count > 0;
+        }
         void Apply(ref float val)
         {
             switch (operation)
@@ -79,84 +84,137 @@ namespace Planetile
             }
             return;
         }
-        public void InitializeRPN()
+        public bool InitializeRPN()
         {
-            var types = new HashSet<string>(WFCTypeStrings.strings);
+            var types = new HashSet<string>(Enum.GetNames(typeof(WFCType)));
             var parts = Regex.Split(rule, PATTERN);
             var infix = new List<Op>();
             try
             {
                 foreach (var part in parts)
                 {
-                    if (!string.IsNullOrEmpty(part))
+                    string str = part.Replace(" ", "");
+                    if (!string.IsNullOrEmpty(str))
                     {
                         Op op = new Op();
-                        if (OPERATORS.Contains(part))
+                        if (OPERATORS.Contains(str))
                         {
                             op.type = Op.Type.Operator;
-                            op.strVal = part;
+                            op.strVal = str;
                         }
-                        else if (types.Contains(part))
+                        else if (types.Contains(str))
                         {
-                            op.type = Op.Type.String;
-                            op.strVal = part;
+                            op.type = Op.Type.WFCType;
+                            op.typeVal = (WFCType)Enum.Parse(typeof(WFCType), str);
                         }
                         else
                         {
                             op.type = Op.Type.Integer;
-                            op.intVal = int.Parse(part);
+                            op.intVal = int.Parse(str);
                         }
                         infix.Add(op);
                     }
-                    // shunting yard
-                    var it = infix.GetEnumerator();
-                    var operators = new Stack<Op>();
-                    do
-                    {
-                        var curr = it.Current;
-                        if (curr.type == Op.Type.String || curr.type == Op.Type.Integer)
-                            RPN.Add(curr);
-                        else if (curr.strVal == "(")
-                        {
-                            operators.Push(curr);
-                        }
-                        else if (curr.strVal == ")")
-                        {
-                            while (true)
-                            {
-                                var op = operators.Pop();
-                                if (op.strVal == "(") break;
-                                RPN.Add(op);
-                            }
-                        }
-                        else
-                        {
-                            while (operators.Count > 0 && operators.First().Level >= curr.Level) RPN.Add(operators.Pop());
-                            operators.Push(curr);
-                        }
-                    } while (it.MoveNext());
-                    while (operators.Count > 0) RPN.Add(operators.Pop());
                 }
+                if (infix.Count == 0) { return false; }
+                RPN = new List<Op>();
+                // shunting yard
+                var it = infix.GetEnumerator();
+                var operators = new Stack<Op>();
+                while (it.MoveNext())
+                {
+                    var curr = it.Current;
+                    if (curr.type == Op.Type.WFCType || curr.type == Op.Type.Integer)
+                        RPN.Add(curr);
+                    else if (curr.strVal == "(")
+                    {
+                        operators.Push(curr);
+                    }
+                    else if (curr.strVal == ")")
+                    {
+                        while (true)
+                        {
+                            var op = operators.Pop();
+                            if (op.strVal == "(") break;
+                            RPN.Add(op);
+                        }
+                    }
+                    else
+                    {
+                        while (operators.Count > 0 && operators.First().Level >= curr.Level) RPN.Add(operators.Pop());
+                        operators.Push(curr);
+                    }
+                } 
+                while (operators.Count > 0) RPN.Add(operators.Pop());
             }
             catch (Exception e)
             {
                 Debug.LogError($"WFC rule \"{rule}\" has errors.");
                 RPN = null;
+                return false;
             }
+            return true;
         }
-        public bool ApplyRule(ref float val, IWFCCell[] neibours)
+        public bool SatisfyRule(IWFCCell[] neighbors)
         {
-            bool condition = true;
+            var operends = new Stack<WFCType>();
+            var conditions = new Stack<bool>();
+            foreach (Op op in RPN)
+            {
+                if (op.type == Op.Type.WFCType)
+                {
+                    operends.Push(op.typeVal);
+                }
+                if (op.type == Op.Type.Integer)
+                {
+                    if (op.intVal < neighbors.Length)
+                        operends.Push(neighbors[op.intVal].Type);
+                    else
+                        operends.Push(WFCType.Null);
+                }
+                else
+                {
+                    switch (op.strVal)
+                    {
+                        case "==":
+                            var a = operends.Pop();
+                            var b = operends.Pop();
+                            conditions.Push((a & b) != 0);
+                            break;
+                        case "!=":
+                            a = operends.Pop();
+                            b = operends.Pop();
+                            conditions.Push((a ^ (~b)) == 0);
+                            break;
+                        case "&&":
+                            bool c = conditions.Pop();
+                            bool d = conditions.Pop();
+                            conditions.Push(c && d);
+                            break;
+                        case "||":
+                            c = conditions.Pop();
+                            d = conditions.Pop();
+                            conditions.Push(c || d);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return conditions.First();
+        }
+        public bool ApplyRule(ref float val, IWFCCell[] neighbors)
+        {
+            bool result = true;
             if (rule != null && rule != "")
             {
                 if (RPN == null)  InitializeRPN();
                 if (RPN != null)
                 {
-
+                    result = SatisfyRule(neighbors);
                 }
             }
-            if (condition) Apply(ref val);
-            return true;
+            if (result) Apply(ref val);
+            return result;
         }
     }
     public interface IWFCItem
