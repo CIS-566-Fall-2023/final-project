@@ -87,10 +87,10 @@ For this project, I anticipate using Houdini procedural modeling techniques lear
 </details>
 
 ## Milestone 2
-<details>
-<summary>Click Here to Open / Close Milestone 2</summary
+<details = open>
+<summary>Click Here to Open / Close Milestone 2</summary>
                                                    
-#### Building the Succulent Generator
+### Building the Succulent Generator
 
   For Milestone 2, I created a working succulent generator that allows the user to adjust the petal's shape and depth using ramps as well as control other parameters such as petal count, petal bend, layers,      width, length, and depth. Below are some examples of succulent models created using my generator:
   
