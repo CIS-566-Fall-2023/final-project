@@ -2,6 +2,12 @@
 
 Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
 
+## Milestone 2
+<details>
+  <summary> Specifications </summary>
+  
+  </details>
+
 ## Milestone 1
 
 <details>
