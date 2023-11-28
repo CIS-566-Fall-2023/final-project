@@ -7,7 +7,7 @@ using UnityEngine;
 public class SkyManager : MonoBehaviour
 {
     //Variables 
-    [SerializeField, Range(0, 24)] private float TimeOfDay;
+    [SerializeField, Range(0, 24)] public float TimeOfDay;
 
     private void Update()
     {

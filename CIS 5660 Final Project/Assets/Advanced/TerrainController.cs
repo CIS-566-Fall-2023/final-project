@@ -151,18 +151,20 @@ public class TerrainController : MonoBehaviour {
             Level
         );
         //had to move outside of instantiate because it's a local position
-        terrain.transform.localPosition = new Vector3(terrainSize.x * xIndex, 0.1f * terrainSize.y, terrainSize.z * yIndex);
+        terrain.transform.localPosition = new Vector3(terrainSize.x * xIndex, -497f, terrainSize.z * yIndex);
         terrain.name = TrimEnd(terrain.name, "(Clone)") + " [" + xIndex + " , " + yIndex + "]";
 
         terrainTiles.Add(new Vector2(xIndex, yIndex), terrain);
 
         // call generate mesh 
         GenerateMesh gm = terrain.GetComponent<GenerateMesh>();
+
+        gm.xyIndex = new UnityEngine.Vector2Int(xIndex, yIndex);
         gm.TerrainSize = terrainSize;
         gm.Gradient = gradient;
         gm.NoiseScale = noiseScale;
         gm.CellSize = cellSize;
-        gm.NoiseOffset = NoiseOffset(xIndex, yIndex);
+        gm.NoiseOffset = NoiseOffset(xIndex, yIndex, noiseScale);
         gm.Generate();
 
         Random.InitState((int)(seed + (long)xIndex * 100 + yIndex));//so it doesn't form a (noticable) pattern of similar tiles
@@ -176,7 +178,7 @@ public class TerrainController : MonoBehaviour {
         return terrain;
     }
 
-    private Vector2 NoiseOffset(int xIndex, int yIndex) {
+    private Vector2 NoiseOffsetBad(int xIndex, int yIndex) {
         Vector2 noiseOffset = new Vector2(
             (xIndex * noiseScale + startOffset.x) % noiseRange.x,
             (yIndex * noiseScale + startOffset.y) % noiseRange.y
@@ -186,6 +188,17 @@ public class TerrainController : MonoBehaviour {
             noiseOffset = new Vector2(noiseOffset.x + noiseRange.x, noiseOffset.y);
         if (noiseOffset.y < 0)
             noiseOffset = new Vector2(noiseOffset.x, noiseOffset.y + noiseRange.y);
+        return noiseOffset;
+    }
+
+    private Vector2 NoiseOffset(int xIndex, int yIndex, float noiseScale)
+    {
+        // Simply scale the tile indices by the noiseScale
+        Vector2 noiseOffset = new Vector2(
+            xIndex * noiseScale,
+            yIndex * noiseScale
+        );
+
         return noiseOffset;
     }
 
