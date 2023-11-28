@@ -1,8 +1,51 @@
 # Final Project - Debby Lin and Will Cai
+## Milestone 2: Implementation part 2 (due 11/27)
+### Biomes: Will
+- I was mostly modifying the compute shader to create different biomes, specifically a cliffs and a beach biome. Because I was unable to figure out how to fix my previous Perlin function code, I ended up writing new FBM noise functions for each biome, “island” and “cliffs”.
+These are simple 2D noise functions that are based off a common interpolation2D function. For cliffs, the heights are amplified much more, and there are some simple functions that elevate certain ranges of heights to be the same, which creates a flat vertical wall effect.
+  - Cliff biome
+  - Island biome
+- For making the 2 biomes exist together, I created new 2D noise/interpolation/FBM functions. Then there’s a generateTerrain function which combines the biomes, and finally heightFromPos which calls generateTerrain.and gets the final height value for each position.
+- Currently, this code is not completely working, and it’ll be the first thing we fix for the next milestone
 
-https://github.com/debbylin02/final-project/assets/82790216/d5bd26bb-46f0-4cd5-ac98-a66d43569a69
+### Three-tone biome shaders: Debby  
+- I imported URP and Shadergraph to the project so that we could migrate to shadergraphs instead of the default materials.
+- I created a mountain biome shader that first took in two colors: a green color for the grassy top and grey for the rocky areas. I used a height based gradient color shader such that the tops of the mountains were green if their y-value was above some value and grey elsewise.
+- I then converted this into a three-tone shader graph inspired by the shader work from homework 4 so that the grass and rock colors could be broken up into highlights, midtones, and shadows.
+- I also created a three-tone shader for the sandy biome. 
+- To improve upon this shader, I am looking to make the shift from grass to rock more obvious and potentially normal-based instead of height-based.  
+
+### Water shader: Debby
+- For this section I combined various tutorials in order to try to replicate the water texture from Dredge. 
+  - Main shader tutorial: https://ameye.dev/notes/stylized-water-shader/ 
+  - Ripple texture: https://www.youtube.com/watch?v=Vg0L9aCRWPE&ab_channel=Brackeys
+- Water depth
+  - I first calculated a depth fade value between 1 (shallow water) to 0 (deep water). I first took the Scene Depth (Eye) (i.e. the distance in world space units between the camera and objects below the water’s surface) and subtracted the Screen Position (Raw) (i.e. the distance between the camera and the water surface) so that we can get the water depth (i.e. the distance between the objects and water surface. After that, I divided, saturated, and used a One Minus node to further control and clamp the value. 
+  - In order to avoid having the depth value change based on camera position, I modified this water depth measurement by calculating the depth in world space. This would measure the distance between an object and the water’s surface vertically rather than at an angle so that the depth does not look different even when viewed at a different angle.  
+- Colors and opacity
+  - I took the Depth Fade value (calculated before) in order to Lerp between a shallow and deep water color to get a base color. 
+  - I then used a Fresnel Effect node to apply a horizon color to the water and Lerped that with the base color. 
+  - After that I added the colors of the objects that are beneath the water using a Scene Color node so that the color of objects underwater can be seen. 
+- Refraction
+  - In order to add some distortion to the water shader, I added a refraction effect to the UVs before they were passed into the Depth Fade subgraph. This was done by applying some Gradient Noise to the Screen Position.
+  This added some "wobbliness"  to mimick movement on the surface of the water.
+- Foam/ripples
+  - In order to create surface ripples I created “Panning UVs” (i.e. I applied movement to the UVs so that there would be movement in the texture) and before passing them into Voronoi noise to create the main shape of the ripples. I then sharpened the shape of the ripples and applied color to them before adding them to the water color.   
+  - I then created intersection foam such that wherever objects or biomes intersect with the water surface there would be a ring of white foam around them. This was done by first defining the ring around objects in the water for the foam to go (i.e. the intersection foam mask) which was based on the Depth Fade value and a distance cutoff value. I then passed Panning UVs again into a gradient noise function to get the shape of the foam. Lastly I multiplied the foam mask with the shape of the foam and the foam color before adding it to the water color. 
+
+### New objects assets/models: Debby 
+- I imported tree, boat, and rock assets to replace the old preliminary models and created some three tone shaders for these objects.
+  - Rock models: https://sketchfab.com/3d-models/70-stylized-rocks-bf0051544c9c41f998c154c546b09669
+  - Tree models: https://sketchfab.com/3d-models/low-poly-tree-pack-ea6e844754da494a9c38501b4fff92ad#download
+  - Boat model: https://sketchfab.com/3d-models/boat-57b1ca19f1484559b22c4b8ad408559d  
+- I have already successfully swapped out the boat model, but I have yet to swap out the generated rock and tree models as I need to edit the positions, sizes, orientations, and collision boxes.
+
+### Night light: Will
+- This is a very simple point light that is parented to the boat and activates at nighttime.
+
 
 ## Milestone 1: Implementation part 1 (due 11/15)
+https://github.com/debbylin02/final-project/assets/82790216/d5bd26bb-46f0-4cd5-ac98-a66d43569a69
 ### Procedural terrain:  Will and Debby
 NOTE: For this section, we based our code off of this tutorial on infinite procedural terrain: https://youtu.be/f9uueg_AUZs?si=022T5p3lBSdTLTk6  
   - #### Chunking - Will and Debby
