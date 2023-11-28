@@ -6,6 +6,26 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
 <details>
   <summary> Specifications </summary>
   
+  ## Milestone 2 Progress Report
+
+### Integration and Optimization
+
+The second milestone in our project marked significant progress, building on the foundational work accomplished in Milestone 1. Our focus was on merging the individual elements - the island, the cloud, and the island map - into a cohesive and visually stunning environment. 
+
+Key developments included the procedural generation of islands based on the map created in Milestone 1. This step was crucial in bringing a sense of realism and diversity to the island shapes and formations. The clouds, were also procedurally generated, adding an additional layer of depth and realism to the environment. We also modified the cloud density and incorporating lighting effects to enhance the visual impact.
+
+However, we encountered a challenge with Houdini's long loading times, likely due to the complexity of our objects. To address this, we made the tough decision to remove certain elements, such as vines and grass on the islands, to facilitate smoother rendering. This optimization was necessary to maintain the project's momentum and ensure that we could effectively integrate and render the merged elements. We will try to tackle this limitation in for the final project presentation.
+
+### Exploration and Planning for Advanced Features
+
+In addition to the integration work, we explored additional features to enrich our environment. We looked into Houdini plugins for Unity, which could potentially offer new avenues for integrating our procedural elements into a more interactive platform. Furthermore, we are planning to incorporate a bird flocking Unity asset into our current procedural island setup. This addition is expected to add a dynamic and lifelike element to our islands, enhancing the overall immersive experience.
+
+### Reflection and Future Directions
+
+This milestone was not only about technical advancement but also about learning to balance ambition with feasibility. The removal of certain elements, while a compromise, taught us the importance of flexibility and adaptability in complex projects. As we move forward, our focus will be on polishing these integrated elements and ensuring seamless functionality within Unity for our final demonstration.
+
+Our journey continues with the shared goal of creating a visually captivating procedural island environment and we are excited to see how our project evolves in the next phase.
+  
   </details>
 
 ## Milestone 1
