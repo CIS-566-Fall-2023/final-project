@@ -4,16 +4,121 @@ Authors: Tianyi Xiao and Linda Zhu
 <details>
   <summary> Milestone 2 </summary>
 
-More assets references to check out:
-1. https://www.reddit.com/r/Houdini/comments/12eq4gk/scifi_panel_generator_wip/
-2. https://www.artstation.com/artwork/r9zRXO
-3. 
+TODO: final result
+
+## Corridor Map System (Continued)
+### Modular Wall
+To have modular walls:
+- Randomly pick up some walls to replace them with modular wall.
+- Subdivide the wall with `Lab Lot Subdivision` and `divide` nodes, then adjust the modular shapes with `fuse`.
+- Assign different unity prefab according to the size of wall pieces with `attribcreate`.
+
+**In Houdini**
+![](/img/milestone2/modular_wall_houdini.png)
+**In Unity**
+![](/img/milestone2/modular_wall.png)
+
+
+### Asset Placement
+We want to place assets in the large rooms of the level procedurally. And we want the assets to be placed near the walls, to avoid it block players' way. To implement this:
+- Use `PolyExpand2D` node to figure out the large rooms in our level.
+- Get area near walls with `PolyExtrude`. Then generate many points with `scatter` in these areas.
+- Use `Group` to eliminate points outside the large rooms.
+- Assign different unity prefab randomly to remaining points with `attribrandomize`.
+
+**In Houdini**
+![](/img/milestone2/asset_houdini.png)
+**In Unity**
+![](/img/milestone2/asset.png)
+
+Also, we want to place some special asset at the end of each dead end corridor:
+- First blast out all edge with concave corner points, which comes from milestone1, out of basic plane shape.
+- Try to fuse each edge acoording to the unit size, to get mid point only from the real end, since their width is the unit size. Then eliminate other points at corner.
+- Assign unity prefab to remaining points with `attribcreate`.
+
+![](/img/milestone2/door.png)
+
+### Door
+Similarly as first part of asset placement, we also want to place doors on the entrance place for large rooms in the level.
+
+- Use the `PolyWire` to get the area near the edge of large rooms. The get cross points between these areas and central lines of the map, where we should place the door.
+- Assign unity door prefab to remaining points with `attribcreate`.
+
+**In Houdini**
+![](/img/milestone2/door_houdini.png)
+**In Unity**
+![](/img/milestone2/door.png)
+
+
+## Procedural Assets - Walls
+We followed [this tutorial by Simon Verstratete](https://www.sidefx.com/tutorials/sci-fi-panel-generator/) to design our walls to have 3 layers of structures: a bottom panel, a top panel and panel details. The idea is to have an input image (greyscale or 3-5 tones). In houdini, extract layers based on different brightness or other color thresholds, assign geometries to those layers, and finally assemble them into one model. We want to the artist to have control of the design, i.e. input image, so besides the randomization parameters to tune in our geometry generator they still have the dominant authority.
+
+Below is an example of input image in PSD file (We chose PSD since Photoshop has built-in layers and it happens that Houdini has a `Trace PSD File` to load PSD layers, but we can change it to any image format really).
+<p align="left">
+  <img src="/img/milestone2/panel_psd_1.png" width="300"/>
+</p>
+
+|                    **Extracted Layers**              |
+| Top Panel       || Bottom Panel           || Details ||
+Layer 1  | Layer 2 | Layer 3 | Layer 4       | Layer 5 |
+ ------  | :-----: | ------: |  -----------: | ------: |
+![](/img/milestone2/layer1.png) | ![](/img/milestone2/layer2.png) | ![](/img/milestone2/layer3.png) | ![](/img/milestone2/layer4.png) | ![](/img/milestone2/layer5.png)
+
+Next, we can work on each individual layer. We start with the panels. Since the Sci-Fi style objects usually appear chunky/bulky/heavy without much delicate curvature, we simply `Thicken` the layers to turn a surface into a polygon, `Transform` the layer polygons mainly to ensure they stack on each other. 
+
+<p align="left">
+  <img src="/img/milestone2/panels.png" width="300"/>
+</p>
+
+Now we have the wall frame ready but they are mostly rectangles which look boring. For the panel details, we want to add more vairations in terms of geometry than just extrusion. Here we used the tiling brick from the LEGO-ifier project as the base model to be `Copy`ed`to Points` at the red dots. I added some randomization in the orientation of the blocks.
+
+In addition to use the texture input, we created another 2 methods to decide where to place the ornaments. The first one uses `ray` tracing. We project rays from vector (0,-1,0), bascially looking down on the base panels, until the ray finds the top surface to collide with. We also use `Remesh to Grid` and `Measure Curvature` to avoid placing objects on any curved edges of the base panels. After we get the clean surface area, we `Scatter` a custom number of points to be the block positions. Changing the seed or the total count will generate more randomization. Lastly, considering that if we have symmetrical panels, we might want to `Mirror` the ornament placement too. After placing the ornaments, we can always adjust their orientations to create more variations.
+
+Below shows how the 3 methods work differently:
+
+Image Input  | Random Positions | Mirroring Positions |
+ ------  | :-----: | ------: |
+![](/img/milestone2/details1.png) |![](/img/milestone2/details2.png) | ![](/img/milestone2/details3.png) |
+
+This example input image doesn't have line details (only dots) but I want to illustrate how you can use boolean shatter to carve lines out from the base geometry so I made separately a simple cube-based panel and a bezier curve. The logic is as follows:
+
+- `Sweep` the curve with a polygon `Line` in a controlled direction. `PolyExtrue` the surface to have some width.
+- In a `For-Each Connected Piece` loop connected to the base panel, use a `Boolean` shatter operation to output an edge gorup of A-B Seams from the extruded curve polygon.
+- Use `Poly Bevel` to smooth the carved surfaces.
+
+Boolean Shatter  | Panels with Details
+ ------  | :-----: |
+![](/img/milestone2/boolean.png) |![](/img/milestone2/panelsDone.png)
+
+
+To fill out the holes of the bottom panel, we add an array of pipes at the back. Pipes are composed of tubes and rings, the sizes of which can both be configured procedurally and randomly.
+
+<p align="left">
+  <img src="/img/milestone2/pipes.png" width="300"/>
+</p>
+
+Before merging every layer, we tweaked more of the panels by bending them on the lower half.
+Bend the Wall  | Final Output
+ ------  | :-----: |
+![](/img/milestone2/bendWall.png) |![](/img/milestone2/final.png)
+
+Lastly, we created 3 modes of outputs of various polygon count for different needs: preview, highpoly and lowpoly. When we export to FBX and import the model in Unity as environment assets, we chose the lowpoly mode to minimize the package size. The user can choose which level of details when exporting in the menu, along with other parameters to configure the panels.
+
+Menus
+Top Panel  | Bottom Panel | Pipes | Advanced/Others |
+ ------  | :-----: | ------: | ------: | 
+![](/img/milestone2/menu1.png) |![](/img/milestone2/menu2.png) | ![](/img/milestone2/menu3.png) | ![](/img/milestone2/menu4.png) |
+
+### In Unity
+Replacing the small wall type in Unity corridor scene with our textured procedural wall model!
+![](/img/milestone2/wallUnity.gif)
 
 </details>
 
 <details>
   <summary> Milestone 1 </summary>
 
+## Corridor Map System
 ### Ground Plane
 The main highlight of our project is to generate a corridor scene solely based on an input curve, and the user can customize/ edit the curve nodes to update the map dynamically. So our first task was to tackle the grid-ification of a 3D curve and project that into a 2D plane, aka the corridor map (Figure 1). 
 
@@ -115,6 +220,12 @@ We are running ahead of the schedule so we continue on generating different type
   - We found a helpful [tutorial](https://www.sidefx.com/tutorials/sci-fi-level-builder/), which we believe could be good guidance for us.
   - This article talks about procedural modelling of a [sci-fi cylinder tunnel](https://polycount.com/discussion/101306/breakdown-of-scifi-cylinder-tunnel).
   - [Similar sci-fi scene assembled in UE4](https://cubebrush.co/blog/the-making-of-a-sci-fi-corridor-ue4-scene-breakdown)
+
+(Edited on 11/20:)
+More assets references to check out:
+1. https://www.reddit.com/r/Houdini/comments/12eq4gk/scifi_panel_generator_wip/
+2. https://www.artstation.com/artwork/r9zRXO
+3. 
 
 ### Design:
 Orange cells are Houdini stages, green cells are Substance Designer/Painter stages and the blue cell is in Unity. We didn't include the stretch goals in the chart, except the procedural modelling of decoration objects, because we want to ensure the completion of the main project.
