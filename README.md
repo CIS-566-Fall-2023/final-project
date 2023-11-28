@@ -64,6 +64,15 @@ I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and
  - Fresnel Effect based atmosphere effect + simple noise based cloud effect
 ![Atmosphere Shader](https://github.com/Jeff-Ling/final-project/assets/74678923/6670f8d0-70fb-4552-9944-3050200cf384)
 
+## Alex Fu
+- I made a rule parser to make it easier for developers to modify Wave Function Collapse rules. The integers 0, 1, and 2 here represent the neighbors of a cell.
+  
+  ![image](https://github.com/Jeff-Ling/final-project/assets/28486541/d400ec3d-ebb3-4bd6-ba64-0f710094c1cc)
+
+  ![image](https://github.com/Jeff-Ling/final-project/assets/28486541/f9cac0c4-b9fa-4dfd-87ba-ba3f39203d3a)
+
+- Compute cell positions in a Hexagon tile. A cell has an equilateral triangle shape and its position is its barycentric location.
+  ![image](https://github.com/Jeff-Ling/final-project/assets/28486541/fe16b236-8b4b-4116-b7a4-ff279aea427d)
 
 # Milestone 3
 
