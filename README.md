@@ -2,13 +2,14 @@
 
 #### Introduction
 We were inspired to create this character by the various beautiful visuals of our favorite video game characters. 
+![IMG_5849](https://github.com/RachelDLin/final-project/assets/43388455/1329f7fc-01cc-4560-a306-4cd1ce50a302)
 
 #### Goal
 Create a render of a ginkgo-themed character using a mixture of procedurally and manually modeled assets, procedurally-created textures, and procedural effects of ginkgo leaves falling off the dress. 
 
 #### Inspiration/reference:
 Design is based on a combination of traditional chinese clothing and fantastical elements. Inspired by Mihoyo’s Honkai Impact 3rd character designs.
-![gingkoGirlSide](https://github.com/RachelDLin/final-project/assets/43388455/7dae587b-3013-4745-876f-b788fc2a0e5a)
+
 (Original design by Jackie Li)
 
 #### Specification:
