@@ -89,3 +89,32 @@ Unreal Engine:
 
 ##### Houdini Procedural Generator
 ![](Pictures/milestone1WIPHoudiniNode.png)
+
+# Milestone 2 Updates
+
+#### Accomplishments
+- Completed and refining procedural ginkgo generation tool.
+  - Including finding a way to integrate tool with the cloth simulation of the dress.
+  - Currently finding a way to better organise the ginkgo leaves, which will require much tooling around with random values.
+- Completed Substance Designer procedural texture for the dress.
+- Completed Marvellous Designer dress simulation.
+- Started setting up project in Unreal Engine.
+
+##### Procedural Ginkgo Leaf Tool
+
+###### First iteration
+
+| ![](Pictures/ginkgoTreeProgressShot.png) | ![](Pictures/ginkgoTree.png) |
+| :--: | :--: |
+|Following a tutorial to create a tree.|Ginkgo tree asset.|
+
+###### Second iteration
+
+| ![](Pictures/ginkgoTool_withNodeTreeUpdate.png) |
+| :--: |
+|Manually creating a bezier curve at the border of a grid to simulate replicating the tool on a cloth simulation.|
+
+###### Third iteration
+| ![](Pictures/ginkgoGirlDress.png) | ![](Pictures/dressWithGinkgoLeaves.png) |
+| :--: | :--: |
+|Extracted the borders of the dress as a bezier curve to grow branches with leaves.|Final product mockup. Will be adding more to sleeves and playing with values within the next update.|
