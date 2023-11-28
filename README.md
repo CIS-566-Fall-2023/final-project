@@ -5,6 +5,7 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
 ## Milestone 2
 <details>
   <summary> Specifications </summary>
+  
   ## Milestone 2 Progress Report
 
 ### Integration and Optimization
