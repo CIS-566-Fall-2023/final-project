@@ -118,7 +118,7 @@ My main goal for the next milestone is to tweak the generator to potentially add
   <summary>Click Here to Open / Close Milestone 3</summary>
   
 ### Succulent, Cacti, and Pot Generators
-For Milestone 3, I created three different generators for building variations of succulents, cacti, and containers for the plants. As of the deadline, every generator is feature complete and I'm very happy with the overall look and user controls! Below are some images of compositions created using my generators. 
+For Milestone 3, I created three different generators for building variations of succulents, cacti, and containers for the plants. As of the deadline, every generator is feature complete and I'm very happy with the overall look and user controls! Using my generator, I created some different succulents and cacti and arranged them into the composition below.
 
   <p align = "center">
     <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/88391eb8-1058-458e-a6cf-fa024c5c295a">
@@ -149,7 +149,10 @@ To make the pot generator, I followed this helpful [YouTube tutorial](https://ww
     <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/0874345d-0ccb-4406-8a38-f1eb61428c3d" width=80%>
   </p>
 
-Based on the critique in class, for the final submission, I will focus on finetuning the textures and materials of the succulent and pots for the final render. I want to try to include more specific color controls for each succulent petal, and I want both a glass and ceramic version of the plants. If time permits, I also want to tackle procedural placement, using a global seed to create random succulents, cacti, and overall compositions. If I can't get the randomization done in time, I will go with my original plan of manually placing my generated plants into nice, aesthetic compositions.
+### Goals for Final Submission
+Based on the critique in class, for the final submission, I will focus on finetuning the textures and materials of the succulent and pots for the final render. I want to try to include more specific color controls for each succulent petal, and I want both a glass and ceramic version of the plants. Since there are so many different possibilities for the succulent petal shapes it can be hard to replicate the exact parameters used to create certain shapes. So, I'm also thinking of creating and saving some ramp presets to make a more efficient and artist-friendly tool.
+
+If time permits, I also want to tackle random generation, using a global seed to create random succulents, cacti, and overall compositions. If I can't get the randomization done in time, I will go with my original plan of manually placing my generated plants into nice, aesthetic compositions.
 
 </details>
 
