@@ -24,12 +24,29 @@ Car exhaust particle effect
 Add screen space post process render feature for tone mapping
 Add toon-based post process materials for car
 
-
 ### Shixuan Fang
 
 - Finished URP setup
 - Added custom post process features and passes
 - Sun shader in progress
+
+## Milestone #2
+
+repo link: https://github.com/dw218192/UnityURP_Synthwave_Sytalization
+
+
+### Tongwei Dai
+Create a procedural terrain that can mimic infinite road
+Add physics to the car so that it can move up and down while moving forward
+
+### Gehan Zheng
+Add volumetric fog to increase the visual quality of the scene
+Build the sample scene by adding moving trees and screen space reflection road
+
+### Shixuan Fang
+Finished the procedural sun with controllable parameters
+Add a color gradient sky to mimic the desirable visual result
+
 
 
 #### Introduction
