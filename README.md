@@ -2,13 +2,14 @@
 
 #### Introduction
 We were inspired to create this character by the various beautiful visuals of our favorite video game characters. 
+![IMG_5849](https://github.com/RachelDLin/final-project/assets/43388455/1329f7fc-01cc-4560-a306-4cd1ce50a302)
 
 #### Goal
 Create a render of a ginkgo-themed character using a mixture of procedurally and manually modeled assets, procedurally-created textures, and procedural effects of ginkgo leaves falling off the dress. 
 
 #### Inspiration/reference:
 Design is based on a combination of traditional chinese clothing and fantastical elements. Inspired by Mihoyo’s Honkai Impact 3rd character designs.
-![gingkoGirlSide](https://github.com/RachelDLin/final-project/assets/43388455/7dae587b-3013-4745-876f-b788fc2a0e5a)
+
 (Original design by Jackie Li)
 
 #### Specification:
@@ -89,3 +90,45 @@ Unreal Engine:
 
 ##### Houdini Procedural Generator
 ![](Pictures/milestone1WIPHoudiniNode.png)
+
+# Milestone 2 Updates
+
+#### Accomplishments
+- Completed and refining procedural ginkgo generation tool.
+  - Including finding a way to integrate tool with the cloth simulation of the dress.
+  - Currently finding a way to better organise the ginkgo leaves, which will require much tooling around with random values.
+- Completed Substance Designer procedural texture for the dress.
+- Completed Marvellous Designer dress simulation.
+- Started setting up project in Unreal Engine.
+
+##### Procedural Ginkgo Leaf Tool
+
+###### First iteration
+
+| ![](Pictures/ginkgoTreeProgressShot.png) | ![](Pictures/ginkgoTree.png) |
+| :--: | :--: |
+|Following a tutorial to create a tree.|Ginkgo tree asset.|
+
+###### Second iteration
+
+| ![](Pictures/ginkgoTool_withNodeTreeUpdate.png) |
+| :--: |
+|Manually creating a bezier curve at the border of a grid to simulate replicating the tool on a cloth simulation.|
+
+###### Third iteration
+| ![](Pictures/ginkgoGirlDress.png) | ![](Pictures/dressWithGinkgoLeaves.png) |
+| :--: | :--: |
+|Extracted the borders of the dress as a bezier curve to grow branches with leaves.|Final product mockup. Will be adding more to sleeves and playing with values within the next update.|
+
+##### Procedural Substance Designer Texture
+| ![ginkgo_light](https://github.com/RachelDLin/final-project/assets/43388455/25aaecc6-6a82-4366-b5a7-b40f7c7a7fb1) | 
+| ![Screenshot 2023-11-27 123622](https://github.com/RachelDLin/final-project/assets/43388455/0697be8a-bbcc-4e78-b1bd-4121164dccec) |
+| :--: |
+|Created procedural ginkgo leaf mask in Substance Designer. Experimented with using this to create a pbr fabric textile material. 
+
+##### Unreal Engine Setup
+| ![HighresScreenshot00000](https://github.com/RachelDLin/final-project/assets/43388455/effbc804-5491-4560-8f06-1477c3ec018f) |
+| ![HighresScreenshot00001](https://github.com/RachelDLin/final-project/assets/43388455/537af3f3-743e-4112-9905-55c0e05816bc) |
+| :--: |
+|Imported and placed all meshes. Set up and assigned simple cel-shaded materials for all meshes. Used ginkgo leaf mask to create simple cel-shaded fabric textile material.|
+
