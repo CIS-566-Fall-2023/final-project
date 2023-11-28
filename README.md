@@ -128,11 +128,26 @@ For Milestone 3, I created three different generators for building variations of
 #### Succulent 
 After Milestone 2, I added more controls for petal bend, allowing petals to curl in on themselves and have more overall bend. I also used VOPs, mainly a color ramp and noise, to add color controls and a waxy-looking texture that appears on real-life succulents.
 
+  <p align = "center">
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/3faf6590-364b-4c09-a562-eb334bffe343" width=55%>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/1d83a091-de03-43b7-bf97-8b029281d7b4" height=440px>
+  </p>
+
 #### Cacti
 Similarly to my succulent generator, I made my cacti generator mainly using a **skin node** and circles to form the base cacti mesh. I also created spines that got copied to points along the outer ridges of the cacti. The user can use ramps to adjust the cacti's and spines' shape and has access to a variety of different controls such as height, scale, twist, spine length, spine frequency, and more.
 
+  <p align = "center">
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/d0118c39-3ff7-4cdc-b919-cb1670082e1e" width=55%>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/c92707b2-1630-447c-93f0-0d380e3456e5" height=415px>
+  </p>
+  
 #### Pot
 To make the pot generator, I followed this helpful [YouTube tutorial](https://www.youtube.com/watch?v=BhXcOzpDQ1g). I modeled a pot and accompanying tray and created an adjustable layer of soil using a **blast node** and a **mountain node** to add some realistic variation. I also procedurally modeled an extra pebble/soil layer using a **scatter node** to get a series of points on the soil layer and copied spheres affected by a **mountain node** to the points. 
+
+  <p align = "center">
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/7a5992fc-653c-4740-805e-339438212c25" width=80%>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/0874345d-0ccb-4406-8a38-f1eb61428c3d" width=80%>
+  </p>
 
 Based on the critique in class, for the final submission, I will focus on finetuning the textures and materials of the succulent and pots for the final render. I want to try to include more specific color controls for each succulent petal, and I want both a glass and ceramic version of the plants. If time permits, I also want to tackle procedural placement, using a global seed to create random succulents, cacti, and overall compositions. If I can't get the randomization done in time, I will go with my original plan of manually placing my generated plants into nice, aesthetic compositions.
 
