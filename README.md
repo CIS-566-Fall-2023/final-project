@@ -17,17 +17,17 @@ written description of progress on your project goals. If you haven't hit all yo
 Examples of your generators output so far We'll check your repository for updates. No need to create a new pull request.
 
 ### Tongwei Dai
-Add grid shader for the ground plane
-Car exhaust particle effect
+- Add grid shader for the ground plane
+- Car exhaust particle effect
 
 ### Gehan Zheng
-Add screen space post process render feature for tone mapping
-Add toon-based post process materials for car
+- Add screen space post-process render feature for tone mapping
+- Add toon-based post-process materials for car
 
 ### Shixuan Fang
 
 - Finished URP setup
-- Added custom post process features and passes
+- Added custom post-process features and passes
 - Sun shader in progress
 
 ## Milestone #2
@@ -36,16 +36,16 @@ repo link: https://github.com/dw218192/UnityURP_Synthwave_Sytalization
 
 
 ### Tongwei Dai
-Create a procedural terrain that can mimic infinite road
-Add physics to the car so that it can move up and down while moving forward
+- Create a procedural terrain that can mimic infinite road
+- Add physics to the car so that it can move up and down while moving forward
 
 ### Gehan Zheng
-Add volumetric fog to increase the visual quality of the scene
-Build the sample scene by adding moving trees and screen space reflection road
+- Add volumetric fog to increase the visual quality of the scene
+- Build the sample scene by adding moving trees and screen space reflection road
 
 ### Shixuan Fang
-Finished the procedural sun with controllable parameters
-Add a color gradient sky to mimic the desirable visual result
+- Finished the procedural sun with controllable parameters
+- Add a color gradient sky to mimic the desirable visual result
 
 
 
