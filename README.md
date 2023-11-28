@@ -118,3 +118,16 @@ Unreal Engine:
 | ![](Pictures/ginkgoGirlDress.png) | ![](Pictures/dressWithGinkgoLeaves.png) |
 | :--: | :--: |
 |Extracted the borders of the dress as a bezier curve to grow branches with leaves.|Final product mockup. Will be adding more to sleeves and playing with values within the next update.|
+
+##### Procedural Substance Designer Texture
+| ![ginkgo_light](https://github.com/RachelDLin/final-project/assets/43388455/25aaecc6-6a82-4366-b5a7-b40f7c7a7fb1) | 
+| ![Screenshot 2023-11-27 123622](https://github.com/RachelDLin/final-project/assets/43388455/0697be8a-bbcc-4e78-b1bd-4121164dccec) |
+| :--: |
+|Created procedural ginkgo leaf mask in Substance Designer. Experimented with using this to create a pbr fabric textile material. 
+
+##### Unreal Engine Setup
+| ![HighresScreenshot00000](https://github.com/RachelDLin/final-project/assets/43388455/effbc804-5491-4560-8f06-1477c3ec018f) |
+| ![HighresScreenshot00001](https://github.com/RachelDLin/final-project/assets/43388455/537af3f3-743e-4112-9905-55c0e05816bc) |
+| :--: |
+|Imported and placed all meshes. Set up and assigned simple cel-shaded materials for all meshes. Used ginkgo leaf mask to create simple cel-shaded fabric textile material.|
+
