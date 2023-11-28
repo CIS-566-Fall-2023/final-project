@@ -21,7 +21,7 @@ public class HexagonTile : MonoBehaviour
             connectedTiles.Add(self.adjTiles[i].id);
 
         SetupMesh(corners);
-      
+
     }
     public void SetupMesh(List<sCorner> corners)
     {
@@ -89,37 +89,99 @@ public class HexagonTile : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.Optimize();
     }
+    /// <summary>
+    /// cash cell positions and directions
+    /// </summary>
+    Dictionary<int, List<System.Tuple<Vector3, bool>>> hexgonCellDict = new Dictionary<int, List<System.Tuple<Vector3, bool>>>();
+    public void SetupCellsInEquilateralTriangle(ref List<System.Tuple<Vector3, bool>> listOut, Vector3 center, bool bottomFlat, int remaining)
+    {
+        if (remaining == 0)
+        {
+            listOut.Add(new System.Tuple<Vector3, bool>(center, bottomFlat));
+        }
+        else
+        {
+            Vector3 pos1 = new Vector3(center.x + (float)remaining * 0.5f, center.y, center.z + (float)remaining * (bottomFlat ? -0.2886751345948129f : 0.2886751345948129f));
+            Vector3 pos2 = new Vector3(center.x - (float)remaining * 0.5f, center.y, center.z + (float)remaining * (bottomFlat ? -0.2886751345948129f : 0.2886751345948129f));
+            Vector3 pos3 = new Vector3(center.x, center.y, center.z + (float)remaining * (bottomFlat ? 0.5773502691896258f : -0.5773502691896258f));
+            if (remaining == 1)
+            {
+                listOut.Add(new System.Tuple<Vector3, bool>(center, !bottomFlat));
+                listOut.Add(new System.Tuple<Vector3, bool>(pos1, bottomFlat));
+                listOut.Add(new System.Tuple<Vector3, bool>(pos2, bottomFlat));
+                listOut.Add(new System.Tuple<Vector3, bool>(pos3, bottomFlat));
+            }
+            else
+            {
+                SetupCellsInEquilateralTriangle(ref listOut, center, !bottomFlat, remaining - 1);
+                SetupCellsInEquilateralTriangle(ref listOut, pos1, bottomFlat, remaining - 1);
+                SetupCellsInEquilateralTriangle(ref listOut, pos2, bottomFlat, remaining - 1);
+                SetupCellsInEquilateralTriangle(ref listOut, pos3, bottomFlat, remaining - 1);
+            }
+        }
+    }
+    public void SetupLocalCellsPositionHexagon(int cellDensity)
+    {
+        var list = new List<System.Tuple<Vector3, bool>>();
+        SetupCellsInEquilateralTriangle(ref list, new Vector3((float)cellDensity * 0.5f, 0f, (float)cellDensity * 0.2886751345948129f), true, cellDensity - 1);
+        SetupCellsInEquilateralTriangle(ref list, new Vector3(-(float)cellDensity * 0.5f, 0f, (float)cellDensity * 0.2886751345948129f), true, cellDensity - 1);
+        SetupCellsInEquilateralTriangle(ref list, new Vector3((float)cellDensity * 0.5f, 0f, -(float)cellDensity * 0.2886751345948129f), false, cellDensity - 1);
+        SetupCellsInEquilateralTriangle(ref list, new Vector3(-(float)cellDensity * 0.5f, 0f, -(float)cellDensity * 0.2886751345948129f), false, cellDensity - 1);
+        SetupCellsInEquilateralTriangle(ref list, new Vector3(0f, 0f, (float)cellDensity * 0.5773502691896258f), false, cellDensity - 1);
+        SetupCellsInEquilateralTriangle(ref list, new Vector3(0f, 0f, -(float)cellDensity * 0.5773502691896258f), true, cellDensity - 1);
+        hexgonCellDict.Add(cellDensity, list);
+    }
 
     public List<Vector3> SetupCellsPosition(int cellDensity, List<sCorner> corners)
     {
-
-        List<Vector3> cellPosList = new List<Vector3>();
-        if (cellDensity <= 0 || (corners.Count != 5 && corners.Count != 6))
-        {
-            return cellPosList;
-        }
-
         Vector3 center = new Vector3(0, 0, 0);
         foreach (var corner in corners)
         {
             center += corner.position;
         }
         center /= corners.Count;
-
-        for (int i = 0; i < corners.Count; i++)
+        List<Vector3> cellPosList = new List<Vector3>();
+        if (cellDensity <= 0 || (corners.Count != 5 && corners.Count != 6))
         {
-            Vector3 p1 = corners[i].position;
-            Vector3 p2 = corners[(i + 1) % corners.Count].position;
-
-            for (int j = 0; j < cellDensity; j++)
+            return cellPosList;
+        }
+        if (corners.Count == 6)
+        {
+            if (cellDensity <= 1)
             {
-                for (int k = 0; k < cellDensity - j; k++)
+                Debug.LogError($"cell density must larger than 1");
+            }
+            else
+            {
+                var _rotation = Quaternion.LookRotation(Vector3.Normalize((corners[0].position + corners[1].position) * 0.5f - transform.position), normal);
+                float edge = Vector3.Magnitude(transform.position - corners[0].position) / cellDensity;
+                if (!hexgonCellDict.ContainsKey(cellDensity))
+                    SetupLocalCellsPositionHexagon(cellDensity);
+                foreach (var cell in hexgonCellDict[cellDensity])
                 {
-                    float alpha = j / (float)cellDensity;
-                    float beta = k / (float)cellDensity;
+                    Vector3 newPos = cell.Item1 * edge;
+                    newPos = _rotation * newPos;
+                    cellPosList.Add(newPos + center);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < corners.Count; i++)
+            {
+                Vector3 p1 = corners[i].position;
+                Vector3 p2 = corners[(i + 1) % corners.Count].position;
 
-                    Vector3 point = (1 - alpha - beta) * center + alpha * p1 + beta * p2;
-                    cellPosList.Add(point);
+                for (int j = 0; j < cellDensity+1; j++)
+                {
+                    for (int k = 0; k < cellDensity+1 - j; k++)
+                    {
+                        float alpha = j / ((float)cellDensity + 1);
+                        float beta = k / ((float)cellDensity + 1);
+
+                        Vector3 point = (1 - alpha - beta) * center + alpha * p1 + beta * p2;
+                        cellPosList.Add(point);
+                    }
                 }
             }
         }

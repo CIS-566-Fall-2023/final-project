@@ -6,9 +6,16 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour, IWFCCell
 {
+    /// <summary>
+    /// the direction of the triangle
+    /// </summary>
+    bool bottomFlat = false;
+    public bool BottomFlat
+    {
+        get => bottomFlat; set => bottomFlat = value;
+    }
     [SerializeField]
     WFCType type;
-
     [SerializeField]
     IWFCTile tile;
     [SerializeField]

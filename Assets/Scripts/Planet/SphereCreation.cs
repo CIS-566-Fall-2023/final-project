@@ -12,7 +12,7 @@ public class SphereCreation : MonoBehaviour
     public int size = 0;
     public float planetSize = 1.0f;
     public int cellDensity = 1;
-    public float cellSize = 0.1f;
+    public float cellSize = 0.01f;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +44,7 @@ public class SphereCreation : MonoBehaviour
             cellPosList = tile.GetComponent<HexagonTile>().SetupCellsPosition(cellDensity, finalGrid.tiles[i].corners);
             foreach (Vector3 cellPos in cellPosList)
             {
-                GameObject cell = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube));
+                GameObject cell = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere));
                 cell.transform.position = cellPos;
                 cell.transform.parent = tile.transform;
                 cell.transform.localScale *= cellSize;
