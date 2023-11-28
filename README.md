@@ -56,6 +56,10 @@ Milestone 3: Improve the game level, create procedural planets based on differen
 I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and designed the interfaces `Tile`, `Cell`, `Item`, and `Rule`. In Milestone 2 I will try to write a parser for `Rule`.
 
 ## Xiaoyue Ma
+1. Procedural Planet Creation
+2. Editable planet data
+3. Tile Mesh Generation
+
 ![](Milestone1xym.gif)
 
 # Milestone 2
@@ -73,6 +77,14 @@ I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and
 
 - Compute cell positions in a Hexagon tile. A cell has an equilateral triangle shape and its position is its barycentric location.
   ![image](https://github.com/Jeff-Ling/final-project/assets/28486541/fe16b236-8b4b-4116-b7a4-ff279aea427d)
+
+## Xiaoyue Ma
+1. Build cells on the planet
+2. Editable item/cell data
+
+![](Milestone2.gif)
+
+![](Milestone2_2.gif)
 
 # Milestone 3
 
