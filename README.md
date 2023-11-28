@@ -9,6 +9,49 @@ More assets references to check out:
 2. https://www.artstation.com/artwork/r9zRXO
 3. 
 
+### Modular Wall
+To have modular walls:
+- Randomly pick up some walls to replace them with modular wall.
+- Subdivide the wall with `Lab Lot Subdivision` and `divide` nodes, then adjust the modular shapes with `fuse`.
+- Assign different unity prefab according to the size of wall pieces with `attribcreate`.
+
+**In Houdini**
+![](/img/milestone2/modular_wall_houdini.png)
+**In Unity**
+![](/img/milestone2/modular_wall.png)
+
+
+### Asset Placement
+We want to place assets in the large rooms of the level procedurally. And we want the assets to be placed near the walls, to avoid it block players' way. To implement this:
+- Use `PolyExpand2D` node to figure out the large rooms in our level.
+- Get area near walls with `PolyExtrude`. Then generate many points with `scatter` in these areas.
+- Use `Group` to eliminate points outside the large rooms.
+- Assign different unity prefab randomly to remaining points with `attribrandomize`.
+
+**In Houdini**
+![](/img/milestone2/asset_houdini.png)
+**In Unity**
+![](/img/milestone2/asset.png)
+
+Also, we want to place some special asset at the end of each dead end corridor:
+- First blast out all edge with concave corner points, which comes from milestone1, out of basic plane shape.
+- Try to fuse each edge acoording to the unit size, to get mid point only from the real end, since their width is the unit size. Then eliminate other points at corner.
+- Assign unity prefab to remaining points with `attribcreate`.
+
+![](/img/milestone2/door.png)
+
+### Door
+Similarly as first part of asset placement, we also want to place doors on the entrance place for large rooms in the level.
+
+- Use the `PolyWire` to get the area near the edge of large rooms. The get cross points between these areas and central lines of the map, where we should place the door.
+- Assign unity door prefab to remaining points with `attribcreate`.
+
+**In Houdini**
+![](/img/milestone2/door_houdini.png)
+**In Unity**
+![](/img/milestone2/door.png)
+
+
 </details>
 
 <details>
