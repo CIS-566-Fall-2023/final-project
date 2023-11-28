@@ -7,6 +7,7 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
   <summary> Specifications </summary>
   
   ## Milestone 2 Progress Report
+  ![](https://github.com/Cryszzz/final-project/blob/main/images/Milestone2_Render1.jpg)
 
 ### Integration and Optimization
 
