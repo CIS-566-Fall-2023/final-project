@@ -4,7 +4,14 @@
 - I was mostly modifying the compute shader to create different biomes, specifically a cliffs and a beach biome. Because I was unable to figure out how to fix my previous Perlin function code, I ended up writing new FBM noise functions for each biome, “island” and “cliffs”.
 These are simple 2D noise functions that are based off a common interpolation2D function. For cliffs, the heights are amplified much more, and there are some simple functions that elevate certain ranges of heights to be the same, which creates a flat vertical wall effect.
   - Cliff biome
+  
+  ![Screenshot 2023-11-27 214600](https://github.com/debbylin02/final-project/assets/82790216/57368777-00ca-4ac9-9803-cdd021740c05)
+  
   - Island biome
+  
+  ![Screenshot 2023-11-27 214607](https://github.com/debbylin02/final-project/assets/82790216/29fc42c2-ac27-4b86-8e4a-a9ef492fc8f1)
+
+  
 - For making the 2 biomes exist together, I created new 2D noise/interpolation/FBM functions. Then there’s a generateTerrain function which combines the biomes, and finally heightFromPos which calls generateTerrain.and gets the final height value for each position.
 - Currently, this code is not completely working, and it’ll be the first thing we fix for the next milestone
 
@@ -36,13 +43,26 @@ These are simple 2D noise functions that are based off a common interpolation2D 
 ### New objects assets/models: Debby 
 - I imported tree, boat, and rock assets to replace the old preliminary models and created some three tone shaders for these objects.
   - Rock models: https://sketchfab.com/3d-models/70-stylized-rocks-bf0051544c9c41f998c154c546b09669
+
+<img src="https://github.com/debbylin02/final-project/assets/82790216/a213ca7a-b676-4a4b-b0f3-aa93a18e5f03"  width = "350" height = "250"> 
+<img src="https://github.com/debbylin02/final-project/assets/82790216/fe302954-1db9-4d54-9261-a8e1fdcdfa02"  width = "350" height = "250">
+<img src="https://github.com/debbylin02/final-project/assets/82790216/99c86ff9-9945-4939-82a8-f3adbbd80dc5"  width = "350" height = "250">
+<img src="https://github.com/debbylin02/final-project/assets/82790216/429846e8-56e8-4903-8902-7c22557488b6"  width = "350" height = "250">
+
   - Tree models: https://sketchfab.com/3d-models/low-poly-tree-pack-ea6e844754da494a9c38501b4fff92ad#download
+
+<img src="https://github.com/debbylin02/final-project/assets/82790216/4a431943-a1c9-4470-9ad2-75eb2a49381b" width = "300" height = "350">
+<img src="https://github.com/debbylin02/final-project/assets/82790216/6a5dd7ab-7672-4083-83b6-ec2fa20fc235" width = "300" height = "350">
+<img src="https://github.com/debbylin02/final-project/assets/82790216/f7d571aa-167e-4b15-a480-7dbf46bdda02" width = "300" height = "350">
+
   - Boat model: https://sketchfab.com/3d-models/boat-57b1ca19f1484559b22c4b8ad408559d  
 - I have already successfully swapped out the boat model, but I have yet to swap out the generated rock and tree models as I need to edit the positions, sizes, orientations, and collision boxes.
 
 ### Night light: Will
 - This is a very simple point light that is parented to the boat and activates at nighttime.
+<img src="https://github.com/debbylin02/final-project/assets/82790216/ab17814e-be45-4cfd-98c1-022e0cf8c5fd" width = "650" height = "400">
 
+----------------------------------------------------
 
 ## Milestone 1: Implementation part 1 (due 11/15)
 https://github.com/debbylin02/final-project/assets/82790216/d5bd26bb-46f0-4cd5-ac98-a66d43569a69
@@ -59,7 +79,7 @@ NOTE: For this section, we based our code off of this tutorial on infinite proce
     - Originally used Mathf.Perlin to generate simple perlin noise based on world coordinates, but wanted to make custom noise
     - Made custom noise function with GLSL in shadertoy that uses multiple Perlin noise functions to create different “biomes”
       
-      <img src="https://github.com/debbylin02/final-project/assets/82790216/d2e58d18-246f-4191-a074-603e4d1a4821" width = "400" height = "250">
+      <img src="https://github.com/debbylin02/final-project/assets/82790216/d2e58d18-246f-4191-a074-603e4d1a4821" width = "600" height = "350">
 
     - Transferred this to Unity in C# but realized it was causing too much lag, so ended up using a compute shader instead
     - Because compute shader is computationally cheap but running multiple is expensive, we now only call it once per tile—taking in an array of x-y world locations and returning an array of heights
