@@ -265,14 +265,15 @@ function main() {
     gl.enable(gl.BLEND); // Blend the uncolored part of the square with the background of the image, making a circle
     gl.disable(gl.DEPTH_TEST) // We do not want to see the particle billboards
     
-    renderer.transformParticles(camera, transformFeedbackShader, [particles]);
-    
     renderer.renderParticles(camera, particleShader, square, [particles]);
+    renderer.transformParticles(camera, transformFeedbackShader, [particles]);
     
     gl.disable(gl.BLEND); // We do not want the obstacles to blend in 
     gl.enable(gl.DEPTH_TEST)
-    
+
     renderer.renderObs(camera, obstacleBufferShader, [screenBuf]);
+    
+    gl.enable(gl.BLEND); // Blend the uncolored part of the square with the background of the image, making a circle
 
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);
