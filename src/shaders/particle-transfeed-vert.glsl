@@ -227,10 +227,9 @@ void main()
         float a = smoothstep(0.8, 1.0, length(v_pos.xy));
         vec4 new_color = pow(mix(vec4(u_ParticleColor, 1.0), vec4(0,0,0,0), a), vec4(e));
     
-        v_col = new_color.rgb;//+ (1.0 / pow((-(v_pos.y / 1.2) + spaceSize * 0.5) * 0.01, 5.0));
+        v_col = new_color.rgb;
 
         v_time.x = u_Time;
-        //v_time.y = 1000.0;
     }
     else 
     {
@@ -241,7 +240,7 @@ void main()
         if (u_NoisyWind > 0.5)
         {
             float noise = perlinNoise3D(current_pos);
-            acc.x = u_Acceleration.x * noise;
+            acc.x = u_Acceleration.x * noise + u_Acceleration.x;
         }
         vec3 new_v = current_vel + deltaTime * acc;
     
@@ -265,7 +264,7 @@ void main()
         float e = length(new_v) / 150.0;
         float a = smoothstep(0.8, 1.0, length(current_pos.xy) / spaceSize);
         vec4 new_color = pow(mix(vec4(u_ParticleColor, 1.0), vec4(0,0,0,0), a), vec4(e));
-        v_col = new_color.rgb; //+ (1.0 / pow((-(current_pos.y / 1.2) + spaceSize * 0.5) / 10.0, 5.0));
+        v_col = new_color.rgb;
         
         // Check new position against obstacle buffer
         vec4 tex_color_v = texture(u_ObstacleBuffer, position_next);
