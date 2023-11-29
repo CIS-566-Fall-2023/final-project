@@ -35,4 +35,10 @@ public class SDFObject : MonoBehaviour
 
     [SerializeField] private Color color = Color.white;
     public Color Color => color;
+
+    [SerializeField, Range(0, 1)] private float smoothness = 0.0f;
+    public float Smoothness => smoothness;
+
+    [SerializeField, Range(0, 1)] private float metallic = 0.0f;
+    public float Metallic => metallic;
 }

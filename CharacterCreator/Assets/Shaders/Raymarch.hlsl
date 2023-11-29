@@ -16,6 +16,8 @@ float SDFBlendFactor[MAX_SDF_OBJECTS];
 float SDFBlendOperation[MAX_SDF_OBJECTS];
 float4x4 SDFTransformMatrices[MAX_SDF_OBJECTS];
 float4 SDFColors[MAX_SDF_OBJECTS];
+float SDFSmoothness[MAX_SDF_OBJECTS];
+float SDFMetallic[MAX_SDF_OBJECTS];
 float SDFCount;
 
 struct Ray
@@ -59,6 +61,10 @@ float intersect(float a, float b)
 
 float sdfBox(float3 pos, float3 size)
 {
+	if (pos.y > 0.1)
+	{
+		pos.y += sin(10 * pos.x) * sin(20 * pos.z) * 0.05;
+	}
 	float3 q = abs(pos) - size;
 	return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
 }
@@ -106,12 +112,14 @@ float sdfRoundness(float sdf, float roundness)
 	return sdf - roundness;
 }
 
-float sceneSdf(float3 pos, out float4 outColor)
+float sceneSdf(float3 pos, out float4 outColor, out float outSmoothness, out float outMetallic)
 {
 	float3 posTransformed;
 	float2 sdf = float2(FLT_MAX, 1.0);
 
 	outColor = float4(0, 0, 0, 0);
+	outSmoothness = 0;
+	outMetallic = 0;
 
 	for (int i = 0; i < SDFCount; i++)
 	{
@@ -173,6 +181,8 @@ float sceneSdf(float3 pos, out float4 outColor)
 		}
 
 		outColor = lerp(outColor, SDFColors[i], abs(sdf.y));
+		outSmoothness = lerp(outSmoothness, SDFSmoothness[i], abs(sdf.y));
+		outMetallic = lerp(outMetallic, SDFMetallic[i], abs(sdf.y));
 	}
 
 	return sdf.x;
@@ -181,26 +191,31 @@ float sceneSdf(float3 pos, out float4 outColor)
 float3 CalculateNormal(float3 pos)
 {
 	float4 colDiscard;
-	return normalize(float3(sceneSdf(pos + EPSILON.yxx, colDiscard) - sceneSdf(pos - EPSILON.yxx, colDiscard),
-							sceneSdf(pos + EPSILON.xyx, colDiscard) - sceneSdf(pos - EPSILON.xyx, colDiscard),
-							sceneSdf(pos + EPSILON.xxy, colDiscard) - sceneSdf(pos - EPSILON.xxy, colDiscard)));
+	float z;	// discard
+	return normalize(float3(sceneSdf(pos + EPSILON.yxx, colDiscard, z, z) - sceneSdf(pos - EPSILON.yxx, colDiscard, z, z),
+							sceneSdf(pos + EPSILON.xyx, colDiscard, z, z) - sceneSdf(pos - EPSILON.xyx, colDiscard, z, z),
+							sceneSdf(pos + EPSILON.xxy, colDiscard, z, z) - sceneSdf(pos - EPSILON.xxy, colDiscard, z, z)));
 }
 
-void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float4 outColor, out float3 objectSpaceNormal)
+void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float4 outColor, out float3 objectSpaceNormal, out float outSmoothness, out float outMetallic)
 {
 	float dist = MIN_DIST;
 
 	float4 color = float4(0, 0, 0, 0);
+	float smoothness = 0.0f;
+	float metallic = 0.0f;
 	for (int i = 0; i < MAX_ITERS; i++)
 	{
 		float3 p = rayOriginObjectSpace + rayDirectionObjectSpace * dist;
 
-		float m = sceneSdf(p, color);
+		float m = sceneSdf(p, color, smoothness, metallic);
 
 		if (m <= MIN_DIST)
 		{
 			// hit the sphere
 			outColor = color;
+			outSmoothness = smoothness;
+			outMetallic = metallic;
 			objectSpaceNormal = CalculateNormal(p);
 			break;
 		}
