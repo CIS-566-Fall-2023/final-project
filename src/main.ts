@@ -18,6 +18,7 @@ const controls = {
   Wind: 0.0,
   'Noisy Wind': false,
   Obstacle_Size: 30.0,
+  'Star Obstacle Shape': false,
   'Show Obstacles': true,
   'Lock Camera': true,
   Default_Gen: default_generation,
@@ -78,6 +79,7 @@ function main() {
   gui.add(controls, 'Wind', -30.0, 30.0).step(1.0).onChange(setParticleAcceleration);
   gui.add(controls, 'Noisy Wind').onChange(setNoisyWind);
   gui.add(controls, 'Obstacle_Size', 5.0, 200.0).step(1.0).name("Obstacle Size").onChange(setObstacleSize);
+  gui.add(controls, 'Star Obstacle Shape').onChange(setStarObs);
   gui.add(controls, 'Show Obstacles').onChange(showObstacles);
   gui.add(controls, 'Lock Camera').onChange(lockCamera);
   gui.add(controls, 'Default_Gen').name('Default Particle Generation').onChange(setGenerationType);;
@@ -122,7 +124,7 @@ function main() {
   const addObstacleShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-add-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/obstacle-add-frag.glsl')),
-  ], false, ["from Center"]);
+  ], false, ["fromCenter"]);
   
   const obstacleAddToBufferShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-add-to-buf-vert.glsl')),
@@ -184,6 +186,12 @@ function main() {
     obstacleAddToBufferShader.setObstacleSize(controls.Obstacle_Size);
   }
 
+  function setStarObs()
+  {
+    // addObstacleShader.setObstacleSize(controls.Obstacle_Size);
+    obstacleAddToBufferShader.setStarObs(controls["Star Obstacle Shape"]);
+  }
+
   function lockCamera()
   {
     camera_locked = controls["Lock Camera"];
@@ -230,7 +238,9 @@ function main() {
   setParticleColor();
   setParticleSize();
   setParticleAcceleration();
+  setNoisyWind();
   setObstacleSize();
+  setStarObs();
   showObstacles();
   lockCamera();
   setGenerationType();
