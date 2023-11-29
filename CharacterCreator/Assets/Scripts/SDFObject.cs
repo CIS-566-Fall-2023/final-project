@@ -17,7 +17,8 @@ public class SDFObject : MonoBehaviour
     {
         Add = 0,
         Subtract = 1,
-        Intersect = 2
+        Intersect = 2,
+        ColorBlend = 3,
     }
 
     [SerializeField] private SDFObjectType type;

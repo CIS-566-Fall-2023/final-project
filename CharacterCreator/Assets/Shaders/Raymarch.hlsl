@@ -133,6 +133,8 @@ float sceneSdf(float3 pos, out float4 outColor, out float outSmoothness, out flo
 		float roundness = SDFData[i].w;	// .w is always roundness
 
 		float curSdf = 0.0f;
+		float blendT = 0.0f;
+
 		if (sdfType == 0)
 		{
 			curSdf = sdfSphere(posTransformed, size);
@@ -167,22 +169,31 @@ float sceneSdf(float3 pos, out float4 outColor, out float outSmoothness, out flo
 			curSdf = sdfRoundness(curSdf, roundness);
 		}
 
-		if (blendOp == 0)
+		if (blendOp == 0)	// add
 		{
 			sdf = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = sdf.y;
 		}
-		else if (blendOp == 1)
+		else if (blendOp == 1)	// subtract
 		{
 			sdf = subtract(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = sdf.y;
 		}
-		else
+		else if (blendOp == 2)	// intersect
 		{
 			sdf = intersect(sdf, curSdf);
+			blendT = sdf.y;
+		}
+		else	// colour blend
+		{
+			// sdf doesn't change! we only update colors
+			float2 tmp = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = tmp.y;
 		}
 
-		outColor = lerp(outColor, SDFColors[i], abs(sdf.y));
-		outSmoothness = lerp(outSmoothness, SDFSmoothness[i], abs(sdf.y));
-		outMetallic = lerp(outMetallic, SDFMetallic[i], abs(sdf.y));
+		outColor = lerp(outColor, SDFColors[i], abs(blendT));
+		outSmoothness = lerp(outSmoothness, SDFSmoothness[i], abs(blendT));
+		outMetallic = lerp(outMetallic, SDFMetallic[i], abs(blendT));
 	}
 
 	return sdf.x;
