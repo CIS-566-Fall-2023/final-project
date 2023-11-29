@@ -121,6 +121,12 @@ The user will have control over:
 ![](img/milestone1-lsystem-1.png)
 
 
+### Milestone 2: 
+
+![](img/node-interface-0.png)
+![](img/carved-0.png)
+
+
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
