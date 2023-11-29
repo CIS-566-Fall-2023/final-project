@@ -103,7 +103,7 @@ function main() {
   
   // GL Settings
   gl.disable(gl.CULL_FACE);
-  gl.enable(gl.DEPTH_TEST);
+  gl.disable(gl.DEPTH_TEST);
   gl.disable(gl.BLEND);
   gl.clearColor(0.1, 0.1, 0.1, 1);
   gl.blendFunc(gl.ONE, gl.ONE); // Additive blending
@@ -261,15 +261,18 @@ function main() {
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
     renderer.clear();
-
-    gl.disable(gl.BLEND); // We do not want the obstacles to blend in 
-    renderer.renderObs(camera, obstacleBufferShader, [screenBuf]);
-    // Blend the uncolored part of the square with the background of the image, making a circle
-    gl.enable(gl.BLEND); 
-
+    
+    gl.enable(gl.BLEND); // Blend the uncolored part of the square with the background of the image, making a circle
+    gl.disable(gl.DEPTH_TEST) // We do not want to see the particle billboards
+    
     renderer.transformParticles(camera, transformFeedbackShader, [particles]);
-
+    
     renderer.renderParticles(camera, particleShader, square, [particles]);
+    
+    gl.disable(gl.BLEND); // We do not want the obstacles to blend in 
+    gl.enable(gl.DEPTH_TEST)
+    
+    renderer.renderObs(camera, obstacleBufferShader, [screenBuf]);
 
     // Tell the browser to call `tick` again whenever it renders a new frame
     requestAnimationFrame(tick);

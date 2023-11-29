@@ -40,6 +40,7 @@ class ShaderProgram {
   unifCameraAxes: WebGLUniformLocation;
 
   unifAcceleration: WebGLUniformLocation;
+  unifNoisyWind: WebGLUniformLocation;
   unifParticleCol: WebGLUniformLocation;
   unifParticleSize: WebGLUniformLocation;
 
@@ -79,6 +80,7 @@ class ShaderProgram {
     this.unifCameraAxes = gl.getUniformLocation(this.prog, "u_CameraAxes");
   
     this.unifAcceleration = gl.getUniformLocation(this.prog, 'u_Acceleration');
+    this.unifNoisyWind = gl.getUniformLocation(this.prog, 'u_NoisyWind');
     this.unifParticleCol = gl.getUniformLocation(this.prog, "u_ParticleColor");
     this.unifParticleSize = gl.getUniformLocation(this.prog, "u_ParticleSize");
 
