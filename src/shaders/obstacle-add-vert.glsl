@@ -14,11 +14,11 @@ out vec2 fromCenter;
 
 void main()
 {
-    fromCenter = 2.0 * vs_Pos.xy;
+    // fromCenter = 2.0 * vs_Pos.xy;
 
-    vec2 size = vec2(u_ObstacleSize / u_Dimensions.x, u_ObstacleSize / u_Dimensions.y);
+    // vec2 size = vec2(u_ObstacleSize / u_Dimensions.x, u_ObstacleSize / u_Dimensions.y);
 
-    vec2 obsCenter = u_ObstaclePos + size * vs_Pos.xy;
-    // remap
-    gl_Position = vec4(2.0 * obsCenter - 1.0, 0.0, 1.0);
+    // vec2 obsCenter = u_ObstaclePos + size * vs_Pos.xy;
+    // // remap
+    // gl_Position = vec4(2.0 * obsCenter - 1.0, 0.0, 1.0);
 }

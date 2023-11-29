@@ -180,7 +180,7 @@ function main() {
 
   function setObstacleSize()
   {
-    addObstacleShader.setObstacleSize(controls.Obstacle_Size);
+    // addObstacleShader.setObstacleSize(controls.Obstacle_Size);
     obstacleAddToBufferShader.setObstacleSize(controls.Obstacle_Size);
   }
 
@@ -284,7 +284,7 @@ function main() {
     camera.setAspectRatio(window.innerWidth / window.innerHeight);
     camera.updateProjectionMatrix();
 
-    addObstacleShader.setDimensions(window.innerWidth, window.innerHeight);
+    //addObstacleShader.setDimensions(window.innerWidth, window.innerHeight);
     obstacleAddToBufferShader.setDimensions(window.innerWidth, window.innerHeight);
     
   }, false);
@@ -304,7 +304,7 @@ function main() {
   var texture = setupTexture(width, height);
   let _FBO = FBO.create(gl, width, height);
 
-  addObstacleShader.setDimensions(width, height);
+  //addObstacleShader.setDimensions(width, height);
   obstacleAddToBufferShader.setDimensions(width, height);
 
   gl.enable(gl.BLEND); // Blends away the null parts of the obstacle textures
@@ -320,7 +320,6 @@ function main() {
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.bindTexture(gl.TEXTURE_2D, null);
-
 
     obstacleAddToBufferShader.setObstaclePos(vec2.fromValues(x, 1.0 - y));
     gl.useProgram(obstacleAddToBufferShader.prog);
