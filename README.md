@@ -124,7 +124,21 @@ However, as you might notice in the image below there is a slight positioning bu
 [live demo](https://kyrasclark.github.io/final-project/)!
 
 ## Final submission (due 12/5)
-Time to polish! Spend this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
+The final milestone of my project was focused on polishing, debugging, and implementing significantly more customizable features to the scene. Below are the features added during this stage: 
+
+* Adding a button to allow turning on and off the visibility of obstacles. This allows for a much more aesthetic scene, and you can really stat to get a feel for the waterfall. 
+
+* Adding control over particle size, now the particles can be larger or smaller. After critique, I learned that when the particles are larger, you can see the billboards and it looks odd. So I rearranged the code to disable depth testing when rendering the particles (but keeping depth testing for the obstacles), such that the particles blend together more and you can't see the edges of the billboard. 
+
+* Fixed a bug in the gravity code. Now physics still works in the low-gravity environment. 
+
+* Added customizable particle generation via FBM noise. Now, there are two buttons in the GUI: one for the default, evenly balanced random generation of particles, and one for the customizable FBM generation of particles. With FBM noise, the user can control the amplitude of the noise to control where the particles fall into frame, and frequency to control how broad or narrow the stream of particles is. 
+
+* During critique, I also got some feedback that it would be fun to add some "wind" to the system. This inspired by to add two buttons to the GUI. The first controls wind power and direction, then in addition, I added a noise factor to the wind, such that if the noisy wind button is checked, the wind will blow much more chaotically, create a rainstorm effect. 
+
+* During critique, I was also told that it would be better to reflect the particle bounce along the obstacle normal, and be able to visual this will more customizable obstacle shapes. First, I changed the physics code in the transform feedback shader to support reflecting the bounce along the obstacle normal, which is stored in the obstacle buffer. Now, the obstacle buffer works as such: the obstacle-buf shader is what colors the obstacle in the frag shader. It checks the obstacle buffer to see if there is a color there (not 0,0,0), then it colors in that pixel. Meanwhile, in the obstacle-add-to-buf shader, the shape and normal of the shape is written to the obstacle buffer. Therefore, with this step, the obstacle-add shader becomes obsolete and can be removed from the pipeline, making the obstacle shader simpler and more intuitive. 
+
+* To further show off the obstacle normal feature and increase customization, I added a feature that allows the user to draw obstacles as stars, rather than circles. You can see the shape of the star as the particles accumulate around it and bounce of the normals more clearly. I built this using an SDF function for a star, which was in the obstacle-add-to-buf shader, so the correct area of the star can be defined. If I had more time with this project, I could've added more different shapes or perhaps a way for the user to define their own obstacle shape. However, at least with just this star, we have a proof of concept for how we could implement the rest in future work. 
 
 Submission:
 - Push all your code / files to your repository

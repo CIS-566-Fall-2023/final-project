@@ -120,11 +120,6 @@ function main() {
     new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-buf-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/obstacle-buf-frag.glsl')),
   ], false, ["sampleCoords"]);
-
-  const addObstacleShader = new ShaderProgram([
-    new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-add-vert.glsl')),
-    new Shader(gl.FRAGMENT_SHADER, require('./shaders/obstacle-add-frag.glsl')),
-  ], false, ["fromCenter"]);
   
   const obstacleAddToBufferShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/obstacle-add-to-buf-vert.glsl')),
@@ -182,13 +177,11 @@ function main() {
 
   function setObstacleSize()
   {
-    // addObstacleShader.setObstacleSize(controls.Obstacle_Size);
     obstacleAddToBufferShader.setObstacleSize(controls.Obstacle_Size);
   }
 
   function setStarObs()
   {
-    // addObstacleShader.setObstacleSize(controls.Obstacle_Size);
     obstacleAddToBufferShader.setStarObs(controls["Star Obstacle Shape"]);
   }
 
@@ -294,7 +287,6 @@ function main() {
     camera.setAspectRatio(window.innerWidth / window.innerHeight);
     camera.updateProjectionMatrix();
 
-    //addObstacleShader.setDimensions(window.innerWidth, window.innerHeight);
     obstacleAddToBufferShader.setDimensions(window.innerWidth, window.innerHeight);
     
   }, false);
@@ -314,7 +306,6 @@ function main() {
   var texture = setupTexture(width, height);
   let _FBO = FBO.create(gl, width, height);
 
-  //addObstacleShader.setDimensions(width, height);
   obstacleAddToBufferShader.setDimensions(width, height);
 
   gl.enable(gl.BLEND); // Blends away the null parts of the obstacle textures
@@ -322,15 +313,6 @@ function main() {
   // OBSTACLE-USER INTERACTION CODE 
   function addObstacle(x: number, y: number)
   {
-    addObstacleShader.setObstaclePos(vec2.fromValues(x, 1.0 - y));
-    gl.useProgram(addObstacleShader.prog);
-    _FBO.bind(gl, texture, null);
-
-    renderer.renderObs(camera, addObstacleShader, [screenBufP]);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    gl.bindTexture(gl.TEXTURE_2D, null);
-
     obstacleAddToBufferShader.setObstaclePos(vec2.fromValues(x, 1.0 - y));
     gl.useProgram(obstacleAddToBufferShader.prog);
     _FBO.bind(gl, texture, null);
