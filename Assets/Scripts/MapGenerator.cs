@@ -1,23 +1,22 @@
 using System.Collections.Generic;
 using BinaryPartition;
-using Geom;
 using UnityEngine;
 
-[RequireComponent(typeof(MapRenderer))]
 public class MapGenerator : MonoBehaviour
 {
-    MapRenderer mapRenderer;
-
     public int
     MinX = -100,
     MinY = -100,
     MaxX = 100,
     MaxY = 100;
 
+    public Color LineColor;
+    public float LineThickness;
+    public Material LineMaterial;
+
     void Start()
     {
         Debug.Log("Running map generator...");
-        mapRenderer = gameObject.GetComponent<MapRenderer>();
 
         BinaryRoom room = new BinaryRoom(new Rectangle
         {
@@ -36,6 +35,54 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        mapRenderer.drawMap(points);
+        foreach (var (a, b) in room.SplitDivider.GetSegments())
+        {
+            points.Add(a);
+            points.Add(b);
+        }
+
+        drawMap(points);
+    }
+
+    public void setLineProperties(LineRenderer lineRenderer)
+    {
+        lineRenderer.startColor = LineColor;
+        lineRenderer.endColor = LineColor;
+        lineRenderer.startWidth = LineThickness;
+        lineRenderer.endWidth = LineThickness;
+        lineRenderer.material = LineMaterial;
+    }
+
+    public void drawMap(List<Vector2> points, Color altLineColor)
+    {
+        LineColor = altLineColor;
+        drawMap(points);
+    }
+
+    public void drawMap(List<Vector2> points)
+    {
+        int vertexCount = 0;
+
+        LineRenderer currentLR = Instantiate<GameObject>(new GameObject(), this.transform).AddComponent<LineRenderer>();
+        setLineProperties(currentLR);
+
+        for (int i = 0; i < points.Count; i++)
+        {
+            if (vertexCount == 2)
+            {
+                currentLR = Instantiate<GameObject>(new GameObject(), this.transform).AddComponent<LineRenderer>();
+                setLineProperties(currentLR);
+                currentLR.positionCount = 2;
+                vertexCount = 0;
+            }
+            currentLR.SetPosition(
+            vertexCount,
+        new Vector3(
+            points[i].x,
+            points[i].y,
+            0));
+
+            vertexCount++;
+        }
     }
 }
