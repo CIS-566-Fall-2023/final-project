@@ -31,6 +31,7 @@ uniform mat3 u_CameraAxes;  // A billboard is a textured polygon (usually a quad
 uniform float u_Time;
 uniform vec3  u_Acceleration;
 uniform vec3 u_ParticleColor;
+uniform float u_NoisyWind;
 
 uniform sampler2D u_ObstacleBuffer;
 uniform vec3 u_ObstaclePos;
@@ -65,6 +66,8 @@ layout(location = TIME_LOCATION) in vec2 current_time;
 layout(location = ID_LOCATION) in float i;
 
 
+// RANDOM FUNCTIONS FOR PHYSICAL SIM
+
 float random2(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
 }
@@ -84,6 +87,7 @@ vec3 getParticlePos(float spaceSize){
     return position;
 }
 
+// FBM NOISE FUNCTIONS
 
 float noise3D(vec3 p)
 {
@@ -148,6 +152,48 @@ vec3 getParticlePos_FBM(float spaceSize, float amp, float freq){
     return position;
 }
 
+// PERLIN NOISE FUNCTIONS
+
+vec3 random_perlin_3(vec3 p)
+{
+    return fract(sin(vec3(dot(p, vec3(127.1, 311.7, 191.999)),
+                           dot(p, vec3(269.5, 183.3, 191.999)),
+                           dot(p, vec3(420.6, 631.2, 191.999))))
+                   * 43758.5453);
+}
+
+float surflet(vec3 p, vec3 gridPoint) {
+    // Compute the distance between p and the grid point along each axis, and warp it with a
+    // quintic function so we can smooth our cells
+    vec3 t2 = abs(p - gridPoint);
+    vec3 t = vec3(1) - 6.0 * pow(t2, vec3(5)) + 15.0 * pow(t2, vec3(4)) - 10.0 * pow(t2, vec3(3));
+    
+    // Get the random vector for the grid point 
+    vec3 gradient = random_perlin_3(gridPoint) * 12.0 - vec3(1, 1, 1);
+    
+    // Get the vector from the grid point to P
+    vec3 diff = p - gridPoint;
+    
+    // Get the value of our height field by dotting grid->P with our gradient
+    float height = dot(diff, gradient);
+    
+    // Scale our height field (i.e. reduce it) by our polynomial falloff function
+    return height * t.x * t.y * t.z;
+}
+
+float perlinNoise3D(vec3 p) {
+	float surfletSum = 0.0;
+	// Iterate over the four integer corners surrounding uv
+	for(int dx = 0; dx <= 1; ++dx) {
+		for(int dy = 0; dy <= 1; ++dy) {
+			for(int dz = 0; dz <= 1; ++dz) {
+				surfletSum += surflet(p, floor(p) + vec3(dx, dy, dz));
+			}
+		}
+	}
+	return surfletSum;
+}
+
 const float MAX_SPEED = 80.0;
 
 void main()
@@ -190,7 +236,14 @@ void main()
     {
         float deltaTime = 0.01;
 
-        vec3 new_v = current_vel + deltaTime * u_Acceleration;
+        // noise wind
+        vec3 acc = u_Acceleration;
+        if (u_NoisyWind > 0.5)
+        {
+            float noise = perlinNoise3D(current_pos);
+            acc.x = u_Acceleration.x * noise;
+        }
+        vec3 new_v = current_vel + deltaTime * acc;
     
         // if Particle is out of bounds
         if (current_pos.y < -spaceSize * 0.5 ) {

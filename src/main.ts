@@ -16,6 +16,7 @@ const controls = {
   Particle_Size : 0.7,
   Gravity: 30.0,
   Wind: 0.0,
+  'Noisy Wind': false,
   Obstacle_Size: 30.0,
   'Show Obstacles': true,
   'Lock Camera': true,
@@ -75,6 +76,7 @@ function main() {
   gui.add(controls, 'Particle_Size', 0.4, 2.0).step(0.1).name("Particle Size").onChange(setParticleSize);
   gui.add(controls, 'Gravity', 1.0, 100.0).step(1.0).onChange(setParticleAcceleration);
   gui.add(controls, 'Wind', -30.0, 30.0).step(1.0).onChange(setParticleAcceleration);
+  gui.add(controls, 'Noisy Wind').onChange(setNoisyWind);
   gui.add(controls, 'Obstacle_Size', 5.0, 200.0).step(1.0).name("Obstacle Size").onChange(setObstacleSize);
   gui.add(controls, 'Show Obstacles').onChange(showObstacles);
   gui.add(controls, 'Lock Camera').onChange(lockCamera);
@@ -156,6 +158,11 @@ function main() {
 
   function setParticleAcceleration() {
     transformFeedbackShader.setParticleAcceleration(vec3.fromValues(controls.Wind, controls.Gravity, 0.0));
+  }
+
+  function setNoisyWind()
+  {
+    transformFeedbackShader.setNoisyWind(controls["Noisy Wind"]);
   }
 
   function showObstacles()

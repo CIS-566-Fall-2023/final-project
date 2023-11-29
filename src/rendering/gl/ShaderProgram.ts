@@ -187,6 +187,18 @@ class ShaderProgram {
     }
   }
 
+  setNoisyWind(useNoise: boolean) {
+    this.use();
+    if (this.unifNoisyWind !== -1) {
+      if(useNoise) {
+        gl.uniform1f(this.unifNoisyWind, 1.0);
+      }
+      else {
+        gl.uniform1f(this.unifNoisyWind, 0.0);
+      }
+    }
+  }
+
   setColor(color: vec4) {
     this.use();
     if (this.unifColor !== -1) {
