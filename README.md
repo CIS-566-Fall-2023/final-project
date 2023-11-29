@@ -9,7 +9,13 @@
 
 * [Milestone 1: Claire Lu, Ornamental Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
 
+* [Milestone 2: Yuhan Liu, Revamped Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
+
+* [Milestone 2: Claire Lu, Procedural Textures](https://github.com/yuhanliu-tech/final-project#procedural-materials--applying-textures---claire-lu)
+
 # Milestone 2:
+
+# Revamped Tool - Yuhan Liu
 
 # Procedural Materials + Applying Textures - Claire Lu
 
