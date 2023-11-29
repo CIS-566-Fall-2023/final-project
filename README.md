@@ -9,13 +9,23 @@
 
 * [Milestone 1: Claire Lu, Ornamental Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
 
-* [Milestone 2: Yuhan Liu, Revamped Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
+* [Milestone 2: Yuhan Liu, Revamped Tool](https://github.com/yuhanliu-tech/final-project/blob/main/README.md#revamped-tool---yuhan-liu)
 
 * [Milestone 2: Claire Lu, Procedural Textures](https://github.com/yuhanliu-tech/final-project#procedural-materials--applying-textures---claire-lu)
 
 # Milestone 2:
 
 # Revamped Tool - Yuhan Liu
+
+Overview: 
+
+* Goal:
+   * Improve Tool UI (Organize tabs, radio buttons, make intuitive for technical artists)
+   * Organize Node Network
+   * Improve connectivity between carousel parameters
+   * Add a few more carousel customizability options for variety
+ 
+* Improve Tool UI
 
 # Procedural Materials + Applying Textures - Claire Lu
 
