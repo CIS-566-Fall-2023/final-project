@@ -126,9 +126,13 @@ However, as you might notice in the image below there is a slight positioning bu
 ## Final submission (due 12/5)
 The final milestone of my project was focused on polishing, debugging, and implementing significantly more customizable features to the scene. Below are the features added during this stage: 
 
-* Adding a button to allow turning on and off the visibility of obstacles. This allows for a much more aesthetic scene, and you can really stat to get a feel for the waterfall. 
+* Adding a button to allow turning on and off the visibility of obstacles. This allows for a much more aesthetic scene, and you can really start to get a feel for the waterfall. This means you can also move the camera without seeing the obstacle, by unlocking the camera. 
+![image](https://github.com/kyraSclark/final-project/assets/60115638/fbf81343-d187-40ce-a2d9-96455e2a00ab)
+![image](https://github.com/kyraSclark/final-project/assets/60115638/a80d3ca4-b611-4ace-b23b-ed95d83c3536)
+![image](https://github.com/kyraSclark/final-project/assets/60115638/c1e65d90-e245-4b52-bea5-1f26d754862f)
 
-* Adding control over particle size, now the particles can be larger or smaller. After critique, I learned that when the particles are larger, you can see the billboards and it looks odd. So I rearranged the code to disable depth testing when rendering the particles (but keeping depth testing for the obstacles), such that the particles blend together more and you can't see the edges of the billboard. 
+* Adding control over particle size, now the particles can be larger or smaller. After critique, I learned that when the particles are larger, you can see the billboards and it looks odd. So I rearranged the code to disable depth testing when rendering the particles (but keeping depth testing for the obstacles), such that the particles blend together more and you can't see the edges of the billboard.
+![image](https://github.com/kyraSclark/final-project/assets/60115638/2613f7fa-f1d3-49c9-b84f-b122f69b5aaf)
 
 * Fixed a bug in the gravity code. Now physics still works in the low-gravity environment. 
 
