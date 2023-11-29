@@ -1,6 +1,8 @@
 #ifndef RAYMARCHSHADERINCLUDE
 #define RAYMARCHSHADERINCLUDE
 
+#include "Texturing.hlsl"
+
 #define RAYMARCH_CONSTANT_STEPS 0
 #define RAYMARCH_SPHERE_TRACE 1
 
@@ -112,7 +114,88 @@ float sdfRoundness(float sdf, float roundness)
 	return sdf - roundness;
 }
 
-float sceneSdf(float3 pos, out float4 outColor, out float outSmoothness, out float outMetallic)
+// Version that only calculates sdf minDist
+float sceneSdf(float3 pos)
+{
+	float3 posTransformed;
+	float2 sdf = float2(FLT_MAX, 1.0);
+
+	for (int i = 0; i < SDFCount; i++)
+	{
+		float size = SDFData[i].x;
+		int blendOp = SDFBlendOperation[i];
+		int sdfType = SDFType[i];
+
+		float4x4 transform = SDFTransformMatrices[i];
+		posTransformed = mul(transform, float4(pos, 1.0)).xyz;
+
+		float roundness = SDFData[i].w;	// .w is always roundness
+
+		float curSdf = 0.0f;
+		float blendT = 0.0f;
+
+		if (sdfType == 0)
+		{
+			curSdf = sdfSphere(posTransformed, size);
+		}
+		else if (sdfType == 1)
+		{
+			curSdf = sdfBox(posTransformed, size);
+		}
+		else if (sdfType == 2)
+		{
+			curSdf = sdfTorus(posTransformed, float2(size, SDFData[i].y));
+		}
+		else if (sdfType == 3)
+		{
+			curSdf = sdfCylinder(posTransformed, SDFData[i].y, size);
+		}
+		else if (sdfType == 4)
+		{
+			curSdf = sdfCapsule(posTransformed, SDFData[i].y, size);
+		}
+		else if (sdfType == 5)
+		{
+			curSdf = sdfOctahedron(posTransformed, size);
+		}
+		else if (sdfType == 6)
+		{
+			curSdf = sdfCone(posTransformed, size, SDFData[i].y);
+		}
+
+		if (roundness > 0.0)
+		{
+			curSdf = sdfRoundness(curSdf, roundness);
+		}
+
+		if (blendOp == 0)	// add
+		{
+			sdf = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = sdf.y;
+		}
+		else if (blendOp == 1)	// subtract
+		{
+			sdf = subtract(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = sdf.y;
+		}
+		else if (blendOp == 2)	// intersect
+		{
+			sdf = intersect(sdf, curSdf);
+			blendT = sdf.y;
+		}
+		else	// colour blend
+		{
+			// sdf doesn't change! we only update colors
+			float2 tmp = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = tmp.y;
+		}
+	}
+
+	return sdf.x;
+}
+
+// Version that calculates material properties
+float sceneSdf(float3 pos, float3 normal, UnitySamplerState samplerstate, out float4 outColor, out float outSmoothness, out float outMetallic)
 {
 	float3 posTransformed;
 	float2 sdf = float2(FLT_MAX, 1.0);
@@ -120,6 +203,7 @@ float sceneSdf(float3 pos, out float4 outColor, out float outSmoothness, out flo
 	outColor = float4(0, 0, 0, 0);
 	outSmoothness = 0;
 	outMetallic = 0;
+	float3 texColor = float3(0, 0, 0);
 
 	for (int i = 0; i < SDFCount; i++)
 	{
@@ -191,7 +275,8 @@ float sceneSdf(float3 pos, out float4 outColor, out float outSmoothness, out flo
 			blendT = tmp.y;
 		}
 
-		outColor = lerp(outColor, SDFColors[i], abs(blendT));
+		GetTriplanarTexture(i, pos, normal, 2.0, samplerstate, texColor);
+		outColor = lerp(outColor * float4(texColor, 1), SDFColors[i], abs(blendT));
 		outSmoothness = lerp(outSmoothness, SDFSmoothness[i], abs(blendT));
 		outMetallic = lerp(outMetallic, SDFMetallic[i], abs(blendT));
 	}
@@ -201,33 +286,30 @@ float sceneSdf(float3 pos, out float4 outColor, out float outSmoothness, out flo
 
 float3 CalculateNormal(float3 pos)
 {
-	float4 colDiscard;
-	float z;	// discard
-	return normalize(float3(sceneSdf(pos + EPSILON.yxx, colDiscard, z, z) - sceneSdf(pos - EPSILON.yxx, colDiscard, z, z),
-							sceneSdf(pos + EPSILON.xyx, colDiscard, z, z) - sceneSdf(pos - EPSILON.xyx, colDiscard, z, z),
-							sceneSdf(pos + EPSILON.xxy, colDiscard, z, z) - sceneSdf(pos - EPSILON.xxy, colDiscard, z, z)));
+	return normalize(float3(sceneSdf(pos + EPSILON.yxx) - sceneSdf(pos - EPSILON.yxx),
+							sceneSdf(pos + EPSILON.xyx) - sceneSdf(pos - EPSILON.xyx),
+							sceneSdf(pos + EPSILON.xxy) - sceneSdf(pos - EPSILON.xxy)));
 }
 
-void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float4 outColor, out float3 objectSpaceNormal, out float outSmoothness, out float outMetallic)
+void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, UnitySamplerState samplerstate, out float3 outPosition, out float4 outColor, out float3 objectSpaceNormal, out float outSmoothness, out float outMetallic)
 {
 	float dist = MIN_DIST;
 
-	float4 color = float4(0, 0, 0, 0);
-	float smoothness = 0.0f;
-	float metallic = 0.0f;
 	for (int i = 0; i < MAX_ITERS; i++)
 	{
 		float3 p = rayOriginObjectSpace + rayDirectionObjectSpace * dist;
 
-		float m = sceneSdf(p, color, smoothness, metallic);
+		float m = sceneSdf(p);
 
 		if (m <= MIN_DIST)
 		{
 			// hit the sphere
-			outColor = color;
-			outSmoothness = smoothness;
-			outMetallic = metallic;
+			outPosition = p;
 			objectSpaceNormal = CalculateNormal(p);
+
+			// now get material properties
+			sceneSdf(p, objectSpaceNormal, samplerstate, outColor, outSmoothness, outMetallic);
+
 			break;
 		}
 
@@ -255,5 +337,4 @@ void GetLighting_float(float3 worldSpaceNormal, out float3 outColor)
 	outColor = mainLight.color * NdotL;
 #endif
 }
-
 #endif

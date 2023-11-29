@@ -37,6 +37,9 @@ public class SDFObject : MonoBehaviour
     [SerializeField] private Color color = Color.white;
     public Color Color => color;
 
+    [SerializeField] private Texture2D mainTexture;
+    public Texture2D MainTexture => mainTexture;
+
     [SerializeField, Range(0, 1)] private float smoothness = 0.0f;
     public float Smoothness => smoothness;
 
