@@ -19,13 +19,43 @@
 
 Overview: 
 
-* Goal:
+* **Goal**:
    * Improve Tool UI (Organize tabs, radio buttons, make intuitive for technical artists)
-   * Organize Node Network
-   * Improve connectivity between carousel parameters
+   * Organize Node Network and Parameter Dependencies
    * Add a few more carousel customizability options for variety
  
-* Improve Tool UI
+* **Improve Tool UI**
+
+    * Hallelujah it looks a lot better. Below is the following improved tool UI.
+    * I adjusted the boundaries of all sliders to reduce the possibility of creating a wonky carousel.
+    * I integrated Claire's Milestone 1 Ornament tool to allow the user to customize the design on the music box. 
+    * I dove into Houdini's paramter interface and took advantage of tabs and radio buttons.
+        * Radio buttons allow the user to swap between different options for parts of the carousel, namely the column type, roof type, etc.
+        * I used a wrangle node to keep track of the variables between the radio buttons and switch nodes.
+        * I also organized the tool into tabs so that the user can search for the part of the carousel that they would like to change.
+
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/newtool.png" />
+
+* **Organize Node Network and Parameter Dependencies**
+
+    * The new node network looks very different from the one in Milestone 1, in which I mainly used sticky notes to group nodes that belonged to each part of the carousel.
+    * I ported everything into a new Houdini file and made the following improvements:
+       * Instead of random node dependencies, I made all relevant nodes dependent on parameters in the tool interface. This improvement is evident in the cleaner dependency network.
+       * I made all major parts of the carousel into subnetworks. 
+       * I took the circle and line used for the base and main column of the carousel to act as a "sizing guide" that feeds into almost all other carousel parts. This allows for an organized input into each subnetwork that acts as a reference for match nodes.
+            * In addition, almost all parts of the carousel are now dependent on the radius, height, and divisions parameters in the general controls tab. This reduces bugs as well as the need for additional user adjustments for parts of the carousel whose dimensions are determined by these parameters. 
+     
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/newnet.png" width="500"/>
+
+* **More Carousel Customizability**
+
+   * The following carousel shows off some new features.
+      * Toggle for carousel "shields" that come below the crown and have Claire's spiral designs on them.
+      * Fencing that align with supporting columns on outer rim, adjustable height and spacing.
+      * New roof types; the one shown below is the pyramid with piping.
+      * New main column types; the one shown below is the twisted column in the same style as the horses' poles. 
+ 
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/newcarousel.png" width="300"/>
 
 # Procedural Materials + Applying Textures - Claire Lu
 
