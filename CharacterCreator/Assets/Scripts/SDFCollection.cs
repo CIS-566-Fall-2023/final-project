@@ -13,6 +13,7 @@ public class SDFCollection : MonoBehaviour
     private static readonly int SDFBlendFactorShaderPropertyID = Shader.PropertyToID("SDFBlendFactor");
     private static readonly int SDFCountShaderPropertyID = Shader.PropertyToID("SDFCount");
     private static readonly int SDFColorsPropertyID = Shader.PropertyToID("SDFColors");
+    private static readonly int SDFEmissionColorsPropertyID = Shader.PropertyToID("SDFEmissionColors");
     private static readonly int SDFSmoothnessPropertyID = Shader.PropertyToID("SDFSmoothness");
     private static readonly int SDFMetallicPropertyID = Shader.PropertyToID("SDFMetallic");
     #endregion
@@ -32,6 +33,7 @@ public class SDFCollection : MonoBehaviour
     private Vector4[] sdfColors = new Vector4[MAX_SDF_OBJECTS];
     private float[] sdfSmoothnessValues = new float[MAX_SDF_OBJECTS];
     private float[] sdfMetallicValues = new float[MAX_SDF_OBJECTS];
+    private Vector4[] sdfEmissionColors = new Vector4[MAX_SDF_OBJECTS];
 
     private bool hasInitialized = false;
 
@@ -67,6 +69,8 @@ public class SDFCollection : MonoBehaviour
         sdfColors = new Vector4[MAX_SDF_OBJECTS];
         sdfSmoothnessValues = new float[MAX_SDF_OBJECTS];
         sdfMetallicValues = new float[MAX_SDF_OBJECTS];
+        sdfEmissionColors = new Vector4[MAX_SDF_OBJECTS];
+
         renderer = GetComponent<Renderer>();
 
         materialPropertyBlock = new MaterialPropertyBlock();
@@ -94,6 +98,7 @@ public class SDFCollection : MonoBehaviour
             sdfColors[i] = sdf.Color;
             sdfSmoothnessValues[i] = sdf.Smoothness;
             sdfMetallicValues[i] = sdf.Metallic;
+            sdfEmissionColors[i] = sdf.EmissionColor;
         }
 
         materialPropertyBlock.SetFloatArray(SDFTypeShaderPropertyID, sdfTypes);
@@ -105,6 +110,7 @@ public class SDFCollection : MonoBehaviour
         materialPropertyBlock.SetVectorArray(SDFColorsPropertyID, sdfColors);
         materialPropertyBlock.SetFloatArray(SDFSmoothnessPropertyID, sdfSmoothnessValues);
         materialPropertyBlock.SetFloatArray(SDFMetallicPropertyID, sdfMetallicValues);
+        materialPropertyBlock.SetVectorArray(SDFEmissionColorsPropertyID, sdfEmissionColors);
 
         renderer.SetPropertyBlock(materialPropertyBlock);
     }

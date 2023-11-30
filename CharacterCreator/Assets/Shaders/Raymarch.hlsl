@@ -16,6 +16,7 @@ float SDFBlendFactor[MAX_SDF_OBJECTS];
 float SDFBlendOperation[MAX_SDF_OBJECTS];
 float4x4 SDFTransformMatrices[MAX_SDF_OBJECTS];
 float4 SDFColors[MAX_SDF_OBJECTS];
+float4 SDFEmissionColors[MAX_SDF_OBJECTS];
 float SDFSmoothness[MAX_SDF_OBJECTS];
 float SDFMetallic[MAX_SDF_OBJECTS];
 float SDFCount;
@@ -193,7 +194,7 @@ float sceneSdf(float3 pos)
 }
 
 // Version that calculates material properties
-float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoothness, out float outMetallic)
+float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoothness, out float outMetallic, out float4 outEmissionColor)
 {
 	float3 posTransformed;
 	float2 sdf = float2(FLT_MAX, 1.0);
@@ -201,7 +202,7 @@ float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoo
 	outColor = float4(0, 0, 0, 0);
 	outSmoothness = 0;
 	outMetallic = 0;
-	float3 texColor = float3(0, 0, 0);
+	outEmissionColor = float4(0, 0, 0, 0);
 
 	for (int i = 0; i < SDFCount; i++)
 	{
@@ -276,6 +277,7 @@ float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoo
 		outColor = lerp(outColor, SDFColors[i], abs(blendT));
 		outSmoothness = lerp(outSmoothness, SDFSmoothness[i], abs(blendT));
 		outMetallic = lerp(outMetallic, SDFMetallic[i], abs(blendT));
+		outEmissionColor = lerp(outEmissionColor, SDFEmissionColors[i], abs(blendT));
 	}
 
 	return sdf.x;
@@ -288,7 +290,7 @@ float3 CalculateNormal(float3 pos)
 							sceneSdf(pos + EPSILON.xxy) - sceneSdf(pos - EPSILON.xxy)));
 }
 
-void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float3 outPosition, out float4 outColor, out float3 objectSpaceNormal, out float outSmoothness, out float outMetallic)
+void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float3 outPosition, out float4 outColor, out float3 objectSpaceNormal, out float outSmoothness, out float outMetallic, out float4 outEmissionColor)
 {
 	float dist = MIN_DIST;
 
@@ -305,7 +307,7 @@ void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace,
 			objectSpaceNormal = CalculateNormal(p);
 
 			// now get material properties
-			sceneSdf(p, objectSpaceNormal, outColor, outSmoothness, outMetallic);
+			sceneSdf(p, objectSpaceNormal, outColor, outSmoothness, outMetallic, outEmissionColor);
 
 			break;
 		}
