@@ -15,9 +15,6 @@ public class SDFCollection : MonoBehaviour
     private static readonly int SDFColorsPropertyID = Shader.PropertyToID("SDFColors");
     private static readonly int SDFSmoothnessPropertyID = Shader.PropertyToID("SDFSmoothness");
     private static readonly int SDFMetallicPropertyID = Shader.PropertyToID("SDFMetallic");
-    private static readonly int SDFMainTextureSidePropertyID = Shader.PropertyToID("TextureArraySide");
-    private static readonly int SDFMainTextureTopPropertyID = Shader.PropertyToID("TextureArrayTop");
-    private static readonly int SDFMainTextureFrontPropertyID = Shader.PropertyToID("TextureArrayFront");
     #endregion
 
     private SDFObject[] sdfObjects;
@@ -35,9 +32,6 @@ public class SDFCollection : MonoBehaviour
     private Vector4[] sdfColors = new Vector4[MAX_SDF_OBJECTS];
     private float[] sdfSmoothnessValues = new float[MAX_SDF_OBJECTS];
     private float[] sdfMetallicValues = new float[MAX_SDF_OBJECTS];
-
-    // Texturing
-    private Texture2DArray sideTexArray, topTexArray, frontTexArray;
 
     private bool hasInitialized = false;
 
@@ -101,7 +95,6 @@ public class SDFCollection : MonoBehaviour
             sdfSmoothnessValues[i] = sdf.Smoothness;
             sdfMetallicValues[i] = sdf.Metallic;
         }
-        UpdateTextureArrays();
 
         materialPropertyBlock.SetFloatArray(SDFTypeShaderPropertyID, sdfTypes);
         materialPropertyBlock.SetMatrixArray(SDFTransformMatricesPropertyID, sdfTransformMatrices);
@@ -112,9 +105,6 @@ public class SDFCollection : MonoBehaviour
         materialPropertyBlock.SetVectorArray(SDFColorsPropertyID, sdfColors);
         materialPropertyBlock.SetFloatArray(SDFSmoothnessPropertyID, sdfSmoothnessValues);
         materialPropertyBlock.SetFloatArray(SDFMetallicPropertyID, sdfMetallicValues);
-        materialPropertyBlock.SetTexture(SDFMainTextureSidePropertyID, sideTexArray);
-        materialPropertyBlock.SetTexture(SDFMainTextureTopPropertyID, topTexArray);
-        materialPropertyBlock.SetTexture(SDFMainTextureFrontPropertyID, frontTexArray);
 
         renderer.SetPropertyBlock(materialPropertyBlock);
     }
@@ -145,54 +135,6 @@ public class SDFCollection : MonoBehaviour
         SDFObject sdfObject = Instantiate(sdfObjectPrefab, transform);
         sdfObjects[numSDFObjects] = sdfObject;
         numSDFObjects++;
-    }
-
-    private void UpdateTextureArrays()
-    {
-        Texture2D tmpTex = new Texture2D(1, 1);
-        if (sdfObjects[0].MainTexture != null)
-        {
-            tmpTex = new Texture2D(sdfObjects[0].MainTexture.width, sdfObjects[0].MainTexture.height);
-            //tmpTex.width = sdfObjects[0].MainTexture.width;
-            //tmpTex.height = sdfObjects[0].MainTexture.height;
-            tmpTex = sdfObjects[0].MainTexture;
-        }
-
-        if (sideTexArray == null || sideTexArray.width != tmpTex.width || sideTexArray.height != tmpTex.height)
-        {
-            sideTexArray = new Texture2DArray(tmpTex.width, tmpTex.height, numSDFObjects, tmpTex.format, tmpTex.mipmapCount > 1);
-            sideTexArray.anisoLevel = tmpTex.anisoLevel;
-            sideTexArray.filterMode = tmpTex.filterMode;
-            sideTexArray.wrapMode = tmpTex.wrapMode;
-        }
-        if (topTexArray == null || topTexArray.width != tmpTex.width || topTexArray.height != tmpTex.height)
-        {
-            topTexArray = new Texture2DArray(tmpTex.width, tmpTex.height, numSDFObjects, tmpTex.format, tmpTex.mipmapCount > 1);
-            topTexArray.anisoLevel = tmpTex.anisoLevel;
-            topTexArray.filterMode = tmpTex.filterMode;
-            topTexArray.wrapMode = tmpTex.wrapMode;
-        }
-        if (frontTexArray == null || frontTexArray.width != tmpTex.width || frontTexArray.height != tmpTex.height)
-        {
-            frontTexArray = new Texture2DArray(tmpTex.width, tmpTex.height, numSDFObjects, tmpTex.format, tmpTex.mipmapCount > 1);
-            frontTexArray.anisoLevel = tmpTex.anisoLevel;
-            frontTexArray.filterMode = tmpTex.filterMode;
-            frontTexArray.wrapMode = tmpTex.wrapMode;
-        }
-
-        // TODO: optimise this.
-        // It should only copy things that have changed.
-        for (int i = 0; i < numSDFObjects; i++)
-        {
-            if (sdfObjects[i].MainTexture != null)
-            {
-                Graphics.CopyTexture(sdfObjects[i].MainTexture, 0, 0, sideTexArray, i, 0);
-                //for (int m = 0; m < tmpTex.mipmapCount; m++)
-                //{
-                //    Graphics.CopyTexture(sdfObjects[i].MainTexture, 0, m, sideTexArray, i, m);
-                //}
-            }
-        }
     }
 
     private void ValidateTransformChildrenChange()

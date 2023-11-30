@@ -1,8 +1,6 @@
 #ifndef RAYMARCHSHADERINCLUDE
 #define RAYMARCHSHADERINCLUDE
 
-#include "Texturing.hlsl"
-
 #define RAYMARCH_CONSTANT_STEPS 0
 #define RAYMARCH_SPHERE_TRACE 1
 
@@ -195,7 +193,7 @@ float sceneSdf(float3 pos)
 }
 
 // Version that calculates material properties
-float sceneSdf(float3 pos, float3 normal, UnitySamplerState samplerstate, out float4 outColor, out float outSmoothness, out float outMetallic)
+float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoothness, out float outMetallic)
 {
 	float3 posTransformed;
 	float2 sdf = float2(FLT_MAX, 1.0);
@@ -275,8 +273,7 @@ float sceneSdf(float3 pos, float3 normal, UnitySamplerState samplerstate, out fl
 			blendT = tmp.y;
 		}
 
-		GetTriplanarTexture(i, pos, normal, 2.0, samplerstate, texColor);
-		outColor = lerp(outColor * float4(texColor, 1), SDFColors[i], abs(blendT));
+		outColor = lerp(outColor, SDFColors[i], abs(blendT));
 		outSmoothness = lerp(outSmoothness, SDFSmoothness[i], abs(blendT));
 		outMetallic = lerp(outMetallic, SDFMetallic[i], abs(blendT));
 	}
@@ -291,7 +288,7 @@ float3 CalculateNormal(float3 pos)
 							sceneSdf(pos + EPSILON.xxy) - sceneSdf(pos - EPSILON.xxy)));
 }
 
-void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, UnitySamplerState samplerstate, out float3 outPosition, out float4 outColor, out float3 objectSpaceNormal, out float outSmoothness, out float outMetallic)
+void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float3 outPosition, out float4 outColor, out float3 objectSpaceNormal, out float outSmoothness, out float outMetallic)
 {
 	float dist = MIN_DIST;
 
@@ -308,7 +305,7 @@ void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace,
 			objectSpaceNormal = CalculateNormal(p);
 
 			// now get material properties
-			sceneSdf(p, objectSpaceNormal, samplerstate, outColor, outSmoothness, outMetallic);
+			sceneSdf(p, objectSpaceNormal, outColor, outSmoothness, outMetallic);
 
 			break;
 		}
