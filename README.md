@@ -254,3 +254,7 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
   - [ ] Create final renders to showcase and complete README (Both).
 
 </details>
+
+### Resources:
+1. [Metal texture](https://seamless-pixels.blogspot.com/2012/09/free-seamless-metal-textures_28.html)
+2. 
