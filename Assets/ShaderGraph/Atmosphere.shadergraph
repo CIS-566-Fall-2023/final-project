@@ -204,7 +204,11 @@
             "m_Id": "e67f99b438e1405c86f88120c806eea3"
         }
     ],
-    "m_StickyNoteDatas": [],
+    "m_StickyNoteDatas": [
+        {
+            "m_Id": "caf65cea421d4b00a9973c5d5a8c0505"
+        }
+    ],
     "m_Edges": [
         {
             "m_OutputSlot": {
@@ -582,20 +586,6 @@
                     "m_Id": "4319a2ae23c645369751510e30899a47"
                 },
                 "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "98d485ecc41b4adf80bcb3ae739fc166"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "f55a0b946e014de3a45d8928fc24a8b9"
-                },
-                "m_SlotId": 0
             }
         },
         {
@@ -5067,6 +5057,26 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "caf65cea421d4b00a9973c5d5a8c0505",
+    "m_Title": "Connection",
+    "m_Content": "Connect to emission\n\nRim Light Based Atmosphere Effect\n",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": -96.0,
+        "y": 573.0,
+        "width": 200.0,
+        "height": 160.0
+    },
+    "m_Group": {
+        "m_Id": "b6f61d26ca7c4b28a3a86730282ab7c4"
+    }
 }
 
 {
