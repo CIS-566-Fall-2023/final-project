@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SDFObject : MonoBehaviour
 {
@@ -25,15 +26,16 @@ public class SDFObject : MonoBehaviour
     {
         Plain = 0,
         StripedTriplanar = 1,
-        WavesTriplanar = 2,
-        DotsTriplanar = 3
+        PolkaDotsTriplanar = 2,
+        DiamondsTriplanar = 3,
+        WavesTriplanar = 4,
     }
 
     [SerializeField] private SDFObjectType type;
     public SDFObjectType Type => type;
 
-    [SerializeField] private Vector4 data = new Vector4(0.3f, 0, 0, 0);
-    public Vector4 Data => data;
+    [SerializeField, FormerlySerializedAs("data")] private Vector4 shapeData = new Vector4(0.3f, 0, 0, 0);
+    public Vector4 ShapeData => shapeData;
 
     [SerializeField] private BlendOperationEnum blendOperation;
     public BlendOperationEnum BlendOperation => blendOperation;
@@ -50,6 +52,9 @@ public class SDFObject : MonoBehaviour
 
     [SerializeField] private ProceduralTextureType textureType = ProceduralTextureType.Plain;
     public ProceduralTextureType TextureType => textureType;
+
+    [SerializeField] private Vector4 textureData = new Vector4(1.0f, 0, 0, 0);
+    public Vector4 TextureData => textureData;
 
     [SerializeField, Range(0, 1)] private float smoothness = 0.0f;
     public float Smoothness => smoothness;

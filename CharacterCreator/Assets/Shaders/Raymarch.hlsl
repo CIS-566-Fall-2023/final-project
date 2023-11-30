@@ -1,29 +1,16 @@
 #ifndef RAYMARCHSHADERINCLUDE
 #define RAYMARCHSHADERINCLUDE
 
+#include "Common.hlsl"
 #include "Texturing.hlsl"
 
 #define RAYMARCH_CONSTANT_STEPS 0
 #define RAYMARCH_SPHERE_TRACE 1
 
-#define MAX_SDF_OBJECTS 256
 #define MAX_ITERS 1024
 #define MAX_DIST 100000
 #define MIN_DIST 10e-4
 #define EPSILON float3(0.0f, MIN_DIST, 0.0f)
-
-float SDFType[MAX_SDF_OBJECTS];
-float4 SDFData[MAX_SDF_OBJECTS];
-float SDFBlendFactor[MAX_SDF_OBJECTS];
-float SDFBlendOperation[MAX_SDF_OBJECTS];
-float4x4 SDFTransformMatrices[MAX_SDF_OBJECTS];
-float4 SDFPrimaryColors[MAX_SDF_OBJECTS];
-float4 SDFSecondaryColors[MAX_SDF_OBJECTS];
-float SDFTextureType[MAX_SDF_OBJECTS];
-float4 SDFEmissionColors[MAX_SDF_OBJECTS];
-float SDFSmoothness[MAX_SDF_OBJECTS];
-float SDFMetallic[MAX_SDF_OBJECTS];
-float SDFCount;
 
 struct Ray
 {
@@ -280,7 +267,7 @@ float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoo
 			blendT = tmp.y;
 		}
 
-		GetTexture(pos, SDFPrimaryColors[i], SDFSecondaryColors[i], SDFTextureType[i], texturedColor);
+		GetTexture(posTransformed, mul(transform, float4(normal, 1)).xyz, i, texturedColor);
 		outColor = lerp(outColor, texturedColor, abs(blendT));
 		outSmoothness = lerp(outSmoothness, SDFSmoothness[i], abs(blendT));
 		outMetallic = lerp(outMetallic, SDFMetallic[i], abs(blendT));

@@ -15,6 +15,7 @@ public class SDFCollection : MonoBehaviour
     private static readonly int SDFPrimaryColorsPropertyID = Shader.PropertyToID("SDFPrimaryColors");
     private static readonly int SDFSecondaryColorsPropertyID = Shader.PropertyToID("SDFSecondaryColors");
     private static readonly int SDFTextureTypePropertyID = Shader.PropertyToID("SDFTextureType");
+    private static readonly int SDFTextureDataShaderPropertyID = Shader.PropertyToID("SDFTextureData");
 
     private static readonly int SDFEmissionColorsPropertyID = Shader.PropertyToID("SDFEmissionColors");
     private static readonly int SDFSmoothnessPropertyID = Shader.PropertyToID("SDFSmoothness");
@@ -36,6 +37,7 @@ public class SDFCollection : MonoBehaviour
     private Vector4[] sdfPrimaryColors = new Vector4[MAX_SDF_OBJECTS];
     private Vector4[] sdfSecondaryColors = new Vector4[MAX_SDF_OBJECTS];
     private float[] sdfTextureTypes = new float[MAX_SDF_OBJECTS];
+    private Vector4[] sdfTextureData = new Vector4[MAX_SDF_OBJECTS];
     private float[] sdfSmoothnessValues = new float[MAX_SDF_OBJECTS];
     private float[] sdfMetallicValues = new float[MAX_SDF_OBJECTS];
     private Vector4[] sdfEmissionColors = new Vector4[MAX_SDF_OBJECTS];
@@ -74,6 +76,7 @@ public class SDFCollection : MonoBehaviour
         sdfPrimaryColors = new Vector4[MAX_SDF_OBJECTS];
         sdfSmoothnessValues = new float[MAX_SDF_OBJECTS];
         sdfTextureTypes = new float[MAX_SDF_OBJECTS];
+        sdfTextureData = new Vector4[MAX_SDF_OBJECTS];
         sdfMetallicValues = new float[MAX_SDF_OBJECTS];
         sdfEmissionColors = new Vector4[MAX_SDF_OBJECTS];
 
@@ -98,12 +101,13 @@ public class SDFCollection : MonoBehaviour
             SDFObject sdf = sdfObjects[i];
             sdfTypes[i] = (int)sdf.Type;
             sdfTransformMatrices[i] = sdf.transform.worldToLocalMatrix;
-            sdfData[i] = sdf.Data;
+            sdfData[i] = sdf.ShapeData;
             sdfBlendOperations[i] = (int)sdf.BlendOperation;
             sdfBlends[i] = sdf.BlendFactor;
             sdfPrimaryColors[i] = sdf.PrimaryColor;
             sdfSecondaryColors[i] = sdf.SecondaryColor;
             sdfTextureTypes[i] = (int)sdf.TextureType;
+            sdfTextureData[i] = sdf.TextureData;
             sdfSmoothnessValues[i] = sdf.Smoothness;
             sdfMetallicValues[i] = sdf.Metallic;
             sdfEmissionColors[i] = sdf.EmissionColor;
@@ -118,6 +122,7 @@ public class SDFCollection : MonoBehaviour
         materialPropertyBlock.SetVectorArray(SDFPrimaryColorsPropertyID, sdfPrimaryColors);
         materialPropertyBlock.SetVectorArray(SDFSecondaryColorsPropertyID, sdfSecondaryColors);
         materialPropertyBlock.SetFloatArray(SDFTextureTypePropertyID, sdfTextureTypes);
+        materialPropertyBlock.SetVectorArray(SDFTextureDataShaderPropertyID, sdfTextureData);
         materialPropertyBlock.SetFloatArray(SDFSmoothnessPropertyID, sdfSmoothnessValues);
         materialPropertyBlock.SetFloatArray(SDFMetallicPropertyID, sdfMetallicValues);
         materialPropertyBlock.SetVectorArray(SDFEmissionColorsPropertyID, sdfEmissionColors);

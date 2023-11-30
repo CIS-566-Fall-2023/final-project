@@ -1,6 +1,8 @@
 #ifndef TEXTURINGSHADERINCLUDE
 #define TEXTURINGSHADERINCLUDE
 
+#include "Common.hlsl"
+
 Texture2DArray<float4> TextureArraySide;
 Texture2DArray<float4> TextureArrayTop;
 Texture2DArray<float4> TextureArrayFront;
@@ -29,20 +31,83 @@ void GetTriplanarTexture(float sdfObjectIndex, float3 position, float3 normal, f
 	//outColor = normal;
 }
 
-void GetTexture(float3 position, float4 primaryColor, float4 secondaryColor, float SDFTextureType, out float4 textureValue)
+float GetStripes(float pos, float2 smoothstepEdges)
+{
+	return smoothstep(smoothstepEdges.x, smoothstepEdges.y, sin(pos));
+}
+
+float GetDots(float2 pos, float2 smoothstepEdges)
+{
+	return smoothstep(smoothstepEdges.x, smoothstepEdges.y, sin(pos.x) * cos(pos.y));
+}
+
+float GetDiamonds(float2 pos, float2 smoothstepEdges)
+{
+	return smoothstep(smoothstepEdges.x, smoothstepEdges.y, sin(pos.x) + cos(pos.y));
+}
+
+float GetWaves(float2 pos, float2 values)
+{
+	return smoothstep(values.x - 0.1, values.x, sin(pos.x + sin(pos.y * values.y)));
+}
+
+float GetTriplanarTexture(float3 position, float3 normal, float4 curSDFTextureData, float SDFTextureType)
+{
+	position *= curSDFTextureData.x;	// texture scale
+
+	normal = pow(abs(normal), curSDFTextureData.w);	// abs because same left and right, pow for making the sides separated
+	normal /= (normal.x + normal.y + normal.z);	// normalzing after pow operation
+
+	float texX = 0;
+	float texY = 0;
+	float texZ = 0;
+
+	if (SDFTextureType == 1)	// stripes horizontal
+	{
+		texX = GetStripes(position.y, curSDFTextureData.yz);
+		texY = GetStripes(position.y, curSDFTextureData.yz);
+		texZ = GetStripes(position.y, curSDFTextureData.yz);
+	}
+	else if (SDFTextureType == 2)	// dots
+	{
+		texX = GetDots(position.yz, curSDFTextureData.yz);
+		texY = GetDots(position.xz, curSDFTextureData.yz);
+		texZ = GetDots(position.xy, curSDFTextureData.yz);
+	}
+	else if (SDFTextureType == 3)	// diamonds
+	{
+		texX = GetDiamonds(position.yz, curSDFTextureData.yz);
+		texY = GetDiamonds(position.xz, curSDFTextureData.yz);
+		texZ = GetDiamonds(position.xy, curSDFTextureData.yz);
+	}
+	else if (SDFTextureType == 4)	// waves
+	{
+		texX = GetWaves(position.yz, curSDFTextureData.yz);
+		texY = GetWaves(position.xz, curSDFTextureData.yz);
+		texZ = GetWaves(position.yx, curSDFTextureData.yz);
+	}
+
+	float tex = texX * normal.x + texY * normal.y + texZ * normal.z;
+	return tex;
+}
+
+void GetTexture(float3 worldPosition, float3 worldNormal, int sdfObjectIndex, out float4 textureValue)
 {
 	float tex = 0.0f;
+	float4 textureData = SDFTextureData[sdfObjectIndex];
+	float type = SDFTextureType[sdfObjectIndex];
 
-	if (SDFTextureType == 0)	// no texture
+	if (type == 0)	// no texture
 	{
 		tex = 0;
 	}
-	else if (SDFTextureType == 1)	// sin wave
+	else if (type >= 1 && type <= 10)	// triplanar textures
 	{
-		tex = smoothstep(0.5,0.7, sin(position.x / 0.01f)) * smoothstep(0.5,0.7,cos(position.y / 0.01f)) * smoothstep(0.5,0.7,sin(position.z / 0.01f));
+		tex = GetTriplanarTexture(worldPosition, worldNormal, SDFTextureData[sdfObjectIndex], type);
+		//tex = smoothstep(0.5,0.7, sin(position.x / 0.01f)) * smoothstep(0.5,0.7,cos(position.y / 0.01f)) * smoothstep(0.5,0.7,sin(position.z / 0.01f));
 	}
 
-	textureValue = lerp(primaryColor, secondaryColor, tex);
+	textureValue = lerp(SDFPrimaryColors[sdfObjectIndex], SDFSecondaryColors[sdfObjectIndex], tex);
 }
 
 #endif
