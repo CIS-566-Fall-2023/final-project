@@ -126,19 +126,31 @@ However, as you might notice in the image below there is a slight positioning bu
 ## Final submission (due 12/5)
 The final milestone of my project was focused on polishing, debugging, and implementing significantly more customizable features to the scene. Below are the features added during this stage: 
 
-* Adding a button to allow turning on and off the visibility of obstacles. This allows for a much more aesthetic scene, and you can really stat to get a feel for the waterfall. 
+* Adding a button to allow turning on and off the visibility of obstacles. This allows for a much more aesthetic scene, and you can really start to get a feel for the waterfall. This means you can also move the camera without seeing the obstacle, by unlocking the camera. 
+![image](https://github.com/kyraSclark/final-project/assets/60115638/a80d3ca4-b611-4ace-b23b-ed95d83c3536)
+![image](https://github.com/kyraSclark/final-project/assets/60115638/fbf81343-d187-40ce-a2d9-96455e2a00ab)
+![image](https://github.com/kyraSclark/final-project/assets/60115638/c1e65d90-e245-4b52-bea5-1f26d754862f)
 
-* Adding control over particle size, now the particles can be larger or smaller. After critique, I learned that when the particles are larger, you can see the billboards and it looks odd. So I rearranged the code to disable depth testing when rendering the particles (but keeping depth testing for the obstacles), such that the particles blend together more and you can't see the edges of the billboard. 
+* Adding control over particle size, now the particles can be larger or smaller. After critique, I learned that when the particles are larger, you can see the billboards and it looks odd. So I rearranged the code to disable depth testing when rendering the particles (but keeping depth testing for the obstacles), such that the particles blend together more and you can't see the edges of the billboard.
+![image](https://github.com/kyraSclark/final-project/assets/60115638/2613f7fa-f1d3-49c9-b84f-b122f69b5aaf)
 
 * Fixed a bug in the gravity code. Now physics still works in the low-gravity environment. 
+![image](https://github.com/kyraSclark/final-project/assets/60115638/251369fd-82a5-4783-a72c-5c7f00634f3e)
 
-* Added customizable particle generation via FBM noise. Now, there are two buttons in the GUI: one for the default, evenly balanced random generation of particles, and one for the customizable FBM generation of particles. With FBM noise, the user can control the amplitude of the noise to control where the particles fall into frame, and frequency to control how broad or narrow the stream of particles is. 
+* Added customizable particle generation via FBM noise. Now, there are two buttons in the GUI: one for the default, evenly balanced random generation of particles, and one for the customizable FBM generation of particles. With FBM noise, the user can control the amplitude of the noise to control where the particles fall into frame, and frequency to control how broad or narrow the stream of particles is.
+![image](https://github.com/kyraSclark/final-project/assets/60115638/b0c8c894-fc22-4aff-9f6c-607ff27b1095)
 
-* During critique, I also got some feedback that it would be fun to add some "wind" to the system. This inspired by to add two buttons to the GUI. The first controls wind power and direction, then in addition, I added a noise factor to the wind, such that if the noisy wind button is checked, the wind will blow much more chaotically, create a rainstorm effect. 
+* During critique, I also got some feedback that it would be fun to add some "wind" to the system. This inspired by to add two buttons to the GUI. The first controls wind power and direction, then in addition, I added a noise factor to the wind, such that if the noisy wind button is checked, the wind will blow much more chaotically, create a rainstorm effect.
+![image](https://github.com/kyraSclark/final-project/assets/60115638/cbb5b259-1b40-4c4f-b7f1-53f482b26d75)
+![image](https://github.com/kyraSclark/final-project/assets/60115638/cef0dc78-a0e5-4309-a08c-c2cb0d31fb0f)
 
-* During critique, I was also told that it would be better to reflect the particle bounce along the obstacle normal, and be able to visual this will more customizable obstacle shapes. First, I changed the physics code in the transform feedback shader to support reflecting the bounce along the obstacle normal, which is stored in the obstacle buffer. Now, the obstacle buffer works as such: the obstacle-buf shader is what colors the obstacle in the frag shader. It checks the obstacle buffer to see if there is a color there (not 0,0,0), then it colors in that pixel. Meanwhile, in the obstacle-add-to-buf shader, the shape and normal of the shape is written to the obstacle buffer. Therefore, with this step, the obstacle-add shader becomes obsolete and can be removed from the pipeline, making the obstacle shader simpler and more intuitive. 
+* During critique, I was also told that it would be better to reflect the particle bounce along the obstacle normal, and be able to visual this will more customizable obstacle shapes. First, I changed the physics code in the transform feedback shader to support reflecting the bounce along the obstacle normal, which is stored in the obstacle buffer. Now, the obstacle buffer works as such: the obstacle-buf shader is what colors the obstacle in the frag shader. It checks the obstacle buffer to see if there is a color there (not 0,0,0), then it colors in that pixel. Meanwhile, in the obstacle-add-to-buf shader, the shape and normal of the shape is written to the obstacle buffer. Therefore, with this step, the obstacle-add shader becomes obsolete and can be removed from the pipeline, making the obstacle shader simpler and more intuitive.
+![image](https://github.com/kyraSclark/final-project/assets/60115638/4d5ef850-e290-4120-bcea-53496d00921b)
+
 
 * To further show off the obstacle normal feature and increase customization, I added a feature that allows the user to draw obstacles as stars, rather than circles. You can see the shape of the star as the particles accumulate around it and bounce of the normals more clearly. I built this using an SDF function for a star, which was in the obstacle-add-to-buf shader, so the correct area of the star can be defined. If I had more time with this project, I could've added more different shapes or perhaps a way for the user to define their own obstacle shape. However, at least with just this star, we have a proof of concept for how we could implement the rest in future work. 
+![image](https://github.com/kyraSclark/final-project/assets/60115638/61985f88-77df-4556-a3ae-4f70c46fda92)
+![image](https://github.com/kyraSclark/final-project/assets/60115638/e613a854-258d-4888-b111-daa07b7bc76d)
 
 Submission:
 - Push all your code / files to your repository
