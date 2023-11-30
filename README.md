@@ -174,10 +174,3 @@ The final milestone of my project was focused on polishing, debugging, and imple
 * To further show off the obstacle normal feature and increase customization, I added a feature that allows the user to draw obstacles as stars, rather than circles. You can see the shape of the star as the particles accumulate around it and bounce of the normals more clearly. I built this using an SDF function for a star, which was in the obstacle-add-to-buf shader, so the correct area of the star can be defined. If I had more time with this project, I could've added more different shapes or perhaps a way for the user to define their own obstacle shape. However, at least with just this star, we have a proof of concept for how we could implement the rest in future work. 
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/61985f88-77df-4556-a3ae-4f70c46fda92)
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/e613a854-258d-4888-b111-daa07b7bc76d)
-
-Submission:
-- Push all your code / files to your repository
-- Come to class ready to present your finished project
-- Update your README with two sections 
-  - final results with images and a live demo if possible
-  - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
