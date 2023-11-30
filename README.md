@@ -261,7 +261,12 @@ Finally, the assembled texture comes out real nice:
 
 The bottom-left half of the network is just audio-signal processing to get the appropriate scaling factors for the audio-reactive visuals. It all comes together very nicely:
 **(Sound ON:sound:)**  
-TODO
+
+
+
+https://github.com/Saksham03/algeb-rave/assets/20259371/d469a02b-28b8-44ae-9cba-dd6a5d12d62b
+
+
 
 ## Noise Composition
 Noise always gives interesting results, and I wanted to use some noise composition and see how making it audio-reactive could yield interesting results. The network for my noise composition node looks like this:
@@ -271,15 +276,25 @@ I drive my noise effect in 3 ways:
 * the snares switch the color sampling, and
 * the snares also distort the noise.
 Here is a fun demo from my experiment:  
-**(Sound ON:sound:)**
-TODO
+**(Sound ON:sound:)**  
+
+
+https://github.com/Saksham03/algeb-rave/assets/20259371/96baa71e-0f19-4aff-84d7-fbf0d80ec5a0
+
+
 
 ## Particle Effect
 ParticlesGPU is a fairly new node introduced in TouchDesigner. It is a performant replacement of the earlier CPU version. Looking at various demos, I had planned to author some interactivity with particles in Milestone 2 for the Kinect-driven visuals. But since I couldn't do that, I didn't want to drop the idea altogether and wanted to do something in Milestone 3 with particles. I came across [this](https://www.youtube.com/watch?v=olhePB-r7I4) tutorial by [bileam tschepe (elekktronaut)](https://www.youtube.com/@elekktronaut) and this gave me really good pointers on what I might want to do for my effect. The particles effect network looks something like this:
 ![](ms3/../images/ms3/particles1.png)
-I tweaked the color ramp to give me cool looking visuals, and added a blur to the final composition. Here is a laggy demo of the assembly:
+I tweaked the color ramp to give me cool looking visuals, and added a blur to the final composition. The particles are audio-driven in 2 ways:
+* The bass/kicks alter the speed of the particles, and
+* the snares affect the bloom magnitude.  
+Here is a laggy demo of the assembly:
 **(Sound ON:sound:)**
-TODO
+
+
+https://github.com/Saksham03/algeb-rave/assets/20259371/e9d0d9b7-9258-4755-8d8a-a39bbe5c5c04
+
 
 ## The Raining Visualizer
 This turned out to be ironically the hardest effect to build, mostly because I couldn't find any resources that would even point me in the correct direction, let alone having a tutorial for the same. I wanted to use the visualizer I built in milestone 1, but add a 'raining' effect on top of that - for each vertical bar, I wanted a small particle to be falling down towards the bar, and if it touches the bar then the bar would send it back up.
@@ -287,7 +302,11 @@ The part of *raining down VS getting sent back up* for a particle was the hardes
 ![](ms3/../images/ms3/bg_vis1.png)
 My comments in the Network highlight exactly what I am doing - in summary, I had to use a feedback network which every frame decided if it was okay to translate the particle further down by a constant value or if it needs to be sent back up to the bar's current height. Being able to get this working was really rewarding, and gives me a sense of having some form of control over TouchDesigner finally :) Here is a short demo of this effect:
 **(Sound ON:sound:)**
-TODO
+
+
+https://github.com/Saksham03/algeb-rave/assets/20259371/07569953-c655-460f-b34c-64bcd27cb898
+
+
 
 ## Summary - Milestone 3
 I was able to achieve my main goal of making 4 audio-reactive background visuals. Two things to note though:
