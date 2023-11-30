@@ -21,7 +21,7 @@ class ParticlesGroup
 
     particleVBOs: WebGLBuffer[][];
     particleTransformFeedbacks: WebGLTransformFeedback[];
-    particleVAOs: WebGLVertexArrayObject[]; // Store attributes about each particle, in assoiation with the particle's buffer
+    particleVAOs: WebGLVertexArrayObject[]; // Store attributes about each particle, in association with the particle's buffer
 
     constructor(numParticles: number)
     {
