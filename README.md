@@ -2,11 +2,26 @@
 
 ## Final Results
 [LIVE DEMO](https://kyrasclark.github.io/final-project/)!
+
 VIDEO DEMO with EXPLANATION: 
+
+In this project, I made a GPU-based particle simulation. This project is a fully physically-based particle sim with collisions all on the GPU. The particles work with transform feedback shaders, instanced rendering, and billboards, and the obstacles work with frame buffers and textures. This allows for the full system to work highly efficiently in linear time. 
+
+The user has the following controls that allow them to control the system: 
+* Particle Color
+* Number of Particles
+* Size of the Particles
+* Size of the Obstacle
+* Shape of the Obstacle (star or circle)
+* Visibility of the Obstacles
+* Camera control
+* Gravity control
+* Wind control (with noise option)
+* Control over the generation of the particles (with FBM noise, amplitude and frequency, allowing for control over where the particles stream into the scene) 
 
 
 ## Post Mortem
-Overall, I think the project went very well. The technical achievements that I learned were far more than I expected. My experience and skills with GPU programming and techniques are far more extensive than I expected going into this project. I learned a ton! And, I think it turned out very successful. Not, only did I accomplish all of my set goals, but I even did more than expecting. The additional features of wind, noisy wind, and changing the obstacle shape and reflecting along the obstacle normal were all achievements I did not expect and budget for. Finally, on top of successfully making a particle sim, I also made a fast particle sim. Because it is all based on the GPU, and the obstacles work via a texture, collision detection and physical simulation all happen in linear time. The only pivots that I did not expect, honestly, were how complicated and technical this project ended up being. When I first started this project, I was imagining a particle sim, like the ones I worked on in other classes, not realizing those were all based on the CPU. The challenge of how to figure out how to do this on the GPU was far more complicated and outside of my comfort zone than I initially expected. You can see this change in how my design figure looked below vs. what it actually need up as in the video explanation above. Nonetheless, I did it and I'm very proud of what I was able to produce. 
+Overall, I think the project went very well. The technical achievements that I learned were far more than I expected. My experience and skills with GPU programming and techniques are far more extensive than I expected going into this project. I learned a ton! And, I think it turned out very successful. Not, only did I accomplish all of my set goals, but I even did more than expected. The additional features of wind, noisy wind, and changing the obstacle shape and reflecting along the obstacle normal were all achievements I did not expect and budget for. Finally, on top of successfully making a particle sim, I also made a fast particle sim. Because it is all based on the GPU, and the obstacles work via a texture, collision detection and physical simulation all happen in linear time. The only pivots that I did not expect, honestly, were how complicated and technical this project ended up being. When I first started this project, I was imagining a particle sim, like the ones I worked on in other classes, not realizing those were all based on the CPU. The challenge of how to figure out how to do this on the GPU was far more complicated and outside of my comfort zone than I initially expected. You can see this change in how my design figure looked below vs. what it actually ended up as in the video explanation above. Nonetheless, I did it and I'm very proud of what I was able to produce. 
 
 -----------------------------------------------------------------------
 
