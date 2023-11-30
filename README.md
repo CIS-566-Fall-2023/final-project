@@ -1,5 +1,15 @@
 # Final Project: Waterfall Particle Simulation
 
+## Final Results
+[LIVE DEMO](https://kyrasclark.github.io/final-project/)!
+VIDEO DEMO with EXPLANATION: 
+
+
+## Post Mortem
+Overall, I think the project went very well. The technical achievements that I learned were far more than I expected. My experience and skills with GPU programming and techniques are far more extensive than I expected going into this project. I learned a ton! And, I think it turned out very successful. Not, only did I accomplish all of my set goals, but I even did more than expecting. The additional features of wind, noisy wind, and changing the obstacle shape and reflecting along the obstacle normal were all achievements I did not expect and budget for. Finally, on top of successfully making a particle sim, I also made a fast particle sim. Because it is all based on the GPU, and the obstacles work via a texture, collision detection and physical simulation all happen in linear time. The only pivots that I did not expect, honestly, were how complicated and technical this project ended up being. When I first started this project, I was imagining a particle sim, like the ones I worked on in other classes, not realizing those were all based on the CPU. The challenge of how to figure out how to do this on the GPU was far more complicated and outside of my comfort zone than I initially expected. You can see this change in how my design figure looked below vs. what it actually need up as in the video explanation above. Nonetheless, I did it and I'm very proud of what I was able to produce. 
+
+-----------------------------------------------------------------------
+
 ### Design Doc
 
 #### Introduction
@@ -120,8 +130,6 @@ Now, we're just missing collisions! First, I added the obstacle position and obs
 
 However, as you might notice in the image below there is a slight positioning bug. Going over my code with a fine-tooth comb, I realized I accidentally wrote vs_Pos.yx instead of vs_Pos.xy. The biggest bugs always have the smallest solutions. Oh well! Now! We have our Milestone 2 final product, now with obstacles and collision physics!!! Next up, polishing user controls and customization over particle generation.
 ![m2_done](https://github.com/kyraSclark/final-project/assets/60115638/72c5f4af-9e3a-4164-bf66-e81703726944)
-
-[live demo](https://kyrasclark.github.io/final-project/)!
 
 ## Final submission (due 12/5)
 The final milestone of my project was focused on polishing, debugging, and implementing significantly more customizable features to the scene. Below are the features added during this stage: 
