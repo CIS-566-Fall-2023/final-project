@@ -21,6 +21,14 @@ public class SDFObject : MonoBehaviour
         ColorBlend = 3,
     }
 
+    public enum ProceduralTextureType
+    {
+        Plain = 0,
+        StripedTriplanar = 1,
+        WavesTriplanar = 2,
+        DotsTriplanar = 3
+    }
+
     [SerializeField] private SDFObjectType type;
     public SDFObjectType Type => type;
 
@@ -35,7 +43,13 @@ public class SDFObject : MonoBehaviour
     public float BlendFactor => blendFactor;
 
     [SerializeField] private Color color = Color.white;
-    public Color Color => color;
+    public Color PrimaryColor => color;
+
+    [SerializeField] private Color secondaryColor = Color.black;
+    public Color SecondaryColor => secondaryColor;
+
+    [SerializeField] private ProceduralTextureType textureType = ProceduralTextureType.Plain;
+    public ProceduralTextureType TextureType => textureType;
 
     [SerializeField, Range(0, 1)] private float smoothness = 0.0f;
     public float Smoothness => smoothness;

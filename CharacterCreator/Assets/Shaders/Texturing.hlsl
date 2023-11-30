@@ -29,4 +29,20 @@ void GetTriplanarTexture(float sdfObjectIndex, float3 position, float3 normal, f
 	//outColor = normal;
 }
 
+void GetTexture(float3 position, float4 primaryColor, float4 secondaryColor, float SDFTextureType, out float4 textureValue)
+{
+	float tex = 0.0f;
+
+	if (SDFTextureType == 0)	// no texture
+	{
+		tex = 0;
+	}
+	else if (SDFTextureType == 1)	// sin wave
+	{
+		tex = smoothstep(0.5,0.7, sin(position.x / 0.01f)) * smoothstep(0.5,0.7,cos(position.y / 0.01f)) * smoothstep(0.5,0.7,sin(position.z / 0.01f));
+	}
+
+	textureValue = lerp(primaryColor, secondaryColor, tex);
+}
+
 #endif
