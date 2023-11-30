@@ -172,7 +172,7 @@ This was a good node to get started with, because I had a decent demo I could fo
 ![](images/ms2/trippy_edges_rec.gif)
 
 ### Referring Dance Central Again - Trails & Swiggles
-One of the things I found really cool in Dance Central was the cool glowing trails they incorporated into the gameplay that followed the players hands:  
+One of the things I found really cool in Dance Central was the cool glowing trails they incorporated into the gameplay that followed the players' hands:  
 <table>
   <tr>
     <td><img width="300px" src="images/ms2/dc_ref1.jpg" /></td>
@@ -200,7 +200,7 @@ And after spending a lot of time tweaking dozens of simulation parameters, I was
 ![](images/ms2/fire_sim.gif)
 
 ### Audio-Reactive Input
-As mentioned in my Week 2 Milestone tasks, I wanted to a proof-of-concept by driving some visuals using the audio detection I done for my 1st milestone. I chose to just apply a simple offset to the edges using snares from the audio. My custom node for the same looks like this:
+As mentioned in my Week 2 Milestone tasks, I wanted to do a proof-of-concept by driving some visuals using the audio detection I done for my 1st milestone. I chose to just apply a simple offset to the edges using snares from the audio. My custom node for the same looks like this:
 ![](images/ms2/edges_snare_summary.png)  
 It exposes only one paramter - how much the edges need to be offset by. The network itself looks like this:  
 ![](images/ms2/edges_snare_details.png)  
