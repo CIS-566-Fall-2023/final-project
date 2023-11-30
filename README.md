@@ -75,9 +75,9 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 <details>
   <summary> Milestone 1 </summary>
 
-## Milestone 1 - Week 1 ( 8 Nov'23 - 15 Nov'23)
+# Milestone 1 - Week 1 ( 8 Nov'23 - 15 Nov'23)
 
-### Components
+## Components
 1. [TouchDesigner Basics](#touchdesigner-basics)
 2. [Kick Detection](#kick-detection)
 3. [Snare Detection](#snare-detection)
@@ -99,35 +99,35 @@ https://github.com/Saksham03/algeb-rave/assets/20259371/2beda103-c26e-4a3c-933e-
 
 
 
-### TouchDesigner Basics
+## TouchDesigner Basics
 - The [Introduction To TouchDesginer by Ben Voigt](https://www.youtube.com/watch?v=wmM1lCWtn6o) is a superb resource to get started on the software. I had already gone through the whole thing during the Summer when I was playing around with TouchDesigner, but now was a good time to brush up on the snippets from that video that I thought would come in handy.
 - As I was just getting started, I had the bigger picture in mind of a vast, unmanageable node network - one that is pretty common when using node-based softwares. Hence from the get go, I wanted to make separate isolated and independently manageable components for as many things as I could. [This video](https://www.youtube.com/watch?v=oTFZXL2xbvw) by [bileam tschepe (elekktronaut)](https://www.youtube.com/@elekktronaut) was extremely helpful in guiding me towards building **Components** in TouchDesigner, and **exposing the parameters** on these custom nodes that I would possibly want to tweak later.
 
-### Kick Detection
+## Kick Detection
 - The first thing I build was the bass/kick detection, and I followed [this](https://www.youtube.com/watch?v=gUELH_B2wsE) video by [elekktronaut](https://www.youtube.com/@elekktronaut). I also looked up a couple of other resources and tweaked the parameters to my liking, but that video established the solid groundwork of my understanding of how kick detection was supposed to work. This is what my kick detection workflow looks like:
 ![](images/ms1/kick_deets.png)  
 The highlighted path in the above image is to show that the kick detection was built as a separate component so that it is easy to manage, and lives one level inside the root level of the project.
 -  As stated above, I built the kick detetor as a separate component. On the custom node, I exposed several parameters that I thought were enough to provide me with the control to tweak the output kick detection signal to my liking. These are the parameters that are available for this node at the project's root level:  
 ![](images/ms1/kick_params.png)
 
-### Snare Detection
+## Snare Detection
 - I moved on to snare detection, and pretty much followed the same resource as the kick deteciton one. I had to combine some learnings from [this](https://www.youtube.com/watch?v=rGoCbVmGtPE&t=2s) video as well, and snares became an easy win after kick detection. This is what my snare detection workflow looks like:
 ![](images/ms1/snare_deets.png)  
 Again, the highlighted path in the above image is to show that the snare detection was built as a separate component.
 -  On the custom node, there are several parameters that are available for this node at the project's root level to tweak the result to my liking:  
 ![](images/ms1/snare_params.png)
 
-### Audio Visualization
+## Audio Visualization
 - As stated initially in my design doc, I was aiming to get 4 audio signals out of an input audio. But I couldn't find enough resources apart from the basic kick and snare detection. I looked at some audio-specific tutorials that were independent of TouchDesigner, but they were either too detailed an went over my head or were not possible to be implemented in TouchDesigner. Besides, I figured that these 2 signals were enough for me to drive some cool graphics/visuals.
 - What I really wanted to do was to isolate the vocals from a track and display them as pulsating bars. Although I failed to figure out a way to isloate the vocals, I did manage to find [this great resource](https://www.youtube.com/watch?v=VwEoniNx5e8&list=PLFrhecWXVn59fuqALP_Hb6qRKEXy4LVQp&index=12) that helped me build an audio visualizer.
 - I also built my audio visualizer in a separate component of its own. The node-based workflow for my audio visualizer looks something like this:
 ![](images/ms1/vis.png)
 
-### Spotify connectivity
+## Spotify connectivity
 - Since I wasn't able to get more audio-related signals from the input as I had planned, I thought of other ways of making my project more fun - and one of them was certainly being able to plug and play any song, and not just from the limited audio files residing on my local machine.
 - I was able to achieve this using a 3rd party software called VB-Cable. And [this video](https://www.youtube.com/watch?v=HR6Ot3w6qTo), again by the amazing [elekktronaut](https://www.youtube.com/@elekktronaut) was very helpful in guiding me how to do it.
 
-### Summary - Milestone 1
+## Summary - Milestone 1
 - I achieved most of my milestones, and seem to be in a pretty good shape to proceed with my next milestone.
 - I wasn't able to achieve just one milestone - generating 4 audio signals. I was able to get essentially only 2 (3 if you count the visualizer, although it is not a 'signal' that I would use to drive visuals), due to the lack of both resources as well as my experience with TouchDesigner/Audio manipulation. This is not a problem though, as those 2 signals should be enough to get fun audo-driven graphics.
 - Because I couldn't fully complete one of the milestone tasks, I took on the additional task of hooking up AlgebRave with Spotify, and it works. I also added the audio visualizer in this milestone itself, which would give me a headstart for the next one.
@@ -138,9 +138,9 @@ Again, the highlighted path in the above image is to show that the snare detecti
 <details>
   <summary> Milestone 2 </summary>
 
-## Milestone 2 - Week 2 ( 15 Nov'23 - 22 Nov'23)
+# Milestone 2 - Week 2 ( 15 Nov'23 - 22 Nov'23)
 
-### Components
+## Components
 1. [Hooking up Kinect with TouchDesigner](#hooking-up-kinect-with-touchdesigner)
 2. [Network Summary](#network-summary)
 3. [Trippy Edges effect](#ramping-up---trippy-edges-effect)
@@ -153,17 +153,17 @@ Milestone 2 was SO MUCH FUN! And not only I was able to hit all my milestones, I
 
 ![](images/ms2/ms2_demo.gif)  
 
-### Hooking up Kinect with TouchDesigner
+## Hooking up Kinect with TouchDesigner
 TouchDesigner has a kinect node which makes it super easy to interact with the device, and also exposes a lot of the features as a black-box which kinect is capable of, e.g. depth buffer, infrared sensor, detecting body parts like hands/neck/legs/etc.  
 <img width="200px" src="images/ms2/kinect_td.png">  
 Next, for connecting Kinect to my system I had to buy an [adapter](https://www.amazon.com/Kinect-Adapter-Compatible-Mircosoft-Charging/dp/B093CYW12Z/ref=sr_1_4?keywords=kinect+pc+adapter&qid=1700714724&sr=8-4) because the Kinect uses a different USB port type. Next, to allow Kinect to talk to my system, I needed the requisite drivers, which are provided by Microsoft's app [Kinect Studio](https://learn.microsoft.com/en-us/windows/apps/design/devices/kinect-for-windows). Once connected, I was able to see the kinect capture being streamed into my TouchDesigner node.
 
-### Network Summary
+## Network Summary
 As I did with the audio detection milestone, I followed the same principal of making separate nodes for each effect and exposing the relevant parameters on these custom nodes. Hence, the overall network looks super clean and easy to plug-and-play:
 ![](images/ms2/../ms2/kinect_network.png)  
 On the left are the 2 different types of Kinect input nodes that give me access to various buffers/data being captured by kinect. The other 4 nodes are my custom effects, which I will explain one by one.
 
-### Ramping Up - Trippy Edges effect
+## Ramping Up - Trippy Edges effect
 To get started, I first watched [this](https://www.youtube.com/watch?v=QGuquFiInqY&t=80s) video again by the amazing [elekktronaut](https://www.youtube.com/@elekktronaut). This helped me give an overview of the different kinds of nodes I could use with the kinect input, and create a cool trippy effect with the color scheme I like. In summary, the trippy edges node network looks like this from the outside and exposes just one parater that allows the user to tweak how long they want the outlines to persist for:  
 ![](images/ms2/trippy_edges_summary.png)  
 On going inside the network, it looks something like this:  
@@ -171,8 +171,10 @@ On going inside the network, it looks something like this:
 This was a good node to get started with, because I had a decent demo I could follow and then tweak it to my liking. The final result looked something like this:  
 ![](images/ms2/trippy_edges_rec.gif)
 
+
 ### Referring Dance Central Again - Trails & Swiggles
 One of the things I found really cool in Dance Central was the cool glowing trails they incorporated into the gameplay that followed the players' hands:  
+
 <table>
   <tr>
     <td><img width="300px" src="images/ms2/dc_ref1.jpg" /></td>
@@ -193,14 +195,16 @@ Essentially, the top half of the workflow handles the trail generation while the
 When put next to the trippy edges effect, it looks something like this:  
 ![](images/ms2/trails_and_edges.gif)
 
-### Human Torch!
+## Human Torch!
 For my next effect, I wanted to achieve the fluid simulation effect similar to my friend John's work referenced in the design doc. But poking around, I found [this](https://www.youtube.com/watch?v=A-xOp1LTchY) cool video that went over how one could do fire simulation using a new node type recently introduced in TouchDesigner that uses Nvidia's Flow simulation. This was perfect for me, as I could plug and play with the feature instead of writing a fluid simulation from scratch. And hence, this node turned out to be an easy win. Following the tutorial and plugging it into my tutorial was easily doable with a small network like this:  
 ![](images/ms2/fire_sim_details.png)
 And after spending a lot of time tweaking dozens of simulation parameters, I was able to get the following effect:  
 ![](images/ms2/fire_sim.gif)
 
+
 ### Audio-Reactive Input
 As mentioned in my Week 2 Milestone tasks, I wanted to do a proof-of-concept by driving some visuals using the audio detection I done for my 1st milestone. I chose to just apply a simple offset to the edges using snares from the audio. My custom node for the same looks like this:
+
 ![](images/ms2/edges_snare_summary.png)  
 It exposes only one paramter - how much the edges need to be offset by. The network itself looks like this:  
 ![](images/ms2/edges_snare_details.png)  
@@ -212,7 +216,7 @@ https://github.com/Saksham03/algeb-rave/assets/20259371/2e377dd3-8fd5-4453-a2d9-
 
 
 
-### Summary - Milestone 2
+## Summary - Milestone 2
 As I said earlier, Milestone 2 was not only fun but I was also able to do more than I had expected. I will have to be really careful while driving the kinect input with audio though, because the background will also be audio-driven and I don't want the visuals to get too messy or overwhelming for the user. I am really excited to work on the background visuals, and finally plug everything together to see how AlgebRave turns out!
 
 </details>  
@@ -220,7 +224,7 @@ As I said earlier, Milestone 2 was not only fun but I was also able to do more t
 <details>
   <summary> Milestone 3 </summary>
 
-## Milestone 3: Implementation part 2 (due 11/27)
+# Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
 Put all your code in your forked repository.
@@ -237,7 +241,7 @@ Come to class on the due date with a WORKING COPY of your project. We'll be spen
 <details>
   <summary> Final Submission </summary>
 
-## Final submission (due 12/5)
+# Final submission (due 12/5)
 Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
 
 Submission:
