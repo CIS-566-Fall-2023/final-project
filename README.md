@@ -47,23 +47,23 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 
 ## Timeline
 
-### Week 1 ( 8 Nov'23 - 15 Nov'23)
+### Week 1 ( 8 Nov'23 - 15 Nov'23 )
 * Implement the audio detection system in TouchDesigner that for a given audio file is able to generate signals for musical elements like beats, drums, snares, bass, etc.
 * Target generating 4 such audio signals.
 * Do a proof-of-concept by driving some basic graphics off a subset/all of these signals.
 
-### Week 2 ( 15 Nov'23 - 22 Nov'23)
+### Week 2 ( 15 Nov'23 - 22 Nov'23 )
 * Get started on the user input - hook up Kinect with TouchDesigner.
 * Follow basic tutorial(s) to get some easy wins like particle system interactions.
 * Implement at least 2 user-interactive features using tools like Optical Flow and Fluid Simulation.
 * Hook up audio signals into these features.
 
-### Week 3 ( 22 Nov'23 - 29 Nov'23)
+### Week 3 ( 22 Nov'23 - 29 Nov'23 )
 * Work on developing simple yet visually pleasing audio-driven backgrounds.
 * Implement 4 different backgrounds driven off of the generated audio signals.
 * Combine everything together - audio signals, user input-based Kinect signals, and shader backgrounds.
 
-### Week 4 ( 29 Nov'23 - 6 Dec'23)
+### Week 4 ( 29 Nov'23 - 6 Dec'23 )
 * Tackle any delays from the previous milestones.
 * Polish, polish, polish!
 * Work on documentation.
@@ -75,7 +75,7 @@ Ever since I played Dance Central by Harmonix Studios(now a part of Ubisoft) in 
 <details>
   <summary> Milestone 1 </summary>
 
-# Milestone 1 - Week 1 ( 8 Nov'23 - 15 Nov'23)
+# Milestone 1 - Week 1 ( 8 Nov'23 - 15 Nov'23 )
 
 ## Components
 1. [TouchDesigner Basics](#touchdesigner-basics)
@@ -138,7 +138,7 @@ Again, the highlighted path in the above image is to show that the snare detecti
 <details>
   <summary> Milestone 2 </summary>
 
-# Milestone 2 - Week 2 ( 15 Nov'23 - 22 Nov'23)
+# Milestone 2 - Week 2 ( 15 Nov'23 - 22 Nov'23 )
 
 ## Components
 1. [Hooking up Kinect with TouchDesigner](#hooking-up-kinect-with-touchdesigner)
@@ -224,22 +224,83 @@ As I said earlier, Milestone 2 was not only fun but I was also able to do more t
 <details>
   <summary> Milestone 3 </summary>
 
-# Milestone 3: Implementation part 2 (due 11/27)
-We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
+# Milestone 3 - Week 3 ( 22 Nov'23 - 29 Nov'23 )
 
-Put all your code in your forked repository.
+My major goal for milestone 3 was to make 4 audio-reactive background effects, and I was able to achieve the same, and had a lot of fun while doing that :)
 
-Submission: Add a new section to your README titled: Milestone #3, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what did you have to cut and why? 
-- Detailed output from your generator, images, video, etc.
-We'll check your repository for updates. No need to create a new pull request.
+## Components
+1. [Network Summary](#network-summary-1)
+2. [Pulsating Speakers Effect](#boombox---pulsating-speakers-effect)
+3. [Noise Composition Effect](#noise-composition)
+4. [Particles Effect](#particle-effect)
+5. [Audio Visualizer Effect](#audio-visualization)
+6. [Summary](#summary---milestone-3)
 
-Come to class on the due date with a WORKING COPY of your project. We'll be spending time in class critiquing and reviewing your work so far.
+## Network Summary
+As for the previous 2 milestones, my 4 background effects also neatly reside in their own custom nodes:  
+
+![](ms3/../images/ms3/network_sumamry_1.png)  
+
+Therefore, AlgebRave's entire network as it stands is very easy on the eyes and seems to be very workable:
+
+![](ms3/../images/ms3/network_sumamry_2.png)
+
+## Boombox - Pulsating Speakers Effect
+I had always loved the booming speaker visuals, and wanted to combine that with the color palette from Dance Central. Therefore, the first effect I created was a pulsating speaker background, wherein the speakers seem to be reacting to the bass/kicks from the audio input. The network for this effect looks like this:  
+![](images/ms3/puls1.png)  
+
+The top-left half of the network assembles one instance of the speaker texture:
+![](images/ms3/puls2.png)  
+<img width="300px" src="images/ms3/puls.gif">  
+
+The above texture looks pretty low-res, but that is intended. The top-right half uses instance rendering to apply this texture to a grid. Hence, a low-res texture makes sense as it will be rendered multiple times and viewed from a distrance. The instance rendering network looks like this:  
+![](ms3/../images/ms3/puls3.png)  
+
+Finally, the assembled texture comes out real nice:
+![](images/ms3/puls4.png)
+
+The bottom-left half of the network is just audio-signal processing to get the appropriate scaling factors for the audio-reactive visuals. It all comes together very nicely:
+**(Sound ON:sound:)**  
+TODO
+
+## Noise Composition
+Noise always gives interesting results, and I wanted to use some noise composition and see how making it audio-reactive could yield interesting results. The network for my noise composition node looks like this:
+![](images/ms3/noise1.png)
+I drive my noise effect in 3 ways:
+* The bass makes the 3D noise "travel",
+* the snares switch the color sampling, and
+* the snares also distort the noise.
+Here is a fun demo from my experiment:  
+**(Sound ON:sound:)**
+TODO
+
+## Particle Effect
+ParticlesGPU is a fairly new node introduced in TouchDesigner. It is a performant replacement of the earlier CPU version. Looking at various demos, I had planned to author some interactivity with particles in Milestone 2 for the Kinect-driven visuals. But since I couldn't do that, I didn't want to drop the idea altogether and wanted to do something in Milestone 3 with particles. I came across [this](https://www.youtube.com/watch?v=olhePB-r7I4) tutorial by [bileam tschepe (elekktronaut)](https://www.youtube.com/@elekktronaut) and this gave me really good pointers on what I might want to do for my effect. The particles effect network looks something like this:
+![](ms3/../images/ms3/particles1.png)
+I tweaked the color ramp to give me cool looking visuals, and added a blur to the final composition. Here is a laggy demo of the assembly:
+**(Sound ON:sound:)**
+TODO
+
+## The Raining Visualizer
+This turned out to be ironically the hardest effect to build, mostly because I couldn't find any resources that would even point me in the correct direction, let alone having a tutorial for the same. I wanted to use the visualizer I built in milestone 1, but add a 'raining' effect on top of that - for each vertical bar, I wanted a small particle to be falling down towards the bar, and if it touches the bar then the bar would send it back up.
+The part of *raining down VS getting sent back up* for a particle was the hardest to figure out. This was mostly because of my inexeperience with TouchDesigner and with node-based tools in general, and as a programmer this would have been much easier to achieve if I was to write code for it. But after spending more than an entire day trying to fiddle around with different nodes and parameters, I finally achieved this effect! My network looks something like this: 
+![](ms3/../images/ms3/bg_vis1.png)
+My comments in the Network highlight exactly what I am doing - in summary, I had to use a feedback network which every frame decided if it was okay to translate the particle further down by a constant value or if it needs to be sent back up to the bar's current height. Being able to get this working was really rewarding, and gives me a sense of having some form of control over TouchDesigner finally :) Here is a short demo of this effect:
+**(Sound ON:sound:)**
+TODO
+
+## Summary - Milestone 3
+I was able to achieve my main goal of making 4 audio-reactive background visuals. Two things to note though:
+* In my Design Doc I had initially planned to write GLSL nodes for these, but on reading more about it, they turned out to be fairly complex, and would have provided very little gains in my case. Hence I stuck to having a node-based approach for the background as well.
+* I had also planned to connect everything together in this milestone. The final effect took a bit too much of my time and I couldn't hook in the Kinect input. But those should just be an overlay on top of my backgrounds along with some visual polishing, and I am not at all worried about it. I have all major chunks for my project complete. I know what to do next and there shouldn't be any new learning involved in that.
+
+I am really excited to hook everything up together and make my peers play around with AlgebRave!
+
 
 </details>  
 
 <details>
-  <summary> Final Submission </summary>
+  <summary> Wrapping Up </summary>
 
 # Final submission (due 12/5)
 Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
