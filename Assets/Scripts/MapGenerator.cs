@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BinaryPartition;
 using Geom;
+using GraphBuilder;
 using UnityEngine;
 
 [RequireComponent(typeof(MapRenderer))]
@@ -19,22 +20,24 @@ public class MapGenerator : MonoBehaviour
         Debug.Log("Running map generator...");
         mapRenderer = gameObject.GetComponent<MapRenderer>();
 
-        BinaryRoom room = new BinaryRoom(new Rectangle
+        Builder builder = new Builder();
+        PartitionRunner partitionRunner = new PartitionRunner(builder, new Rectangle
         {
             Min = new Vector2(MinX, MinY),
             Max = new Vector2(MaxX, MaxY)
         });
-        room.RandomSplit();
+        
+        partitionRunner.Run();
 
         List<Vector2> points = new List<Vector2>();
 
-        foreach (var rect in room.GetRects())
-        {
-            foreach(var p in rect.getPoints())
-            {
-                points.Add(p);
-            }
-        }
+        // foreach (var rect in partitionRunner.GetRects())
+        // {
+        //     foreach(var p in rect.getPoints())
+        //     {
+        //         points.Add(p);
+        //     }
+        // }
 
         mapRenderer.drawMap(points);
     }

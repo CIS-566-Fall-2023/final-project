@@ -1,71 +1,71 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using GraphBuilder;
+using Navigation;
 using UnityEngine;
 
 namespace BinaryPartition
 {
-    public class Divider : IComparable<Divider>
+    public class Divider
     {
-        private const float EdgeGap = 1;
-        private readonly bool isHorizontal;
-        public float AxisValue { get; }
-        private readonly float _start;
-        private readonly float _end;
-        private readonly List<Divider> _below = new();
-        private readonly List<Divider> _above = new();
-
-        public Divider(float axisValue, int parAxis, Rectangle rectangle)
+        private readonly PartitionRunner _partitionRunner;
+        private readonly Comparer<VertexId> _comparer;
+        public readonly VertexId Start;
+        public readonly VertexId End;
+        private readonly List<VertexId> _below = new();
+        private readonly List<VertexId> _above = new();
+        
+        public Divider(PartitionRunner partitionRunner, float axisValue, int parAxis, Rectangle rectangle)
         {
-            AxisValue = axisValue;
-            isHorizontal = parAxis == 0;
-            _start = rectangle.Min[parAxis];
-            _end = rectangle.Max[parAxis];
-        }
-
-        public void AddBelow(Divider divider)
-        {
-            _below.Add(divider);
-        }
-
-        public void AddAbove(Divider divider)
-        {
-            _above.Add(divider);
-        }
-
-        public IEnumerable<(Vector2, Vector2)> GetSegments()
-        {
-            var ax = AxisValue;
-            Func<float, Vector2> toPoint = isHorizontal ?
-                n => new Vector2(n, ax) :
-                n => new Vector2(ax, n);
-
-            List<Divider> incidentDividers = Utils.Merge(_above, _below);
+            _partitionRunner = partitionRunner;
             
-            if (incidentDividers.Count == 0)
+            if (parAxis == 0)
             {
-                return new[] {(toPoint(_start), toPoint(_end))};
+                Start = _partitionRunner.Builder.MakeVertex(new Vector2(rectangle.Min[parAxis], axisValue));
+                End = _partitionRunner.Builder.MakeVertex(new Vector2(rectangle.Max[parAxis], axisValue));
+            }
+            else
+            {
+                Start = _partitionRunner.Builder.MakeVertex(new Vector2(axisValue, rectangle.Min[parAxis]));
+                End = _partitionRunner.Builder.MakeVertex(new Vector2(axisValue, rectangle.Max[parAxis]));
+            }
+
+            _comparer = Comparer<VertexId>.Create( (a, b) => 
+                _partitionRunner.Builder.GetPosition(a)[parAxis]
+                    .CompareTo(_partitionRunner.Builder.GetPosition(b)[parAxis]));
+            
+            _partitionRunner.AddDivider(this);
+        }
+
+        public void AddBelow(VertexId vertex)
+        {
+            _below.Add(vertex);
+        }
+
+        public void AddAbove(VertexId vertex)
+        {
+            _above.Add(vertex);
+        }
+
+        public void MakeEdges()
+        {
+            var incidentVertices = Utils.Merge(_above, _below, _comparer);
+            
+            if (incidentVertices.Count == 0)
+            {
+                _partitionRunner.Builder.MakeEdge(Start, End, EdgeTag.Hallway);
+                return;
             }
 
             var segStarts =
-                new[] {_start}
-                    .Concat(incidentDividers.Select(divider => divider.AxisValue))
-                    .Select(v => v + EdgeGap);
-
+                new[] {Start} .Concat(incidentVertices);
+            
             var segEnds =
-                incidentDividers.Select(divider => divider.AxisValue)
-                    .Concat(new[] {_end})
-                    .Select(v => v).ToList();
+                incidentVertices.Concat(new[] { End });
 
-            var segments = segStarts.Zip(segEnds,
-                (a, b) => (toPoint(a + EdgeGap), toPoint(b - EdgeGap)));
-
-            return incidentDividers.Aggregate(segments,
-                (current, divider) => current.Concat(divider.GetSegments()));
-        }
-        public int CompareTo(Divider other)
-        {
-            return AxisValue.CompareTo(other.AxisValue);
+            foreach (var _ in segStarts.Zip(segEnds, (u, v) => 
+                         _partitionRunner.Builder.MakeEdge(u, v, EdgeTag.Hallway)))
+            { }
         }
     }
 }

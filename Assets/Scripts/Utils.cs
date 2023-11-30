@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 public class Utils
 {
-    public static List<T> Merge<T>(List<T> leftList, List<T> rightList) where T : IComparable<T>
+    public static List<T> Merge<T>(List<T> leftList, List<T> rightList, Comparer<T> comp)
     {
         int i = 0, j = 0;
         List<T> list = new();
 
         while (i < leftList.Count && j < rightList.Count)
         {
-            if (leftList[i].CompareTo(rightList[j]) <= 0)
+            if (comp.Compare(leftList[i], rightList[j]) <= 0)
             {
                 list.Add(leftList[i]);
                 i++;

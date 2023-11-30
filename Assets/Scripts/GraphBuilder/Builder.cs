@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using Geom;
 using Navigation;
 using UnityEngine;
@@ -13,9 +11,7 @@ namespace GraphBuilder
         public struct BEdge
         {
             public EdgeInfo EdgeInfo;
-            public int FromVertex { get; private set; }
-            public bool Navigable { get;}
-
+            public int FromVertex { get; }
             public int ToVertex 
             { 
                 get => EdgeInfo.ToVertex;
@@ -31,30 +27,15 @@ namespace GraphBuilder
                 private set => EdgeInfo.Tag = value; 
             }
 
-            public BEdge(int fromVertex, int toVertex, bool navigable, EdgeTag tag, ICurve curve)
+            public BEdge(int fromVertex, int toVertex, EdgeTag tag, ICurve curve)
             {
                 FromVertex = fromVertex;
-                Navigable = navigable;
                 EdgeInfo = new EdgeInfo(toVertex, curve, tag);
             }
 
-            private BEdge Clone()
+            public BEdge Reverse()
             {
-                return new BEdge(FromVertex, ToVertex, Navigable, Tag, Curve);
-            }
-
-            public (Vector2, BEdge) Split(float t, int midVertex)
-            {
-                var other = Clone();
-                var (leftCurve, midPoint, rightCurve) = Curve.Split(t);
-
-                Curve = leftCurve;
-                ToVertex = midVertex;
-
-                other.Curve = rightCurve;
-                other.FromVertex = midVertex;
-
-                return (midPoint, other);
+                return new BEdge(ToVertex, FromVertex, Tag, Curve.Reverse());
             }
         }
         
@@ -63,6 +44,14 @@ namespace GraphBuilder
         private int _vertCount = 0;
         private int _edgeCount = 0;
 
+        public Builder()
+        {
+        }
+
+        public VertexId MakeVertex(Vector2 point, VertexTag vertexTag = VertexTag.None)
+        {
+            return MakeVertex(new VertexInfo(new PointRegion(point), vertexTag));
+        }
         public VertexId MakeVertex(VertexInfo vertexInfo)
         {
             _vertexInfos.Add(vertexInfo);
@@ -79,16 +68,16 @@ namespace GraphBuilder
             _edges.Add(edge);
             return new EdgeId(_edgeCount++);
         }
-
-        public EdgeId MakeEdge(VertexId fromVertexId, VertexId toVertexId, bool navigable, EdgeTag tag, ICurve curve)
+        
+        public EdgeId MakeEdge(VertexId fromVertexId, VertexId toVertexId, EdgeTag tag, ICurve curve)
         {
-            return AddEdge(new BEdge(fromVertexId.Id, toVertexId.Id, navigable, tag, curve));
+            return AddEdge(new BEdge(fromVertexId.Id, toVertexId.Id, tag, curve));
         }
         
-        public EdgeId MakeEdge(VertexId fromVertexId, VertexId toVertexId, bool navigable, EdgeTag tag)
+        public EdgeId MakeEdge(VertexId fromVertexId, VertexId toVertexId, EdgeTag tag)
         {
             var curve = new LineCurve(GetPosition(fromVertexId), GetPosition(toVertexId));
-            return AddEdge(new BEdge(fromVertexId.Id, toVertexId.Id, navigable, tag, curve));
+            return AddEdge(new BEdge(fromVertexId.Id, toVertexId.Id, tag, curve));
         }
 
         public VertexId GetFromVertex(EdgeId edgeId)
@@ -105,22 +94,7 @@ namespace GraphBuilder
         {
             return _edges[edgeId.Id].Curve;
         }
-
-        public (EdgeId, VertexId, EdgeId) SplitEdge(EdgeId edgeId, float t, VertexTag vertexTag = VertexTag.None)
-        {
-            VertexInfo vertexInfo = new VertexInfo
-            {
-                tag = vertexTag
-            };
-            var vertexId = MakeVertex(vertexInfo);
-            
-            var (point, newEdge) = _edges[edgeId.Id].Split(t, vertexId.Id);
-            var newEdgeId = AddEdge(newEdge);
-            vertexInfo.region = new PointRegion(point);
-
-            return (edgeId, vertexId, newEdgeId);
-        }
-
+        
         public Graph ToGraph()
         {
             List<List<EdgeInfo>> adjList = new();
@@ -128,9 +102,11 @@ namespace GraphBuilder
             {
                 adjList.Add(new List<EdgeInfo>());
             }
-            foreach (var edge in _edges.Where(edge => edge.Navigable))
+            foreach (var edge in _edges)
             {
                 adjList[edge.FromVertex].Add(edge.EdgeInfo);
+                var reversed = edge.Reverse();
+                adjList[reversed.FromVertex].Add(reversed.EdgeInfo);
             }
 
             return new Graph(adjList, _vertexInfos);

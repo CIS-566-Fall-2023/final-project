@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using BinaryPartition;
+using Geom;
+using GraphBuilder;
+using Navigation;
 using UnityEngine;
 
 namespace MyDebug
@@ -13,20 +16,36 @@ namespace MyDebug
         void Start()
         {
             Debug.Log("Running Debug Renderer");
-            BinaryRoom room = new BinaryRoom(new Rectangle
+            Builder builder = new();
+            
+            PartitionRunner runner = new PartitionRunner(builder, new Rectangle
             {
                 Min = new Vector2(-100, -50), Max = new Vector2(100, 50)
             });
-            room.RandomSplit();
-            foreach (var rect in room.GetRects())
+            runner.Run();
+
+            var navGraph = runner.Builder.ToGraph();
+
+            foreach (var curve in navGraph.Curves())
             {
-                _drawables.Add(new DebugRect {Rectangle = rect, Color = Color.blue});
+                var lineCurve = (LineCurve) curve;
+                _drawables.Add(new DebugSegment() {P0 = lineCurve.P0, P1 = lineCurve.P1, Color = Color.green});
             }
 
-            foreach (var (a, b) in room.SplitDivider.GetSegments())
+            foreach (var rectangle in navGraph.Rectangles())
             {
-                _drawables.Add(new DebugSegment { P0 = a, P1 = b , Color = Color.green});
+                _drawables.Add(new DebugRect {Rectangle = rectangle, Color = Color.blue});
             }
+
+            // foreach (var divider in runner.Dividers)
+            // {
+            //     foreach (var edgeId in divider.GetEdges())
+            //     {
+            //         var lineCurve = (LineCurve) runner.Builder.GetCurve(edgeId);
+            //         _drawables.Add(new DebugSegment() {P0 = lineCurve.P0, P1 = lineCurve.P1, Color = Color.green});
+            //     }
+            // }
+
         }
 
         // Update is called once per frame
