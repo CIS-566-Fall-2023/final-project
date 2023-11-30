@@ -1,5 +1,30 @@
 # Final Project: Waterfall Particle Simulation
 
+## Final Results
+[LIVE DEMO](https://kyrasclark.github.io/final-project/)!
+
+VIDEO DEMO with EXPLANATION: 
+
+In this project, I made a GPU-based particle simulation. This project is a fully physically-based particle sim with collisions all on the GPU. The particles work with transform feedback shaders, instanced rendering, and billboards, and the obstacles work with frame buffers and textures. This allows for the full system to work highly efficiently in linear time. 
+
+The user has the following controls that allow them to control the system: 
+* Particle Color
+* Number of Particles
+* Size of the Particles
+* Size of the Obstacle
+* Shape of the Obstacle (star or circle)
+* Visibility of the Obstacles
+* Camera control
+* Gravity control
+* Wind control (with noise option)
+* Control over the generation of the particles (with FBM noise, amplitude and frequency, allowing for control over where the particles stream into the scene) 
+
+
+## Post Mortem
+Overall, I think the project went very well. The technical achievements that I learned were far more than I expected. My experience and skills with GPU programming and techniques are far more extensive than I expected going into this project. I learned a ton! And, I think it turned out very successful. Not, only did I accomplish all of my set goals, but I even did more than expected. The additional features of wind, noisy wind, and changing the obstacle shape and reflecting along the obstacle normal were all achievements I did not expect and budget for. Finally, on top of successfully making a particle sim, I also made a fast particle sim. Because it is all based on the GPU, and the obstacles work via a texture, collision detection and physical simulation all happen in linear time. The only pivots that I did not expect, honestly, were how complicated and technical this project ended up being. When I first started this project, I was imagining a particle sim, like the ones I worked on in other classes, not realizing those were all based on the CPU. The challenge of how to figure out how to do this on the GPU was far more complicated and outside of my comfort zone than I initially expected. You can see this change in how my design figure looked below vs. what it actually ended up as in the video explanation above. Nonetheless, I did it and I'm very proud of what I was able to produce. 
+
+-----------------------------------------------------------------------
+
 ### Design Doc
 
 #### Introduction
@@ -121,8 +146,6 @@ Now, we're just missing collisions! First, I added the obstacle position and obs
 However, as you might notice in the image below there is a slight positioning bug. Going over my code with a fine-tooth comb, I realized I accidentally wrote vs_Pos.yx instead of vs_Pos.xy. The biggest bugs always have the smallest solutions. Oh well! Now! We have our Milestone 2 final product, now with obstacles and collision physics!!! Next up, polishing user controls and customization over particle generation.
 ![m2_done](https://github.com/kyraSclark/final-project/assets/60115638/72c5f4af-9e3a-4164-bf66-e81703726944)
 
-[live demo](https://kyrasclark.github.io/final-project/)!
-
 ## Final submission (due 12/5)
 The final milestone of my project was focused on polishing, debugging, and implementing significantly more customizable features to the scene. Below are the features added during this stage: 
 
@@ -151,10 +174,3 @@ The final milestone of my project was focused on polishing, debugging, and imple
 * To further show off the obstacle normal feature and increase customization, I added a feature that allows the user to draw obstacles as stars, rather than circles. You can see the shape of the star as the particles accumulate around it and bounce of the normals more clearly. I built this using an SDF function for a star, which was in the obstacle-add-to-buf shader, so the correct area of the star can be defined. If I had more time with this project, I could've added more different shapes or perhaps a way for the user to define their own obstacle shape. However, at least with just this star, we have a proof of concept for how we could implement the rest in future work. 
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/61985f88-77df-4556-a3ae-4f70c46fda92)
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/e613a854-258d-4888-b111-daa07b7bc76d)
-
-Submission:
-- Push all your code / files to your repository
-- Come to class ready to present your finished project
-- Update your README with two sections 
-  - final results with images and a live demo if possible
-  - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
