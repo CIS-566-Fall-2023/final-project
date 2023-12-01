@@ -3,7 +3,7 @@
 ## Final Results
 [LIVE DEMO](https://kyrasclark.github.io/final-project/)!
 
-VIDEO DEMO with EXPLANATION: 
+[![VIDEO DEMO with EXPLANATION](https://img.youtube.com/vi/M4C0wWzezeI/0.jpg)](https://www.youtube.com/watch?v=M4C0wWzezeI)
 
 In this project, I made a GPU-based particle simulation. This project is a fully physically-based particle sim with collisions all on the GPU. The particles work with transform feedback shaders, instanced rendering, and billboards, and the obstacles work with frame buffers and textures. This allows for the full system to work highly efficiently in linear time. 
 
