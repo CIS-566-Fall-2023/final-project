@@ -7,11 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: corner_pipes 2
+  m_Name: corner_pipe 1
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _METALLICSPECGLOSSMAP
   - _NORMALMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -26,9 +27,9 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: b83cd04fd3669764388c0ad4cc89e7e2, type: 3}
-        m_Scale: {x: 0, y: 0.1}
-        m_Offset: {x: 0.36, y: 0.72}
+        m_Texture: {fileID: 2800000, guid: 36e230021ed8fe14db996b08f772bf46, type: 3}
+        m_Scale: {x: 1, y: 250}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: b7b37af03466cb9499d0037d2462efea, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -50,11 +51,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 0, y: 0.1}
-        m_Offset: {x: 0.36, y: 0.72}
+        m_Texture: {fileID: 2800000, guid: 36e230021ed8fe14db996b08f772bf46, type: 3}
+        m_Scale: {x: 1, y: 250}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: d8b7271fec101a84abbc668382536813, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2e2626dfb666f0e4ea6c86ce636d6afe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
