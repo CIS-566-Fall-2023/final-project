@@ -20,10 +20,12 @@ The user has the following controls that allow them to control the system:
 * Control over the generation of the particles (with FBM noise, amplitude and frequency, allowing for control over where the particles stream into the scene) 
 
 ## Photos
-![image](https://github.com/kyraSclark/final-project/assets/60115638/72fc4393-18ca-4453-9597-5b2b8947bcca)
-![image](https://github.com/kyraSclark/final-project/assets/60115638/32e0ad83-40ed-478d-b879-e4d2df6264b0)
-![image](https://github.com/kyraSclark/final-project/assets/60115638/cbae3b71-5ed5-402e-9d71-ed513896225e)
-![image](https://github.com/kyraSclark/final-project/assets/60115638/933b8797-9942-4cc0-af82-1276645e0514)
+![Waterfall
+](https://github.com/kyraSclark/final-project/assets/60115638/72fc4393-18ca-4453-9597-5b2b8947bcca)
+![Snowstorm](https://github.com/kyraSclark/final-project/assets/60115638/32e0ad83-40ed-478d-b879-e4d2df6264b0)
+![Waterfall with large obstacles](https://github.com/kyraSclark/final-project/assets/60115638/cbae3b71-5ed5-402e-9d71-ed513896225e)
+![Heart with 0 gravity](https://github.com/kyraSclark/final-project/assets/60115638/27993348-1fe7-4339-b407-560a5df35580)
+![Star obstacles of different sizes](https://github.com/kyraSclark/final-project/assets/60115638/933b8797-9942-4cc0-af82-1276645e0514)
 
 ## Post Mortem
 Overall, I think the project went very well. The technical achievements that I learned were far more than I expected. My experience and skills with GPU programming and techniques are far more extensive than I expected going into this project. I learned a ton! And, I think it turned out very successful. Not, only did I accomplish all of my set goals, but I even did more than expected. The additional features of wind, noisy wind, and changing the obstacle shape and reflecting along the obstacle normal were all achievements I did not expect and budget for. Finally, on top of successfully making a particle sim, I also made a fast particle sim. Because it is all based on the GPU, and the obstacles work via a texture, collision detection and physical simulation all happen in linear time. The only pivots that I did not expect, honestly, were how complicated and technical this project ended up being. When I first started this project, I was imagining a particle sim, like the ones I worked on in other classes, not realizing those were all based on the CPU. The challenge of how to figure out how to do this on the GPU was far more complicated and outside of my comfort zone than I initially expected. You can see this change in how my design figure looked below vs. what it actually ended up as in the video explanation above. Nonetheless, I did it and I'm very proud of what I was able to produce. 
@@ -47,7 +49,6 @@ In this project, I hope to use this opportunity to expand my skills in procedura
 - I am inspired by former student Chloe Le, and [her implementation](https://github.com/chloele33/particle-waterfall). Not only do I intend to implement something similar to her version, but I also hope to extend her implementation to include a more procedural and customizable generation of water initially. Below are some reference images from her implementation:
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/2d987c78-3554-4b4a-a3cd-7e3659222c9a)
 ![image](https://github.com/kyraSclark/final-project/assets/60115638/e2e78f57-f1ee-4cb0-85cc-ec590d733526)
-![image](https://github.com/kyraSclark/final-project/assets/60115638/27993348-1fe7-4339-b407-560a5df35580)
 
 
 #### Specification:
