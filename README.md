@@ -20,12 +20,17 @@ The user has the following controls that allow them to control the system:
 * Control over the generation of the particles (with FBM noise, amplitude and frequency, allowing for control over where the particles stream into the scene) 
 
 ## Photos
-![Waterfall
-](https://github.com/kyraSclark/final-project/assets/60115638/72fc4393-18ca-4453-9597-5b2b8947bcca)
+![Waterfall](https://github.com/kyraSclark/final-project/assets/60115638/72fc4393-18ca-4453-9597-5b2b8947bcca)
+Waterfall
 ![Snowstorm](https://github.com/kyraSclark/final-project/assets/60115638/32e0ad83-40ed-478d-b879-e4d2df6264b0)
+Snowstorm
 ![Waterfall with large obstacles](https://github.com/kyraSclark/final-project/assets/60115638/cbae3b71-5ed5-402e-9d71-ed513896225e)
-![Heart with 0 gravity](https://github.com/kyraSclark/final-project/assets/60115638/27993348-1fe7-4339-b407-560a5df35580)
-![Star obstacles of different sizes](https://github.com/kyraSclark/final-project/assets/60115638/933b8797-9942-4cc0-af82-1276645e0514)
+Waterfalls with large obstacles
+![Star obstacles of different sizes](https://github.com/kyraSclark/final-project/assets/60115638/27993348-1fe7-4339-b407-560a5df35580)
+Star obstacles of different sizes
+![Heart with 0 gravity](https://github.com/kyraSclark/final-project/assets/60115638/933b8797-9942-4cc0-af82-1276645e0514)
+Heart with 0 gravity
+
 
 ## Post Mortem
 Overall, I think the project went very well. The technical achievements that I learned were far more than I expected. My experience and skills with GPU programming and techniques are far more extensive than I expected going into this project. I learned a ton! And, I think it turned out very successful. Not, only did I accomplish all of my set goals, but I even did more than expected. The additional features of wind, noisy wind, and changing the obstacle shape and reflecting along the obstacle normal were all achievements I did not expect and budget for. Finally, on top of successfully making a particle sim, I also made a fast particle sim. Because it is all based on the GPU, and the obstacles work via a texture, collision detection and physical simulation all happen in linear time. The only pivots that I did not expect, honestly, were how complicated and technical this project ended up being. When I first started this project, I was imagining a particle sim, like the ones I worked on in other classes, not realizing those were all based on the CPU. The challenge of how to figure out how to do this on the GPU was far more complicated and outside of my comfort zone than I initially expected. You can see this change in how my design figure looked below vs. what it actually ended up as in the video explanation above. Nonetheless, I did it and I'm very proud of what I was able to produce. 
