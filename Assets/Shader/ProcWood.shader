@@ -10,6 +10,7 @@ Shader "Unlit/ProcWood"
         _MaxRadius("Max Radius", Float) = 1
         _KnotCount("Knot count", Float) = 1
         _ColorMap("Color Map", 2D) = "white" {}
+        _NormalMap("Normal Map", 2D) = "white" {}
         _HeightMap("Height Map", 2D) = "white" {}
         _OrientationMap("Orientation Map", 2D) = "white" {}
         _StateMap("State Map", 2D) = "white" {}
@@ -100,6 +101,13 @@ Shader "Unlit/ProcWood"
 
             float4 permute(float4 x) {
                 return mod289((x * 34.0 + 1.0) * x);
+            }
+
+            void CoordinateSystem(in float3 normal, out float3 tangent, out float3 bitangent)
+            {
+            	float3 up = abs(normal.z) < 0.999f ? float3(0.f, 0.f, 1.f) : float3(1.f, 0.f, 0.f);
+            	tangent = normalize(cross(up, normal));
+            	bitangent = cross(normal, tangent);
             }
 
             float4 fastInvSqrt(float4 x) {
@@ -235,9 +243,10 @@ Shader "Unlit/ProcWood"
             }
 
             void WoodTexture_float(
-                sampler2D colorMap, sampler2D heightMap, sampler2D orientationMap, sampler2D stateMap, 
-                uint numKnots, float3 position, float localMaxRadius, float horizontalDistance, float timeValue, float zRatio, float2 distanceRange,
-                out float3 color
+                sampler2D colorMap, sampler2D heightMap, sampler2D orientationMap, sampler2D stateMap, sampler2D normalMap,
+                uint numKnots, float3 position, float3 normal, 
+                float localMaxRadius, float horizontalDistance, float timeValue, float zRatio, float2 distanceRange,
+                out float3 color, out float3 nor
             ) {
                 float skeletonDistances[MaxKnotCount];
                 float timeValues[MaxKnotCount];
@@ -386,13 +395,35 @@ Shader "Unlit/ProcWood"
                 color -= g * knotColor;
                 color -= g * clamp(3 * deadColorFactor, 0.0, 0.5) * knotColor;
                 color *= deadOutlineFactor;
+
+                // normal
+                float3 normal_rgb = tex2D(normalMap, float2(combinedTime, 0.5)).rgb;
+                float gg = 2.f * clamp(timeValue - minTime + 0.3, 0.f, 1.f);
+                float xlen = (1.f - gg) * (1.f * normal_rgb.x - 1.f);
+                float zlen = abs(2.f * normal_rgb.z - 1.f);
+                float3 tangent;
+                float3 bitangent;
+                CoordinateSystem(normal, tangent, bitangent);
+
+                nor = normalize(xlen * tangent + zlen * normal);
             }
 
+            
+
+            void GetNormal(in sampler2D normalMap, in float3 normal, in float2 uv, out float3 nor)
+            {
+                nor = tex2D(normalMap, uv).rgb;
+                float3 tangent;
+                float3 bitangent;
+                CoordinateSystem(normal, tangent, bitangent);
+                nor = normalize(nor.x * tangent + nor.y * bitangent + nor.z * normal);
+            }
 
             struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
             };
 
             struct v2f
@@ -401,6 +432,7 @@ Shader "Unlit/ProcWood"
                 UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
                 float3 wPos: TEXCOORD1;
+                float3 normal : NORMAL;
             };
 
             sampler2D _MainTex;
@@ -412,6 +444,10 @@ Shader "Unlit/ProcWood"
             float _KnotCount;
             sampler2D _ColorMap;
             float4 GET_TEXELSIZE(_ColorMap);
+
+            sampler2D _NormalMap;
+            float4 GET_TEXELSIZE(_NormalMap);
+            
             sampler2D _HeightMap;
             float4 GET_TEXELSIZE(_HeightMap);
             sampler2D _OrientationMap;
@@ -429,6 +465,7 @@ Shader "Unlit/ProcWood"
                 o.wPos = mul(_ParentWorldToLocal,mul(unity_ObjectToWorld, v.vertex)).xyz;
                 //o.wPos = mul(_ParentWorldToLocal, v.vertex).xyz;
                 o.uv = v.uv;//TRANSFORM_TEX(v.uv, _MainTex);
+                o.normal = UnityObjectToWorldNormal(v.normal);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
@@ -451,11 +488,17 @@ Shader "Unlit/ProcWood"
                 DistanceRange_float(horizontalDistance,distanceRange);
 
                 float3 col;
-                WoodTexture_float(_ColorMap,_HeightMap,_OrientationMap,_StateMap,
-                _KnotCount,outPos,localMaxRadius,horizontalDistance,timeValue,zRatio,distanceRange,
-                col);
+                float3 nor;
+                WoodTexture_float(_ColorMap,_HeightMap,_OrientationMap,_StateMap, _NormalMap,
+                _KnotCount,outPos, i.normal,
+                localMaxRadius,horizontalDistance,timeValue,zRatio,distanceRange,
+                col, nor);
 
                 fixed4 color = fixed4(col,1);//tex2D(_MainTex, i.uv);
+                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                //color = fixed4(nor * 0.5 + 0.5,1);
+                // lambert
+                color *= clamp(dot(lightDir, nor), 0.1f, 1.f);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, color);
                 return color;
