@@ -252,6 +252,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2916780792218109933}
     m_Modifications:
+    - target: {fileID: 1405399204172470110, guid: cbd86f98b0587e9469ad0734d2ff8dd7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: db6416f6d7504814193612ec17364320, type: 2}
     - target: {fileID: 6918524913009561237, guid: cbd86f98b0587e9469ad0734d2ff8dd7, type: 3}
       propertyPath: m_Name
       value: concaveCornerWall
@@ -307,6 +311,26 @@ PrefabInstance:
     - target: {fileID: 7730527081763722287, guid: cbd86f98b0587e9469ad0734d2ff8dd7, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991750027847560272, guid: cbd86f98b0587e9469ad0734d2ff8dd7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991750027847560272, guid: cbd86f98b0587e9469ad0734d2ff8dd7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991750027847560272, guid: cbd86f98b0587e9469ad0734d2ff8dd7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991750027847560272, guid: cbd86f98b0587e9469ad0734d2ff8dd7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991750027847560272, guid: cbd86f98b0587e9469ad0734d2ff8dd7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
