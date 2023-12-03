@@ -1,45 +1,132 @@
-# Final Project!
-
-This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
-
-## Project planning: Design Doc (due 11/8)
-Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
+# Islamic Geometric Wood Carving Tool
+Aboudi Rai
 
 ### Design Doc
-Start off by forking this repository. In your README, write a design doc to outline your project goals and implementation plan. It must include the following sections:
 
 #### Introduction
-- What motivates your project?
+Islam rose in 7th century Arabia as a stark refutation to the idol-worshipping pagans who
+ dominated the region economically, politically, and in their sheer number. Having belief in one God
+ for whom no manmade idol could represent, the Muslims, upon successful disemination of their
+ religion and beliefs across the peninsula, haulted all art depicting living beings. In its stead,
+ a new form of art was championed &ndash; one that still captured a beautiful aspect of God's
+ creation that may not have been breathing, but was very much alive: geometry.
+
 
 #### Goal
-- What do you intend to achieve with this project?
+Through this project, I aim to create a Houdini node that can produced the complex
+geometric patterns that are essential to so many pieces of Islamic art. Harnessing the power of a
+procedural system, I hope to add a dynamic element onto the baseline patterns by animating the
+patterns, either within a single pattern's context, or perhaps even animating between different
+patterns.
+
+To maintain the craftsmanship that is so essential to the appreciation of these
+decorative wooden arches, carpets, and architectural structures, the tool will be applied to wooden
+slabs.
+
+Although this project is not intended to culminate in a single polished scene to show for, I plan to
+situate multiple wooden arches and slabs with disparate shapes together in a simple scene &ndash;
+perhaps a small room with a Islamic carpet.
+
 
 #### Inspiration/reference:
-- You must have some form of reference material for your final project. Your reference may be a research paper, a blog post, some artwork, a video, another class at Penn, etc.  
-- Include in your design doc links to and images of your reference material.
+
+Reference #1:
+
+![](img/ref-wooden-arches.png)
+[Source](https://www.etsy.com/listing/1467150352/set-of-decorative-arches-islamic-arabic?gpla=1&gao=1&&utm_source=google&utm_medium=cpc&utm_campaign=shopping_us_d-craft_supplies_and_tools-patterns_and_how_to-patterns_and_blueprints&utm_custom1=_k_CjwKCAjwkY2qBhBDEiwAoQXK5e3zWAU40x-ESz_xxUsEbw_pSet9z7k0Me79Zgcc4MTAHoWqSTIgJRoCcxAQAvD_BwE_k_&utm_content=go_2063558056_76452866095_367965825024_pla-322726483858_c__1467150352_12768591&utm_custom2=2063558056&gclid=CjwKCAjwkY2qBhBDEiwAoQXK5e3zWAU40x-ESz_xxUsEbw_pSet9z7k0Me79Zgcc4MTAHoWqSTIgJRoCcxAQAvD_BwE)
+
+Reference #2:
+
+![](img/ref-wooden-pieces.png)
+[Source](https://www.etsy.com/listing/1365553332/set-vector-arches-dxf-eps-svg-ai-pdf-png?click_key=567e1af9aaf9f8ea4ad89f283786370ebc24bdfd%3A1365553332&click_sum=7c5186a7&external=1&rec_type=ss&ref=pla_similar_listing_top-1&sts=1)
+
+Reference #3:
+
+![](img/ref-pattern-0.jpg)
+[Source](https://www.alamy.com/seamless-geometric-ornament-based-on-traditional-arabic-art-muslim-mosaicblack-lines-and-white-backgroundgreat-design-for-fabrictextilecoverwrap-image339544071.html)
 
 #### Specification:
-- Outline the main features of your project.
+
+The project will be a Houdini node that will take geometry as its input, and cut from it the
+specified geometric pattern. The geometry will be specified by a node parameter that the user will
+have to set themselves. I will be developing the node with the assumption that simple wooden
+slab-like geometry is being input into the node, and so not all geometry will result in the desired output.
+
+The user will have control over:
+  1. the pattern type
+  2. the scale of the pattern within the object
+  3. whether the object is animating 
+  4. animation speed
+  5. pattern fade
+      - the user can select two patterns, and the node will cyclicly interpolate back and forth
+        between the two different patterns.
 
 #### Techniques:
-- What are the main technical/algorithmic tools you’ll be using? Give an overview, citing specific papers/articles.
+
+- L-Systems
+  - [The Algorithmic Beauty of Plants - Aristid
+    Lindemayer](http://algorithmicbotany.org/papers/abop/abop.pdf)
+  - [L-System Tutorial](https://www.youtube.com/watch?v=CgxTCpUqp5Q)
+  - [L-System User Notes - Paul Bourke](https://paulbourke.net/fractals/lsys/)
+  - [Houdini L-System
+    Docs](https://www.sidefx.com/docs/houdini/nodes/sop/lsystem.html#use-modeled-geometry-in-an-l-system)
+  - [Generating Trees and Other Interesting Shapes With L-Systems](https://gpfault.net/posts/generating-trees.txt.html)
+- Greedy algorithm (similar to one used in lego project):
+    to fill up the volume of the input object with the pattern cutouts.
+    - [CIS 5660 HW3](https://github.com/CIS-566-Fall-2023/hw03-legos)
+- Noise to generate the paths and shapes of the patterns
+  - CIS 5660 notes
+  - [Book of Shaders](https://thebookofshaders.com/11/)
+  - It will be deterministic, so the patterns maintain their intended look which I will be curating
+- Interpolation between two patterns during animation
+  - Need to lerp one set of points (the source cutout) to another set (the destination cutout)
+  - [Related Object Morph Houdini Tutorial](https://www.youtube.com/watch?v=8LsI2ARFv04)
 
 #### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+
+![](img/readme-fbd-0.jpeg)
 
 #### Timeline:
-- Create a week-by-week set of milestones for each person in your group. Make sure you explicitly outline what each group member's duties will be.
 
-Submit your Design doc as usual via pull request against this repository.
-## Milestone 1: Implementation part 1 (due 11/15)
-Begin implementing your engine! Don't worry too much about polish or parameter tuning -- this week is about getting together the bulk of your generator implemented. By the end of the week, even if your visuals are crude, the majority of your generator's functionality should be done.
+[11/8 &rarr; 11/15] 
+- [ ] Create Houdini node that fills a input geometry (rectangluar slab) with a basic LSystem design
+  in the form of a cutout.
+- [ ] Write LSystem grammars for two of the patterns from Reference #1 above
+- [ ] Implement animation loop for individual pattern selections
 
-Put all your code in your forked repository.
+[11/15 &rarr; 11/22] 
+- [ ] Implement the interpolation between two patterns
+- [ ] Implement UI in the node that allows user to select two patterns to interpolate between
+- [ ] Add more pattern options
 
-Submission: Add a new section to your README titled: Milestone #1, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what's giving you trouble?
-- Examples of your generators output so far
-We'll check your repository for updates. No need to create a new pull request.
+[11/22 &rarr; 11/27] 
+- [ ] Create simple scene to display node's output
+    - As stated in the Goal section, creating a user-facing node is the goal of the project,
+      however, in order to display the capability of the node, I will be making a low-fidelity scene
+      for demonstration purposes.
+- [ ] Add more pattern options
+- [ ] In order to enhance the effect of being carved, add some fine noise to the cutout to mimic the
+  imperfections of a hard-carved craft
+
+[11/27 &rarr; 12/5] 
+- [ ] Polish scene so that the final output can eloquently display the node's capabilities
+- [ ] Add any more patterns that haven't already been implemented
+- [ ] Clean up the node UI so it is user-friendly
+- [ ] Sort out any outstanding bugs
+
+### Milestone 1: Implementation part 1 (due 11/15)
+
+![](img/milestone1-pattern-0.jpeg)
+![](img/milestone1-lsystem-0.png)
+![](img/milestone1-lsystem-1.png)
+
+
+### Milestone 2: 
+
+![](img/node-interface-0.png)
+![](img/carved-0.png)
+
+
 ## Milestone 3: Implementation part 2 (due 11/27)
 We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
