@@ -1,3 +1,4 @@
+using Generation;
 using Geom;
 using GraphBuilder;
 using Navigation;
@@ -14,10 +15,12 @@ namespace BinaryPartition
         private readonly DividerBounds[] _dividers;
         private Rectangle _bigRect;
         private Rectangle _smallRect;
-        private readonly Builder _builder;
+        private readonly BuildingGenerator _generator;
         private readonly VertexId _roomVert;
 
-        public BlockRoom(DividerBounds[] dividers, Rectangle rectangle, Builder builder)
+        private Builder Builder => _generator.Builder;
+
+        public BlockRoom(DividerBounds[] dividers, Rectangle rectangle, BuildingGenerator generator)
         {
             _dividers = dividers;
             _bigRect = rectangle;
@@ -26,8 +29,8 @@ namespace BinaryPartition
                 Min = _bigRect.Min + Trim,
                 Max = _bigRect.Max - Trim,
             };
-            _builder = builder;
-            _roomVert = builder.MakeVertex(new VertexInfo(new RectangleRegion(_smallRect), VertexTag.Room));
+            _generator = generator;
+            _roomVert = generator.Builder.MakeVertex(new VertexInfo(new RectangleRegion(_smallRect), VertexTag.Room));
         }
 
         public void AddDoorways()
@@ -61,8 +64,8 @@ namespace BinaryPartition
                 [parAxis] = low ? _bigRect.Min[parAxis] : _bigRect.Max[parAxis],
                 [perpAxis] = val
             };
-            var vert = _builder.MakeVertex(position);
-            _builder.MakeEdge(vert, _roomVert, EdgeTag.Doorway, new LineCurve(position, new Vector2
+            var vert = Builder.MakeVertex(position);
+            Builder.MakeEdge(vert, _roomVert, EdgeTag.Doorway, new LineCurve(position, new Vector2
             {
                 [parAxis] = low ? _smallRect.Min[parAxis] : _bigRect.Max[parAxis],
                 [perpAxis] = val

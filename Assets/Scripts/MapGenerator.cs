@@ -20,16 +20,16 @@ public class MapGenerator : MonoBehaviour
     {
         Debug.Log("Running map generator...");
 
-        Builder builder = new Builder();
-        PartitionRunner partitionRunner = new PartitionRunner(builder, new Rectangle
-        {
-            Min = new Vector2(MinX, MinY),
-            Max = new Vector2(MaxX, MaxY)
-        });
-        
-        partitionRunner.Run();
-
-        List<Vector2> points = new List<Vector2>();
+        // Builder builder = new Builder();
+        // PartitionRunner partitionRunner = new PartitionRunner(builder, new Rectangle
+        // {
+        //     Min = new Vector2(MinX, MinY),
+        //     Max = new Vector2(MaxX, MaxY)
+        // });
+        //
+        // partitionRunner.Run();
+        //
+        // List<Vector2> points = new List<Vector2>();
 
         // foreach (var rect in room.GetRects())
         // {
@@ -45,7 +45,7 @@ public class MapGenerator : MonoBehaviour
         //     points.Add(b);
         // }
 
-        drawMap(points);
+        // drawMap(points);
     }
 
     public void setLineProperties(LineRenderer lineRenderer)

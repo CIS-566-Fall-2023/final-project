@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-using GraphBuilder;
+using Generation;
 
 namespace BinaryPartition
 {
     public class PartitionRunner
     {
         private readonly List<Divider> _dividers = new();
-        public readonly Builder Builder;
+        public readonly BuildingGenerator Generator;
         private readonly BinaryBlock _root;
 
-        public PartitionRunner(Builder builder, Rectangle rectangle)
+        public PartitionRunner(BuildingGenerator generator, Rectangle rectangle)
         {
-            Builder = builder;
+            Generator = generator;
             _root = new BinaryBlock(this, rectangle);
         }
 

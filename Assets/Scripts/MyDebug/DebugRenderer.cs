@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BinaryPartition;
+using Generation;
 using Geom;
 using GraphBuilder;
 using Navigation;
@@ -17,14 +18,11 @@ namespace MyDebug
         {
             Debug.Log("Running Debug Renderer");
             Builder builder = new();
-            
-            PartitionRunner runner = new PartitionRunner(builder, new Rectangle
-            {
-                Min = new Vector2(-100, -50), Max = new Vector2(100, 50)
-            });
-            runner.Run();
 
-            var navGraph = runner.Builder.ToGraph();
+            BuildingGenerator generator = new();
+            generator.GenerateBuilding();
+
+            var navGraph = generator.Builder.ToGraph();
 
             foreach (var curve in navGraph.Curves())
             {
