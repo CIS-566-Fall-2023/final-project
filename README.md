@@ -258,3 +258,4 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
 ### Resources:
 1. [Metal texture](https://seamless-pixels.blogspot.com/2012/09/free-seamless-metal-textures_28.html)
 2. [Yughues Free Metal Materials](https://assetstore.unity.com/packages/2d/textures-materials/metals/yughues-free-metal-materials-12949)
+3. [First Person Player Movement in Unity](https://youtu.be/f473C43s8nE?si=LNNxxxcT9IQ6WuGo)
