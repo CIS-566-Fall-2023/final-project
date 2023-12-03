@@ -1,0 +1,23 @@
+#stars and exes
+
+#e: inter-pair spacing
+#d: intra-pair spacing
+#j: odd pair vertical alignment offset
+#k: square turn length
+#m: 
+
+A=Z
+Z=[f(j)Y]+f(e)-[X]+f(e)-Z
+
+X=[L]+f(d)-[D]
+Y=[K]+f(d)-[J]
+
+B=F(m)+(b)F(c)-F(c)+(b)F(m)
+C=+(b)F(k)-F(k)+(b)
+E=F(m)-(b)F(c)+F(c)-(b)F(m)
+G=-(b)F(k)+F(k)-(b)
+
+D=EGD
+J=GBJ
+K=CEK
+L=BCL
