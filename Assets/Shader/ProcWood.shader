@@ -15,6 +15,8 @@ Shader "Unlit/ProcWood"
         _OrientationMap("Orientation Map", 2D) = "white" {}
         _StateMap("State Map", 2D) = "white" {}
         _PithRadiusMap("Pith Radius Map", 2D) = "white" {}
+        _WoodColor("WoodColor", Color) = (1, 1, 1, 1)
+        _Cube ("Cubemap", Cube) = "_Skybox" {}
         //_MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
@@ -457,6 +459,9 @@ Shader "Unlit/ProcWood"
             sampler2D _PithRadiusMap;
             float4 GET_TEXELSIZE(_PithRadiusMap);
             float4x4 _ParentWorldToLocal;
+            float4 _WoodColor;
+            
+            samplerCUBE _Cube;
 
             v2f vert (appdata v)
             {
@@ -494,7 +499,10 @@ Shader "Unlit/ProcWood"
                 localMaxRadius,horizontalDistance,timeValue,zRatio,distanceRange,
                 col, nor);
 
-                fixed4 color = fixed4(col,1);//tex2D(_MainTex, i.uv);
+                float3 worldReflection = reflect(-normalize(UnityWorldSpaceViewDir(outPos)), normalize(nor));
+                fixed4 cubemapColor = texCUBE(_Cube, worldReflection);
+
+                fixed4 color = fixed4(cubemapColor * col * _WoodColor.rgb,1);//tex2D(_MainTex, i.uv);
                 float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
                 //color = fixed4(nor * 0.5 + 0.5,1);
                 // lambert

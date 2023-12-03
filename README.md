@@ -84,3 +84,21 @@ In the milestone #2:
    1. Finish the key procdural wood texture algorithm that automatically generate diverse wood textures that are visually realistic and varied, with flexibility to adjust the positions, color, and size of knots.
    2. Finish the Branch representation, which support the knots adjustments.
    3. Allow texture to vary with respect to position in virtual trunk. We further developed this functions from milestone #1 to ensure texture can vary with respect to position in virtual trunk.
+
+### Final Version
+### Outcomes
+![](images/desk.png)
+
+|Lambert only |With environment map lighting|
+|:-------:|:--------:|
+|![](images/buddha.png)|![](images/buddha_2.png)|
+
+#### Live Demo
+<p align = "middle">
+   <img src = "images/milestone3_demo.gif">
+</p>
+
+#### Progress
+1. Finish normal mapping for wood texture with knots
+2. Unity Skybox and Image based lighting setup
+3. Final demo scene setup
