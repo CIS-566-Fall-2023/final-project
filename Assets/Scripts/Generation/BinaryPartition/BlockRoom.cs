@@ -1,3 +1,4 @@
+using System;
 using Generation;
 using Geom;
 using GraphBuilder;
@@ -9,8 +10,10 @@ namespace BinaryPartition
 {
     public class BlockRoom
     {
-        private static readonly Vector2 Trim = new(1, 1);
+        private const float Trim = 2;
+        private static readonly Vector2 TrimVec = new Vector2(Trim, Trim);
         private const float DoorMargin = 4;
+        private const float DoorSize = 2;
 
         private readonly DividerBounds[] _dividers;
         private Rectangle _bigRect;
@@ -26,58 +29,66 @@ namespace BinaryPartition
             _bigRect = rectangle;
             _smallRect = new Rectangle
             {
-                Min = _bigRect.Min + Trim,
-                Max = _bigRect.Max - Trim,
+                Min = _bigRect.Min + TrimVec,
+                Max = _bigRect.Max - TrimVec,
             };
             _generator = generator;
             _roomVert = generator.Builder.MakeVertex(new VertexInfo(new RectangleRegion(_smallRect), VertexTag.Room));
         }
 
-        public void AddDoorways()
+        public void MakeWallsAndDoors()
         {
-            foreach (var parAxis in new[] { 0, 1 })
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {
-                foreach (var low in new[] { true, false })
-                {
-                    if (Random.value <= 0.5)
-                    {
-                        AddDoorway(parAxis, low);
-                    }
-                }
+                MakeWall(direction);
             }
         }
 
-        private void AddDoorway(int parAxis, bool low)
+        private void MakeWall(Direction direction)
         {
-            var divider = low ? _dividers[parAxis].Low : _dividers[parAxis].High;
-            if (divider == null)
+            var divider = direction.GetDivider(_dividers);
+            var (low, high) = direction.GetRectangleSide(_smallRect);
+
+            if (divider == null || Random.value < 0.2)
             {
+                _generator.AddWall(new LineCurve(low, high));
                 return;
             }
-            var perpAxis = 1 - parAxis;
-            var val = Mathf.Lerp(
-                _smallRect.Min[perpAxis] + DoorMargin,
-                _smallRect.Max[perpAxis] - DoorMargin,
+            
+            var perp = direction.Perp().ToVector();
+            var doorPosition = Vector2.Lerp(
+                low + perp * DoorMargin,
+                high - perp * DoorMargin,
                 Random.value);
-            var position = new Vector2
-            {
-                [parAxis] = low ? _bigRect.Min[parAxis] : _bigRect.Max[parAxis],
-                [perpAxis] = val
-            };
-            var vert = Builder.MakeVertex(position);
-            Builder.MakeEdge(vert, _roomVert, EdgeTag.Doorway, new LineCurve(position, new Vector2
-            {
-                [parAxis] = low ? _smallRect.Min[parAxis] : _bigRect.Max[parAxis],
-                [perpAxis] = val
-            }));
+            
+            _generator.AddWall(new LineCurve(low, doorPosition - perp * DoorSize));
+            _generator.AddWall(new LineCurve(high, doorPosition + perp * DoorSize));
 
-            if (low)
+            var hallPosition = doorPosition + direction.ToVector() * Trim;
+            var hallVert = Builder.MakeVertex(hallPosition);
+            
+            Builder.MakeEdge(hallVert, _roomVert, EdgeTag.Doorway,
+                new LineCurve(
+                    hallPosition,
+                    doorPosition
+            ));
+
+            switch (direction)
             {
-                divider.AddBelow(vert);
-            }
-            else
-            {
-                divider.AddAbove(vert);
+                case Direction.North:
+                case Direction.East:
+                {
+                    divider.AddAbove(hallVert);
+                    break;
+                }
+                case Direction.South:
+                case Direction.West:
+                {
+                    divider.AddBelow(hallVert);
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
         }
     }

@@ -61,7 +61,7 @@ namespace BinaryPartition
             else
             {
                 var room = new BlockRoom(_dividers, _rectangle, _partitionRunner.Generator);
-                room.AddDoorways();
+                room.MakeWallsAndDoors();
             }
         }
 
