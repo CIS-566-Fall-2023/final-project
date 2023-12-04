@@ -9,9 +9,15 @@
 
 * [Milestone 1: Claire Lu, Ornamental Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
 
+* [Milestone 1: Diana OuYang, Mesh Slicing Tool V1]()
+
 * [Milestone 2: Yuhan Liu, Revamped Tool](https://github.com/yuhanliu-tech/final-project/blob/main/README.md#revamped-tool---yuhan-liu)
 
 * [Milestone 2: Claire Lu, Procedural Textures](https://github.com/yuhanliu-tech/final-project#procedural-materials--applying-textures---claire-lu)
+
+* [Milestone 2: Diana OuYang, Tweaks to Carousel Decorations]()
+
+* [Milestone 3: Diana OuYang, Mesh Slicing Variation]()
 
 # Milestone 2:
 
@@ -196,7 +202,7 @@ Next Steps:
 
 <img src="https://github.com/yuhanliu-tech/final-project/blob/main/wireframe.png" width="200" />
 
-* As my next steps, I'm excited to continue adding fine details, organizing the controller for my tool, and further cleaning up my network by organizing subnets. I really want to make a polished-looking tool, and hope to explore Houdini Digital Assets. 
+* As my next steps, I'm excited to continue adding fine details, organizing the controller for my tool, and further cleaning up my network by organizing subnets. I really want to make a polished-looking tool, and hope to explore Houdini Digital Assets.
 
 ## Procedural Ornament Tool - Claire Lu
 
@@ -250,6 +256,73 @@ My Process:
 
 * Using a chain node, we can repeat this pattern and place it along the circumference of our carousel. Below is an example of what this might look like with a basic sphere mesh.
 <img src = "https://github.com/yuhanliu-tech/final-project/assets/102630261/33f02ad7-63cd-40dd-a1af-6ce79446682f" width = "600" />
+
+## Procedural Mesh Slicer - Diana OuYang
+
+Overview: 
+
+* Goal: We need to place animal meshes around the carousel - but to sell the fact that the generated carousel is a handmade toy, the animals need to be stylized & simplified. 
+
+* The goal of this deliverable was to create a tool that could reliably slice a mesh into wooden panels.  
+
+ |![image](![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/d7b46ed2-b427-4d29-becc-49459bdd30ac))  | ![image](![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/0f2f1246-9a22-465d-b5b1-c255385e6a6a)) |
+|:--:|:--:|
+| *Input Mesh* | *Sliced Output* |
+
+* Breakdown of Tool: 
+    * Options that can be changed include the carousel height, radius, divisons (tent shape, horse count), and panels height.
+    * The user can also use ramps to customize the decorative topper and the main column.
+    * Toggles include outer columns, as well as a switch between horses that are suspended and horses that are grounded.
+    * To add some extra adjustment, I also added manual sliders for horse size and horse height, even though they are already decided by other variables like radius and divisions.
+    * Moving forwards, I hope to organize the parameters by carousel part, as well as add details while maintaining desirable outputs. 
+
+ <img src="https://github.com/yuhanliu-tech/final-project/blob/main/tool.png" width="400" />
+
+* I also animated the carousel by varying some parameters with the frame rate $F.
+
+ <img src="https://github.com/yuhanliu-tech/final-project/blob/main/animation.gif" width="200" />
+
+Process: 
+
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/network.png" width="400" />
+
+* I split the overall carousel into parts and worked on each one in subnetworks: Columns, Roof, Base, Music Box, Horses, and Integration. I'll discuss a few of the key implementation features below: 
+
+* Columns, Base
+
+   * The columns and base form the upper half of the carousel. They are the fundamental building blocks of the carousel, and their size determines how the rest of the pieces fit. Thus, I used two main variables, radius and divison, to track the size of base and the height of the columns. I used many MatchSize nodes in order to fit pieces in the carousel.
+ 
+* Roof
+
+    * The roof is composed of two parts, the panels and the center tent-like structure. I modified a tube for the panels. For the tent, I added a line with two bend nodes, one for a concave bend and one for a convex bend. The user can adjust the shape of the roof. The roof took some troubleshooting, as the tent needed to fit neatly inside the panels. However, I had to fiddle around with the MatchNodes, as my roof components were angled such that selecting min/max still produced intersections. 
+ 
+* Horses
+
+    * Poles: I created the twisted poles using a resampled line and two sweep nodes.
+    * Horses: The horses are split into two groups, even and odd numbered, as the two groups are offset from each other and move at different heights. The size of the horses are determined by how many there are, which is in turn determined by the number of divisions. 
+    * I took the outline from my carousel base to determine where the horses should be placed, using copy to points and orient along curve nodes to point them in the circular direction.
+    * I then had to perform bounding tests so that their poles would not stick out of the mesh during the animation. I ended up using a clip node for this.
+    * There are two types of horses that require different placement: grounded horses and suspended horses. 
+
+* Integration
+
+    * I integrated my teammates milestone projects into my own in order to create the assembled carousel.
+    * I first imported Diana's sliced wooden horse mesh as an FBX. I decided not to use the HIP file because of input mesh dependencies, but I'll fix this next week.
+         * I found that Diana's processed mesh really slowed things down, so I decided to pack them, which meant that in animating and clipping my horses, I was limited to working with the poles as I couldn't edit the mesh.
+    * I also imported Claire's HIP file for ornamental designs. I turned her project into a subnetwork to create the ring of designs on the music box. Next week, I'll add the controls for her tool to the interface for mine. I also hope to add some designs on the panels.
+
+* Optimizations
+
+    * This project taught me to dive deeper into Houdini's performance tools, particularly its Performance Monitor and Dependency List view. As I worked with heavily processed meshes and attempted to animate them, the performance monitor was a huge help in figuring out bottlenecks when my frame rate was slow. I used it to figure out that the bounding box test for the horses' poles was too inefficient, leading me to switch to clip nodes. Furthermore, I used Dependency List views to keep track of the interrelated variables that I use at many parts in my network. 
+
+Next Steps: 
+
+* Overall, I think I stuck pretty well to my goal of creating a usable tool. I also tried to maintain a clean wireframe. I noticed that many computation-heavy parts of the carousel slowed things down, so I was conscious about keeping the mesh clean and organized. Below is a screenshot of my wireframe.
+
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/wireframe.png" width="200" />
+
+* As my next steps, I'm excited to continue adding fine details, organizing the controller for my tool, and further cleaning up my network by organizing subnets. I really want to make a polished-looking tool, and hope to explore Houdini Digital Assets. 
+
 
 # Project Proposal: Wooden Toy Generator
 
