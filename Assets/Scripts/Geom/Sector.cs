@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Geom
 {
-    public class Sector
+    public struct Sector
     {
         public Vector2 Center;
         public float RadiusInner;
