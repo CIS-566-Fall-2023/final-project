@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
-public class Utils
+public static class Utils
 {
     public static List<T> Merge<T>(List<T> leftList, List<T> rightList, Comparer<T> comp)
     {
@@ -35,5 +36,20 @@ public class Utils
         }
 
         return list;
+    }
+
+    public static IEnumerable<(T, T)> Pairwise<T>(this IEnumerable<T> seq)
+    {
+        using var enumerator = seq.GetEnumerator();
+        if (!enumerator.MoveNext())
+        {
+            yield break;
+        }
+        var prev = enumerator.Current;
+        while (enumerator.MoveNext())
+        {
+            yield return (prev, enumerator.Current);
+            prev = enumerator.Current;
+        }
     }
 }

@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using BinaryPartition;
 using Generation;
+using Generation.Tower;
 using Geom;
 using GraphBuilder;
 using Navigation;
+using Unity.Profiling;
 using UnityEngine;
 
 namespace MyDebug
@@ -17,39 +19,32 @@ namespace MyDebug
         void Start()
         {
             Debug.Log("Running Debug Renderer");
-            Builder builder = new();
+            // Builder builder = new();
+            //
+            // BuildingGenerator generator = new();
+            // generator.GenerateBuilding();
+            //
+            // var navGraph = generator.Builder.ToGraph();
+            //
+            // foreach (var curve in navGraph.Curves())
+            // {
+            //     var lineCurve = (LineCurve) curve;
+            //     _drawables.Add(new DebugSegment() {P0 = lineCurve.P0, P1 = lineCurve.P1, Color = Color.green});
+            // }
+            //
+            // foreach (var curve in generator.GetWalls())
+            // {
+            //     var lineCurve = (LineCurve) curve;
+            //     _drawables.Add(new DebugSegment() {P0 = lineCurve.P0, P1 = lineCurve.P1, Color = Color.blue});
+            // }
 
-            BuildingGenerator generator = new();
-            generator.GenerateBuilding();
-
-            var navGraph = generator.Builder.ToGraph();
-
-            foreach (var curve in navGraph.Curves())
-            {
-                var lineCurve = (LineCurve) curve;
-                _drawables.Add(new DebugSegment() {P0 = lineCurve.P0, P1 = lineCurve.P1, Color = Color.green});
-            }
+            Vector2 center = new Vector2(0, 0);
+            var towerRunner = new TowerRunner(center, 50, 70, 100);
             
-            foreach (var curve in generator.GetWalls())
+            foreach (var sector in towerRunner.OuterRooms)
             {
-                var lineCurve = (LineCurve) curve;
-                _drawables.Add(new DebugSegment() {P0 = lineCurve.P0, P1 = lineCurve.P1, Color = Color.blue});
+                _drawables.Add(new DebugSector(sector, Color.cyan));
             }
-
-            // foreach (var rectangle in navGraph.Rectangles())
-            // {
-            //     _drawables.Add(new DebugRect {Rectangle = rectangle, Color = Color.blue});
-            // }
-
-            // foreach (var divider in runner.Dividers)
-            // {
-            //     foreach (var edgeId in divider.GetEdges())
-            //     {
-            //         var lineCurve = (LineCurve) runner.Builder.GetCurve(edgeId);
-            //         _drawables.Add(new DebugSegment() {P0 = lineCurve.P0, P1 = lineCurve.P1, Color = Color.green});
-            //     }
-            // }
-
         }
 
         // Update is called once per frame

@@ -10,10 +10,10 @@ namespace Geom
         (ICurve, Vector2, ICurve) Split(float t);
         ICurve Reverse();
 
-        public IEnumerable<Vector2> ToPointStream(float deltaLength = 1)
+        public IEnumerable<Vector2> ToPointStream(float deltaLength = 10)
         {
             var length = Length();
-            var segmentCount = (int)Mathf.Ceil(deltaLength * length);
+            var segmentCount = (int)Mathf.Ceil(length / deltaLength);
             var deltaT = 1.0f / segmentCount;
             for (var i = 0; i <= segmentCount; i++)
             {
