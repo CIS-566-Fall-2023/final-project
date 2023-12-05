@@ -28,7 +28,11 @@
             "m_Id": "934d93e5ed4645fba3118368b2565c77"
         }
     ],
-    "m_Keywords": [],
+    "m_Keywords": [
+        {
+            "m_Id": "de3b4ccb9f5c481391c49ed5aa74367b"
+        }
+    ],
     "m_Dropdowns": [],
     "m_CategoryData": [
         {
@@ -2376,6 +2380,9 @@
     "m_Name": "",
     "m_ChildObjectList": [
         {
+            "m_Id": "de3b4ccb9f5c481391c49ed5aa74367b"
+        },
+        {
             "m_Id": "9433150cc27c4593ab7570450da6b6c3"
         },
         {
@@ -2965,6 +2972,31 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
+    "m_ObjectId": "de3b4ccb9f5c481391c49ed5aa74367b",
+    "m_Guid": {
+        "m_GuidSerialized": "5225aca5-3314-4dfe-b39a-bff341fbf68e"
+    },
+    "m_Name": "Shadows",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Shadows",
+    "m_DefaultReferenceName": "_SHADOWS",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_KeywordType": 0,
+    "m_KeywordDefinition": 1,
+    "m_KeywordScope": 0,
+    "m_KeywordStages": 63,
+    "m_Entries": [],
+    "m_Value": 1,
+    "m_IsEditable": true
 }
 
 {

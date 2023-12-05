@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84bc5866b5fb8594b823cf28a3bfc026, type: 3}
+  m_Name: Biome4
+  m_EditorClassIdentifier: 
+  blendNearMid: 0
+  midNearRatio: 0
+  blendMidFar: 0
+  farMidRatio: 0.7
+  near:
+    width: 2
+    meshes:
+    - {fileID: 1495801216899893060, guid: 41189d4cd9026344392ed43caafde860, type: 3}
+    material: {fileID: 2100000, guid: 60a42decc36d87944a23efd427b01731, type: 2}
+    hasTree: 0
+    tree: {fileID: 1313749818314350997, guid: 2ff4b18080595d940b1ce754934b60a4, type: 3}
+    treeNumberPerGrid: 5
+    randomPosY: 0
+    randomPosYRange: {x: 0, y: 0}
+    hasStone: 1
+    stoneNumberPerGrid: 5
+    stone: {fileID: 7213392421638990745, guid: 155c04343b0a3ee459c952376d0d9f9e, type: 3}
+    treePoolID: 1
+    stonePoolID: 3
+  mid:
+    width: 2
+    meshes:
+    - {fileID: 7227429322105617817, guid: be7ad61b365b009429502fd493d9514f, type: 3}
+    - {fileID: 5310724817394783291, guid: 11e638d1b503d9f4186ab491f3ec0c73, type: 3}
+    material: {fileID: 2100000, guid: 60a42decc36d87944a23efd427b01731, type: 2}
+    hasTree: 1
+    tree: {fileID: 1313749818314350997, guid: 2ff4b18080595d940b1ce754934b60a4, type: 3}
+    treeNumberPerGrid: 2
+    randomPosY: 1
+    randomPosYRange: {x: 0, y: 0.6}
+    hasStone: 0
+    stoneNumberPerGrid: 10
+    stone: {fileID: 7213392421638990745, guid: 155c04343b0a3ee459c952376d0d9f9e, type: 3}
+    treePoolID: 2
+    stonePoolID: 2
+  far:
+    width: 1
+    meshes:
+    - {fileID: 7227429322105617817, guid: be7ad61b365b009429502fd493d9514f, type: 3}
+    - {fileID: 1495801216899893060, guid: 41189d4cd9026344392ed43caafde860, type: 3}
+    material: {fileID: 2100000, guid: 60a42decc36d87944a23efd427b01731, type: 2}
+    hasTree: 1
+    tree: {fileID: 1313749818314350997, guid: 6e800955d19e6a04db6a131d8d26b436, type: 3}
+    treeNumberPerGrid: 1
+    randomPosY: 1
+    randomPosYRange: {x: -0.3, y: 0}
+    hasStone: 0
+    stoneNumberPerGrid: 5
+    stone: {fileID: 7213392421638990745, guid: 155c04343b0a3ee459c952376d0d9f9e, type: 3}
+    treePoolID: 1
+    stonePoolID: 0
+  skyConfig: {fileID: 11400000, guid: 0dcada36fc37e3340adb9c633b151833, type: 2}

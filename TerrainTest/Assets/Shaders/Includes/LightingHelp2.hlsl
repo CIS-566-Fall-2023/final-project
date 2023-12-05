@@ -20,7 +20,7 @@ void GetMainLight2_float(float3 WorldPos, out float3 Color, out float3 Direction
 #endif
 }
 
-void ChooseColor2_float(float3 Highlight, float3 Shadow, float Diffuse, float Threshold, float Threshold2, out float3 OUT)
+void ChooseColor2_float(float3 Highlight, float3 Mid, float3 Shadow, float Diffuse, float Threshold, float Threshold2, out float3 OUT)
 {
     if (Diffuse < Threshold)
     {
@@ -28,7 +28,7 @@ void ChooseColor2_float(float3 Highlight, float3 Shadow, float Diffuse, float Th
     }
     else if(Diffuse < Threshold2)
     {
-        OUT = 0.5 * Shadow +  0.5 * Highlight;
+        OUT = Mid;
     }
     else
     {

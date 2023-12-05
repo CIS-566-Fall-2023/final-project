@@ -24,9 +24,13 @@ MonoBehaviour:
     hasTree: 0
     tree: {fileID: 0}
     treeNumberPerGrid: 0
+    randomPosY: 0
+    randomPosYRange: {x: 0, y: 0}
     hasStone: 0
     stoneNumberPerGrid: 0
     stone: {fileID: 0}
+    treePoolID: 0
+    stonePoolID: 0
   mid:
     width: 1
     meshes:
@@ -35,9 +39,13 @@ MonoBehaviour:
     hasTree: 0
     tree: {fileID: 0}
     treeNumberPerGrid: 0
+    randomPosY: 0
+    randomPosYRange: {x: 0, y: 0}
     hasStone: 0
     stoneNumberPerGrid: 0
     stone: {fileID: 0}
+    treePoolID: 0
+    stonePoolID: 0
   far:
     width: 2
     meshes:
@@ -46,6 +54,11 @@ MonoBehaviour:
     hasTree: 1
     tree: {fileID: 1313749818314350997, guid: 2fd043a687d70594da234cd86ff195d2, type: 3}
     treeNumberPerGrid: 3
+    randomPosY: 1
+    randomPosYRange: {x: -0.3, y: 0}
     hasStone: 0
     stoneNumberPerGrid: 0
     stone: {fileID: 0}
+    treePoolID: 4
+    stonePoolID: 0
+  skyConfig: {fileID: 11400000, guid: a895736ed37f4714d8de4cbb9c530960, type: 2}

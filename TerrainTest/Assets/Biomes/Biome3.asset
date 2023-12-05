@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84bc5866b5fb8594b823cf28a3bfc026, type: 3}
+  m_Name: Biome3
+  m_EditorClassIdentifier: 
+  blendNearMid: 0
+  midNearRatio: 0
+  blendMidFar: 0
+  farMidRatio: 0.7
+  near:
+    width: 2
+    meshes:
+    - {fileID: 8462614397845747776, guid: aa91ba573a0d6ab4fbf4781a833de1e9, type: 3}
+    material: {fileID: 2100000, guid: 3cc8cabd94ea93249a125bd1db1a10e1, type: 2}
+    hasTree: 0
+    tree: {fileID: 0}
+    treeNumberPerGrid: 0
+    randomPosY: 0
+    hasStone: 0
+    stoneNumberPerGrid: 0
+    stone: {fileID: 0}
+    treePoolID: 0
+    stonePoolID: 0
+  mid:
+    width: 2
+    meshes:
+    - {fileID: 8462614397845747776, guid: aa91ba573a0d6ab4fbf4781a833de1e9, type: 3}
+    material: {fileID: 2100000, guid: 3cc8cabd94ea93249a125bd1db1a10e1, type: 2}
+    hasTree: 0
+    tree: {fileID: 0}
+    treeNumberPerGrid: 0
+    randomPosY: 0
+    hasStone: 1
+    stoneNumberPerGrid: 1
+    stone: {fileID: 3292276700657338325, guid: 3eb793053d83aba44b383f0641941259, type: 3}
+    treePoolID: 0
+    stonePoolID: 1
+  far:
+    width: 1
+    meshes:
+    - {fileID: 7227429322105617817, guid: be7ad61b365b009429502fd493d9514f, type: 3}
+    - {fileID: 1495801216899893060, guid: 41189d4cd9026344392ed43caafde860, type: 3}
+    material: {fileID: 2100000, guid: 474faface03d15149914528adcee5f6c, type: 2}
+    hasTree: 0
+    tree: {fileID: 1313749818314350997, guid: 2fd043a687d70594da234cd86ff195d2, type: 3}
+    treeNumberPerGrid: 3
+    randomPosY: 0
+    hasStone: 0
+    stoneNumberPerGrid: 0
+    stone: {fileID: 0}
+    treePoolID: 1
+    stonePoolID: 0
+  skyConfig: {fileID: 11400000, guid: 8ec3298287de0be49b60db2c3364c46d, type: 2}

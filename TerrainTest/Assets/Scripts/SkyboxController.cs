@@ -1,9 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
 public class SkyboxController : MonoBehaviour
 {
+    public Material skyboxMat;
+
     SkyColorScriptableObject lastSky = null;
     SkyColorScriptableObject currSky = null;
 
@@ -11,7 +14,13 @@ public class SkyboxController : MonoBehaviour
     float transitTimeSplit = 0.1f;
     WaitForSeconds transitWait = new WaitForSeconds(0.1f);
 
-    void UpdateSkyColor(SkyColorScriptableObject currSky) {
+    public static SkyboxController Instance { get; private set; }
+    protected void Awake()
+    {
+        Instance = this as SkyboxController;
+    }
+
+    public void UpdateSkyColor(SkyColorScriptableObject currSky) {
         if (this.currSky != null) {
             this.lastSky = this.currSky;
             this.currSky = currSky;
@@ -35,16 +44,21 @@ public class SkyboxController : MonoBehaviour
             Color skyColor = Color.Lerp(lastSky.skyColor, currSky.skyColor, lerp);
             Color horizonColor = Color.Lerp(lastSky.horizonColor, currSky.horizonColor, lerp);
             Color groundColor = Color.Lerp(lastSky.groundColor, currSky.groundColor, lerp);
-
+            Debug.Log("Send");
             SendSkyColorToShader(skyColor, horizonColor, groundColor);
 
             yield return transitWait;
         }
     }
 
-    void SendSkyColorToShader(Color skyColor, Color horizonColor, Color GroundColor) { 
-        Shader.SetGlobalColor("_SkyColor", currSky.skyColor);
-        Shader.SetGlobalColor("_HorizonColor", currSky.horizonColor);
-        Shader.SetGlobalColor("_GroundColor", currSky.groundColor);
+    void SendSkyColorToShader(Color skyColor, Color horizonColor, Color groundColor) {
+        // Debug.Log("Send");
+        //Shader.SetGlobalColor("_SkyColor", currSky.skyColor);
+       // Shader.SetGlobalColor("_HorizonColor", currSky.horizonColor);
+       // Shader.SetGlobalColor("_GroundColor", currSky.groundColor);
+
+        skyboxMat.SetColor("_SkyColor", skyColor);
+        skyboxMat.SetColor("_HorizonColor", horizonColor);
+        skyboxMat.SetColor("_GroundColor", groundColor);
     }
 }
