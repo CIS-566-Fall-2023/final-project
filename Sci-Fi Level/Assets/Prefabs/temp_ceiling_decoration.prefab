@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.295207, y: 12.392525, z: -11.412979}
-  m_LocalScale: {x: 1, y: 1, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 0.45}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4889441512132183216}
@@ -133,7 +133,7 @@ Transform:
   m_GameObject: {fileID: 8653800174022585798}
   serializedVersion: 2
   m_LocalRotation: {x: -1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0.0089998245, y: -0.048999786, z: -1.7700005}
+  m_LocalPosition: {x: 0.0089998245, y: -0.048999786, z: -0.85}
   m_LocalScale: {x: 1, y: 2.4999998, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -151,10 +151,10 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.93333334, g: 0.9083675, b: 0.6313726, a: 1}
-  m_Intensity: 2
-  m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_Intensity: 5
+  m_Range: 7.951681
+  m_SpotAngle: 87.66997
+  m_InnerSpotAngle: 47.388123
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -190,7 +190,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
