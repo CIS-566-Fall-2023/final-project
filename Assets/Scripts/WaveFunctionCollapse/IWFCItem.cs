@@ -183,8 +183,7 @@ namespace Planetile
                         case "!=":
                             a = operends.Pop();
                             b = operends.Pop();
-                            //conditions.Push((a ^ (~b)) == 0);
-                            conditions.Push(a != b);
+                            conditions.Push((a & b) == 0);
                             break;
                         case "&&":
                             bool c = conditions.Pop();
