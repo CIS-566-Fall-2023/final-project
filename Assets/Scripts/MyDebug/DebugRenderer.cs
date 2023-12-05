@@ -50,28 +50,28 @@ namespace MyDebug
             {
                 drawable.Draw();
             }
-
-            if (Input.GetKeyDown("q"))
-            {
-                _vertexId++;
-                _incidentEdgeCount = _graph.AdjList[_vertexId].Count;
-                _edgeId = 0;
-            }
-            
-            if (Input.GetKeyDown("w") && _incidentEdgeCount != 0)
-            {
-                _edgeId = (_edgeId + 1) % _incidentEdgeCount;
-            }
-
-            var vertex = _graph.Vertices[_vertexId];
-            new DebugRect(vertex.region.CenterPoint, Color.black).Draw();
-
-            if (_incidentEdgeCount != 0)
-            {
-                var edge = _graph.AdjList[_vertexId][_edgeId];
-                new DebugRect(_graph.Vertices[edge.ToVertex].region.CenterPoint, Color.white).Draw();
-                new DebugCurve(edge.Curve, Color.red).Draw();
-            }
+            //
+            // if (Input.GetKeyDown("q"))
+            // {
+            //     _vertexId++;
+            //     _incidentEdgeCount = _graph.AdjList[_vertexId].Count;
+            //     _edgeId = 0;
+            // }
+            //
+            // if (Input.GetKeyDown("w") && _incidentEdgeCount != 0)
+            // {
+            //     _edgeId = (_edgeId + 1) % _incidentEdgeCount;
+            // }
+            //
+            // var vertex = _graph.Vertices[_vertexId];
+            // new DebugRect(vertex.region.CenterPoint, Color.black).Draw();
+            //
+            // if (_incidentEdgeCount != 0)
+            // {
+            //     var edge = _graph.AdjList[_vertexId][_edgeId];
+            //     new DebugRect(_graph.Vertices[edge.ToVertex].region.CenterPoint, Color.white).Draw();
+            //     new DebugCurve(edge.Curve, Color.red).Draw();
+            // }
             
             
             

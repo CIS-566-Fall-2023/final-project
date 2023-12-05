@@ -39,36 +39,77 @@ namespace Generation.Tower
             var innerRooms = MakeRooms(sector, InnerMinTheta).ToList();
             MakeDoorsBetween(innerRooms, sector);
             var stairDoors = MakeDoorsInside(sector, stairRadius, innerRooms);
-            
-            
-            // foreach (var ((r0, theta0), (r1, theta1)) in stairDoors.Pairwise()
-            //              .Concat((r0, )))
-            // {
-            //     var curve = new ArcCurve{Center = center, Theta0 = theta0, Theta1 = theta1, Radius = stairRadius};
-            //     _generator.Builder.MakeEdge(r0, r1,EdgeTag.Hallway, curve);
-            // }
-            
-            var innerHallDoors = MakeDoorsOutside(sector, innerRooms);
+            var innerHallDoors = MakeDoorsOutside(sector, hallRadius, innerRooms);
             
             // Create outer rooms and doors
             sector.RadiusInner = hallRadius + HallMargin;
             sector.RadiusOuter = sector.RadiusInner + roomLength;
             var outerRooms = MakeRooms(sector, OuterMinTheta).ToList();
             MakeDoorsBetween(outerRooms, sector);
-            var outerHallDoors = MakeDoorsInside(sector, centerRadius, outerRooms);
+            var outerHallDoors = MakeDoorsInside(sector, hallRadius, outerRooms);
             
-            // Link doors to inner ring
+            // Link doors in inner ring
+            var (rLast, sLast) = stairDoors.First();
+            foreach (var ((r0, theta0), (r1, theta1)) in
+                     stairDoors
+                         .Concat(new []{(rLast, sLast + Utils.Tau)})
+                         .Pairwise())
+            {
+                var curve = new ArcCurve
+                {
+                    Center = center,
+                    Radius = stairRadius,
+                    Theta0 = theta0,
+                    Theta1 = theta1
+                };
+                _generator.Builder.MakeEdge(r0, r1, EdgeTag.Hallway, curve);
+            }
             
-            
+            // Link doors to outer ring
             var hallDoors = innerHallDoors.Concat(outerHallDoors).Select(p =>
             {
                 var (r, s) = p;
                 return (r, s % Utils.Tau);
             }).ToList();
-            hallDoors.Sort((x, y) => y.Item2.CompareTo(y.Item2));
+            hallDoors.Sort((x, y) => x.Item2.CompareTo(y.Item2));
+
+            (rLast, sLast) = hallDoors.First();
+            foreach (var ((r0, theta0), (r1, theta1)) in
+                        hallDoors
+                            .Concat(new []{(rLast, sLast + Utils.Tau)})
+                            .Pairwise())
+            {
+                Debug.Log($"{theta0}, {theta1}");
+                var curve = new ArcCurve
+                {
+                    Center = center,
+                    Radius = hallRadius,
+                    Theta0 = theta0,
+                    Theta1 = theta1
+                };
+                _generator.Builder.MakeEdge(r0, r1, EdgeTag.Hallway, curve);
+            }
             
+            // Create outer room walls
+            foreach (var (s, _) in outerRooms)
+            {
+                _generator.AddWall(new ArcCurve
+                {
+                    Center = center,
+                    Radius = s.RadiusOuter,
+                    Theta0 = s.Theta0,
+                    Theta1 = s.Theta1
+                });
+            }
 
-
+            // Create the outer wall
+            _generator.AddWall(new ArcCurve
+            {
+                Center = center,
+                Radius = sector.RadiusOuter + WallThickness * 2,
+                Theta0 = 0,
+                Theta1 = Utils.Tau
+            });
         }
 
         private Vector2 ToCartesian(float r, float theta)
@@ -87,7 +128,6 @@ namespace Generation.Tower
                 sector.Theta0 = t0 + dWall;
                 sector.Theta1 = t1 - dWall;
                 var vertexId = _generator.Builder.MakeVertex(new VertexInfo(new SectorRegion(sector), VertexTag.Room));
-                Debug.Log(vertexId.Id);
                 return (sector, vertexId);
             }).ToList();
         }
@@ -118,7 +158,7 @@ namespace Generation.Tower
             }
         }
 
-        private List<(VertexId, float)> MakeDoorsOutside(Sector sector, List<(Sector, VertexId)> rooms)
+        private List<(VertexId, float)> MakeDoorsOutside(Sector sector, float ringRadius, List<(Sector, VertexId)> rooms)
         {
             var radialDoorSize = DoorSize / sector.RadiusOuter;
             var radialDoorMargin = DoorMargin / sector.RadiusOuter;
@@ -126,11 +166,17 @@ namespace Generation.Tower
             
             foreach (var (s, r) in rooms)
             {
-                var pos = Mathf.Lerp(s.Theta0 + radialDoorMargin, s.Theta1 - radialDoorMargin, Random.value);
-                doorPositions.Add((r, pos));
+                var theta = Mathf.Lerp(s.Theta0 + radialDoorMargin, s.Theta1 - radialDoorMargin, Random.value);
+                var hallVertexPos = ToCartesian(ringRadius, theta);
+                var hallVertex = _generator.Builder.MakeVertex(hallVertexPos);
 
-                var leftTheta = pos - radialDoorSize;
-                var rightTheta = pos + radialDoorSize;
+                _generator.Builder.MakeEdge(hallVertex, r, EdgeTag.Doorway,
+                    new LineCurve(hallVertexPos, ToCartesian(sector.RadiusOuter, theta)));
+                
+                doorPositions.Add((hallVertex, theta));
+
+                var leftTheta = theta - radialDoorSize;
+                var rightTheta = theta + radialDoorSize;
                 
                 _generator.AddWall(new ArcCurve
                 {
@@ -182,7 +228,11 @@ namespace Generation.Tower
             foreach (var (s, r) in rooms)
             {
                 var theta = Mathf.Lerp(s.Theta0 + radialDoorMargin, s.Theta1 - radialDoorMargin, Random.value);
-                var hallVertex = _generator.Builder.MakeVertex(ToCartesian(ringRadius, theta));
+                var hallVertexPos = ToCartesian(ringRadius, theta);
+                var hallVertex = _generator.Builder.MakeVertex(hallVertexPos);
+
+                _generator.Builder.MakeEdge(hallVertex, r, EdgeTag.Doorway,
+                    new LineCurve(hallVertexPos, ToCartesian(sector.RadiusInner, theta)));
                 
                 doorPositions.Add((hallVertex, theta));
 
