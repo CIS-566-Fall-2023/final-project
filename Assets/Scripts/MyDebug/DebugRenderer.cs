@@ -105,7 +105,7 @@ namespace MyDebug
 
             }
 
-            private IEnumerator<object> MoveToTarget(Vector2 target)
+            private IEnumerator<object> MoveToTarget(ICurve curve)
                 {
                     isMoving = true;
                     lerpStartTime = Time.time;
@@ -114,11 +114,12 @@ namespace MyDebug
                     while (Time.time - lerpStartTime < lerpDuration)
                     {
                         float t = (Time.time - lerpStartTime) / lerpDuration;
-                        sprite.MoveTo(Vector2.Lerp(startPosition, target, t));
+                        sprite.MoveTo(curve.Point(t));
+                       // sprite.MoveTo(Vector2.Lerp(startPosition, target, t));
                         yield return null;
                     }
 
-                    sprite.MoveTo(target);
+                    sprite.MoveTo(curve.Point(1));
                     isMoving = false;
                 }
 
@@ -136,6 +137,7 @@ namespace MyDebug
                     randomPoints.Add(((LineCurve)path[0].Curve).P0);
                     }
                     else {
+                        path = DFS(edge, endEdge);
                        randomPoints.Add(((LineCurve)currEdge.Curve).P0); 
                     }
                     curveMover.SetControlPoints(randomPoints);
@@ -152,7 +154,6 @@ namespace MyDebug
                 {
                     drawable.Draw();
                 }
-
                 tick++;
                 sprite.Draw();
                 if (tick % 60 == 0)
@@ -162,17 +163,20 @@ namespace MyDebug
                         // Get the next edge in the path
                         currEdge = path[0];
                         path.RemoveAt(0);
-                        if (currEdge.Tag == EdgeTag.Doorway)
+                        StartCoroutine(MoveToTarget(currEdge.Curve));
+                        
+                        /*if (currEdge.Tag == EdgeTag.Doorway)
                         {
-                            targetPosition = ((LineCurve)currEdge.Curve).P0;
-                            StartCoroutine(MoveToTarget(targetPosition));
+                            //targetPosition = ((LineCurve)currEdge.Curve).P0;
+                            StartCoroutine(MoveToTarget(currEdge.Curve));
                             StartCoroutine(EnterRoom(currEdge));
                         }
                         else
                         {
-                            targetPosition = ((LineCurve)currEdge.Curve).P0;
-                            StartCoroutine(MoveToTarget(targetPosition));
+                            //targetPosition = ((LineCurve)currEdge.Curve).P0;
+                            StartCoroutine(MoveToTarget(currEdge.Curve));
                         }
+                        */
                     }
                     else if (!isMoving)
                     {
