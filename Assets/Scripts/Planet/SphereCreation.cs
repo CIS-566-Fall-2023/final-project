@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SphereCreation : MonoBehaviour
 {
-
+    public List<HexagonTile> tiles = new List<HexagonTile>();
     public GameObject tilePrefab;
     public GameObject tileParent;
 
@@ -36,13 +36,20 @@ public class SphereCreation : MonoBehaviour
     {
         for(int i = 0; i < finalGrid.tiles.Count; i++)
         {
+
             List<Vector3> cellPosList = new List<Vector3>();
             var tileGO = Instantiate(tilePrefab);
+            tileGO.name = "tile" + i.ToString();
             var tile = tileGO.GetOrAddComponent<HexagonTile>();
             tileGO.transform.parent = tileParent.transform;
             tile.SetupTile(finalGrid.tiles[i].position, finalGrid.tiles[i].corners, finalGrid.tiles[i]);
-            tile.SetupCells(finalGrid.tiles[i].corners);
-            tileGO.name = "tile" + i.ToString();
+            tiles.Add(tile);
+        }
+        for (int i = 0; i < finalGrid.tiles.Count; i++)
+        {
+            var tile = tiles[i];
+            var forwardPos = tiles[tile.connectedTiles[0]].center;
+            tile.SetupCells(finalGrid.tiles[i].corners, Vector3.Normalize(forwardPos - tile.center));
         }
     }
 
