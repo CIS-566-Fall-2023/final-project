@@ -167,7 +167,7 @@ namespace Planetile
                 if (op.type == Op.Type.Integer)
                 {
                     if (op.intVal < neighbors.Length)
-                        operends.Push(neighbors[op.intVal].Type);
+                        operends.Push(neighbors[op.intVal] != null? neighbors[op.intVal].Type : WFCType.Null);
                     else
                         operends.Push(WFCType.Null);
                 }

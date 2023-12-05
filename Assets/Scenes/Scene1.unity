@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 91045943}
   - component: {fileID: 91045942}
+  - component: {fileID: 91045944}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -187,6 +188,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &91045944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91045941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 194d5c15ca9c5994a8ae2adab9f032a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexagonCellsPrefab: {fileID: 0}
+  pentagonCellsPrefab: {fileID: 0}
+  cellData: {fileID: 108064927794634123}
+  ID: 0
+  connectedTiles: 
+  position: {x: 0, y: 0, z: 0}
+  normal: {x: 0, y: 0, z: 0}
+  center: {x: 0, y: 0, z: 0}
 --- !u!1 &203844586
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +602,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 0
   PentagonRotationFlag: -1
-  type: 0
+  type: 8
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -682,7 +703,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 1
   PentagonRotationFlag: -1
-  type: 0
+  type: 1
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -743,7 +764,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 1
   PentagonRotationFlag: -1
-  type: 0
+  type: 4
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -814,6 +835,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4762299018682116808}
   - component: {fileID: 108064927794634123}
+  - component: {fileID: 4762299018682116809}
   m_Layer: 0
   m_Name: HardecodedHexagonTile
   m_TagString: Untagged
@@ -943,7 +965,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 1
   PentagonRotationFlag: -1
-  type: 0
+  type: 8
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -1080,7 +1102,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 1
   PentagonRotationFlag: -1
-  type: 0
+  type: 1
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -1180,6 +1202,26 @@ Transform:
   - {fileID: 4609836410368681296}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4762299018682116809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2803499397175093179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 194d5c15ca9c5994a8ae2adab9f032a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexagonCellsPrefab: {fileID: 0}
+  pentagonCellsPrefab: {fileID: 0}
+  cellData: {fileID: 108064927794634123}
+  ID: 0
+  connectedTiles: 
+  position: {x: 0, y: 0, z: 0}
+  normal: {x: 0, y: 0, z: 0}
+  center: {x: 0, y: 0, z: 0}
 --- !u!1 &4868549880629018822
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,7 +1321,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 0
   PentagonRotationFlag: -1
-  type: 0
+  type: 4
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -1363,7 +1405,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 1
   PentagonRotationFlag: -1
-  type: 0
+  type: 4
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -1469,7 +1511,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 0
   PentagonRotationFlag: -1
-  type: 0
+  type: 1
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -1609,7 +1651,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 1
   PentagonRotationFlag: -1
-  type: 0
+  type: 8
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -1646,7 +1688,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 0
   PentagonRotationFlag: -1
-  type: 0
+  type: 1
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -1734,7 +1776,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 0
   PentagonRotationFlag: -1
-  type: 0
+  type: 4
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -1805,7 +1847,7 @@ MonoBehaviour:
   pentagonDirection: -1
   bottomFlat: 0
   PentagonRotationFlag: -1
-  type: 0
+  type: 8
   item: {fileID: 0}
   edgeNum: 3
   neighbors:

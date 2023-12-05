@@ -75,7 +75,30 @@ public class Cell : MonoBehaviour, IWFCCell
     }
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawSphere(transform.position, 0.02f);
+        switch (type)
+        {
+            default:
+            case WFCType.Null:
+                Gizmos.color = Color.white;
+                break;
+            case WFCType.PentagonHouse:
+            case WFCType.House:
+                Gizmos.color = Color.red;
+                break;
+            case WFCType.PentagonOcean:
+            case WFCType.Ocean:
+                Gizmos.color = Color.blue;
+                break;
+            case WFCType.PentagonTree:
+            case WFCType.Tree:
+                Gizmos.color = Color.green;
+                break;
+            case WFCType.PentagonDesert:
+            case WFCType.Desert:
+                Gizmos.color = Color.yellow;
+                break;
+        }
+        Gizmos.DrawSphere(transform.position, 0.1f);
     }
     private void OnDrawGizmos()
     {

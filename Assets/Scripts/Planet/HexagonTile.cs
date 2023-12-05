@@ -14,7 +14,6 @@ public class HexagonTile : MonoBehaviour, IWFCTile
     public HardcodedCells cellData;
     public int ID;
     public List<int> connectedTiles; //For Record
-    public List<Cell> Cells;
     public Vector3 position;
     public Vector3 normal;
     //public Quaternion rotation;
@@ -189,11 +188,11 @@ public class HexagonTile : MonoBehaviour, IWFCTile
                         var otherCells = neighborTile.cellData.CellsOnTileEdge(i);
                         cell.neighbors[j] = otherCells[0];
                         for (int k = 1; k < cell.neighbors.Length; k++)
-                        if (Vector3.Magnitude(otherCells[k].transform.position - cell.transform.position) <
-                            Vector3.Magnitude(cell.neighbors[j].transform.position - cell.transform.position))
-                        {
-                            cell.neighbors[j] = otherCells[k];
-                        }
+                            if (Vector3.Magnitude(otherCells[k].transform.position - cell.transform.position) <
+                                Vector3.Magnitude(cell.neighbors[j].transform.position - cell.transform.position))
+                            {
+                                cell.neighbors[j] = otherCells[k];
+                            }
                         break;
                     }
                 }
@@ -202,16 +201,26 @@ public class HexagonTile : MonoBehaviour, IWFCTile
     }
     private void OnDrawGizmosSelected()
     {
-        Gizmos.matrix = Matrix4x4.identity;
-        Gizmos.color = Color.yellow;
-        foreach (var corner in corners)
+        if (corners != null)
         {
-            Gizmos.DrawSphere(corner.position, 0.01f);
+            Gizmos.matrix = Matrix4x4.identity;
+            Gizmos.color = Color.yellow;
+            foreach (var corner in corners)
+            {
+                Gizmos.DrawSphere(corner.position, 0.01f);
+            }
+            Gizmos.DrawLine(center, center + normal);
         }
-        Gizmos.DrawLine(center, center + normal);
     }
     public int Index => ID;
-    public int EdgeNum => corners.Count;
+    public int EdgeNum
+    {
+        get
+        {
+            if (corners != null) return corners.Count;
+            else return 6;
+        }
+    }
     public int Adjacency(IWFCTile tile)
     {
         for (int i = 0; i < connectedTiles.Count; i++)

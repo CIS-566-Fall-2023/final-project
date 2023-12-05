@@ -6,7 +6,52 @@ using UnityEngine;
 
 namespace Planetile
 {
-    using Wave = SortedDictionary<float, System.Tuple<IWFCCell, Item>>;
+    public class Wave
+    {
+        SortedDictionary<float, List<System.Tuple<IWFCCell, Item>>>
+            data = new SortedDictionary<float, List<System.Tuple<IWFCCell, Item>>>();
+        public void Add(float entrophy, IWFCCell cell, Item item)
+        {
+            if (!data.ContainsKey(entrophy))
+            {
+                data.Add(entrophy, new List<System.Tuple<IWFCCell, Item>>());
+            }
+            data[entrophy].Add(new System.Tuple<IWFCCell, Item>(cell, item));
+        }
+        public System.Tuple<IWFCCell, Item> Pop()
+        {
+            if (data.Count == 0) return null;
+            var list = data.ElementAt(data.Count - 1).Value;
+            var ret = list[list.Count - 1];
+            list.RemoveAt(list.Count - 1);
+            if (list.Count == 0)
+                data.Remove(data.Count - 1);
+            return ret;
+        }
+        public IWFCCell Collapse()
+        {
+            float totalWeight = 0f;
+            foreach (var pair in data)
+            {
+                totalWeight += pair.Key * pair.Value.Count;
+            }
+                
+            float randomValue = Random.Range(0f, totalWeight);
+            foreach (var pair in data.Reverse())
+            {
+                foreach (var tuple in pair.Value)
+                {
+                    randomValue -= pair.Key;
+                    if (randomValue <= 0)
+                    {
+                        tuple.Item1.PlaceItem(tuple.Item2);
+                        return tuple.Item1;
+                    }
+                }
+            }
+            return null;
+        }
+    }
     public class WFCManager : MonoBehaviour
     {
         private static WFCManager instance;
@@ -70,7 +115,7 @@ namespace Planetile
                 }
                 else
                 {
-                    Debug.LogError("Failed to fill the tile.", tile as Object);
+                    Debug.LogError($"Failed to fill the cell {cell}.");
                 }
             }
         }
@@ -123,7 +168,7 @@ namespace Planetile
         {
             if (itemPool != null && itemPool.Count > 0)
             {
-                var waves = new Wave();
+                var wave = new Wave();
                 foreach (var cell in cells)
                 {
                     int count = 0;
@@ -134,30 +179,15 @@ namespace Planetile
                         float entropy = item.Entropy(cell);
                         if (entropy > 0)
                         {
-                            waves.Add(entropy, new System.Tuple<IWFCCell, Item>(cell, item));
+                            wave.Add(entropy, cell, item);
                             count++;
                         }
                     }
                     if (count == 0)
-                        Debug.LogWarning("No item is placed.");
+                        Debug.LogWarning($"No item is placed to {cell}.");
                 }
 
-                float totalWeight = 0f;
-                foreach (var w in waves.Keys)
-                {
-                    totalWeight += w;
-                }
-                float randomValue = Random.Range(0f, totalWeight);
-                foreach (var pair in waves.Reverse())
-                {
-                    randomValue -= pair.Key;
-                    if (randomValue <= 0)
-                    {
-                        pair.Value.Item1.PlaceItem(pair.Value.Item2);
-                        return pair.Value.Item1;
-                    }
-                }
-                return null;
+                return wave.Collapse();
             }
             return null;
         }
