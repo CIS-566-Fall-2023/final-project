@@ -19,11 +19,11 @@ public class Cell : MonoBehaviour, IWFCCell
     [SerializeField]
     IWFCTile tile;
     [SerializeField]
-    Item item;
+    public Item item;
     [SerializeField]
     int edgeNum = 3;
     [SerializeField]
-    Cell[] neighbours = new Cell[3];
+    public Cell[] neighbors = new Cell[3];
     public WFCType Type => type;
     public IWFCTile Tile => tile;
 
@@ -35,7 +35,7 @@ public class Cell : MonoBehaviour, IWFCCell
 
     public IWFCCell[] GetAdjacentCells()
     {
-        return neighbours;
+        return neighbors;
     }
 
     public IWFCCell[] GetAdjacentCellsInTile(IWFCTile tile)

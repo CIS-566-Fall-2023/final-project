@@ -183,8 +183,9 @@ public class HexagonTile : MonoBehaviour
                     newPos = _rotation * newPos;
                     cellGO.transform.position = newPos + center;
                     cellGO.transform.parent = transform;
-                    cellGO.name = i.ToString();
+                    cellGO.name = "cell" + i.ToString();
                 }
+                // TODO: cell neighbors
             }
         }
         else
