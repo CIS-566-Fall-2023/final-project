@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SphereCreation : MonoBehaviour
@@ -7,17 +8,16 @@ public class SphereCreation : MonoBehaviour
 
     public GameObject tilePrefab;
     public GameObject tileParent;
-    
+
     public sHexGrid finalGrid;
     public int size = 0;
     public float planetSize = 1.0f;
     public int cellDensity = 1;
-    public float cellSize = 0.01f;
     // Start is called before the first frame update
     void Start()
     {
         finalGrid = size_n_grid(size);
-        CreateObjects();
+        CreateTiles();
         tileParent.transform.localScale *= planetSize;
     }
 
@@ -33,23 +33,17 @@ public class SphereCreation : MonoBehaviour
         }
     }
 
-    void CreateObjects()
+    void CreateTiles()
     {
         for(int i = 0; i < finalGrid.tiles.Count; i++)
         {
             List<Vector3> cellPosList = new List<Vector3>();
-            var tile = Instantiate(tilePrefab);
-            tile.transform.parent = tileParent.transform;
-            tile.GetComponent<HexagonTile>().SetupTile(finalGrid.tiles[i].position, finalGrid.tiles[i].corners, finalGrid.tiles[i]);
-            cellPosList = tile.GetComponent<HexagonTile>().SetupCellsPosition(cellDensity, finalGrid.tiles[i].corners);
-            foreach (Vector3 cellPos in cellPosList)
-            {
-                GameObject cell = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere));
-                cell.transform.position = cellPos;
-                cell.transform.parent = tile.transform;
-                cell.transform.localScale *= cellSize;
-            }
-            tile.name = i.ToString();
+            var tileGO = Instantiate(tilePrefab);
+            var tile = tileGO.GetOrAddComponent<HexagonTile>();
+            tileGO.transform.parent = tileParent.transform;
+            tile.SetupTile(finalGrid.tiles[i].position, finalGrid.tiles[i].corners, finalGrid.tiles[i]);
+            tile.SetupCells(cellDensity, finalGrid.tiles[i].corners);
+            tileGO.name = "tile" + i.ToString();
         }
     }
 
