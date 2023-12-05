@@ -225,9 +225,9 @@ public class SphereCreation : MonoBehaviour
         sCorner c = grid.corners[id];
         sTile[] tiles = { grid.tiles[t1], grid.tiles[t2], grid.tiles[t3] };
 
-        Vector3 pos0 = tiles[0].edgeCount == 6 ? tiles[0].position : tiles[0].position / (0.87f * (size + 28) / (size + 27));
-        Vector3 pos1 = tiles[1].edgeCount == 6 ? tiles[1].position : tiles[1].position / (0.87f * (size + 28) / (size + 27));
-        Vector3 pos2 = tiles[2].edgeCount == 6 ? tiles[2].position : tiles[2].position / (0.87f * (size + 28) / (size + 27));
+        Vector3 pos0 = tiles[0].edgeCount == 6 ? tiles[0].position : tiles[0].position / (0.92f * (size + 28) / (size + 27));
+        Vector3 pos1 = tiles[1].edgeCount == 6 ? tiles[1].position : tiles[1].position / (0.92f * (size + 28) / (size + 27));
+        Vector3 pos2 = tiles[2].edgeCount == 6 ? tiles[2].position : tiles[2].position / (0.92f * (size + 28) / (size + 27));
         c.position = sTileMaths.normal(pos0 + pos1 + pos2);
 
         for (int i = 0; i < 3; i++)
