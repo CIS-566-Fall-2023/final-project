@@ -5214,6 +5214,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 37.04, y: -30, z: 0}
+--- !u!1 &851858555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 851858557}
+  - component: {fileID: 851858556}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &851858556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851858555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c0b997a04979148bf9288ffa60bb6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPool: []
+  hexagonItemLocalScale: {x: 1, y: 1, z: 1}
+  hexagonItemPositionOffset: {x: 0, y: 0, z: 0}
+--- !u!4 &851858557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851858555}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &875609927
 GameObject:
   m_ObjectHideFlags: 0
@@ -5518,7 +5565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 963194227}
   parent: {fileID: 1357102361}
-  moveSpeed: 5
+  moveSpeed: 4
   rotateSpeed: 20
   zoomSensitivity: 20
   zoomSpeed: 20
@@ -5580,7 +5627,7 @@ GameObject:
   - component: {fileID: 1316874886}
   - component: {fileID: 1316874888}
   m_Layer: 0
-  m_Name: PlanetCreator
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5605,7 +5652,7 @@ MonoBehaviour:
   finalGrid:
     gridSize: 0
   size: 2
-  planetSize: 3
+  planetSize: 1
 --- !u!4 &1316874887
 Transform:
   m_ObjectHideFlags: 0
@@ -5630,10 +5677,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1316874885}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b1aa13a43b578c4480dd64c0e465f05, type: 3}
+  m_Script: {fileID: 11500000, guid: 65c0b997a04979148bf9288ffa60bb6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIObj: {fileID: 875609927}
+  itemPool: []
+  hexagonItemLocalScale: {x: 1, y: 1, z: 1}
+  hexagonItemPositionOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1357102361
 GameObject:
   m_ObjectHideFlags: 0
@@ -5956,3 +6005,4 @@ SceneRoots:
   - {fileID: 1946533406}
   - {fileID: 450734949}
   - {fileID: 614953492}
+  - {fileID: 851858557}
