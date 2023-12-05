@@ -107,7 +107,7 @@ namespace Planetile
                     startingCells.Remove(cell);
                     foreach (var i in cell.GetAdjacentCellsInTile(tile))
                     {
-                        if (i.IsPlaced)
+                        if (i != null && !i.IsPlaced)
                         {
                             startingCells.Add(i);
                         }
@@ -116,6 +116,7 @@ namespace Planetile
                 else
                 {
                     Debug.LogError($"Failed to fill the cell {cell}.");
+                    break;
                 }
             }
         }
@@ -175,7 +176,7 @@ namespace Planetile
                     foreach (var item in itemPool)
                     {
                         // if it's null type, we can use any kind of item.
-                        if (cell.Type != WFCType.Null && cell.Type != item.Type) continue;
+                        if (cell.Type != WFCType.Null && (cell.Type & item.Type) == 0) continue;
                         float entropy = item.Entropy(cell);
                         if (entropy > 0)
                         {

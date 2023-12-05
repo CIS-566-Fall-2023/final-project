@@ -20,10 +20,18 @@ public class Cell : MonoBehaviour, IWFCCell
     public Item item;
     [SerializeField]
     int edgeNum = 3;
+    /// <summary>
+    /// neighbors inside the tile
+    /// </summary>
     [SerializeField]
     public Cell[] neighbors = new Cell[3];
 
     public Cell neighborInOtherTile;
+
+    /// <summary>
+    /// include neighbor in the other tile
+    /// </summary>
+    Cell[] allNeighbors;
     public WFCType Type => type;
     public IWFCTile Tile => tile;
 
@@ -35,23 +43,37 @@ public class Cell : MonoBehaviour, IWFCCell
 
     public void CleanUp()
     {
-        item = null; 
-        int childs = transform.childCount;
-
-        for (int i = childs - 1; i > 0; i--)
-        {
-            DestroyImmediate(transform.GetChild(i).gameObject);
-        }
+        item = null;
         type = WFCType.Null;
+        var children = new Transform[transform.childCount];
+        for (int i = 0; i < children.Length; i++)
+        {
+            children[i] = transform.GetChild(i);
+        }
+        foreach (var child in children)
+        {
+            Destroy(child.gameObject);
+        }
     }
     public IWFCCell[] GetAdjacentCells()
     {
-        return neighbors;
+        if (allNeighbors == null)
+        {
+            allNeighbors = new Cell[neighbors.Length];
+            for (int i = 0; i < neighbors.Length; i++)
+            {
+                if (neighbors[i] == null)
+                    allNeighbors[i] = neighborInOtherTile;
+                else
+                    allNeighbors[i] = neighbors[i];
+            }
+        }
+        return allNeighbors;
     }
 
     public IWFCCell[] GetAdjacentCellsInTile(IWFCTile tile)
     {
-        throw new System.NotImplementedException();
+        return neighbors;
     }
 
     public Vector3 GetWorldPos()

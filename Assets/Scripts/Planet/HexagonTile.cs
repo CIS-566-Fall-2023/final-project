@@ -197,12 +197,14 @@ public class HexagonTile : MonoBehaviour, IWFCTile
                     if (cell.neighbors[j] == null)
                     {
                         var otherCells = neighborTile.cellData.CellsOnTileEdge(i);
-                        cell.neighbors[j] = otherCells[0];
+                        //cell.neighbors[j] = otherCells[0];
+                        cell.neighborInOtherTile = otherCells[0];
                         for (int k = 1; k < cell.neighbors.Length; k++)
                             if (Vector3.Magnitude(otherCells[k].transform.position - cell.transform.position) <
                                 Vector3.Magnitude(cell.neighbors[j].transform.position - cell.transform.position))
                             {
-                                cell.neighbors[j] = otherCells[k];
+                                //cell.neighbors[j] = otherCells[k];
+                                cell.neighborInOtherTile = otherCells[k];
                             }
                         break;
                     }

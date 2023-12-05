@@ -68,11 +68,13 @@ namespace Planetile
         {
             var neighbors = cell.GetAdjacentCells();
             float ret = 1f;
+            bool success = false;
             foreach (var rule in rules)
             {
-                rule.ApplyRule(ref ret, neighbors);
+                success = success || rule.ApplyRule(ref ret, neighbors);
             }
-            return ret;
+            if (success) return ret;
+            else return 0f;
         }
     }
 }

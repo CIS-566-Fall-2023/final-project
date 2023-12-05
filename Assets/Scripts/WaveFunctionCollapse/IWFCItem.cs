@@ -178,7 +178,7 @@ namespace Planetile
                         case "==":
                             var a = operends.Pop();
                             var b = operends.Pop();
-                            conditions.Push((a & b) != 0);
+                            conditions.Push((a & b) != 0 || a == WFCType.Null || b == WFCType.Null);
                             break;
                         case "!=":
                             a = operends.Pop();
