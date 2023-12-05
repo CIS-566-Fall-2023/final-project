@@ -9,21 +9,17 @@ public class Cell : MonoBehaviour, IWFCCell
     /// <summary>
     /// the direction of the triangle
     /// </summary>
-    bool bottomFlat = false;
-    public bool BottomFlat
-    {
-        get => bottomFlat; set => bottomFlat = value;
-    }
+    public bool bottomFlat = false;
     [SerializeField]
     WFCType type;
     [SerializeField]
     IWFCTile tile;
     [SerializeField]
-    Item item;
+    public Item item;
     [SerializeField]
     int edgeNum = 3;
     [SerializeField]
-    Cell[] neighbours = new Cell[3];
+    public Cell[] neighbors = new Cell[3];
     public WFCType Type => type;
     public IWFCTile Tile => tile;
 
@@ -35,7 +31,7 @@ public class Cell : MonoBehaviour, IWFCCell
 
     public IWFCCell[] GetAdjacentCells()
     {
-        return neighbours;
+        return neighbors;
     }
 
     public IWFCCell[] GetAdjacentCellsInTile(IWFCTile tile)
@@ -57,5 +53,27 @@ public class Cell : MonoBehaviour, IWFCCell
             this.type = __item.Type;
             this.item = Instantiate(__item, this.transform);
         }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(transform.position, 0.02f);
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        var verts = new Vector3[3];
+        verts[0] = transform.localPosition;
+        verts[0].z += bottomFlat? 0.5773502691896258f : -0.5773502691896258f/* * transform.lossyScale.x*/;
+        verts[1] = transform.localPosition;
+        verts[1].x += 0.5f;
+        verts[1].z += bottomFlat ? -0.2886751345948129f : 0.2886751345948129f/* * transform.lossyScale.z*/;
+        verts[2] = transform.localPosition;
+        verts[2].x -= 0.5f;
+        verts[2].z += bottomFlat ? -0.2886751345948129f : 0.2886751345948129f/* * transform.lossyScale.z*/;
+        //Gizmos.matrix = Matrix4x4.Rotate(transform.rotation);
+        Gizmos.matrix = transform.parent.localToWorldMatrix;
+        Gizmos.DrawLine(verts[0], verts[1]);
+        Gizmos.DrawLine(verts[1], verts[2]);
+        Gizmos.DrawLine(verts[2], verts[0]);
     }
 }
