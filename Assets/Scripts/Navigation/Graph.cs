@@ -9,18 +9,18 @@ namespace Navigation
 {
     public class Graph
     {
-        private List<List<EdgeInfo>> _adjList;
-        private List<VertexInfo> _vertices;
+        public List<List<EdgeInfo>> AdjList;
+        public List<VertexInfo> Vertices;
 
         public Graph(List<List<EdgeInfo>> adjList, List<VertexInfo> vertices)
         {
-            _adjList = adjList;
-            _vertices = vertices;
+            AdjList = adjList;
+            Vertices = vertices;
         }
 
         public IEnumerable<ICurve> Curves()
         {
-            foreach (var adj in _adjList)
+            foreach (var adj in AdjList)
             {
                 foreach (var edge in adj)
                 {
@@ -31,7 +31,7 @@ namespace Navigation
 
         public IEnumerable<Rectangle> Rectangles()
         {
-            foreach (var vertex in _vertices)
+            foreach (var vertex in Vertices)
             {
                 if (vertex.region is RectangleRegion)
                 {

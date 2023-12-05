@@ -7,7 +7,13 @@ namespace MyDebug
     {
         public ICurve Curve;
         public Color Color;
-        
+
+        public DebugCurve(ICurve curve, Color color)
+        {
+            Curve = curve;
+            Color = color;
+        }
+
         public void Draw()
         {
             foreach (var (a, b) in Curve.ToPointStream().Pairwise())
