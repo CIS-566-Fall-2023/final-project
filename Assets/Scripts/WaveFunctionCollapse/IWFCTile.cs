@@ -6,6 +6,7 @@ namespace Planetile
 {
     public interface IWFCTile
     {
+        int Index { get; }
         /// <summary>
         /// Hexgon: 6, Pentagon: 5
         /// </summary>
@@ -17,7 +18,7 @@ namespace Planetile
         /// <returns>If not adjacent, return -1. </returns>
         int Adjacency(IWFCTile tile);
         IEnumerable<IWFCCell> Cells { get; }
-        IWFCTile[] GetAdjacentTiles();
-        IWFCCell[] GetCellsOnEdge(int edge);
+        //IWFCTile[] GetAdjacentTiles();
+        IEnumerable<IWFCCell> GetCellsOnEdge(int edge);
     }
 }

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using Planetile;
+using static UnityEngine.UI.GridLayoutGroup;
 
-public class HexagonTile : MonoBehaviour
+public class HexagonTile : MonoBehaviour, IWFCTile
 {
     public GameObject hexagonCellsPrefab;
     public GameObject pentagonCellsPrefab;
@@ -17,11 +19,11 @@ public class HexagonTile : MonoBehaviour
     public Vector3 normal;
     //public Quaternion rotation;
     public Vector3 center;
-    public sCorner[] Corners;
+    public List<sCorner> corners;
 
     public void SetupTile(Vector3 pos, List<sCorner> corners, sTile self)
     {
-
+        this.corners = corners;
         position = pos;
         transform.position = pos;
         ID = self.id;
@@ -35,7 +37,6 @@ public class HexagonTile : MonoBehaviour
     }
     public void SetupMesh(List<sCorner> corners)
     {
-        Corners = corners.ToArray();
         Vector3[] vertices = new Vector3[corners.Count];
         for (int i = 0; i < corners.Count; i++)
         {
@@ -111,10 +112,6 @@ public class HexagonTile : MonoBehaviour
     /// cash cell positions and directions
     /// </summary>
     Dictionary<int, List<System.Tuple<Vector3, bool>>> hexgonCellDict = new Dictionary<int, List<System.Tuple<Vector3, bool>>>();
-    /// <summary>
-    /// cash cell neighbor indices
-    /// </summary>
-    Dictionary<int, int[]> cellAdjs = new Dictionary<int, int[]>();
 
     public void SetupCellsInEquilateralTriangle(ref List<System.Tuple<Vector3, bool>> listOut, Vector3 center, bool bottomFlat, int remaining)
     {
@@ -155,15 +152,14 @@ public class HexagonTile : MonoBehaviour
         hexgonCellDict.Add(cellDensity, list);
     }
 
-    public void SetupCells(List<sCorner> corners, Vector3 forwardDir)
+    public void SetupCells(List<sCorner> corners)
     {
+        var forwardPos = SphereCreation.Instance.tiles[connectedTiles[0]].center;
+        var forwardDir = Vector3.Normalize(forwardPos - center);
         var _rotation = Quaternion.LookRotation(forwardDir, normal);
         if (corners.Count == 6)
         {
             float edgeLength = Vector3.Magnitude(transform.position - corners[0].position) / 2;
-            if (!hexgonCellDict.ContainsKey(2))
-                SetupLocalCellsPositionHexagon(2);
-            var cellProps = hexgonCellDict[2];
             GameObject newTileGO = Instantiate(hexagonCellsPrefab);
             newTileGO.transform.parent = transform;
             cellData = newTileGO.GetComponent<HardcodedCells>();
@@ -178,14 +174,58 @@ public class HexagonTile : MonoBehaviour
             // TODO: Îå±ßÐÎ
         }
     }
+    public void ConnectCellsWithOtherTile()
+    {
+        for (int i = 0; i < connectedTiles.Count; ++i)
+        {
+            var neighborTile = SphereCreation.Instance.tiles[connectedTiles[i]];
+            int otherEdge = neighborTile.Adjacency(this);
+            foreach (var cell in cellData.CellsOnTileEdge(i))
+            {
+                for (int j = 0; j < cell.neighbors.Length; j++)
+                {
+                    if (cell.neighbors[j] == null)
+                    {
+                        var otherCells = neighborTile.cellData.CellsOnTileEdge(i);
+                        cell.neighbors[j] = otherCells[0];
+                        for (int k = 1; k < cell.neighbors.Length; k++)
+                        if (Vector3.Magnitude(otherCells[k].transform.position - cell.transform.position) <
+                            Vector3.Magnitude(cell.neighbors[j].transform.position - cell.transform.position))
+                        {
+                            cell.neighbors[j] = otherCells[k];
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.matrix = Matrix4x4.identity;
         Gizmos.color = Color.yellow;
-        foreach (var corner in Corners)
+        foreach (var corner in corners)
         {
             Gizmos.DrawSphere(corner.position, 0.01f);
         }
         Gizmos.DrawLine(center, center + normal);
+    }
+    public int Index => ID;
+    public int EdgeNum => corners.Count;
+    public int Adjacency(IWFCTile tile)
+    {
+        for (int i = 0; i < connectedTiles.Count; i++)
+        {
+            if (connectedTiles[i] == tile.Index) return i;
+        }
+        return -1;
+    }
+
+
+    IEnumerable<IWFCCell> IWFCTile.Cells => cellData.Cells;
+
+    public IEnumerable<IWFCCell> GetCellsOnEdge(int edge)
+    {
+        return cellData.CellsOnTileEdge(edge);
     }
 }

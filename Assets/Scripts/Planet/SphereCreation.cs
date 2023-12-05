@@ -1,3 +1,4 @@
+using Planetile;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,6 +6,29 @@ using UnityEngine;
 
 public class SphereCreation : MonoBehaviour
 {
+    private static SphereCreation instance;
+    public static SphereCreation Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType(typeof(SphereCreation)) as SphereCreation;
+                if (instance == null)
+                {
+                    GameObject go = GameObject.Find("GameManager");
+                    if (go == null)
+                    {
+                        go = new GameObject("GameManager");
+                        go.tag = "GameController";
+                        DontDestroyOnLoad(go);
+                    }
+                    instance = go.AddComponent<SphereCreation>();
+                }
+            }
+            return instance;
+        }
+    }
     public List<HexagonTile> tiles = new List<HexagonTile>();
     public GameObject tilePrefab;
     public GameObject tileParent;
@@ -48,8 +72,7 @@ public class SphereCreation : MonoBehaviour
         for (int i = 0; i < finalGrid.tiles.Count; i++)
         {
             var tile = tiles[i];
-            var forwardPos = tiles[tile.connectedTiles[0]].center;
-            tile.SetupCells(finalGrid.tiles[i].corners, Vector3.Normalize(forwardPos - tile.center));
+            tile.SetupCells(finalGrid.tiles[i].corners);
         }
     }
 
