@@ -13,8 +13,8 @@ Some features present in the simulation include: terrain and population generati
 #### Techniques:
 I will be looking at L-system generation of highways and roads. More specifically, I'll be using techniques for closed L-systems for road systems, which has been applied to blood vessel generation.
 
-#### Design:
-- How will your program fit together? Make a simple free-body diagram illustrating the pieces.
+#### Design:. 
+Base terrain class (user specified parameters) -> Highways and roads -> simulate highway growth first -> once no more highways are growing we can begin simulating local roads -> add buildings
 
 Submission:
 - Push all your code / files to your repository
