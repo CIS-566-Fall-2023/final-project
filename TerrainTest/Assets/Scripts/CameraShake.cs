@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using DG.Tweening;
 
 public class CameraShake : MonoBehaviour
 {
 
     // shake
-    Vector3 originPosition;
-    Quaternion originRotation;
+    Vector3 punchVec = new Vector3(0.03f, 0.1f, 0);
+    float duration = 0.5f;
     Quaternion startRotation;
-    float shake_decay;
-    float shake_intensity;
 
     public static CameraShake Instance { get; private set; }
 
@@ -23,31 +22,11 @@ public class CameraShake : MonoBehaviour
     private void Start()
     {
         startRotation = transform.rotation;
-    }
-    private void Update()
-    {
-        if (shake_intensity > 0)
-        {
-            Vector3 move = new Vector3(0, Random.Range(-1.0f, 1.0f), 0);
-            transform.position = originPosition + move * shake_intensity;
-            transform.rotation = new Quaternion(
-                            originRotation.x + Random.Range(-shake_intensity, shake_intensity) * 0.12f,
-                            originRotation.y,
-                            originRotation.z + Random.Range(-shake_intensity, shake_intensity) * 0.12f,
-                            originRotation.w );
-            shake_intensity -= shake_decay;
-        }
-        else
-        {
-            transform.rotation = startRotation;
-        }
+        transform.DOShakeRotation(2.0f, 0.5f, 2, 20, false, ShakeRandomnessMode.Harmonic).SetLoops(-1, LoopType.Yoyo);
     }
 
     public void Shake()
-    {
-        originPosition = transform.position;
-        originRotation = transform.rotation;
-        shake_intensity = 0.09f;
-        shake_decay = 0.0008f;
+    {       
+        transform.DOPunchPosition(punchVec, duration, 5, 0, false);
     }
 }
