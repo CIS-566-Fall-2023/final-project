@@ -11,6 +11,7 @@ public class Cell : MonoBehaviour, IWFCCell
     /// the direction of the triangle
     /// </summary>
     public bool bottomFlat = false;
+    public int PentagonRotationFlag = -1;
     [SerializeField]
     WFCType type;
     [SerializeField]
