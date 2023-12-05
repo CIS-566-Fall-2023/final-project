@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material
-  m_Shader: {fileID: 4800000, guid: 4a0b92115778fdc4796ae05f9b70fc65, type: 3}
+  m_Shader: {fileID: 4800000, guid: 1d86b6f7a2b9cc243812c24b58ddfe8f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -29,6 +29,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ColorMap:
         m_Texture: {fileID: 2800000, guid: 4f34229e179ba2a4b8c5eaeddc2604a7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cube:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -91,10 +95,10 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0.24
     - _GlossyReflections: 1
-    - _KnotCount: 5
-    - _MaxHeight: 80.1
+    - _KnotCount: 1
+    - _MaxHeight: 100
     - _MaxRadius: 2
     - _Metallic: 0
     - _MinRadius: 1
