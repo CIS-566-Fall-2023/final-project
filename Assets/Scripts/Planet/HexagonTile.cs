@@ -175,9 +175,9 @@ public class HexagonTile : MonoBehaviour, IWFCTile
             cellData = newTileGO.GetComponent<HardcodedCells>();
             newTileGO.transform.position = center;
             newTileGO.transform.localScale = new Vector3(edgeLength, edgeLength, edgeLength);
-            //newTileGO.transform.rotation = _rotation;
-            newTileGO.transform.forward = forwardDir;
-            newTileGO.transform.up = normal;
+            newTileGO.transform.rotation = _rotation;
+            //newTileGO.transform.forward = forwardDir;
+            //newTileGO.transform.up = normal;
         }
         else
         {
@@ -190,8 +190,9 @@ public class HexagonTile : MonoBehaviour, IWFCTile
 
             var forwardPos = corners[0].position;
             var forwardDir = Vector3.Normalize(forwardPos - center);
-            newTileGO.transform.forward = -forwardDir;
-            newTileGO.transform.up = normal;
+            //newTileGO.transform.forward = -forwardDir;
+            //newTileGO.transform.up = normal;
+            newTileGO.transform.rotation = Quaternion.LookRotation(forwardDir, normal);
         }
     }
     public void ConnectCellsWithOtherTile()
@@ -233,6 +234,9 @@ public class HexagonTile : MonoBehaviour, IWFCTile
                 Gizmos.DrawSphere(corner.position, 0.01f);
             }
             Gizmos.DrawLine(center, center + normal);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(center, center + Vector3.Normalize(corners[0].position - center));
         }
     }
     public int Index => ID;
