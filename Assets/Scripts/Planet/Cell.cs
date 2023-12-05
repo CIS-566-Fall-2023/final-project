@@ -10,6 +10,7 @@ public class Cell : MonoBehaviour, IWFCCell
     /// the direction of the triangle
     /// </summary>
     public bool bottomFlat = false;
+    public int PentagonRotationFlag = -1;
     [SerializeField]
     WFCType type;
     [SerializeField]
@@ -61,19 +62,26 @@ public class Cell : MonoBehaviour, IWFCCell
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        var verts = new Vector3[3];
-        verts[0] = transform.localPosition;
-        verts[0].z += bottomFlat? 0.5773502691896258f : -0.5773502691896258f/* * transform.lossyScale.x*/;
-        verts[1] = transform.localPosition;
-        verts[1].x += 0.5f;
-        verts[1].z += bottomFlat ? -0.2886751345948129f : 0.2886751345948129f/* * transform.lossyScale.z*/;
-        verts[2] = transform.localPosition;
-        verts[2].x -= 0.5f;
-        verts[2].z += bottomFlat ? -0.2886751345948129f : 0.2886751345948129f/* * transform.lossyScale.z*/;
-        //Gizmos.matrix = Matrix4x4.Rotate(transform.rotation);
-        Gizmos.matrix = transform.parent.localToWorldMatrix;
-        Gizmos.DrawLine(verts[0], verts[1]);
-        Gizmos.DrawLine(verts[1], verts[2]);
-        Gizmos.DrawLine(verts[2], verts[0]);
+
+        // 计算等腰三角形的顶点
+        float baseLength = 0.5f; // 底边长度
+        float halfBase = baseLength / 2; // 底边一半的长度
+        float topAngle = 72f; // 顶角
+        float topAngleRad = topAngle * Mathf.Deg2Rad; // 顶角转换为弧度
+
+        // 计算高
+        float height = (baseLength / 2) / Mathf.Tan(topAngleRad / 2);
+
+        // 底边的两个顶点
+        Vector3 baseVertex1 = transform.position + transform.right * halfBase;
+        Vector3 baseVertex2 = transform.position - transform.right * halfBase;
+
+        // 顶点
+        Vector3 topVertex = transform.position + transform.up * height;
+
+        // 绘制三角形
+        Gizmos.DrawLine(baseVertex1, baseVertex2);
+        Gizmos.DrawLine(baseVertex2, topVertex);
+        Gizmos.DrawLine(topVertex, baseVertex1);
     }
 }

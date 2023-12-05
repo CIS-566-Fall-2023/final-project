@@ -193,15 +193,29 @@ public class SphereCreation : MonoBehaviour
     void AddCorner(int id, sHexGrid grid, int t1, int t2, int t3)
     {
         sCorner c = grid.corners[id];
-        sTile[] t = {grid.tiles[t1], grid.tiles[t2], grid.tiles[t3]};
-        Vector3 pos = t[0].position + t[1].position + t[2].position;
-        c.position = sTileMaths.normal(pos);
+        sTile[] tiles = { grid.tiles[t1], grid.tiles[t2], grid.tiles[t3] };
 
-        for(int i = 0 ; i < 3; i++)
+        Vector3 averagePosition = CalculateSphericalAverage(tiles[0].position, tiles[1].position, tiles[2].position);
+        c.position = averagePosition;
+
+        for (int i = 0; i < 3; i++)
         {
-            t[i].corners[sTileMaths.CalculatePosition(t[i], t[(i+2) % 3 ])] = c;
-            c.adjTiles[i] = t[i];
+            tiles[i].corners[sTileMaths.CalculatePosition(tiles[i], tiles[(i + 2) % 3])] = c;
+            c.adjTiles[i] = tiles[i];
         }
+    }
+
+    Vector3 CalculateSphericalAverage(Vector3 p1, Vector3 p2, Vector3 p3)
+    {
+        Vector3 centroid = (p1 + p2 + p3) / 3f;
+        float radius = centroid.magnitude;
+        centroid = centroid.normalized;
+
+        Vector3 adjustedP1 = Vector3.Slerp(p1.normalized, centroid, 0.5f).normalized * radius;
+        Vector3 adjustedP2 = Vector3.Slerp(p2.normalized, centroid, 0.5f).normalized * radius;
+        Vector3 adjustedP3 = Vector3.Slerp(p3.normalized, centroid, 0.5f).normalized * radius;
+
+        return (adjustedP1 + adjustedP2 + adjustedP3) / 3f;
     }
 
     void AddEdge(int id, sHexGrid grid, int t1, int t2)
