@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Map : MonoBehaviour
 {
     public int layers = 3;
     public int length = 6;
     public float hexSize = 0.8f;
-    public int tilesPerBiome = 10;
+    public int tilesPerBiome = 6;
     public List<BiomeConfig> biomes;
 
     private List<List<GameObject>> m_hexTiles;
@@ -19,25 +20,95 @@ public class Map : MonoBehaviour
     private const float half_sqr3 = 0.866f;
     private const float size_adjust = 1.13f;
 
+    private Transform m_objsTransfrom;
+    private bool m_skyChanged = false;
+
     private void Start()
     {
         m_currBiome = 0;
-        GenerateGrid();
+        m_objsTransfrom = GameObject.Find("ObjectManager").transform;
+        InitializeObjPools();
+        SkyboxController.Instance.UpdateSkyColor(biomes[m_currBiome].skyConfig);
+        m_skyChanged = true;
     }
 
     private void Update()
     {
+        if (!ObjectManager.Instance.initializationFinished) return;
+
         UpdateGrid();
 
         if(m_tileCount >= tilesPerBiome)
         {
-            m_tileCount = 0;
-            m_currBiome++;
-            if (m_currBiome >= biomes.Count)
+            UpdateCurrBiome();
+        }
+
+        if(!m_skyChanged && m_tileCount == tilesPerBiome - 1)
+        {
+            SkyboxController.Instance.UpdateSkyColor(biomes[m_currBiome].skyConfig);
+            m_skyChanged = true;
+        }
+    }
+
+    private void UpdateCurrBiome()
+    {
+        m_tileCount = 0;
+        m_currBiome++;
+        if (m_currBiome >= biomes.Count)
+        {
+            m_currBiome = 0;
+        }
+        m_skyChanged = false;
+    }
+
+    public void InitializeObjPools()
+    {
+        for (int i = 0; i < biomes.Count; i++)
+        {
+            if (biomes[i].far.hasTree)
             {
-                m_currBiome = 0;
+                int treePoolSize = biomes[i].far.treeNumberPerGrid * tilesPerBiome * 2;
+                int poolID = ObjectManager.Instance.InitializeObjectPool(treePoolSize, biomes[i].far.tree);
+                biomes[i].far.treePoolID = poolID;
+            }
+
+            if (biomes[i].mid.hasTree)
+            {
+                int treePoolSize = biomes[i].mid.treeNumberPerGrid * tilesPerBiome * 2;
+                int poolID = ObjectManager.Instance.InitializeObjectPool(treePoolSize, biomes[i].mid.tree);
+                biomes[i].mid.treePoolID = poolID;
+            }
+
+            if (biomes[i].near.hasTree)
+            {
+                int treePoolSize = biomes[i].near.treeNumberPerGrid * tilesPerBiome * 2;
+                int poolID = ObjectManager.Instance.InitializeObjectPool(treePoolSize, biomes[i].near.tree);
+                biomes[i].near.treePoolID = poolID;
+            }
+
+            if (biomes[i].far.hasStone)
+            {
+                int poolSize = biomes[i].far.stoneNumberPerGrid * tilesPerBiome * 2;
+                int poolID = ObjectManager.Instance.InitializeObjectPool(poolSize, biomes[i].far.stone);
+                biomes[i].far.stonePoolID = poolID;
+            }
+
+            if (biomes[i].mid.hasStone)
+            {
+                int poolSize = biomes[i].mid.stoneNumberPerGrid * tilesPerBiome * 2;
+                int poolID = ObjectManager.Instance.InitializeObjectPool(poolSize, biomes[i].mid.stone);
+                biomes[i].mid.stonePoolID = poolID;
+            }
+
+            if (biomes[i].near.hasStone)
+            {
+                int poolSize = biomes[i].near.stoneNumberPerGrid * tilesPerBiome * 2;
+                int poolID = ObjectManager.Instance.InitializeObjectPool(poolSize, biomes[i].near.stone);
+                biomes[i].near.stonePoolID = poolID;
             }
         }
+        ObjectManager.Instance.initializationFinished = true;
+        GenerateGrid();
     }
 
     public void GenerateGrid()
@@ -46,17 +117,36 @@ public class Map : MonoBehaviour
         m_headPos.x = -0.5f * (length - 1) * hexSize * half_sqr3;
         m_headPos.y = 0.5f * (layers - 1) * hexSize * half_sqr3;
 
-
-        for (int z = 0; z < layers; z++)
+        int currX = 0;
+        while(currX < length)
         {
-            m_hexTiles.Add(new List<GameObject>());
-            for (int x = 0; x < length; x++)
+            if(currX + tilesPerBiome < length)
             {
-                SpawnHexTile(z, x);
+                for (int z = 0; z < layers; z++)
+                {
+                    m_hexTiles.Add(new List<GameObject>());
+                    for (int x = currX; x < currX + tilesPerBiome; x++)
+                    {
+                        SpawnHexTile(z, x);
+                    }
+                }
+                UpdateCurrBiome();
+                currX += tilesPerBiome;
             }
-        }
-
-        m_tileCount = length;
+            else
+            {
+                for (int z = 0; z < layers; z++)
+                {
+                    m_hexTiles.Add(new List<GameObject>());
+                    for (int x = currX; x < length; x++)
+                    {
+                        SpawnHexTile(z, x);
+                    }
+                }
+                m_tileCount += length - currX;
+                currX = length;
+            }       
+        }     
     }
 
     public void SpawnHexTile(int z, int x)
@@ -126,6 +216,16 @@ public class Map : MonoBehaviour
             {
                 tile = m_hexTiles[z][0];
                 m_hexTiles[z].RemoveAt(0);
+
+                //Disable objects on tile
+                int childCnt = tile.transform.childCount;
+                for (int i = childCnt - 1; i >= 0; i--)
+                { 
+                    Transform g = tile.transform.GetChild(i);
+                    g.SetParent(m_objsTransfrom);
+                    g.gameObject.SetActive(false);
+                }
+              
                 Destroy(tile);
                 SpawnHexTile(z, length - 1);
             }
@@ -137,15 +237,15 @@ public class Map : MonoBehaviour
     {
         if(layer.hasTree)
         {
-            SpawnObjectsOnGrid(layer.treeNumberPerGrid, layer.tree, parent);
+            SpawnObjectsOnGrid(layer.treePoolID, layer.treeNumberPerGrid, parent, layer.randomPosY, layer.randomPosYRange);
         }
         if (layer.hasStone)
         {
-            SpawnObjectsOnGrid(layer.stoneNumberPerGrid, layer.stone, parent);
+            SpawnObjectsOnGrid(layer.stonePoolID, layer.stoneNumberPerGrid, parent, false, new Vector2(0, 0));
         }
     }
 
-    void SpawnObjectsOnGrid(int numberPerGrid, GameObject objectToSpawn, Transform parent)
+    void SpawnObjectsOnGrid(int poolID, int numberPerGrid, Transform parent, bool randomPosY, Vector2 randomPosYRange)
     {
         for (int i = 0; i < numberPerGrid; i++)
         {
@@ -157,8 +257,15 @@ public class Map : MonoBehaviour
             float terrainHeight = GetMeshTerrainHeight(new Vector3(randomX, 0f, randomZ));
             if (terrainHeight > 0.2) terrainHeight = 0;
             Vector3 spawnPosition = new Vector3(randomX, terrainHeight, randomZ);
+            if (randomPosY)
+            {
+                spawnPosition.y += UnityEngine.Random.Range(randomPosYRange.x, randomPosYRange.x);
+            }
 
-            GameObject newObj = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
+            GameObject newObj = ObjectManager.Instance.GetObjectFromPool(poolID);
+            if (!newObj) continue;
+            newObj.SetActive(true);
+            newObj.transform.position = spawnPosition;
             newObj.transform.Rotate(Vector3.up, UnityEngine.Random.Range(0, 360));
             newObj.transform.SetParent(parent, true);
         }

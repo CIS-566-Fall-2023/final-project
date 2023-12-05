@@ -3,67 +3,6 @@ using System;
 
 public class ProceduralMeshes
 {
-
-    private ProceduralMeshes()
-    {
-    }
-
-    public static Mesh CreateXYPlane(float width, float height, int xSegments, int ySegments, Vector3 center)
-    {
-        Mesh plane = new Mesh();
-
-        float xIncrement = width / (float)xSegments;
-        float yIncrement = height / (float)ySegments;
-
-        int vertexQuantity = (xSegments + 1) * (ySegments + 1);
-        Vector3[] vertexBuffer = new Vector3[vertexQuantity];
-        Vector3[] normalBuffer = new Vector3[vertexQuantity];
-        Vector2[] textureCoordinateBuffer = new Vector2[vertexQuantity];
-        int i = 0;
-        Vector3 vScan = center + new Vector3(-(width * 0.5f), -(height * 0.5f), 0);
-        for (int y = 0; y <= ySegments; y++)
-        {
-            Vector3 hScan = vScan;
-            for (int x = 0; x <= xSegments; x++)
-            {
-                hScan += new Vector3(xIncrement, 0, 0);
-                vertexBuffer[i] = new Vector3(hScan.x, hScan.y, hScan.z);
-                normalBuffer[i] = Vector3.up;
-                textureCoordinateBuffer[i] = new Vector2(x / (float)xSegments, y / (float)ySegments);
-                i++;
-            }
-            vScan += new Vector3(0, yIncrement, 0);
-        }
-
-        i = 0;
-        int[] indexBuffer = new int[(xSegments * ySegments * 2) * 3];
-        for (int y = 1; y <= ySegments; y++)
-        {
-            for (int x = 0; x < xSegments; x++)
-            {
-                int i0 = (y * (xSegments + 1)) + x;
-                int i1 = ((y - 1) * (xSegments + 1)) + x;
-                int i2 = i1 + 1;
-                int i3 = i0 + 1;
-
-                indexBuffer[i++] = i2;
-                indexBuffer[i++] = i1;
-                indexBuffer[i++] = i0;
-
-                indexBuffer[i++] = i2;
-                indexBuffer[i++] = i0;
-                indexBuffer[i++] = i3;
-            }
-        }
-
-        plane.vertices = vertexBuffer;
-        plane.triangles = indexBuffer;
-        plane.normals = normalBuffer;
-        plane.uv = textureCoordinateBuffer;
-
-        return plane;
-    }
-
     public static Mesh CreateXZPlane(float width, float depth, int xSegments, int zSegments, Vector3 center)
     {
         Mesh plane = new Mesh();
@@ -308,33 +247,8 @@ public class ProceduralMeshes
         textureCoordinateBuffer[i] = new Vector2(0.5F, 1.0F);
 
         i++;
-
-        if (i != vertexQuantity)
-        {
-            // TODO:
-            throw new Exception("");
-        }
-
-        if (!(radialSegments < (32768 - 1) && (radialSegments >= 0)))
-        {
-            // TODO:
-            throw new Exception("");
-        }
-
         int radialSegmentsCount = radialSegments;
-        if (!(vertexQuantity < (32768) && (vertexQuantity >= 0)))
-        {
-            // TODO:
-            throw new Exception("");
-        }
-
         int vq = vertexQuantity;
-        if (!(zSegments < (32768) && (zSegments >= 0)))
-        {
-            // TODO:
-            throw new Exception("");
-        }
-
         int zSegmentsCount = zSegments;
 
         // generate connectivity
@@ -382,12 +296,6 @@ public class ProceduralMeshes
             connectivityIndex += 3;
         }
 
-        if (indexBuffer.Length != 3 * triangleQuantity)
-        {
-            // TODO:
-            throw new Exception("");
-        }
-
         sphere.vertices = vertexBuffer;
         sphere.colors = colorBuffer;
         sphere.uv = textureCoordinateBuffer;
@@ -404,7 +312,6 @@ public class ProceduralMeshes
         sphere.triangles = indexBuffer;
 
         sphere.RecalculateNormals();
-        // sphere.Optimize();
 
         return sphere;
     }

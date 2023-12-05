@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public struct Layer
+public class Layer
 {
     public int width;
     public List<GameObject> meshes;
@@ -13,10 +13,15 @@ public struct Layer
     public bool hasTree;   
     public GameObject tree;
     public int treeNumberPerGrid;
+    public bool randomPosY;
+    public Vector2 randomPosYRange;
 
     public bool hasStone;
     public int stoneNumberPerGrid;
     public GameObject stone;
+
+    [HideInInspector] public int treePoolID;
+    [HideInInspector] public int stonePoolID;
 }
 
 [CreateAssetMenu(fileName = "New Biome Config", menuName = "Biome Config")]
@@ -29,6 +34,7 @@ public class BiomeConfig : ScriptableObject
     public Layer near;
     public Layer mid;
     public Layer far;
+    public SkyColorScriptableObject skyConfig;
 }
 
 
