@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 namespace Planetile
 {
@@ -27,11 +28,38 @@ namespace Planetile
         /// Available meshes. Randomly select one when being placed.
         /// </summary>
         [SerializeField]
-        List<Mesh> meshes;
+        Mesh mesh;
+
+        Vector3[] vertices;
+        int[] triangles;
 
         public WFCType Type { get { return type; } }
 
-        public WFCRule[] Rules => throw new NotImplementedException();
+        public WFCRule[] Rules => rules;
+
+        private void Awake()
+        {
+            mesh = GetComponent<MeshFilter>().mesh;
+        }
+
+        void Start()
+        {
+            MakeMeshData();
+            CreateMesh();
+        }
+
+        void MakeMeshData()
+        {
+            vertices = new Vector3[] { new Vector3(0, 0, 0), new Vector3(5, 0, 8.66f), new Vector3(10, 0, 0) };
+            triangles = new int[] { 0, 1, 2 };
+        }
+
+        void CreateMesh()
+        {
+            mesh.Clear();
+            mesh.vertices = vertices;
+            mesh.triangles = triangles;
+        }
 
         public float Entropy(IWFCCell cell)
         {
