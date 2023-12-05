@@ -39,12 +39,19 @@ namespace MyDebug
             // }
 
             Vector2 center = new Vector2(0, 0);
-            var towerRunner = new TowerRunner(center, 50, 70, 100);
-            
-            foreach (var sector in towerRunner.OuterRooms)
+            var generator = new BuildingGenerator();
+            generator.GenerateBuilding();
+
+            foreach (var curve in generator.GetWalls())
             {
-                _drawables.Add(new DebugSector(sector, Color.cyan));
+                _drawables.Add(new DebugCurve{ Curve = curve, Color = Color.blue });
             }
+            
+
+            // foreach (var sector in towerRunner.Sectors)
+            // {
+            //     _drawables.Add(new DebugSector(sector, Color.cyan));
+            // }
         }
 
         // Update is called once per frame
