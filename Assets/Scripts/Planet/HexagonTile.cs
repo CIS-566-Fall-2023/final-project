@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HexagonTile : MonoBehaviour
 {
+    public GameObject cellPrefab;
     public int ID;
     public List<int> connectedTiles; //For Record
+    public List<Cell> Cells;
+    public List<Cell>[] CellsOnTileEdges;
     public Vector3 position;
     public Vector3 normal;
     public Quaternion rotation;
@@ -80,7 +86,7 @@ public class HexagonTile : MonoBehaviour
             transform.gameObject.AddComponent<MeshRenderer>();
         }
         transform.GetComponent<MeshFilter>().mesh = mesh;
-        transform.GetComponent<MeshCollider>().sharedMesh = transform.GetComponent<MeshFilter>().mesh;
+        //transform.GetComponent<MeshCollider>().sharedMesh = transform.GetComponent<MeshFilter>().mesh;
         mesh.name = "NewAddedMesh";
 
         mesh.vertices = vertices;
@@ -93,6 +99,11 @@ public class HexagonTile : MonoBehaviour
     /// cash cell positions and directions
     /// </summary>
     Dictionary<int, List<System.Tuple<Vector3, bool>>> hexgonCellDict = new Dictionary<int, List<System.Tuple<Vector3, bool>>>();
+    /// <summary>
+    /// cash cell neighbor indices
+    /// </summary>
+    Dictionary<int, int[]> cellAdjs = new Dictionary<int, int[]>();
+
     public void SetupCellsInEquilateralTriangle(ref List<System.Tuple<Vector3, bool>> listOut, Vector3 center, bool bottomFlat, int remaining)
     {
         if (remaining == 0)
@@ -132,7 +143,7 @@ public class HexagonTile : MonoBehaviour
         hexgonCellDict.Add(cellDensity, list);
     }
 
-    public List<Vector3> SetupCellsPosition(int cellDensity, List<sCorner> corners)
+    public void SetupCells(int cellDensity, List<sCorner> corners)
     {
         Vector3 center = new Vector3(0, 0, 0);
         foreach (var corner in corners)
@@ -140,11 +151,11 @@ public class HexagonTile : MonoBehaviour
             center += corner.position;
         }
         center /= corners.Count;
-        List<Vector3> cellPosList = new List<Vector3>();
         if (cellDensity <= 0 || (corners.Count != 5 && corners.Count != 6))
         {
-            return cellPosList;
+            return;
         }
+        CellsOnTileEdges = new List<Cell>[corners.Count];
         if (corners.Count == 6)
         {
             if (cellDensity <= 1)
@@ -154,19 +165,31 @@ public class HexagonTile : MonoBehaviour
             else
             {
                 var _rotation = Quaternion.LookRotation(Vector3.Normalize((corners[0].position + corners[1].position) * 0.5f - transform.position), normal);
-                float edge = Vector3.Magnitude(transform.position - corners[0].position) / cellDensity;
+                float edgeLength = Vector3.Magnitude(transform.position - corners[0].position) / cellDensity;
                 if (!hexgonCellDict.ContainsKey(cellDensity))
                     SetupLocalCellsPositionHexagon(cellDensity);
-                foreach (var cell in hexgonCellDict[cellDensity])
+                var cellProps = hexgonCellDict[cellDensity];
+                for (int i = 0; i < cellProps.Count; ++i)
                 {
-                    Vector3 newPos = cell.Item1 * edge;
+                    var cellPos = cellProps.ElementAt(i).Item1;
+                    GameObject cellGO = Instantiate(cellPrefab);
+                    var cell = cellGO.GetOrAddComponent<Cell>();
+                    cell.BottomFlat = cellProps.ElementAt(i).Item2;
+                    Cells.Add(cell);
+
+
+                    // TODO: Fix position and rotation.
+                    Vector3 newPos = cellPos * edgeLength;
                     newPos = _rotation * newPos;
-                    cellPosList.Add(newPos + center);
+                    cellGO.transform.position = newPos + center;
+                    cellGO.transform.parent = transform;
+                    cellGO.name = i.ToString();
                 }
             }
         }
         else
         {
+            // TODO: Îå±ßÐÎ
             for (int i = 0; i < corners.Count; i++)
             {
                 Vector3 p1 = corners[i].position;
@@ -180,12 +203,10 @@ public class HexagonTile : MonoBehaviour
                         float beta = k / ((float)cellDensity + 1);
 
                         Vector3 point = (1 - alpha - beta) * center + alpha * p1 + beta * p2;
-                        cellPosList.Add(point);
+                        //cellPosList.Add(point);
                     }
                 }
             }
         }
-
-        return cellPosList;
     }
 }
