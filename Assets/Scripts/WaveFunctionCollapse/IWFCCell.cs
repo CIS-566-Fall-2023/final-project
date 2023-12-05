@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 
 namespace Planetile
 {
+    [Flags]
     public enum WFCType
     {
         Null = 0x00,

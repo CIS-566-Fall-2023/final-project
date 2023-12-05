@@ -13,10 +13,11 @@ public class HexagonTile : MonoBehaviour
     public int ID;
     public List<int> connectedTiles; //For Record
     public List<Cell> Cells;
-    public List<Cell>[] CellsOnTileEdges;
     public Vector3 position;
     public Vector3 normal;
-    public Quaternion rotation;
+    //public Quaternion rotation;
+    public Vector3 center;
+    public sCorner[] Corners;
 
     public void SetupTile(Vector3 pos, List<sCorner> corners, sTile self)
     {
@@ -26,6 +27,7 @@ public class HexagonTile : MonoBehaviour
         ID = self.id;
         connectedTiles = new List<int>();
         for (int i = 0; i < self.adjTiles.Count; i++)
+            //for (int i = self.adjTiles.Count-1; i >= 0; i--)
             connectedTiles.Add(self.adjTiles[i].id);
 
         SetupMesh(corners);
@@ -33,6 +35,7 @@ public class HexagonTile : MonoBehaviour
     }
     public void SetupMesh(List<sCorner> corners)
     {
+        Corners = corners.ToArray();
         Vector3[] vertices = new Vector3[corners.Count];
         for (int i = 0; i < corners.Count; i++)
         {
@@ -78,8 +81,15 @@ public class HexagonTile : MonoBehaviour
             indices[8] = 4;
         }
 
-        normal = Vector3.Cross(vertices[1] - vertices[0], vertices[1] - vertices[3]).normalized;
-        rotation = Quaternion.LookRotation(normal);
+        center = new Vector3(0, 0, 0);
+        foreach (var corner in corners)
+        {
+            center += corner.position;
+        }
+        center /= corners.Count;
+        //normal = Vector3.Cross(vertices[1] - vertices[0], vertices[1] - vertices[3]).normalized;
+
+        normal = Vector3.Normalize(Vector3.Cross(corners[0].position - corners[1].position, corners[0].position - corners[2].position));
 
         Mesh mesh = new Mesh();
         if (!transform.GetComponent<MeshFilter>() || !transform.GetComponent<MeshRenderer>())
@@ -145,18 +155,11 @@ public class HexagonTile : MonoBehaviour
         hexgonCellDict.Add(cellDensity, list);
     }
 
-    public void SetupCells(List<sCorner> corners)
+    public void SetupCells(List<sCorner> corners, Vector3 forwardDir)
     {
-        Vector3 center = new Vector3(0, 0, 0);
-        foreach (var corner in corners)
-        {
-            center += corner.position;
-        }
-        center /= corners.Count;
-        CellsOnTileEdges = new List<Cell>[corners.Count];
+        var _rotation = Quaternion.LookRotation(forwardDir, normal);
         if (corners.Count == 6)
         {
-            var _rotation = Quaternion.LookRotation(Vector3.Normalize((corners[0].position + corners[1].position) * 0.5f - transform.position), normal);
             float edgeLength = Vector3.Magnitude(transform.position - corners[0].position) / 2;
             if (!hexgonCellDict.ContainsKey(2))
                 SetupLocalCellsPositionHexagon(2);
@@ -166,11 +169,23 @@ public class HexagonTile : MonoBehaviour
             cellData = newTileGO.GetComponent<HardcodedCells>();
             newTileGO.transform.position = center;
             newTileGO.transform.localScale = new Vector3(edgeLength, edgeLength, edgeLength);
-            newTileGO.transform.rotation = Quaternion.LookRotation(normal);
+            //newTileGO.transform.rotation = _rotation;
+            newTileGO.transform.forward = forwardDir;
+            newTileGO.transform.up = normal;
         }
         else
         {
             // TODO: Îå±ßÐÎ
         }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.matrix = Matrix4x4.identity;
+        Gizmos.color = Color.yellow;
+        foreach (var corner in Corners)
+        {
+            Gizmos.DrawSphere(corner.position, 0.01f);
+        }
+        Gizmos.DrawLine(center, center + normal);
     }
 }
