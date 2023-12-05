@@ -22,6 +22,8 @@ public class Cell : MonoBehaviour, IWFCCell
     int edgeNum = 3;
     [SerializeField]
     public Cell[] neighbors = new Cell[3];
+
+    public Cell neighborInOtherTile;
     public WFCType Type => type;
     public IWFCTile Tile => tile;
 
@@ -98,7 +100,7 @@ public class Cell : MonoBehaviour, IWFCCell
                 Gizmos.color = Color.yellow;
                 break;
         }
-        Gizmos.DrawSphere(transform.position, 0.1f);
+        Gizmos.DrawSphere(transform.position, 0.1f * transform.lossyScale.x);
     }
     private void OnDrawGizmos()
     {

@@ -72,7 +72,7 @@ public class SphereCreation : MonoBehaviour
         for (int i = 0; i < finalGrid.tiles.Count; i++)
         {
             var tile = tiles[i];
-            tile.SetupCells(finalGrid.tiles[i].corners);
+            tile.SetupCells();
         }
     }
 

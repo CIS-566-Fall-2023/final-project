@@ -22,7 +22,7 @@ public class HexagonTile : MonoBehaviour, IWFCTile
 
     public void SetupTile(Vector3 pos, List<sCorner> corners, sTile self)
     {
-        this.corners = corners;
+        //this.corners = corners;
         position = pos;
         transform.position = pos;
         ID = self.id;
@@ -36,6 +36,7 @@ public class HexagonTile : MonoBehaviour, IWFCTile
     }
     public void SetupMesh(List<sCorner> corners)
     {
+        this.corners = corners;
         Vector3[] vertices = new Vector3[corners.Count];
         for (int i = 0; i < corners.Count; i++)
         {
@@ -151,9 +152,19 @@ public class HexagonTile : MonoBehaviour, IWFCTile
         hexgonCellDict.Add(cellDensity, list);
     }
 
-    public void SetupCells(List<sCorner> corners)
+    public void SetupCells()
     {
-        var forwardPos = SphereCreation.Instance.tiles[connectedTiles[0]].center;
+        var lengths = new float[6];
+        for (int i = 0; i < corners.Count; i++)
+        {
+            if (i == corners.Count - 1)
+                lengths[i] = Vector3.Magnitude(corners[i].position - corners[0].position);
+            else
+                lengths[i] = Vector3.Magnitude(corners[i].position - corners[i + 1].position);
+        }
+        Debug.Log($"{lengths[0]}, {lengths[1]}, , {lengths[2]}, {lengths[3]}, {lengths[4]}, {lengths[5]}");
+        //var forwardPos = SphereCreation.Instance.tiles[connectedTiles[0]].center;
+        var forwardPos = (corners[0].position + corners[1].position) * 0.5f;
         var forwardDir = Vector3.Normalize(forwardPos - center);
         var _rotation = Quaternion.LookRotation(forwardDir, normal);
         if (corners.Count == 6)
