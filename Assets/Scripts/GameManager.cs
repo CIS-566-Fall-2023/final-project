@@ -7,6 +7,7 @@ namespace Planetile
     public class GameManager : MonoBehaviour
     {
         private static GameManager instance;
+        public GameObject UIObj;
         public static GameManager Instance
         {
             get
@@ -27,6 +28,23 @@ namespace Planetile
                     }
                 }
                 return instance;
+            }
+        }
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                ShowUI();
+                Time.timeScale = 0;
+            }
+        }
+
+        private void ShowUI()
+        {
+            if(UIObj != null)
+            {
+                UIObj.SetActive(true);
             }
         }
     }
