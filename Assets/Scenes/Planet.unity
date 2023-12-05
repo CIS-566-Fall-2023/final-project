@@ -426,13 +426,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970920158b7223dc4a45da2ac4591fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tiles: []
   tilePrefab: {fileID: 172392494151628905, guid: 6883a8166a73d8c4091e18a8808dbbb0,
     type: 3}
   tileParent: {fileID: 1357102361}
   finalGrid:
     gridSize: 0
   size: 2
-  planetSize: 3
+  planetSize: 1
 --- !u!4 &1316874887
 Transform:
   m_ObjectHideFlags: 0
