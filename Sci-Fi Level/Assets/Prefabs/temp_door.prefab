@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5946081561655984620}
   - component: {fileID: 3308072351503719266}
   - component: {fileID: 3248529417142088228}
-  m_Layer: 0
+  - component: {fileID: 806675174227926724}
+  m_Layer: 7
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,6 +110,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &806675174227926724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3972815323727621532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f19d7aaa344bf409e92d83482b86ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftDoor: {fileID: 1017498891946581713}
+  rightDoor: {fileID: 9024378243317239937}
 --- !u!1 &5612026671452705884
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +136,7 @@ GameObject:
   - component: {fileID: 4976139355256235689}
   - component: {fileID: 5710407017954509636}
   - component: {fileID: 3984896677557836996}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RightWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +153,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.35, y: 2, z: 0.2}
-  m_LocalScale: {x: 2.8979998, y: 4.1, z: 0.35}
+  m_LocalScale: {x: 2.8979998, y: 4.1, z: 0.55}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5822292381351726600}
@@ -226,9 +241,10 @@ GameObject:
   - component: {fileID: 6366551613796965368}
   - component: {fileID: 7018826044690532658}
   - component: {fileID: 2457620959241463709}
-  m_Layer: 0
+  - component: {fileID: 121120750428635044}
+  m_Layer: 7
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -323,6 +339,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &121120750428635044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6159825798480434265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f19d7aaa344bf409e92d83482b86ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftDoor: {fileID: 1017498891946581713}
+  rightDoor: {fileID: 9024378243317239937}
 --- !u!1 &6706853500940437296
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +365,7 @@ GameObject:
   - component: {fileID: 650918715843992393}
   - component: {fileID: 4926035476700433411}
   - component: {fileID: 9137474980878551830}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +382,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.35, y: 2, z: 0.2}
-  m_LocalScale: {x: 2.8979998, y: 4.1, z: 0.35}
+  m_LocalScale: {x: 2.8979998, y: 4.1, z: 0.55}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5822292381351726600}
@@ -437,7 +467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5822292381351726600}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temp_door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,6 +509,10 @@ PrefabInstance:
     - target: {fileID: 3929672497631209944, guid: 2e29147242c36664e920d7990e3a4d0d, type: 3}
       propertyPath: m_Name
       value: door1_knobs_right
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929672497631209944, guid: 2e29147242c36664e920d7990e3a4d0d, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4450349164196164450, guid: 2e29147242c36664e920d7990e3a4d0d, type: 3}
       propertyPath: m_LocalScale.x
@@ -557,6 +591,10 @@ PrefabInstance:
     - target: {fileID: 8103652582988309026, guid: db02a308053ad37478f37d116ea9d61a, type: 3}
       propertyPath: m_Name
       value: door1_knobs_left
+      objectReference: {fileID: 0}
+    - target: {fileID: 8103652582988309026, guid: db02a308053ad37478f37d116ea9d61a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8880576997131139224, guid: db02a308053ad37478f37d116ea9d61a, type: 3}
       propertyPath: m_LocalScale.x
@@ -639,6 +677,10 @@ PrefabInstance:
     - target: {fileID: 3929672497631209944, guid: 2e29147242c36664e920d7990e3a4d0d, type: 3}
       propertyPath: m_Name
       value: door1_knobs_right (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929672497631209944, guid: 2e29147242c36664e920d7990e3a4d0d, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4450349164196164450, guid: 2e29147242c36664e920d7990e3a4d0d, type: 3}
       propertyPath: m_LocalScale.x
@@ -790,6 +832,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: door1_right_panel
       objectReference: {fileID: 0}
+    - target: {fileID: 4227945609072909511, guid: b8590de2bcc081543abe6f6ef0e6d871, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125489731459998750, guid: b8590de2bcc081543abe6f6ef0e6d871, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -811,6 +861,10 @@ PrefabInstance:
     - target: {fileID: 116959358529238965, guid: 03f99d5226c8092459a029645465b4f3, type: 3}
       propertyPath: m_Name
       value: door1_frame
+      objectReference: {fileID: 0}
+    - target: {fileID: 116959358529238965, guid: 03f99d5226c8092459a029645465b4f3, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 116959358529238965, guid: 03f99d5226c8092459a029645465b4f3, type: 3}
       propertyPath: m_IsActive
@@ -859,6 +913,10 @@ PrefabInstance:
     - target: {fileID: 780342395131309327, guid: 03f99d5226c8092459a029645465b4f3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 875572206234230727, guid: 03f99d5226c8092459a029645465b4f3, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -962,6 +1020,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: door1_left_panel (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4517450909466503424, guid: bcbba59a5a2a2e84f993ab08bd13fb74, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845026895691469273, guid: bcbba59a5a2a2e84f993ab08bd13fb74, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1059,6 +1125,14 @@ PrefabInstance:
     - target: {fileID: 4517450909466503424, guid: bcbba59a5a2a2e84f993ab08bd13fb74, type: 3}
       propertyPath: m_Name
       value: door1_left_panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517450909466503424, guid: bcbba59a5a2a2e84f993ab08bd13fb74, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845026895691469273, guid: bcbba59a5a2a2e84f993ab08bd13fb74, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1158,6 +1232,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: door1_right_panel (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4227945609072909511, guid: b8590de2bcc081543abe6f6ef0e6d871, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125489731459998750, guid: b8590de2bcc081543abe6f6ef0e6d871, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1183,6 +1265,10 @@ PrefabInstance:
     - target: {fileID: 8103652582988309026, guid: db02a308053ad37478f37d116ea9d61a, type: 3}
       propertyPath: m_Name
       value: door1_knobs_left (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8103652582988309026, guid: db02a308053ad37478f37d116ea9d61a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8880576997131139224, guid: db02a308053ad37478f37d116ea9d61a, type: 3}
       propertyPath: m_LocalScale.x

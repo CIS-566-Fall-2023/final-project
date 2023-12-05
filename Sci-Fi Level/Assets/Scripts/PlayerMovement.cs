@@ -124,4 +124,15 @@ public class PlayerMovement : MonoBehaviour
     {
         readyToJump = true;
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Collider collider = collision.collider;
+
+        if (collider.CompareTag("Door"))
+        {
+            Door door = collider.gameObject.GetComponent<Door>();
+            door.Open();
+        }
+    }
 }

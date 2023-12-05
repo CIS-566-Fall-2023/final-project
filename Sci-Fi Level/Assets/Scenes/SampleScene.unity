@@ -10573,7 +10573,7 @@ MonoBehaviour:
   _assetName: Level_Builder_Tool_3_0
   _assetOpName: JackX::dev::Sop/Level_Builder_Tool::3.0
   _assetHelp: 
-  _assetID: 0
+  _assetID: -1
   _assetPath: Assets/hda/Level_Builder_Tool.hda
   _loadAssetFromMemory: 0
   _alwaysOverwriteOnLoad: 0
@@ -121827,7 +121827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!215 &1577884710
 ReflectionProbe:
   m_ObjectHideFlags: 0
@@ -121849,7 +121849,7 @@ ReflectionProbe:
   m_FarClip: 1000
   m_ShadowDistance: 100
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.6301174, g: 0.8164214, b: 0.8490566, a: 0}
+  m_BackGroundColor: {r: 0.5188679, g: 0.50955915, b: 0.48656106, a: 0}
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -131819,6 +131819,34 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2573076781582608340, guid: befc113475df29344a8b35c2dc4c801c, type: 3}
   m_PrefabInstance: {fileID: 1942027011}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1953499357 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7190755987492508327, guid: d5bd1260d8d34ea4c8c2c3b54f614d40, type: 3}
+  m_PrefabInstance: {fileID: 1984263322}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1953499361
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953499357}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1956035324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133034,7 +133062,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7190755987492508327, guid: d5bd1260d8d34ea4c8c2c3b54f614d40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1953499361}
   m_SourcePrefab: {fileID: 100100000, guid: d5bd1260d8d34ea4c8c2c3b54f614d40, type: 3}
 --- !u!4 &1984263323 stripped
 Transform:
