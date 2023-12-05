@@ -29,6 +29,11 @@ public class SDFObject : MonoBehaviour
         PolkaDotsTriplanar = 2,
         DiamondsTriplanar = 3,
         WavesTriplanar = 4,
+        ProceduralPattern1 = 5,
+        WorleySmooth3D = 6,
+        WorleyCells3D = 7,
+        FBM = 8,
+        Perlin = 9,
     }
 
     [SerializeField] private SDFObjectType type;

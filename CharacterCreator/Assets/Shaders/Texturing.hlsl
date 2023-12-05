@@ -2,10 +2,15 @@
 #define TEXTURINGSHADERINCLUDE
 
 #include "Common.hlsl"
+#include "NoiseFunctions.hlsl"
 
 Texture2DArray<float4> TextureArraySide;
 Texture2DArray<float4> TextureArrayTop;
 Texture2DArray<float4> TextureArrayFront;
+
+/* ====================================================
+* ================ SAMPLED TEXTURES ===================
+*==================================================== */
 
 void GetTriplanarTexture(float sdfObjectIndex, float3 position, float3 normal, float blendStrength, UnitySamplerState samplerstate, out float3 outColor)
 {
@@ -31,9 +36,14 @@ void GetTriplanarTexture(float sdfObjectIndex, float3 position, float3 normal, f
 	//outColor = normal;
 }
 
-float GetStripes(float pos, float2 smoothstepEdges)
+/* ========================================================
+* ============= 2D UV PROCEDURAL TEXTURES =================
+*========================================================== */
+
+float GetStripes(float3 pos, float2 values)
 {
-	return smoothstep(smoothstepEdges.x, smoothstepEdges.y, sin(pos));
+	pos.y = cos(values.y) * pos.x + sin(values.y) * pos.y;
+	return smoothstep(0.5, values.x, sin(pos.y));
 }
 
 float GetDots(float2 pos, float2 smoothstepEdges)
@@ -51,6 +61,12 @@ float GetWaves(float2 pos, float2 values)
 	return smoothstep(values.x - 0.1, values.x, sin(pos.x + sin(pos.y * values.y)));
 }
 
+float GetPattern1(float2 pos, float2 values)
+{
+	return sin(pos.x * pos.y);
+	return smoothstep(0.5, values.x, sin(pos.x * pos.y));
+}
+
 float GetTriplanarTexture(float3 position, float3 normal, float4 curSDFTextureData, float SDFTextureType)
 {
 	position *= curSDFTextureData.x;	// texture scale
@@ -64,9 +80,9 @@ float GetTriplanarTexture(float3 position, float3 normal, float4 curSDFTextureDa
 
 	if (SDFTextureType == 1)	// stripes horizontal
 	{
-		texX = GetStripes(position.y, curSDFTextureData.yz);
-		texY = GetStripes(position.y, curSDFTextureData.yz);
-		texZ = GetStripes(position.y, curSDFTextureData.yz);
+		texX = GetStripes(position, curSDFTextureData.yz);
+		texY = GetStripes(position, curSDFTextureData.yz);
+		texZ = GetStripes(position, curSDFTextureData.yz);
 	}
 	else if (SDFTextureType == 2)	// dots
 	{
@@ -86,8 +102,68 @@ float GetTriplanarTexture(float3 position, float3 normal, float4 curSDFTextureDa
 		texY = GetWaves(position.xz, curSDFTextureData.yz);
 		texZ = GetWaves(position.yx, curSDFTextureData.yz);
 	}
+	else if (SDFTextureType == 5)	// waves
+	{
+		texX = GetPattern1(position.yz, curSDFTextureData.yz);
+		texY = GetPattern1(position.xz, curSDFTextureData.yz);
+		texZ = GetPattern1(position.yx, curSDFTextureData.yz);
+	}
 
 	float tex = texX * normal.x + texY * normal.y + texZ * normal.z;
+	return tex;
+}
+
+/* ========================================================
+* ============= 3D UV PROCEDURAL TEXTURES =================
+*========================================================== */
+
+float GetWorley(float3 pos, float2 values)
+{
+	return smoothstep(values.x, values.y, WorleyNoise3D(pos));
+}
+
+float GetWorleyCells(float3 pos, float2 values)
+{
+	float worl = WorleyNoise3D(pos);
+	worl = worl * worl * worl * worl * worl;
+	return worl;
+	//return step(values.x, worl);
+}
+
+float GetFBM(float3 pos, float2 values)
+{
+	float fbmVal = fbm(pos, values.x, values.y);
+	return fbmVal;
+}
+
+float GetPerlin(float3 pos, float2 values)
+{
+	float perl = perlinNoise3D(pos);
+	perl = smoothstep(0.5, values.x, perl);
+	return perl;
+}
+
+float Get3DTexture(float3 pos, float3 normal, float4 curSDFTextureData, float SDFTextureType)
+{
+	pos *= curSDFTextureData.x;	// texture scale
+
+	float tex = 0;
+	if (SDFTextureType == 6)	// worley
+	{
+		tex = GetWorley(pos, curSDFTextureData.yz);
+	}
+	else if (SDFTextureType == 7)	// worley cells
+	{
+		tex = GetWorleyCells(pos, curSDFTextureData.yz);
+	}
+	else if (SDFTextureType == 8)	// FBM
+	{
+		tex = GetFBM(pos, curSDFTextureData.yz);
+	}
+	else if (SDFTextureType == 9)	// Perlin
+	{
+		tex = GetPerlin(pos, curSDFTextureData.yz);
+	}
 	return tex;
 }
 
@@ -101,10 +177,14 @@ void GetTexture(float3 worldPosition, float3 worldNormal, int sdfObjectIndex, ou
 	{
 		tex = 0;
 	}
-	else if (type >= 1 && type <= 10)	// triplanar textures
+	else if (type >= 1 && type <= 5)	// triplanar textures
 	{
-		tex = GetTriplanarTexture(worldPosition, worldNormal, SDFTextureData[sdfObjectIndex], type);
+		tex = GetTriplanarTexture(worldPosition, worldNormal, textureData, type);
 		//tex = smoothstep(0.5,0.7, sin(position.x / 0.01f)) * smoothstep(0.5,0.7,cos(position.y / 0.01f)) * smoothstep(0.5,0.7,sin(position.z / 0.01f));
+	}
+	else if (type >= 6)	// 3D position based texture
+	{
+		tex = Get3DTexture(worldPosition, worldNormal, textureData, type);
 	}
 
 	textureValue = lerp(SDFPrimaryColors[sdfObjectIndex], SDFSecondaryColors[sdfObjectIndex], tex);
