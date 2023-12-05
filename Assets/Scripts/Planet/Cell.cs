@@ -31,6 +31,17 @@ public class Cell : MonoBehaviour, IWFCCell
 
     public int EdgeNum => edgeNum;
 
+    public void CleanUp()
+    {
+        item = null; 
+        int childs = transform.childCount;
+
+        for (int i = childs - 1; i > 0; i--)
+        {
+            DestroyImmediate(transform.GetChild(i).gameObject);
+        }
+        type = WFCType.Null;
+    }
     public IWFCCell[] GetAdjacentCells()
     {
         return neighbors;
@@ -54,6 +65,12 @@ public class Cell : MonoBehaviour, IWFCCell
         {
             this.type = __item.Type;
             this.item = Instantiate(__item, this.transform);
+            if (pentagonDirection == -1)
+            {
+                item.transform.position = this.transform.position + (bottomFlat? WFCManager.Instance.hexagonItemPositionOffset : -WFCManager.Instance.hexagonItemPositionOffset);
+                item.transform.localScale = WFCManager.Instance.hexagonItemLocalScale;
+                if (!bottomFlat) item.transform.localRotation = Quaternion.Euler(0, 180f, 0);
+            }
         }
     }
     private void OnDrawGizmosSelected()
