@@ -6,10 +6,9 @@ using DG.Tweening;
 
 public class CameraShake : MonoBehaviour
 {
-
     // shake
-    Vector3 punchVec = new Vector3(0.03f, 0.1f, 0);
-    float duration = 0.5f;
+    Vector3 punchVec = new Vector3(0.03f, 0.05f, 0);
+    float duration = 0.8f;
     Quaternion startRotation;
 
     public static CameraShake Instance { get; private set; }
@@ -22,11 +21,11 @@ public class CameraShake : MonoBehaviour
     private void Start()
     {
         startRotation = transform.rotation;
-        transform.DOShakeRotation(2.0f, 0.5f, 2, 20, false, ShakeRandomnessMode.Harmonic).SetLoops(-1, LoopType.Yoyo);
+        transform.DOShakeRotation(1.5f, 0.5f, 2, 20, false, ShakeRandomnessMode.Harmonic).SetLoops(-1, LoopType.Yoyo);
     }
 
     public void Shake()
     {       
-        transform.DOPunchPosition(punchVec, duration, 5, 0, false);
+        transform.DOPunchPosition(punchVec, duration, 1, 0, false);
     }
 }
