@@ -7,7 +7,9 @@ using UnityEngine;
 
 public class HexagonTile : MonoBehaviour
 {
-    public GameObject cellPrefab;
+    public GameObject hexagonCellsPrefab;
+    public GameObject pentagonCellsPrefab;
+    public HardcodedCells cellData;
     public int ID;
     public List<int> connectedTiles; //For Record
     public List<Cell> Cells;
@@ -143,7 +145,7 @@ public class HexagonTile : MonoBehaviour
         hexgonCellDict.Add(cellDensity, list);
     }
 
-    public void SetupCells(int cellDensity, List<sCorner> corners)
+    public void SetupCells(List<sCorner> corners)
     {
         Vector3 center = new Vector3(0, 0, 0);
         foreach (var corner in corners)
@@ -151,63 +153,24 @@ public class HexagonTile : MonoBehaviour
             center += corner.position;
         }
         center /= corners.Count;
-        if (cellDensity <= 0 || (corners.Count != 5 && corners.Count != 6))
-        {
-            return;
-        }
         CellsOnTileEdges = new List<Cell>[corners.Count];
         if (corners.Count == 6)
         {
-            if (cellDensity <= 1)
-            {
-                Debug.LogError($"cell density must larger than 1");
-            }
-            else
-            {
-                var _rotation = Quaternion.LookRotation(Vector3.Normalize((corners[0].position + corners[1].position) * 0.5f - transform.position), normal);
-                float edgeLength = Vector3.Magnitude(transform.position - corners[0].position) / cellDensity;
-                if (!hexgonCellDict.ContainsKey(cellDensity))
-                    SetupLocalCellsPositionHexagon(cellDensity);
-                var cellProps = hexgonCellDict[cellDensity];
-                for (int i = 0; i < cellProps.Count; ++i)
-                {
-                    var cellPos = cellProps.ElementAt(i).Item1;
-                    GameObject cellGO = Instantiate(cellPrefab);
-                    var cell = cellGO.GetOrAddComponent<Cell>();
-                    cell.BottomFlat = cellProps.ElementAt(i).Item2;
-                    Cells.Add(cell);
-
-
-                    // TODO: Fix position and rotation.
-                    Vector3 newPos = cellPos * edgeLength;
-                    newPos = _rotation * newPos;
-                    cellGO.transform.position = newPos + center;
-                    cellGO.transform.parent = transform;
-                    cellGO.name = "cell" + i.ToString();
-                }
-                // TODO: cell neighbors
-            }
+            var _rotation = Quaternion.LookRotation(Vector3.Normalize((corners[0].position + corners[1].position) * 0.5f - transform.position), normal);
+            float edgeLength = Vector3.Magnitude(transform.position - corners[0].position) / 2;
+            if (!hexgonCellDict.ContainsKey(2))
+                SetupLocalCellsPositionHexagon(2);
+            var cellProps = hexgonCellDict[2];
+            GameObject newTileGO = Instantiate(hexagonCellsPrefab);
+            newTileGO.transform.parent = transform;
+            cellData = newTileGO.GetComponent<HardcodedCells>();
+            newTileGO.transform.position = center;
+            newTileGO.transform.localScale = new Vector3(edgeLength, edgeLength, edgeLength);
+            newTileGO.transform.rotation = Quaternion.LookRotation(normal);
         }
         else
         {
             // TODO: Îå±ßÐÎ
-            for (int i = 0; i < corners.Count; i++)
-            {
-                Vector3 p1 = corners[i].position;
-                Vector3 p2 = corners[(i + 1) % corners.Count].position;
-
-                for (int j = 0; j < cellDensity+1; j++)
-                {
-                    for (int k = 0; k < cellDensity+1 - j; k++)
-                    {
-                        float alpha = j / ((float)cellDensity + 1);
-                        float beta = k / ((float)cellDensity + 1);
-
-                        Vector3 point = (1 - alpha - beta) * center + alpha * p1 + beta * p2;
-                        //cellPosList.Add(point);
-                    }
-                }
-            }
         }
     }
 }

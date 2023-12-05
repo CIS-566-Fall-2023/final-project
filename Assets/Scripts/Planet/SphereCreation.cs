@@ -12,7 +12,6 @@ public class SphereCreation : MonoBehaviour
     public sHexGrid finalGrid;
     public int size = 0;
     public float planetSize = 1.0f;
-    public int cellDensity = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +41,7 @@ public class SphereCreation : MonoBehaviour
             var tile = tileGO.GetOrAddComponent<HexagonTile>();
             tileGO.transform.parent = tileParent.transform;
             tile.SetupTile(finalGrid.tiles[i].position, finalGrid.tiles[i].corners, finalGrid.tiles[i]);
-            tile.SetupCells(cellDensity, finalGrid.tiles[i].corners);
+            tile.SetupCells(finalGrid.tiles[i].corners);
             tileGO.name = "tile" + i.ToString();
         }
     }
