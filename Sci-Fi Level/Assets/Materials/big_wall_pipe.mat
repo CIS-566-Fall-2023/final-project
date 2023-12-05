@@ -15,7 +15,7 @@ Material:
   - _METALLICSPECGLOSSMAP
   - _NORMALMAP
   m_InvalidKeywords: []
-  m_LightmapFlags: 6
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 4bdcf524dcae1c74e910b27142af8bab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -119,7 +119,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.9339623, g: 0.88697046, b: 0.88697046, a: 0.015686275}
     - _Color: {r: 0.9339623, g: 0.88697046, b: 0.88697046, a: 0.015686275}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &298183843518450770
