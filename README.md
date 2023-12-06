@@ -3,11 +3,11 @@
 [<img src="https://github.com/xchennnw/final-project/blob/main/img/final.png" width="100%">](https://www.youtube.com/watch?v=h999fLHmnr4 "Video!")
 
 Above image is a link to video :)
+
 Train view is cool for anyone who wants to relax and enjoy the natural terrain winding out of the train window. We would like to provide a train view generator in Unity to simulate the passenger’s view point inside a large-window landscape express. We will provide a terrain generator to procedurally generate an infinitely-extending terrain landscape and a stylized shader to mimic the style of several pieces of 2D concept art. The project will finally be able to deliver an infinite tour aside by procedural stylized terrain view.
 
 #### Inspiration
-<img src="https://github.com/xchennnw/final-project/blob/main/img/train3.png" height="200px"/>
-<img src="https://github.com/xchennnw/final-project/blob/main/img/ref.png" height="300px"/>
+<img src="https://github.com/xchennnw/final-project/blob/main/img/train3.png" height="200px"/> <img src="https://github.com/xchennnw/final-project/blob/main/img/ref.png" height="300px"/>
 
 
 #### Screen Shots
@@ -78,6 +78,7 @@ We would like to provide a train view generator in Unity to simulate the passeng
 
 <details>
   <summary> Milestone 1 (due 11/15) </summary>
+  
 [<img src="https://github.com/xchennnw/final-project/blob/main/img/train_view_milestone1.png" width="60%">](https://www.youtube.com/watch?v=p49DG-7GNyk "Video!")
 
 Above image is a link to video :)
@@ -91,6 +92,7 @@ Above image is a link to video :)
 
 <details>
   <summary> Milestone 2 (due 11/27) </summary>
+
 [<img src="https://github.com/xchennnw/final-project/blob/main/img/milestone2.png" width="60%">](https://www.youtube.com/watch?v=qRk5k1Ub4C8 "Video!")
 
 Above image is a link to video :)
