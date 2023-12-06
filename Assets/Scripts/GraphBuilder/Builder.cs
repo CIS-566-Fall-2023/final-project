@@ -63,6 +63,7 @@ namespace GraphBuilder
             return _vertexInfos[vertexId.Id].region.CenterPoint;
         }
 
+
         private EdgeId AddEdge(BEdge edge)
         {
             _edges.Add(edge);
