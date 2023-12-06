@@ -4,7 +4,7 @@
 ### Tree/rock assets - Debby 
 - Replaced the basic models with final models/shaders. This included 4 different rock types and 4 different tree types.
 - The shaders were made using three-tone shader graphs with the colors updated to replicate some of the assets used in Dredge.
-- Additionally, I added randomization to the scaling of the assets such tht there could be some visual variation among the assets that got placed.
+- Additionally, I added randomization to the scaling of the assets so that there could be some visual variation among the assets that got placed.
 
 <img src="https://github.com/debbylin02/final-project/assets/82790216/cf61bc86-70d0-469c-bf68-7b90ed3cdf4a"  width = "350" height = "350"> 
 <img src="https://github.com/debbylin02/final-project/assets/82790216/c3f14b21-9ab1-4a66-922a-8606ddd1cc20"  width = "350" height = "350"> 
