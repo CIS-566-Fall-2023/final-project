@@ -1,4 +1,8 @@
 # Design Doc
+
+# Final Video: 
+https://youtu.be/IiXXfCsfhyw
+
 ## Introduction:
 For this project, we wanted to achieve a procedural science fiction environment that invoked a massive sense of scale. We were initially motivated by the art of the Manga: BLAME, which showcases city environments that were designed by a hostile AI that gives an awe-inspiring yet eerie feeling.
 
