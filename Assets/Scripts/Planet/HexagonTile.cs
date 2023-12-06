@@ -163,25 +163,36 @@ public class HexagonTile : MonoBehaviour, IWFCTile
                 lengths[i] = Vector3.Magnitude(corners[i].position - corners[i + 1].position);
         }
         Debug.Log($"{lengths[0]}, {lengths[1]}, , {lengths[2]}, {lengths[3]}, {lengths[4]}, {lengths[5]}");
-        //var forwardPos = SphereCreation.Instance.tiles[connectedTiles[0]].center;
-        var forwardPos = (corners[0].position + corners[1].position) * 0.5f;
-        var forwardDir = Vector3.Normalize(forwardPos - center);
-        var _rotation = Quaternion.LookRotation(forwardDir, normal);
         if (corners.Count == 6)
         {
-            float edgeLength = Vector3.Magnitude(transform.position - corners[0].position) / 2;
+            //var forwardPos = SphereCreation.Instance.tiles[connectedTiles[0]].center;
+            var forwardPos = (corners[0].position + corners[1].position) * 0.5f;
+            var forwardDir = Vector3.Normalize(forwardPos - center);
+            var _rotation = Quaternion.LookRotation(forwardDir, normal);
+            float edgeLength = Vector3.Magnitude(center - corners[0].position) / 2;
             GameObject newTileGO = Instantiate(hexagonCellsPrefab);
             newTileGO.transform.parent = transform;
             cellData = newTileGO.GetComponent<HardcodedCells>();
             newTileGO.transform.position = center;
             newTileGO.transform.localScale = new Vector3(edgeLength, edgeLength, edgeLength);
-            //newTileGO.transform.rotation = _rotation;
-            newTileGO.transform.forward = forwardDir;
-            newTileGO.transform.up = normal;
+            newTileGO.transform.rotation = _rotation;
+            //newTileGO.transform.forward = forwardDir;
+            //newTileGO.transform.up = normal;
         }
         else
         {
-            // TODO: Îå±ßÐÎ
+            float edgeLength = Vector3.Magnitude(corners[0].position - corners[1].position) * 0.5f;
+            GameObject newTileGO = Instantiate(pentagonCellsPrefab);
+            newTileGO.transform.parent = transform;
+            cellData = newTileGO.GetComponent<HardcodedCells>();
+            newTileGO.transform.position = center;
+            newTileGO.transform.localScale = new Vector3(edgeLength, edgeLength, edgeLength);
+
+            var forwardPos = corners[0].position;
+            var forwardDir = Vector3.Normalize(forwardPos - center);
+            //newTileGO.transform.forward = -forwardDir;
+            //newTileGO.transform.up = normal;
+            newTileGO.transform.rotation = Quaternion.LookRotation(forwardDir, normal);
         }
     }
     public void ConnectCellsWithOtherTile()
@@ -223,6 +234,9 @@ public class HexagonTile : MonoBehaviour, IWFCTile
                 Gizmos.DrawSphere(corner.position, 0.01f);
             }
             Gizmos.DrawLine(center, center + normal);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(center, center + Vector3.Normalize(corners[0].position - center));
         }
     }
     public int Index => ID;
