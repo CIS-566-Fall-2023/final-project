@@ -7,8 +7,16 @@ namespace Geom
     {
         float Length();
         Vector2 Point(float t);
-        float TangentAngle(float t);
-        ICurve Reverse();
+
+        Vector2 Tangent(float t);
+
+        public ICurve Reverse();
+
+        public float TangentAngle(float t)
+        {
+            Vector2 tangent = Tangent(t);
+            return Mathf.Atan2(tangent.y, tangent.x);
+        }
 
         public IEnumerable<Vector2> ToPointStream(float deltaLength = 10)
         {

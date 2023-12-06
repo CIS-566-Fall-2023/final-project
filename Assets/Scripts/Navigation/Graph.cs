@@ -38,10 +38,11 @@ namespace Navigation
                 }
             }
         }
-        public List<VertexInfo> GetVertices()
+
+        public VertexInfo GetVertex(int vertexId)
         {
-            return _vertices;
-        }   
+            return _vertices[vertexId];
+        }
 
         public List<List<EdgeInfo>> GetAdjList()
         {

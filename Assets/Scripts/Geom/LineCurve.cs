@@ -14,25 +14,19 @@ namespace Geom
             P1 = p1;
         }
 
-        public Vector2 AsVector()
+        public Vector2 Tangent(float t = 0)
         {
             return P1 - P0;
         }
 
         public float Length()
         {
-            return AsVector().magnitude;
+            return Tangent().magnitude;
         }
 
         public Vector2 Point(float t)
         {
             return Vector2.Lerp(P0, P1, t);
-        }
-
-        public float TangentAngle(float t)
-        {
-            Vector2 vec = AsVector();
-            return Mathf.Atan2(vec.y, vec.x);
         }
 
         public (ICurve, Vector2, ICurve) Split(float t)
