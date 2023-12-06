@@ -5214,56 +5214,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 37.04, y: -30, z: 0}
---- !u!1 &851858555
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 851858557}
-  - component: {fileID: 851858556}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: GameController
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &851858556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851858555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65c0b997a04979148bf9288ffa60bb6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemPool: []
-  pentagonItemPool: []
-  hexagonItemLocalScale: {x: 1, y: 1, z: 1}
-  hexagonItemPositionOffset: {x: 0, y: 0, z: 0}
-  pentagonItemLocalScale: {x: 1, y: 1, z: 1}
-  pentagonItemPositionOffset: {x: 0, y: 0, z: 0}
---- !u!4 &851858557
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851858555}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &875609927
 GameObject:
   m_ObjectHideFlags: 0
@@ -5628,7 +5578,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1316874887}
   - component: {fileID: 1316874886}
+  - component: {fileID: 1316874890}
   - component: {fileID: 1316874888}
+  - component: {fileID: 1316874889}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5652,6 +5604,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 172392494151628905, guid: 6883a8166a73d8c4091e18a8808dbbb0,
     type: 3}
   tileParent: {fileID: 1357102361}
+  tileBasicMat: {fileID: 2100000, guid: 5447c84c1084b1e409c9a2f4e505bb57, type: 2}
   finalGrid:
     gridSize: 0
   size: 2
@@ -5719,6 +5672,38 @@ MonoBehaviour:
   hexagonItemPositionOffset: {x: 0, y: 0, z: 0}
   pentagonItemLocalScale: {x: 1, y: 1, z: 1}
   pentagonItemPositionOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &1316874889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316874885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1aa13a43b578c4480dd64c0e465f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIObj: {fileID: 875609927}
+--- !u!114 &1316874890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316874885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa750e9f00ed4e74fafbf5a843b3b78a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexHighlight: {fileID: 2100000, guid: 392a9f6d949ec0144811355edad73f3d, type: 2}
+  hexSelect: {fileID: 2100000, guid: 9a725025dc29bb34f84c0da0803362b9, type: 2}
+  originalMaterial: {fileID: 2100000, guid: 5447c84c1084b1e409c9a2f4e505bb57, type: 2}
+  CameraTrans: {fileID: 963194228}
+  prefabHexList: []
+  preTransList: []
+  preHexList: []
 --- !u!1 &1357102361
 GameObject:
   m_ObjectHideFlags: 0
@@ -6041,4 +6026,3 @@ SceneRoots:
   - {fileID: 1946533406}
   - {fileID: 450734949}
   - {fileID: 614953492}
-  - {fileID: 851858557}
