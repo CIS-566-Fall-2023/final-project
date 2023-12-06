@@ -96,10 +96,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b816676c08d4748be19e9db6e93248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Ocean
-  type: 1
+  itemName: Desert
+  type: 2
   rules:
-  - rule: 0 == Ocean && 1 == Ocean && 2 == Ocean
+  - rule: 0 == Desert && 1 == Desert && 2 == Desert
     operation: 8
     value: 999
   mesh: {fileID: 0}
+  isPentagon: 0
