@@ -137,6 +137,73 @@ Overview:
 
     <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/e7b91fd7-eaff-4a17-ad89-9532780f056c" width="500"/>
     <img src="https://github.com/yuhanliu-tech/final-project/assets/102630261/c5e483c0-dc76-4576-af78-96d31ab2dcd8" width="500"/>
+
+
+## Alternate Animal Slicer - Diana OuYang
+
+Overview: 
+
+* Goal: In the previous iteration of the slices, we found limitations in the adjustment of the output, mainly that slices were evenly distributed and unintelligent. We want a more powerful mesh slicer that allows the user to tweak the capture regions.
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/fdb83969-ece1-4788-85e4-cab0057aebb3)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/459d3bbc-27c5-448a-b63e-127ae2d551f0) |   ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/1127234e-08e9-4214-b09a-5fb6fcfe34b1) | 
+|:--:|:--:| :--:|
+| *Goal Look* | *First deliverable slicer. Because of the even distributing of slicing region, it fails to capture the legs* | *Second Deliverable Slicer, which uses a bounding box to divide into regions* |
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/e646ba75-09e8-474c-a41f-e33a0c9114ab)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/c895cece-22e7-4178-8783-a0a0d7b1228d) | 
+|:--:|:--:|
+| *Unsliced Duck* | *Duck, sliced up* |
+
+
+
+* Breakdown of Tool: 
+    * Breakdown of Tool:
+    * **Input:** Any mesh of choice
+    * **Output:** Mesh, sliced into three pieces
+    * **Parameters:**
+        *  Middle region capture range
+        *  Side panels thickness
+        *  Middle panel thickness
+
+* Slicing the mesh
+    * The animal is broken into 3 point groups: the center, left, and right. The user can specify the width of the capture region for the center group, and the left and right capture the remaining points on either side designated to the left and right portions. This region is defined by the user.
+
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/b5d42c7d-860f-458c-93b6-24d0101aebf9) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/e40e66ff-7387-420b-8f44-90b5aae3aa79) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/30949184-0597-405f-99c3-250588376184) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/13547890-7940-4634-995a-79c5e6a6694c) | 
+|:--:|:--:|:--:|:--:|
+| *Middle group for three-panel* | *Right side group (symmetrical about left)* | *Outputted middle panel, created using a flatten + fill node* | *Outputted right panel, created using a flatten & remesh node* |
+
+
+If we adjust the groups, we can get 
+ 
+  * The boolean points at which they intersect the mesh are used as the planes to begin extrusion, for the final wooden panels
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/48d66d75-46ee-4002-98f9-e9d82edf0876)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/51893121-9fc3-4de6-895a-5990f6d3690f) | 
+|:--:|:--:|
+| *Bounded planes* | *Boolean intersections* |
+
+ * The slices are also rotateable - though for the final product we only cared about the vertically-rotated slices, I thought it'd be cool to show some of the other rotations
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/568c506d-4bd5-49c4-b910-0c3be709a001)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/5f46f04f-df55-46cf-aad3-8f57f3977703) | 
+|:--:|:--:|
+| *Slices along (0, 90, 0)* | *Slices along (45, 45, 0)* |
+
+  * While I fiddled with some auto-calculations that approximate how much to extrude the wooden panels, I also gave the user the option to adjust the thickness as desired.
+
+Next Steps: 
+
+* While I'm very pleased with the output, it proves to be a bit limited in a few ways:
+  * **Bad Mesh Input** The tool uses a polyfill node to make sure that the boolean intersection is not only on the surface, where the mesh is. If the inputted mesh is poor (ie. non-manifold edges), the polyfill no longer works and the tool completely breaks. Especially when we were pulling from free, poorer-quality meshes online, this is a problem.
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/b415c13b-0c1a-4516-951e-2a87c9aaed6c) | 
+|:--:|
+| *Buggy mesh slicing for non-manifold meshes* | 
+
+  * **Limited control of slice positions** The slices currently are just distributed evenly along the mesh, without any intelligence about what are the important points of the mesh (ex. legs, etc). For our original goal, where we wanted a main panel with some details isolated to a single slice, this could be a problem. In the future deliverables, I want the intersection point to capture the silhouette of the animal. 
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/fdb83969-ece1-4788-85e4-cab0057aebb3)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/459d3bbc-27c5-448a-b63e-127ae2d551f0) | 
+|:--:|:--:|
+| *Single sliced horse on an actual carousel* | *Single sliced tool, currently... yikes!* |
+
     
 # Milestone 1:
 
@@ -259,70 +326,62 @@ My Process:
 
 ## Procedural Mesh Slicer - Diana OuYang
 
-Overview: 
-
-* Goal: We need to place animal meshes around the carousel - but to sell the fact that the generated carousel is a handmade toy, the animals need to be stylized & simplified. 
-
-* The goal of this deliverable was to create a tool that could reliably slice a mesh into wooden panels.  
-
- |![image](![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/d7b46ed2-b427-4d29-becc-49459bdd30ac))  | ![image](![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/0f2f1246-9a22-465d-b5b1-c255385e6a6a)) |
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/dda7676a-653e-4483-aec3-933181929c26)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/0f2f1246-9a22-465d-b5b1-c255385e6a6a) | 
 |:--:|:--:|
 | *Input Mesh* | *Sliced Output* |
 
-* Breakdown of Tool: 
-    * Options that can be changed include the carousel height, radius, divisons (tent shape, horse count), and panels height.
-    * The user can also use ramps to customize the decorative topper and the main column.
-    * Toggles include outer columns, as well as a switch between horses that are suspended and horses that are grounded.
-    * To add some extra adjustment, I also added manual sliders for horse size and horse height, even though they are already decided by other variables like radius and divisions.
-    * Moving forwards, I hope to organize the parameters by carousel part, as well as add details while maintaining desirable outputs. 
+Overview: 
+* **Goal:** We need to place animal meshes around the carousel - but to sell the fact that the generated carousel is a handmade toy, the animals need to be stylized & simplified. This deliverable aimed to create a tool that could reliably slice a mesh into wooden panels.  
 
- <img src="https://github.com/yuhanliu-tech/final-project/blob/main/tool.png" width="400" />
+* Breakdown of Tool:
+    * **Input:** Manifold Mesh of choice
+    * **Output:** Mesh, sliced
+    * **Parameters:**
+        *  Slices
+        *  Angle of the slices
+        *  Thickness of the slices.
+      
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/7689eedf-1422-4334-a736-a23f3aeb4d08) | 
+|:--:|
+| *Final subnet* | 
 
-* I also animated the carousel by varying some parameters with the frame rate $F.
 
- <img src="https://github.com/yuhanliu-tech/final-project/blob/main/animation.gif" width="200" />
+* Slicing the mesh
+    * The slices start as a grid, copied with a minor offset.
+    * To make sure the number of slices remains consistent with the user input, they're copied in layers that fit within the mesh bounding box (so every slice at least intersects some part of the animal mesh)
 
-Process: 
-
-<img src="https://github.com/yuhanliu-tech/final-project/blob/main/network.png" width="400" />
-
-* I split the overall carousel into parts and worked on each one in subnetworks: Columns, Roof, Base, Music Box, Horses, and Integration. I'll discuss a few of the key implementation features below: 
-
-* Columns, Base
-
-   * The columns and base form the upper half of the carousel. They are the fundamental building blocks of the carousel, and their size determines how the rest of the pieces fit. Thus, I used two main variables, radius and divison, to track the size of base and the height of the columns. I used many MatchSize nodes in order to fit pieces in the carousel.
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/da870af5-003f-43e3-a10c-68a05504c1e1) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/d822ea2a-5062-47d1-90ed-2254d9fb0d36) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/0c8a24dd-1ede-493f-b6e9-e01cd357bf22) | 
+|:--:|:--:|:--:|
+| *Single-sliced Rubber Toy* | *Rubber toy with 15 slices* | *Rubber Toy with 35 Slices* |
  
-* Roof
+  * The boolean points at which they intersect the mesh are used as the planes to begin extrusion, for the final wooden panels
 
-    * The roof is composed of two parts, the panels and the center tent-like structure. I modified a tube for the panels. For the tent, I added a line with two bend nodes, one for a concave bend and one for a convex bend. The user can adjust the shape of the roof. The roof took some troubleshooting, as the tent needed to fit neatly inside the panels. However, I had to fiddle around with the MatchNodes, as my roof components were angled such that selecting min/max still produced intersections. 
- 
-* Horses
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/48d66d75-46ee-4002-98f9-e9d82edf0876)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/51893121-9fc3-4de6-895a-5990f6d3690f) | 
+|:--:|:--:|
+| *Bounded planes* | *Boolean intersections* |
 
-    * Poles: I created the twisted poles using a resampled line and two sweep nodes.
-    * Horses: The horses are split into two groups, even and odd numbered, as the two groups are offset from each other and move at different heights. The size of the horses are determined by how many there are, which is in turn determined by the number of divisions. 
-    * I took the outline from my carousel base to determine where the horses should be placed, using copy to points and orient along curve nodes to point them in the circular direction.
-    * I then had to perform bounding tests so that their poles would not stick out of the mesh during the animation. I ended up using a clip node for this.
-    * There are two types of horses that require different placement: grounded horses and suspended horses. 
+ * The slices are also rotateable - though for the final product we only cared about the vertically-rotated slices, I thought it'd be cool to show some of the other rotations
 
-* Integration
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/568c506d-4bd5-49c4-b910-0c3be709a001)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/5f46f04f-df55-46cf-aad3-8f57f3977703) | 
+|:--:|:--:|
+| *Slices along (0, 90, 0)* | *Slices along (45, 45, 0)* |
 
-    * I integrated my teammates milestone projects into my own in order to create the assembled carousel.
-    * I first imported Diana's sliced wooden horse mesh as an FBX. I decided not to use the HIP file because of input mesh dependencies, but I'll fix this next week.
-         * I found that Diana's processed mesh really slowed things down, so I decided to pack them, which meant that in animating and clipping my horses, I was limited to working with the poles as I couldn't edit the mesh.
-    * I also imported Claire's HIP file for ornamental designs. I turned her project into a subnetwork to create the ring of designs on the music box. Next week, I'll add the controls for her tool to the interface for mine. I also hope to add some designs on the panels.
-
-* Optimizations
-
-    * This project taught me to dive deeper into Houdini's performance tools, particularly its Performance Monitor and Dependency List view. As I worked with heavily processed meshes and attempted to animate them, the performance monitor was a huge help in figuring out bottlenecks when my frame rate was slow. I used it to figure out that the bounding box test for the horses' poles was too inefficient, leading me to switch to clip nodes. Furthermore, I used Dependency List views to keep track of the interrelated variables that I use at many parts in my network. 
+  * While I fiddled with some auto-calculations that approximate how much to extrude the wooden panels, I also gave the user the option to adjust the thickness as desired.
 
 Next Steps: 
 
-* Overall, I think I stuck pretty well to my goal of creating a usable tool. I also tried to maintain a clean wireframe. I noticed that many computation-heavy parts of the carousel slowed things down, so I was conscious about keeping the mesh clean and organized. Below is a screenshot of my wireframe.
+* While I'm very pleased with the output, it proves to be a bit limited in a few ways:
+  * **Bad Mesh Input** The tool uses a polyfill node to make sure that the boolean intersection is not only on the surface, where the mesh is. If the inputted mesh is poor (ie. non-manifold edges), the polyfill no longer works and the tool completely breaks. Especially when we were pulling from free, poorer-quality meshes online, this is a problem.
 
-<img src="https://github.com/yuhanliu-tech/final-project/blob/main/wireframe.png" width="200" />
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/b415c13b-0c1a-4516-951e-2a87c9aaed6c) | 
+|:--:|
+| *Buggy mesh slicing for non-manifold meshes* | 
 
-* As my next steps, I'm excited to continue adding fine details, organizing the controller for my tool, and further cleaning up my network by organizing subnets. I really want to make a polished-looking tool, and hope to explore Houdini Digital Assets. 
+  * **Limited control of slice positions** The slices currently are just distributed evenly along the mesh, without any intelligence about what are the important points of the mesh (ex. legs, etc). For our original goal, where we wanted a main panel with some details isolated to a single slice, this could be a problem. In the future deliverables, I want the intersection point to capture the silhouette of the animal. 
 
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/fdb83969-ece1-4788-85e4-cab0057aebb3)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/459d3bbc-27c5-448a-b63e-127ae2d551f0) | 
+|:--:|:--:|
+| *Single sliced horse on an actual carousel* | *Single sliced tool, currently... yikes!* |
 
 # Project Proposal: Wooden Toy Generator
 
