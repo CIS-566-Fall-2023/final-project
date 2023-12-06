@@ -3,6 +3,7 @@ using Geom;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace Navigation {
 
@@ -10,6 +11,7 @@ namespace Navigation {
         public Vector2 Position { get; set; }
         public float Speed { get; set; }
         public bool isMoving = false;
+        public bool isInRoom = false;
         private PathFinder pathFinder;
         public Graph navGraph;
         public Stack<EdgeInfo> path;
@@ -19,11 +21,15 @@ namespace Navigation {
         public bool justEntered = false;
 
         // MOVEMENT
-        private float lerpDuration = 1.0f; // You can adjust the duration to control the speed of movement
+        private float lerpDuration = 1.5f; // You can adjust the duration to control the speed of movement
+        private float lerpDurationRoom= 10.0f;
         private float lerpStartTime;
 
         // yum BEZIER STUFF
         private BezierCurveMover curveMover;
+
+        private List<Vector2> controlPoints;
+        private float movementDuration;
 
         public void Initialize(Graph navGraph, EdgeInfo start, EdgeInfo end, PathFinder pathFinder) {
 
@@ -37,38 +43,37 @@ namespace Navigation {
 
 
         void Update(){
-            if (!isMoving  && path.Count > 0) {
+            if (!isInRoom) {
+                if (!isMoving  && path.Count > 0) {
                 currEdge = path.Pop();
                 StartCoroutine(MoveToTarget(currEdge.Curve));
                 if (currEdge.Tag == EdgeTag.Doorway && justEntered == false)
                         {
-                            //targetPosition = ((LineCurve)currEdge.Curve).P0;
-                            StartCoroutine(MoveToTarget(currEdge.Curve));
+                            isInRoom = true;
                             StartCoroutine(EnterRoom(currEdge));
-                            justEntered = true;
-                           
                         }
                         else
                         {
-                            //targetPosition = ((LineCurve)currEdge.Curve).P0;
                             justEntered = false;
                             StartCoroutine(MoveToTarget(currEdge.Curve)); 
                         }
-                    
-             }
-             else if (path.Count == 0) {
+                  
+                }
+                 else if (path.Count == 0) {
                 endEdge = navGraph.GetRandomEdge();
                 path = pathFinder.FindPath(currEdge, endEdge);
-             }
+                }
 
+            }
         }
+        
 
         public void MoveTo(Vector2 newPosition)
         {
             Position = newPosition;
         }
 
-        private IEnumerator<object> MoveToTarget(ICurve curve)
+        private IEnumerator MoveToTarget(ICurve curve)
                 {
                     isMoving = true;
                     lerpStartTime = Time.time;
@@ -85,11 +90,11 @@ namespace Navigation {
                     yield return null;
 
                 }
-        private IEnumerator<object> EnterRoom(EdgeInfo edge)
+        private IEnumerator EnterRoom(EdgeInfo edge)
                 {
                     curveMover = new BezierCurveMover(this, 5.0f); 
                     List<Vector2> randomPoints = new List<Vector2>();
-                    randomPoints.Add(((LineCurve)currEdge.Curve).P0);
+                    randomPoints.Add(currEdge.Curve.Point(1));
                     int points = UnityEngine.Random.Range(4, 10);
                     
                     for (int i = 0; i < 5; i++)  
@@ -99,14 +104,43 @@ namespace Navigation {
                         }
 
                     //changed post exit code
-                    var exit = navGraph.GetAdjList()[edge.ToVertex][0];
+                    var exit = path.Pop();
                     randomPoints.Add(exit.Curve.Point(0));
                     path = pathFinder.FindPath(exit, navGraph.GetRandomEdge());
-                    curveMover.SetControlPoints(randomPoints);
-                    curveMover.MoveSpriteAlongCurve(this);
+                    lerpStartTime = Time.time;
+                    Vector2 startPosition = this.Position;
+                     while (Time.time - lerpStartTime < lerpDurationRoom)
+                        {
+                            float t = (Time.time - lerpStartTime) / lerpDuration;
+                            Vector2 bezierPosition = DeCasteljauRecursive(randomPoints, t);
+                            MoveTo(bezierPosition);
+                            yield return null;
+                        }
+                        
                     justEntered = true;
-                    return null;
+                    isInRoom = false;
+                    yield return null;
+
                 }
+
+            private Vector2 DeCasteljauRecursive(List<Vector2> points, float t)
+            {
+                if (points.Count == 1)
+                {
+                    return points[0];
+                }
+
+                List<Vector2> newPoints = new List<Vector2>();
+                for (int i = 0; i < points.Count - 1; i++)
+                {
+                    Vector2 newPoint = Vector2.Lerp(points[i], points[i + 1], t);
+                    newPoints.Add(newPoint);
+                }
+
+                return DeCasteljauRecursive(newPoints, t);
+            }
+
+
 
         
     }

@@ -28,7 +28,7 @@ namespace Navigation {
             }
             this.navGraph = navGraph;
             pathFinder = new PathFinder(navGraph);
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 1; i++) {
                 var start = navGraph.GetRandomEdge();
                 var end = navGraph.GetRandomEdge();
                 string gameObjectName = "Wanderer_" + i.ToString();
