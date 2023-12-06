@@ -9,6 +9,6 @@ public class MapAnimator : MonoBehaviour
     // This gets called at the end of the map unfold animation
     void unfolded()
     {
-        mapGenerator.startDrawing = true;
+        mapGenerator.Draw();
     }
 }
