@@ -10,9 +10,11 @@ public class MapGenerator : MonoBehaviour
 {
     public int
     MinX = -100,
-    MinY = -100,
-    MaxX = 100,
+    MinY = -50,
+    MaxX = 150,
     MaxY = 100;
+
+    public float Scale = 5f;
 
     public Color LineColor;
     public float LineThickness;
@@ -26,60 +28,43 @@ public class MapGenerator : MonoBehaviour
 
     public GameObject TextPrefab;
 
-    void Start()
+    public bool startDrawing = false;
+
+    private void Update()
     {
-        Debug.Log("Running map generator...");
-
-        BuildingGenerator buildingGenerator = new();
-        buildingGenerator.GenerateBuilding();
-
-        List<List<Vector2>> lines = new();
-
-        foreach (var wall in buildingGenerator.GetWalls())
+        if (startDrawing)
         {
-            lines.Add(wall.ToPointStream().ToList());
+            Debug.Log("Running map generator...");
+
+            BuildingGenerator buildingGenerator = new();
+            buildingGenerator.GenerateBuilding(new Vector2(MinX, MinY), new Vector2(MaxX, MaxY));
+
+            List<List<Vector2>> lines = new();
+
+            foreach (var wall in buildingGenerator.GetWalls())
+            {
+                lines.Add(wall.ToPointStream().ToList());
+            }
+
+            drawMap(lines);
+
+            startDrawing = false;
         }
+    }
 
-        // Builder builder = new Builder();
-        // PartitionRunner partitionRunner = new PartitionRunner(builder, new Rectangle
-        // {
-        //     Min = new Vector2(MinX, MinY),
-        //     Max = new Vector2(MaxX, MaxY)
-        // });
-        //
-        // partitionRunner.Run();
-        //
-        // List<Vector2> points = new List<Vector2>();
-
-        //List<Vector2> points = new List<Vector2>();
-
-        //int count = 0;
-
-        //foreach (var rect in room.GetRects())
-        //{
-        //    foreach (var p in rect.getPoints())
-        //    {
-        //        points.Add(p);
-        //        count++;
-        //    }
-            
-        //}
-
-        //foreach (var (a, b) in room.SplitDivider.GetSegments())
-        //{
-        //    points.Add(a);
-        //    points.Add(b);
-        //}
-
-        drawMap(lines);
-        //drawTextMap(points);
+    public void setLineProperties(LineRenderer lineRenderer)
+    {
+        lineRenderer.startColor = LineColor;
+        lineRenderer.endColor = LineColor;
+        lineRenderer.startWidth = LineThickness;
+        lineRenderer.endWidth = LineThickness;
+        lineRenderer.material = LineMaterial;
     }
 
     void drawTextMap(List<Vector2> points)
     {
         TextAsset mytxtData = (TextAsset)Resources.Load("map");
         string text = mytxtData.text;
-
         List<Vector2> subset = new List<Vector2>(2);
         for (int i = 0; i < points.Count - 1; i += 4)
         {
@@ -93,25 +78,22 @@ public class MapGenerator : MonoBehaviour
     }
 
     public void drawTextOnPath(
-        string text, 
-        List<Vector2> path, 
-        float preferredSize = 0.25f, 
+        string text,
+        List<Vector2> path,
+        float preferredSize = 0.25f,
         float letterPaddingFactor = 1f
         )
     {
         GameObject textObject = new GameObject(text);
-
         float letterPadding = letterPaddingFactor;
         float totalTextWidth = text.Length * letterPadding;
         float curPointDistance = 0f;
         int curPointIndex = 0;
         float pointDistance = Vector2.Distance(path[curPointIndex], path[curPointIndex + 1]);
-
         // Calculate where on the path to start with the text
         float totalPathDistance = (path[path.Count - 1] - path[0]).magnitude;
         Debug.Log("total path distance is: " + totalPathDistance);
         float desiredStartDistance = (totalPathDistance * 0.5f) - (totalTextWidth * 0.5f);
-
         while (desiredStartDistance < 0)
         {
             preferredSize -= 0.01f;
@@ -119,7 +101,6 @@ public class MapGenerator : MonoBehaviour
             totalTextWidth = text.Length * letterPadding;
             desiredStartDistance = (totalPathDistance * 0.5f) - (totalTextWidth * 0.5f);
         }
-
         float curDistance = desiredStartDistance;
         while (desiredStartDistance > pointDistance)
         {
@@ -128,7 +109,6 @@ public class MapGenerator : MonoBehaviour
             curPointIndex++;
             pointDistance = Vector2.Distance(path[curPointIndex], path[curPointIndex + 1]);
         }
-
         // Go through each char individually and place them along the path
         foreach (char c in text)
         {
@@ -136,23 +116,19 @@ public class MapGenerator : MonoBehaviour
             GameObject letterObject = new GameObject(c.ToString());
             letterObject.transform.SetParent(textObject.transform);
             TextMesh textMesh = letterObject.AddComponent<TextMesh>();
-
             //textMesh.color = LineColor;
             textMesh.font = Font;
             textMesh.anchor = TextAnchor.MiddleCenter;
             textMesh.text = c.ToString();
             letterObject.transform.localScale = new Vector3(preferredSize, preferredSize, preferredSize);
-
             // Make it smooth and crisp
             textMesh.fontSize = 50;
             letterObject.transform.localScale /= 10;
-
             // Calculate and set position/rotation of textmesh
             float angle = Vector2.SignedAngle(path[curPointIndex + 1] - path[curPointIndex], Vector2.up);
             Vector2 position2D = Vector2.Lerp(path[curPointIndex], path[curPointIndex + 1], (curDistance - curPointDistance) / pointDistance);
             letterObject.transform.position = new Vector3(position2D.x, 0.3f, position2D.y);
             letterObject.transform.rotation = Quaternion.Euler(90f, angle - 90f, 0f);
-
             // Update current position
             curDistance += letterPadding;
             float tmpWidth = (curDistance - curPointDistance);
@@ -161,8 +137,7 @@ public class MapGenerator : MonoBehaviour
                 tmpWidth -= pointDistance;
                 curPointDistance += pointDistance;
                 curPointIndex++;
-
-                if(curPointIndex < path.Count - 2)
+                if (curPointIndex < path.Count - 2)
                 {
                     pointDistance = Vector2.Distance(path[curPointIndex], path[curPointIndex + 1]);
                 }
@@ -172,23 +147,17 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-
         //drawMap(points);
-    }
-
-    public void setLineProperties(LineRenderer lineRenderer)
-    {
-        lineRenderer.startColor = LineColor;
-        lineRenderer.endColor = LineColor;
-        lineRenderer.startWidth = LineThickness;
-        lineRenderer.endWidth = LineThickness;
-        lineRenderer.material = LineMaterial;
     }
 
     public void drawMap(List<List<Vector2>> lines)
     {
+        TextAsset mytxtData = (TextAsset)Resources.Load("map");
+        string text = mytxtData.text;
+        List<Vector2> subset = new List<Vector2>(2);
+
         // Loop through the list of list of points
-        foreach(List<Vector2> line in lines)
+        foreach (List<Vector2> line in lines)
         {
             LineRenderer currentLR = new GameObject().AddComponent<LineRenderer>();
             currentLR.transform.parent = Lines.transform;
@@ -200,9 +169,9 @@ public class MapGenerator : MonoBehaviour
                 currentLR.SetPosition(
                 i,
                 new Vector3(
-                line[i].x,
-                0,
-                line[i].y));
+                line[i].x / Scale,
+                49.5f,
+                line[i].y / Scale));
                 }
         }  
     }

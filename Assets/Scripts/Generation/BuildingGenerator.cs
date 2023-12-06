@@ -23,11 +23,11 @@ namespace Generation
             return _walls;
         }
 
-        public void GenerateBuilding()
+        public void GenerateBuilding(Vector2 min, Vector2 max)
         {
             var runner = new PartitionRunner(this, new Rectangle
             {
-                Min = new Vector2(-100, -50), Max = new Vector2(150, 100)
+                Min = min, Max = max
             });
             runner.Run();
             // var runner = new TowerRunner(this, new Vector2(0, 0), 10, 20);

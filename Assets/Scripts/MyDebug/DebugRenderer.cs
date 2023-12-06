@@ -39,7 +39,7 @@ namespace MyDebug
         {
             Debug.Log("Running Debug Renderer");
             BuildingGenerator generator = new();
-            generator.GenerateBuilding();
+            generator.GenerateBuilding(new Vector2(-100, -50), new Vector2(150, 100));
             navGraph = generator.Builder.ToGraph();
             wandererManager = new GameObject("Wanderer Manager").AddComponent<WandererManager>();
             wandererManager.Initialize(navGraph);

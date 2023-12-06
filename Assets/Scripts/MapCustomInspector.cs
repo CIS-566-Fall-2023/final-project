@@ -7,10 +7,11 @@ public class MapCustomInspector : Editor
     // Public attributes
 
     SerializedProperty
-        MinXProp,
-        MinYProp,
-        MaxXProp,
-        MaxYProp;
+        minX,
+        minY,
+        maxX,
+        maxY,
+        scale;
 
     SerializedProperty lineColor,
     lineThickness,
@@ -22,10 +23,12 @@ public class MapCustomInspector : Editor
 
     public void OnEnable()
     {
-        MinXProp = serializedObject.FindProperty("MinX");
-        MinYProp = serializedObject.FindProperty("MinY");
-        MaxXProp = serializedObject.FindProperty("MaxX");
-        MaxYProp = serializedObject.FindProperty("MaxY");
+        minX = serializedObject.FindProperty("MinX");
+        minY = serializedObject.FindProperty("MinY");
+        maxX = serializedObject.FindProperty("MaxX");
+        maxY = serializedObject.FindProperty("MaxY");
+
+        scale = serializedObject.FindProperty("Scale");
 
         lineColor = serializedObject.FindProperty("LineColor");
         lineThickness = serializedObject.FindProperty("LineThickness");
@@ -44,10 +47,12 @@ public class MapCustomInspector : Editor
         GUILayout.Box(banner, GUILayout.Width(400), GUILayout.Height(400));
 
         EditorGUILayout.LabelField("Map Bounds", EditorStyles.boldLabel);
-        MinXProp.intValue = EditorGUILayout.IntField("Min X", MinXProp.intValue);
-        MinYProp.intValue = EditorGUILayout.IntField("Min Y", MinYProp.intValue);
-        MaxXProp.intValue = EditorGUILayout.IntField("Max X", MaxXProp.intValue);
-        MaxYProp.intValue = EditorGUILayout.IntField("Max Y", MaxYProp.intValue);
+        minX.intValue = EditorGUILayout.IntField("Min X", minX.intValue);
+        minY.intValue = EditorGUILayout.IntField("Min Y", minY.intValue);
+        maxX.intValue = EditorGUILayout.IntField("Max X", maxX.intValue);
+        maxY.intValue = EditorGUILayout.IntField("Max Y", maxY.intValue);
+        
+        scale.floatValue = EditorGUILayout.FloatField("Scale", scale.floatValue);
 
         EditorGUILayout.Space();
 

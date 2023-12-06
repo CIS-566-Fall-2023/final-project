@@ -20,7 +20,8 @@ public class Interactivity : MonoBehaviour
         {
             input1.gameObject.SetActive(false);
             mainCamera.transform.Rotate(90, 0, 0);
-            mainCamera.transform.position = new Vector3(0.0f, 90f, 0f);
+            mainCamera.transform.position = new Vector3(0.0f, 84.1f, 0f);
+     
             mapAnimator.SetBool("unfoldMap", true);
             rotatedCamera = true;
         }
