@@ -32,7 +32,11 @@ public class Cell : MonoBehaviour, IWFCCell
     /// include neighbor in the other tile
     /// </summary>
     Cell[] allNeighbors;
-    public WFCType Type => type;
+    public WFCType Type
+    {
+        get { return type; }
+        set { type = value; }
+    }
     public IWFCTile Tile => tile;
 
     public IWFCItem Item => item;

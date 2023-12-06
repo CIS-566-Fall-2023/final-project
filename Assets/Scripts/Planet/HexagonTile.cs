@@ -12,6 +12,7 @@ public class HexagonTile : MonoBehaviour, IWFCTile
     public GameObject hexagonCellsPrefab;
     public GameObject pentagonCellsPrefab;
     public HardcodedCells cellData;
+    public bool hasSelected = false;
     public int ID;
     public List<int> connectedTiles; //For Record
     public Vector3 position;
@@ -99,7 +100,7 @@ public class HexagonTile : MonoBehaviour, IWFCTile
             transform.gameObject.AddComponent<MeshRenderer>();
         }
         transform.GetComponent<MeshFilter>().mesh = mesh;
-        //transform.GetComponent<MeshCollider>().sharedMesh = transform.GetComponent<MeshFilter>().mesh;
+        transform.GetComponent<MeshCollider>().sharedMesh = transform.GetComponent<MeshFilter>().mesh;
         mesh.name = "NewAddedMesh";
 
         mesh.vertices = vertices;
@@ -185,6 +186,24 @@ public class HexagonTile : MonoBehaviour, IWFCTile
             GameObject newTileGO = Instantiate(pentagonCellsPrefab);
             newTileGO.transform.parent = transform;
             cellData = newTileGO.GetComponent<HardcodedCells>();
+            //oops
+            WFCType type1 = (WFCType)(0x01 << (SimpleHash(1 + Random.Range(0, 1000)) + 4));
+            WFCType type2 = (WFCType)(0x01 << (SimpleHash(2 + Random.Range(0, 1000)) + 4));
+            WFCType type3 = (WFCType)(0x01 << (SimpleHash(3 + Random.Range(0, 1000)) + 4));
+            WFCType type4 = (WFCType)(0x01 << (SimpleHash(4 + Random.Range(0, 1000)) + 4));
+            WFCType type5 = (WFCType)(0x01 << (SimpleHash(5 + Random.Range(0, 1000)) + 4));
+
+            cellData.CellsOnTileEdge0[0].Type = type1;
+            cellData.CellsOnTileEdge0[1].Type = type1;
+            cellData.CellsOnTileEdge1[0].Type = type2;
+            cellData.CellsOnTileEdge1[1].Type = type2;
+            cellData.CellsOnTileEdge2[0].Type = type3;
+            cellData.CellsOnTileEdge2[1].Type = type3;
+            cellData.CellsOnTileEdge3[0].Type = type4;
+            cellData.CellsOnTileEdge3[1].Type = type4;
+            cellData.CellsOnTileEdge4[0].Type = type5;
+            cellData.CellsOnTileEdge4[1].Type = type5;
+
             newTileGO.transform.position = center;
             newTileGO.transform.localScale = new Vector3(edgeLength, edgeLength, edgeLength);
 
@@ -195,6 +214,17 @@ public class HexagonTile : MonoBehaviour, IWFCTile
             newTileGO.transform.rotation = Quaternion.LookRotation(forwardDir, normal);
         }
     }
+
+    private int SimpleHash(int input)
+    {
+        int Modulus = 4; 
+        int Multiplier = 48271;
+        int Increment = 214748367;
+
+        input = (Multiplier * input + Increment) % Modulus;
+        return input;
+    }
+
     public void ConnectCellsWithOtherTile()
     {
         for (int i = 0; i < connectedTiles.Count; ++i)

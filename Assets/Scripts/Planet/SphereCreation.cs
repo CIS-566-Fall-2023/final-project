@@ -32,7 +32,7 @@ public class SphereCreation : MonoBehaviour
     public List<HexagonTile> tiles = new List<HexagonTile>();
     public GameObject tilePrefab;
     public GameObject tileParent;
-
+    public Material tileBasicMat;
     public sHexGrid finalGrid;
     public int size = 0;
     public float planetSize = 1.0f;
@@ -67,12 +67,17 @@ public class SphereCreation : MonoBehaviour
             var tile = tileGO.GetOrAddComponent<HexagonTile>();
             tileGO.transform.parent = tileParent.transform;
             tile.SetupTile(finalGrid.tiles[i].position, finalGrid.tiles[i].corners, finalGrid.tiles[i]);
+            tile.GetComponent<MeshRenderer>().material = tileBasicMat;
             tiles.Add(tile);
         }
         for (int i = 0; i < finalGrid.tiles.Count; i++)
         {
             var tile = tiles[i];
             tile.SetupCells();
+            if(tile.corners.Count == 5)
+            {
+                WFCManager.Instance.FillOneTile(tile);
+            }
         }
     }
 
