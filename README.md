@@ -1,6 +1,9 @@
 # Sci-Fi Corridor Generator
 Authors: Tianyi Xiao and Linda Zhu
 
+Video Link:
+https://drive.google.com/file/d/11jnbuWwpp6BDBsoZ2qdruYy5CL9W41N9/view?usp=sharing
+
 <details>
   <summary> Final </summary>
 
