@@ -14,7 +14,7 @@ public class CellEditor : Editor
     void OnEnable()
     {
         cell = (Cell)target;
-        if (cell.pentagonDirection == -1)
+        if (!cell.IsPentagon)
         {
             itemOptions = new string[WFCManager.Instance.HexagonItemNum];
             for (int i = 0; i < WFCManager.Instance.HexagonItemNum; i++)
@@ -43,7 +43,7 @@ public class CellEditor : Editor
             selectedItem = EditorGUILayout.Popup(selectedItem, itemOptions);
             if (GUILayout.Button("Place"))
             {
-                if (cell.pentagonDirection == -1)
+                if (!cell.IsPentagon)
                 {
                     cell.PlaceItem(WFCManager.Instance.GetHexagonItem(selectedItem));
                 }

@@ -51,6 +51,7 @@ namespace Planetile
             }
             return null;
         }
+        public int Count => data.Count;
     }
     public class WFCManager : MonoBehaviour
     {
@@ -135,7 +136,8 @@ namespace Planetile
         public bool Collapse(IWFCCell cell)
         {
             var wave = new SortedDictionary<float, IWFCItem>();
-            foreach (var item in itemPool)
+            var pool = cell.IsPentagon ? pentagonItemPool : itemPool;
+            foreach (var item in pool)
             {
                 // if it's null type, we can use any kind of item.
                 if (cell.Type != WFCType.Null && cell.Type != item.Type) continue;
@@ -175,30 +177,26 @@ namespace Planetile
         /// <returns></returns>
         public IWFCCell Collapse(IEnumerable<IWFCCell> cells)
         {
-            if (itemPool != null && itemPool.Count > 0)
+            var pool = cells.First().IsPentagon ? pentagonItemPool : itemPool;
+            var wave = new Wave();
+            foreach (var cell in cells)
             {
-                var wave = new Wave();
-                foreach (var cell in cells)
+                int count = 0;
+                foreach (var item in pool)
                 {
-                    int count = 0;
-                    foreach (var item in itemPool)
+                    // if it's null type, we can use any kind of item.
+                    if (cell.Type != WFCType.Null && (cell.Type & item.Type) == 0) continue;
+                    float entropy = item.Entropy(cell);
+                    if (entropy > 0)
                     {
-                        // if it's null type, we can use any kind of item.
-                        if (cell.Type != WFCType.Null && (cell.Type & item.Type) == 0) continue;
-                        float entropy = item.Entropy(cell);
-                        if (entropy > 0)
-                        {
-                            wave.Add(entropy, cell, item);
-                            count++;
-                        }
+                        wave.Add(entropy, cell, item);
+                        count++;
                     }
-                    if (count == 0)
-                        Debug.LogWarning($"No item is placed to {cell}.");
                 }
-
-                return wave.Collapse();
+                if (count == 0)
+                    Debug.LogWarning($"No item is placed to {cell}.");
             }
-            return null;
+            return wave.Collapse();
         }
     }
 }

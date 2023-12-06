@@ -23,6 +23,7 @@ namespace Planetile
     }
     public interface IWFCCell
     {
+        bool IsPentagon {  get; }
         WFCType Type { get; }
         IWFCTile Tile { get; }
         IWFCItem Item { get; }

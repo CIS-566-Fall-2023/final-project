@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour, IWFCCell
 {
+    public bool IsPentagon => pentagonDirection != -1;
     public int pentagonDirection = -1;
     /// <summary>
     /// the direction of the triangle
     /// </summary>
     public bool bottomFlat = false;
-    public int PentagonRotationFlag = -1;
     [SerializeField]
     WFCType type;
     [SerializeField]
@@ -98,9 +98,9 @@ public class Cell : MonoBehaviour, IWFCCell
             else
             {
                 item.transform.localScale = WFCManager.Instance.pentagonItemLocalScale;
-                item.transform.localRotation = Quaternion.Euler(0, -72f * pentagonDirection, 0) * item.transform.localRotation;
+                item.transform.localRotation = Quaternion.Euler(0, -72f * pentagonDirection + (bottomFlat? 0f : 180f), 0) * item.transform.localRotation;
 
-                item.transform.localPosition = (bottomFlat ? WFCManager.Instance.pentagonItemPositionOffset : -WFCManager.Instance.pentagonItemPositionOffset);
+                item.transform.localPosition = WFCManager.Instance.pentagonItemPositionOffset;
                 item.transform.localPosition = item.transform.localRotation * item.transform.localPosition;
             }
         }

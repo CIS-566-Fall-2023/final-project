@@ -5,6 +5,7 @@ using Planetile;
 
 public class TemporaryCellClass : IWFCCell
 {
+    public bool IsPentagon => false;
     WFCType type = WFCType.Null;
     public TemporaryCellClass(WFCType type) { this.type = type; }
     public WFCType Type => type;
