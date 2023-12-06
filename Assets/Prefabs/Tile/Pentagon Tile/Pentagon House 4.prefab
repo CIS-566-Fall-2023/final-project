@@ -1030,7 +1030,8 @@ MonoBehaviour:
   itemName: Pentagon House 4
   type: 128
   rules:
-  - rule: 0 == Pentagon House && 1 == House && 2 == Pentagon House
+  - rule: (0 == PentagonHouse || 0 == House) && (1 == PentagonHouse || 1 == House)
+      && (2 == PentagonHouse || 2 == House)
     operation: 8
     value: 999
   mesh: {fileID: 0}

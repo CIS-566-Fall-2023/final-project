@@ -288,7 +288,8 @@ MonoBehaviour:
   itemName: Pentagon House with Two Side Tree 1
   type: 192
   rules:
-  - rule: 0 == Pentagon House && 1 == Tree && 2 == Pentagon Tree
+  - rule: (0 == PentagonHouse || 0 == House) && (1 == PentagonTree || 1 == Tree)
+      && (2 == PentagonTree || 2 == Tree)
     operation: 8
     value: 999
   mesh: {fileID: 0}
