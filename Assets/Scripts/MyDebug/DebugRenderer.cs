@@ -11,24 +11,26 @@ namespace MyDebug
     public class DebugRenderer : MonoBehaviour
     {
         private List<IDebugDrawable> _drawables = new();
-        private DebugSquare sprite = new DebugSquare();
+        private List<Wanderer> feet = new List<Wanderer>();
+        private WandererManager wandererManager;
         private int tick = 0;
         private Graph navGraph;
         private EdgeInfo currEdge; 
         private Builder builder = new Builder();
         
-        /*** DFS stuff ***/ 
+        /*** DFS stuff 
         private EdgeInfo startEdge;
         private EdgeInfo endEdge;
         private List<EdgeInfo> path;
+        ***/ 
 
         /*** Move stuff ***/ 
-        private bool isMoving = false;
-        private Vector2 targetPosition;
         private float lerpDuration = 1.0f; // You can adjust the duration to control the speed of movement
         private float lerpStartTime;
         private BezierCurveMover curveMover;
-
+        /*
+        private bool justEntered = false;
+        */
         
   
         // Start is called before the first frame update
@@ -41,6 +43,9 @@ namespace MyDebug
             });
             runner.Run();
             navGraph = runner.Builder.ToGraph();
+            wandererManager = new GameObject("Wanderer Manager").AddComponent<WandererManager>();
+            wandererManager.Initialize(navGraph);
+
             foreach (var curve in navGraph.Curves())
             {
                 var lineCurve = (LineCurve) curve;
@@ -52,15 +57,9 @@ namespace MyDebug
                 _drawables.Add(new DebugRect {Rectangle = rectangle, Color = Color.blue});
             }
 
-            startEdge = navGraph.GetRandomEdge();
-            endEdge = navGraph.GetRandomEdge();
-            currEdge = navGraph.GetRandomEdge();
-            var position =  (LineCurve) currEdge.Curve;
-            sprite.MoveTo(position.P0);
-            path = DFS(startEdge, endEdge);
-
 }
 
+/*
         List<EdgeInfo> DFS(EdgeInfo start, EdgeInfo end) {
                 Dictionary<EdgeInfo, bool> visited = new Dictionary<EdgeInfo, bool>();
                 foreach(List<Navigation.EdgeInfo> edgeList in navGraph.GetAdjList()) {
@@ -104,6 +103,9 @@ namespace MyDebug
                 return result;
 
             }
+            */
+
+            /*
 
             private IEnumerator<object> MoveToTarget(ICurve curve)
                 {
@@ -122,29 +124,33 @@ namespace MyDebug
                     sprite.MoveTo(curve.Point(1));
                     isMoving = false;
                 }
+                */
 
+/*
             private IEnumerator<object> EnterRoom(EdgeInfo edge){
                     curveMover = new BezierCurveMover(this, 5.0f); 
                     List<Vector2> randomPoints = new List<Vector2>();
                     randomPoints.Add(((LineCurve)currEdge.Curve).P0);
-                    int points = UnityEngine.Random.Range(1, 10);
+                    int points = UnityEngine.Random.Range(4, 10);
+                    
+                    
                     for (int i = 0; i < 5; i++)  
                         {
                             Vector2 randomPoint = navGraph.GetVertices()[edge.ToVertex].region.RandPoint(); 
                             randomPoints.Add(randomPoint);
                         }
-                    if (path[0].Tag == EdgeTag.Doorway) {
-                    randomPoints.Add(((LineCurve)path[0].Curve).P0);
-                    }
-                    else {
-                        path = DFS(edge, endEdge);
-                       randomPoints.Add(((LineCurve)currEdge.Curve).P0); 
-                    }
+
+                    //changed post exit code
+                    var exit = navGraph.GetAdjList()[edge.ToVertex][0];
+                    randomPoints.Add(((LineCurve)exit.Curve).P0);
+                    path = DFS(exit, navGraph.GetRandomEdge());
                     curveMover.SetControlPoints(randomPoints);
                     curveMover.MoveSpriteAlongCurve(sprite);
+                    justEntered = true;
                     return null;
             }
 
+*/
 
         //renderer
         // Update is called once per frame
@@ -154,8 +160,13 @@ namespace MyDebug
                 {
                     drawable.Draw();
                 }
+
+
+            /*
                 tick++;
                 sprite.Draw();
+
+                
                 if (tick % 60 == 0)
                 {
                     if (!isMoving && path.Count > 0)
@@ -164,19 +175,21 @@ namespace MyDebug
                         currEdge = path[0];
                         path.RemoveAt(0);
                         StartCoroutine(MoveToTarget(currEdge.Curve));
-                        
-                        /*if (currEdge.Tag == EdgeTag.Doorway)
+                        if (currEdge.Tag == EdgeTag.Doorway && justEntered == false)
                         {
+
                             //targetPosition = ((LineCurve)currEdge.Curve).P0;
                             StartCoroutine(MoveToTarget(currEdge.Curve));
                             StartCoroutine(EnterRoom(currEdge));
+                            justEntered = true;
+                           
                         }
                         else
                         {
                             //targetPosition = ((LineCurve)currEdge.Curve).P0;
-                            StartCoroutine(MoveToTarget(currEdge.Curve));
+                            justEntered = false;
+                            StartCoroutine(MoveToTarget(currEdge.Curve)); 
                         }
-                        */
                     }
                     else if (!isMoving)
                     {
@@ -184,6 +197,7 @@ namespace MyDebug
                         path = DFS(currEdge, endEdge);
                     }
                 }
+                */
             }
 
 

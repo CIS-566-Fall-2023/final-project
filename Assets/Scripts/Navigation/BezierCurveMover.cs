@@ -8,7 +8,7 @@ public class BezierCurveMover
 {
     private List<Vector2> controlPoints;
     private float movementDuration;
-    private MonoBehaviour host; // To run coroutines
+    private MonoBehaviour host; // to run coroutines
 
     public BezierCurveMover(MonoBehaviour host, float duration)
     {
@@ -22,12 +22,12 @@ public class BezierCurveMover
         controlPoints = points;
     }
 
-    public void MoveSpriteAlongCurve(DebugSquare sprite)
+    public void MoveSpriteAlongCurve(Wanderer sprite)
     {
         host.StartCoroutine(MoveAlongBezier(sprite, controlPoints, movementDuration));
     }
 
-    private IEnumerator<object> MoveAlongBezier(DebugSquare sprite, List<Vector2> bezierPoints, float duration)
+    private IEnumerator<object> MoveAlongBezier(Wanderer sprite, List<Vector2> bezierPoints, float duration)
     {
         float startTime = Time.time;
         while (Time.time - startTime < duration)
@@ -57,16 +57,5 @@ public class BezierCurveMover
     }
 
     // Utility methods
-    public static List<Vector2> GenerateRandomPoints(Rectangle roomRect, int numberOfPoints)
-    {
-        List<Vector2> points = new List<Vector2>();
-        for (int i = 0; i < numberOfPoints; i++)
-        {
-            float randomX = UnityEngine.Random.Range(roomRect.Min.x, roomRect.Max.x);
-            float randomY = UnityEngine.Random.Range(roomRect.Min.y, roomRect.Max.y);
-            points.Add(new Vector2(randomX, randomY));
-        }
-        return points;
-    }
 }
 }
