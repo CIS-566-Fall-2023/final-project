@@ -132,3 +132,31 @@ Unreal Engine:
 | :--: |
 |Imported and placed all meshes. Set up and assigned simple cel-shaded materials for all meshes. Used ginkgo leaf mask to create simple cel-shaded fabric textile material.|
 
+# Milestone 3 Updates
+
+##### Sculpted Hair
+![Screenshot 2023-12-05 232537](https://github.com/RachelDLin/final-project/assets/43388455/e691af2e-0855-41a6-a378-29b08d7351ef)
+| :--: |
+|Sculpted hair in ZBrush.|
+
+##### Enhanced Toon Shaders
+
+Set up vertex painting for blending between materials. This was done through a simple linear interpolation node in the material graph. Also added specular highlights to the jade material using the Blinn-Phong shading model. 
+
+##### Simple Landscape
+
+Sculpted a simple landscape in Maya. Created grass card opacity mask by baking a grass mesh onto a plane in Substance Designer. Grass color was set in the toon shader in the same way as all other materials. Used Unreal foliage tool to create a new grass foliage type and apply grass to landscape.
+
+##### Tree
+
+Procedurally created tree branches and trunk in Houdini. Hand-painted branch/leaf texture and created opacity mask in Procreate. 
+
+##### Falling Ginkgo Leaf Particle Sim
+
+
+
+##### Setup Cameras & Rendered Videos/Shots
+
+Set up several cinematic cameras to get close-up and overall shots. Used Unreal level sequencer to create key-framed camera pans.
+
+
