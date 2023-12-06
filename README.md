@@ -1,8 +1,9 @@
 # Final Project!
 [![Demo](img/final.png)](https://www.youtube.com/watch?v=VeFpExLoVDM)
 
+<details>
+  <summary> Project planning: Design Doc </summary>
 
-## Project planning: Design Doc (due 11/8)
 #### Introduction
 <img src="https://github.com/xchennnw/final-project/blob/main/img/train1.png" height="200px"/> <img src="https://github.com/xchennnw/final-project/blob/main/img/train2.png" height="200px"/><br/>
 Train view is cool for anyone who wants to relax and enjoy the natural terrain winding out of the train window. In the game, we may generate a series of landscapes procedurally in an aesthetic pleasant style. Even better, the game will generate a mix of terrain which may be impossible in reality to create a fantastic viewpoint of the virtual world!
@@ -62,8 +63,10 @@ We would like to provide a train view generator in Unity to simulate the passeng
 |Milestone 2 (11.15 - 11.27)| Biome generation; Stone and grass generation;|  Skybox amd cloud & Tree and any other object; Object scattering|
 |Final (11.27 - 12.5)| Better biome interpolation; Polish stylized shader | Overall controlling and interaction|
 
----
-## Milestone 1: Implementation part 1 (due 11/15)
+</details>
+
+<details>
+  <summary> Milestone 1 (due 11/15) </summary>
 [<img src="https://github.com/xchennnw/final-project/blob/main/img/train_view_milestone1.png" width="60%">](https://www.youtube.com/watch?v=p49DG-7GNyk "Video!")
 
 Above image is a link to video :)
@@ -73,8 +76,10 @@ Above image is a link to video :)
   - We decided to use hex map for a relatively easy control of different biomes. Now we implemented a endless hex terrain generator that dynamically changes biome as the camera moves.
 - Biome
   - We implemented a basic biome config system. Each biome is composed by 3 layers: near, mid, and far (from the train's view). The hex tile mesh and material can be defined for each layer. For instance, in the current video, there is a snow land biome where the snow is the near layer, the lake is the middle layer, and the black stone is the far layer.
-  
-## Milestone 2: Implementation part 2 (due 11/27)
+</details>
+
+<details>
+  <summary> Milestone 2 (due 11/27) </summary>
 [<img src="https://github.com/xchennnw/final-project/blob/main/img/milestone2.png" width="60%">](https://www.youtube.com/watch?v=qRk5k1Ub4C8 "Video!")
 
 Above image is a link to video :)
@@ -84,10 +89,15 @@ Above image is a link to video :)
   - We added L-system trees and stones that user can choose to add for certain layers in a biome, and set the number to spawn. To be improved: add an object pool to control them to improve performance.
 - Sand ground shader
   - We added a white sand ground shader to mimic the beach scene in one of the reference images.
-- In next days, we are gonna add more biomes, and do some performance optimization 
+- In next days, we are gonna add more biomes, and do some performance optimization
+</details>
+
+<details>
+  <summary> Final submission (due 12/5) </summary>
     
 ## Final submission (due 12/5)
 In the final milestone, we added more biomes and adjust the color such that visual effect of the whole tune to make it more alike to the reference image. Some vfx effect is added, such as camera shaking and star blinking. Considering the background under a game engine, we add some interactivity for user to control the train.
 
 ## Post mortem
 Overall our project goes pretty well. We made a delicate train view generator in Unity with stylized landscape and skybox (we are visually satisfied in the middle of it). The coordination is smooth and we all did our job well. After this project, we are more familar with the formation of Unity shadergraph and stylization continue from hw4.
+</details>
