@@ -69,7 +69,7 @@ public class HexSelector : MonoBehaviour
             GameObject obj = hit.collider.gameObject;
             HexagonTile hex = obj.GetComponent<HexagonTile>();
 
-            if (hex != null && lastHoveredHex != obj)
+            if (hex != null && hex.corners.Count == 6 && lastHoveredHex != obj)
             {
                 if (lastHoveredHex != null && !lastHoveredHex.GetComponent<HexagonTile>().hasSelected)
                 {
@@ -102,7 +102,7 @@ public class HexSelector : MonoBehaviour
 
                 HexagonTile hex = obj.GetComponent<HexagonTile>();
 
-                if (hex != null && !hex.hasSelected)
+                if (hex != null && hex.corners.Count == 6 && !hex.hasSelected)
                 {
                     selected = hex;
                     selected.GetComponent<MeshRenderer>().material = hexSelect;
