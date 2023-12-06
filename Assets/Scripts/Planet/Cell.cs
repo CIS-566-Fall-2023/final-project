@@ -88,6 +88,10 @@ public class Cell : MonoBehaviour, IWFCCell
 
     public void PlaceItem(IWFCItem _item)
     {
+        if (type != WFCType.Null && (type & _item.Type) == 0)
+        {
+            Debug.LogError($"An item of type {_item.Type} is being placed to {this} of type {type}");
+        }
         Item __item = _item as Item;
         if (this.item == null || this.item.ItemName != __item.ItemName)
         {

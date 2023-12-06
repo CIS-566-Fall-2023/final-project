@@ -135,40 +135,19 @@ namespace Planetile
         /// <param name="cell"></param>
         public bool Collapse(IWFCCell cell)
         {
-            var wave = new SortedDictionary<float, IWFCItem>();
+            var wave = new Wave();
             var pool = cell.IsPentagon ? pentagonItemPool : itemPool;
             foreach (var item in pool)
             {
                 // if it's null type, we can use any kind of item.
-                if (cell.Type != WFCType.Null && cell.Type != item.Type) continue;
+                if (cell.Type != WFCType.Null && (cell.Type & item.Type) == 0) continue;
                 float entropy = item.Entropy(cell);
                 if (entropy > 0)
                 {
-                    wave.Add(entropy, item);
+                    wave.Add(entropy, cell, item);
                 }
             }
-            if (wave.Count == 0)
-            {
-                Debug.LogWarning($"nothing is placed to {cell}");
-                return true;
-            }
-            float totalWeight = 0f;
-            foreach (var w in wave.Keys)
-            {
-                totalWeight += w;
-            }
-            float randomValue = Random.Range(0f, totalWeight);
-            foreach (var pair in wave.Reverse())
-            {
-                randomValue -= pair.Key;
-                if (randomValue <= 0)
-                {
-                    cell.PlaceItem(pair.Value);
-                    Debug.Log($"{pair.Value} is placed to {cell}");
-                    return true;
-                }
-            }
-            return false;
+            return wave.Collapse() != null;
         }
         /// <summary>
         /// In a bunch of cells, fill a cell with an item.
