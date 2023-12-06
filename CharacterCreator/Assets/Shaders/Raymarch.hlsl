@@ -4,7 +4,7 @@
 #include "Common.hlsl"
 #include "Texturing.hlsl"
 
-#define RAYMARCH_CONSTANT_STEPS 1
+#define RAYMARCH_CONSTANT_STEPS 0
 #define RAYMARCH_SPHERE_TRACE 1
 
 #define MAX_ITERS 1024
