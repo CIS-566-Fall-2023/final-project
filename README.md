@@ -1,10 +1,10 @@
-# Sci-Fi Corridor Generator
-Authors: Tianyi Xiao and Linda Zhu
+![](/img/cover.png)
+
+### Authors: Tianyi Xiao and Linda Zhu
 
 ## [Check out our live demo!](https://jackxty.github.io/Sci-Fi-Corridor-Generator/)
 
-Video Link:
-https://drive.google.com/file/d/11jnbuWwpp6BDBsoZ2qdruYy5CL9W41N9/view?usp=sharing
+## [Introduction Video](https://drive.google.com/file/d/11jnbuWwpp6BDBsoZ2qdruYy5CL9W41N9/view?usp=sharing)
 
 <details>
   <summary> Final </summary>
@@ -20,21 +20,21 @@ https://drive.google.com/file/d/11jnbuWwpp6BDBsoZ2qdruYy5CL9W41N9/view?usp=shari
   <summary> Milestone 3 </summary>
 
 ## Texture Generation
-To create textures for procedurally generated models (like walls, boxs), we use Substance Painter to paint them and generate corresponding diffuse and metallic textures for the URP rendering pipeline.
+To create textures for procedurally generated models, we use Substance Painter to paint walls and doors with more complex geometry. From there we generate corresponding diffuse and metallic textures for the URP rendering pipeline.
 
-![](/img/SP.png)
+![](/img/milestone3/SP.png)
 
-Besides, we generate the ground textures using Substance Designer. And we also use designer to modify textures from [resources](https://assetstore.unity.com/packages/2d/textures-materials/metals/yughues-free-metal-materials-12949), to make it unified with our color palette.
+For plain panels and ground textures, we opt for Substance Designer to modify textures from the [Yughues Material Unity asset package](https://assetstore.unity.com/packages/2d/textures-materials/metals/yughues-free-metal-materials-12949). We altered the source textures to make the color palette match our theme!
 
-![](/img/SD.png)
+![](/img/milestone3/SD.png)
 
-![](/img/modified_tex.png)
+![](/img/milestone3/modified_tex.png)
 
 ## Dissolve Effect
 
 To enrich the interactivity of the game level, I implement a dissolve effect when player get closer to the box, which is controlled by a dissolve factor and a noise texture. In fragment shader, the noise texture will be sampled and compared with an increasing dissolve factor, if noise is smaller then it would be alpha-clipped, which looks like dissolved. What's more, I add a white edge at the area where nearly but haven't be clipped.
 
-![](/img/dissolve.png)
+![](/img/milestone3/dissolve.png)
 
 </details>
 
