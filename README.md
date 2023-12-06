@@ -2,6 +2,16 @@
 Authors: Tianyi Xiao and Linda Zhu
 
 <details>
+  <summary> Final </summary>
+
+## Post Mortem
+  Overall speaking, we are very satsfied with our project, no matter for our outcome or for our working progress. We follow the planned timeline to work on this project, and in the end we have acheived all of the goals that listed in the timeline of our deign doc. Besides finishing our own jobs, we also supported each other to accomplish our tasks outstandingly, with smooth and effective communication. Probably we could add some additional features (some interesting shader effect, particle effect, or better art design) to make our scene even more impressive. But within the given time, I believe we have done an excellent job. 
+
+  The houdini work out well together with Unity, as we suppose in the beginning stage. Though there are some issues while we're using Houdini, we could find solution with our effort. And we have a deeper understanding with how Houdini work and what it can acheive.
+
+</details>
+
+<details>
   <summary> Milestone 3 </summary>
 
 ## Texture Generation
@@ -261,19 +271,19 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
 
 - Week 2:
   - [x] Figure out where to place the walls, ceiling tiles and floor tiles (start off with some default prefabs) (Houdini + Unity - Linda).
-  - [-] Start digital assets generation using procedural modelling: doors and wall panels (Houdini - Tianyi).
-  - [ ] Populate the scene with realistic lighting and other shading effects (Unity - Tianyi). 
+  - [X] Start digital assets generation using procedural modelling: doors and wall panels (Houdini - Tianyi).
+  - [X] Populate the scene with realistic lighting and other shading effects (Unity - Tianyi). 
 
 - Week 3 (milestone 2) [due 11/27]:
-  - [ ] Collect/ Create more textures (Online + Substance Designer - Tianyi).
-  - [ ] Instead of using the same wall/floor/ceiling tiles everywhere, place procedurally generated digital assets with different sizes in the scene (Houdini - Linda).
-  - [ ] Create more props and room objects, e.g. toolbox, machine, etc., for the scene (Houdini - Linda). 
+  - [X] Collect/ Create more textures (Online + Substance Designer - Tianyi).
+  - [X] Instead of using the same wall/floor/ceiling tiles everywhere, place procedurally generated digital assets with different sizes in the scene (Houdini - Linda).
+  - [X] Create more props and room objects, e.g. toolbox, machine, etc., for the scene (Houdini - Linda). 
 
 - Week 4 (final) [due 12/5]:
   - [x] Figure out where to procedurally place the props in the scene, e.g. around the corner or at the end of the corridor (Houdini - Linda). 
-  - [ ] Decorate the scene by placing props and add other post-processing effects (Unity - Tianyi).
-  - [ ] Do more testing and fix bugs (Both).
-  - [ ] Create final renders to showcase and complete README (Both).
+  - [X] Decorate the scene by placing props and add other post-processing effects (Unity - Tianyi).
+  - [X] Do more testing and fix bugs (Both).
+  - [X] Create final renders to showcase and complete README (Both).
 
 </details>
 
