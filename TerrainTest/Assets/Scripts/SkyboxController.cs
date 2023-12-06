@@ -44,7 +44,6 @@ public class SkyboxController : MonoBehaviour
             Color skyColor = Color.Lerp(lastSky.skyColor, currSky.skyColor, lerp);
             Color horizonColor = Color.Lerp(lastSky.horizonColor, currSky.horizonColor, lerp);
             Color groundColor = Color.Lerp(lastSky.groundColor, currSky.groundColor, lerp);
-            Debug.Log("Send");
             SendSkyColorToShader(skyColor, horizonColor, groundColor);
 
             yield return transitWait;
