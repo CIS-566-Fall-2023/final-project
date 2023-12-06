@@ -144,30 +144,30 @@ Shader "Custom/StandardProceduralWood"
             b = pow(b, k);
             return pow(a * b / (a + b), 1.0 / k);
         }
-        float powerSmoothMin(float a[MaxKnotCount], float k) {
+        float powerSmoothMin(float a[MaxKnotCount], int knotCount, float k) {
             float product = 1.0;
-            for (uint i = 0; i < MaxKnotCount; i++) {
+            for (uint i = 0; i < knotCount; i++) {
                 a[i] = pow(a[i], k);
                 product *= a[i];
             }
             float sum = 0.0;
-            for (uint i = 0; i < MaxKnotCount; i++) {
+            for (uint i = 0; i < knotCount; i++) {
                 if (a[i] != 0) {
                     sum += product / a[i];
                 }
             }
             return pow(product / sum, 1.0 / k);
         }
-        float vectorSum(float v[MaxKnotCount]) {
+        float vectorSum(float v[MaxKnotCount], int knotCount) {
             float sum = 0.0;
-            for (uint i = 0; i < MaxKnotCount; i++) {
+            for (uint i = 0; i < knotCount; i++) {
                 sum += v[i];
             }
             return sum;
         }
-        float vectorMin(float v[MaxKnotCount]) {
+        float vectorMin(float v[MaxKnotCount], int knotCount) {
             float minVal = 1e8;
-            for (uint i = 0; i < MaxKnotCount; i++) {
+            for (uint i = 0; i < knotCount; i++) {
                 minVal = min(minVal, v[i]);
             }
             return minVal;
@@ -201,7 +201,7 @@ Shader "Custom/StandardProceduralWood"
         }
         void WoodTexture_float(
             sampler2D colorMap, sampler2D heightMap, sampler2D orientationMap, sampler2D stateMap, sampler2D normalMap,
-            uint numKnots, float3 position, float3 normal, 
+            int numKnots, float3 position, float3 normal, 
             float localMaxRadius, float horizontalDistance, float timeValue, float zRatio, float2 distanceRange,
             out float3 color, out float3 nor
         ) {
@@ -210,16 +210,16 @@ Shader "Custom/StandardProceduralWood"
             float deathTimes[MaxKnotCount];
             float orientations[MaxKnotCount];
             uint indices[MaxKnotCount];
-            for (uint i = 0; i < MaxKnotCount; i++) {
+            for (int i = 0; i < numKnots; i++) {
                 skeletonDistances[i] = 9.0;
                 timeValues[i] = 9.0;
                 deathTimes[i] = 9.0;
                 orientations[i] = 0.0;
                 indices[i] = 0;
             }
-            uint count = 0;
-            [unroll(4)]
-            for (uint i = 0; i < numKnots; i++) 
+            int count = 0;
+            [unroll(MaxKnotCount)]
+            for (int i = 0; i < numKnots; i++) 
             {
                 float2 uv = float2(horizontalDistance, (float(i) + 0.5) / numKnots);
                 //float3 height = sampleTextureBicubic(heightMap, uv).rgb;
@@ -305,13 +305,13 @@ Shader "Custom/StandardProceduralWood"
                     }
                 }
             }
-            minTime = powerSmoothMin(timeValues, 2.0);
+            minTime = powerSmoothMin(timeValues, numKnots, 2.0);
             for (uint i = 0; i < numKnots; i++) {
                 float dt = max(timeValue - minTime, 0.0) / timeValue;
                 delta[i] -= delta[i] * smoothstep(0, 1, dt);
             }
-            float sumDelta = vectorSum(delta);
-            float minAllTime = min(timeValue, vectorMin(timeValues));
+            float sumDelta = vectorSum(delta, numKnots);
+            float minAllTime = min(timeValue, vectorMin(timeValues, numKnots));
             combinedTime = minAllTime + sumDelta;
             float3 start = float3(1, 0, 0);
             float3 end = float3(0, 1, 0);
@@ -404,7 +404,7 @@ Shader "Custom/StandardProceduralWood"
         }
 
         void surf (Input i, inout SurfaceOutputStandard o)
-        {
+        { 
             if(i.wPos.z < 0.f || i.wPos.z > _MaxHeight)
             {
                 o.Albedo = fixed4(1.f, 1.f, 1.f, 1.f);
@@ -436,7 +436,7 @@ Shader "Custom/StandardProceduralWood"
             col, nor);
 
             o.Albedo = fixed4(col, 1.f);
-            o.Normal = nor;
+            //o.Normal = nor;
             // Metallic and smoothness come from slider variables
             //o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
