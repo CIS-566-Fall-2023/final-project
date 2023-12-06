@@ -1,5 +1,12 @@
 # :dvd:AlgebRave:dvd:
 
+AlgebRave is a Kinect-based Audioreactive & Inetaerctive Experience built using TouchDesigner. This was done as a 4-week long final project for my Procedural Graphics class at the University of Pennsylvania in Fall 2023.
+### [Click Here or on the image below to watch the trailer!](https://www.youtube.com/watch?v=MkDulP_K9ZY)
+
+[<img src="final/../images/final/thumbnail.png">](https://www.youtube.com/watch?v=MkDulP_K9ZY)  
+
+[Here](https://www.youtube.com/watch?v=B5L6xzjx6FE) is also a link to a longer video going over the project that I used for the final submission. Further details can be found in each individual section below.
+
 <details>
   <summary> Design Doc </summary>
 
@@ -321,14 +328,81 @@ I am really excited to hook everything up together and make my peers play around
 <details>
   <summary> Wrapping Up </summary>
 
-# Final submission (due 12/5)
-Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
+# Final Week! - Week 4 ( 29 Nov'23 - 6 Dec'23 )
 
-Submission:
-- Push all your code / files to your repository
-- Come to class ready to present your finished project
-- Update your README with two sections 
-  - final results with images and a live demo if possible
-  - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
+## Components
+1. [Network Summary](#network-summary-2)
+2. [Production Readiness](#production-readiness)
+3. [Live Installating & Recordings](#user-acceptance-testing-installation--recording)
+4. [Watch the Trailer!](#algebrave-trailer)
+5. [Summary & Post Mortem](#summary--post-mortem)
 
+## Network Summary  
+Thanks to my previous attempts at isolating each component, hooking up different background effects with the kinect visuals was a piece of cake! My final node network looks like this:  
+![](images/final/node_network_final.png)  
+I love the modular look of the network that I had envisioned to achieve, especially after making some horrible Houdini networks in the past.
+
+## Production-Readiness!
+The final piece of the puzzle was to make AlgebRave run as an application, and not just in TouchDesigner's preview window. This also involved understanding what it would take for TouchDesigner to not 'cook' my entire network and just let the data flow in the network that is being requested. [This](https://www.youtube.com/watch?v=qI1w4510yzc) video on Outputting in TouchDesigner was an immensely helpful resource. And now, TouchDesigner runs as a separate application at a **solid 60 FPS!**
+
+## User Acceptance Testing! Installation & Recording
+Once AlgebRave was in a presentable state, I took the apparatus with me to campus and installed the setup in our lab. The projector in the lab was super helpful in making it a fully interactive and immersive experience for all my friends who participated in helping me record some videos for my final demo!
+### [Click here to checkout some of the recordings I got from my friends!](https://www.youtube.com/watch?v=B5L6xzjx6FE&t=6m23s)
+
+<table>
+  <tr>
+    <td><img width="300px" src="final/../images/final/install1.jpg" /></td>
+    <td><img width="300px" src="final/../images/final/install2.jpg"  /></td>    
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><i>Installation at the Siglab, University of Pennsylvania</i></td>
+  </tr>
+</table>  
+
+## AlgebRave Trailer
+Finally, I had wanted to make a trailer for AlgebRave - and I got to make one! I had wanted to make such a short 1-1.5 minute trailer for the wider audience to quickly see what my project was about without going into the nitty gritty details.
+### Click on the image below to watch the trailer!
+
+[<img src="final/../images/final/thumbnail.png">](https://www.youtube.com/watch?v=MkDulP_K9ZY)
+
+## Summary & Post Mortem
+For my final week as well, I was able to hit all my milestones that I had laid down in my design doc. Recollecting on my roadmap,
+1. I had to pivot only once - in Milestone 1, when I couldn't generate more than 2 audio detection signals when I had initially planned for 4. However, I believe I majorly offset that by taking on the Spotify connectivity as a task in the same milestone, because it turned out to be an extremely useful and fun feature when getting live recordings - the users were able to select and dance to any song of their choice which was super fun for everyone!
+2. Other than that, the project went exactly as I had laid down in my milestones, and sometimes I was even able to do more than that.
+3. **I achieved both my technical and intrinsic goals that I had noted down in my design doc!**  
+
+And with that, conclude the development for AlgebRave! This has been an extremely fun journey, and I plan to keep learning TouchDesigner and finding new ways of making such interactive and immersive experiences, as well as potentially extend AlgebRave!
+
+</details> 
+
+<details>
+  <summary> Credits </summary>
+
+  # Credits
+  * Inspiration
+    * [Dance Central, Harmonix Studios](https://www.youtube.com/watch?v=kuwB05ASh7E)
+    * [Wayne Wu](https://www.wuwayne.com/)
+    * [John Alberse](https://www.johnalberse.com/)
+  * Tutorials
+    * [Bileam Tschepe (elekktronaut)](https://www.youtube.com/@elekktronaut)
+    * [Introduction to TouchDesigner - Ben Voigt](https://www.youtube.com/watch?v=wmM1lCWtn6o)
+  * Music Tracks Used
+    * [The Chainsmokers - Closer ft. Halsey](https://www.youtube.com/watch?v=0zGcUoRlhmw)
+    * [Aya Nakamura - Pookie](https://www.youtube.com/watch?v=_bPa-VG0AWo)
+    * [Tones And I - Dance Monkey](https://www.youtube.com/watch?v=q0hyYWKXF0Q)
+    * [Mike Posner - I Took A Pill In Ibiza (Seeb Remix)](https://www.youtube.com/watch?v=foE1mO2yM04)
+    * [Lunice - Hitmanes Anthem](https://www.youtube.com/watch?v=biFJ1f5PlKY)
+    * [The Script - Hall of Fame ft. will.i.am](https://www.youtube.com/watch?v=mk48xRzuNvA)
+    * [Rednex - Cotton Eye Joe](https://www.youtube.com/watch?v=mOYZaiDZ7BM)
+    * [Nicki Minaj - Super Bass](https://www.youtube.com/watch?v=4JipHEz53sU)
+    * [Sia - Unstoppable](https://www.youtube.com/watch?v=YaEG2aWJnZ8)
+    * [Mariah Carey - All I Want For Christmas Is You](https://www.youtube.com/watch?v=yXQViqx6GMY)
+    * [Dua Lipa - New Rules](https://www.youtube.com/watch?v=k2qgadSvNyU)
+  * Performers
+    * [Joanna Fisch](https://www.linkedin.com/in/joanna-fisch-bb2979186/)
+    * [Kyra Clark](https://www.linkedin.com/in/kyra-clark-a1b2c3/)
+    * [Linda Zhu](https://www.linkedin.com/in/lindadaism/)
+    * [Claire Lu](https://www.linkedin.com/in/claire-lu-470419235/)
+    * [Yuhan Liu](https://www.linkedin.com/in/yuhan-liu-/)
+    * [Diana OuYang](https://www.linkedin.com/in/diana-ouyang-540a75188/)
 </details> 
