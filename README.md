@@ -1,5 +1,7 @@
 # CIS 5660 Final Project
 
+https://youtu.be/rmGQ1pyaIVs
+
 #### Introduction
 We were inspired to create this character by the various beautiful visuals of our favorite video game characters. 
 ![IMG_5849](https://github.com/RachelDLin/final-project/assets/43388455/1329f7fc-01cc-4560-a306-4cd1ce50a302)
