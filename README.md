@@ -117,11 +117,11 @@ In the final milestone, we added more biomes and adjust the color such that visu
   - Number of rows and columns showing can be set according to train’s field of view.
   - Also defines the length of each biome.
   - Spawn and disable tiles endlessly as the camera moves, using an object pool to manage all the tiles for performance optimization.
-<br> 
+
 - We use a self-designed biome structure to mimic the window view from a train and make it easy to customize.
   - Each biome is composed by 3 layers: near, mid, and far (from the train's view). 
   - The hex tile meshes, materials, and objects(e.g. tree and stones) can be defined for each layer. 
-<br> 
+ 
 - Biome user config: Each biome is defined by a Unity ScriptableObject. We can customize these for near, mid, and far layers
   - A list of tile meshes the layer uses.
   - Number of rows this layer occupies.
@@ -129,7 +129,7 @@ In the final milestone, we added more biomes and adjust the color such that visu
   - Whether to blend the layers. If choose to do so, the row of tiles between 2 layers will has both layers’ tiles according a ratio defined here.
   - Whether to spawn trees and other objects, number to spawn, and some parameters that help spawning.
   - Sky Config for this biome.
-<br> 
+
 - Set ciomes for the terrain
   - There is a list that you can put infinite biomes in specific order, and the train will loop through them.
 <br>  
