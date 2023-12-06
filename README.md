@@ -2,6 +2,7 @@
 ## Final Submission (due 12/6) 
 
 ### Demo Video
+https://drive.google.com/file/d/1sWsCj9fICWrAheTy5JZglhaXxb1ZGDyU/view
 
 ### Post Mortem
 The project went relatively smoothly. We managed to accomplish most of our goals: infinitely generating terrain, multiple biomes and shaders, a skybox with a day-night cycle, a user-controlled boat, and procedural environment shaders for the terrain, water, and sky all inspired by the look of Dredge. We had to pivot on some aspects of our initial goals, mostly in terms of not having enough time to implement every single embellishment we had initially hoped for, such as a GUI or post-processing effects. This is mostly because implementing more core features such as the biomes and environment shaders took more time than originally expected. However, overall we are very satisfied with what we were able to accomplish as we managed to capture the core of what we had originally planned for: an endless boat simulator with proceduralism used throughout the infinitely generating environment. 
