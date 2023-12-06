@@ -163,3 +163,28 @@ project. I will officially decide closer to the deadline of the project.
 
 
 ## Final submission (due 12/6)
+
+[VIDEO DEMO](https://youtu.be/sME_ZO3Bp3c)
+
+Overall I am very happy with the result of my project. It looks even better than I originally
+imagined. I was worried that the Lsystem wouldn't convert into geometry in the way I would like, and
+also that the boolean operation would be finnecky, but those aspects posed little problems.
+
+I did have to remove a couple of features that I originally planned to include. Those include the
+cross-pattern interpolation and geometry fitting. For this demonstration, the geometry was manually
+aligned, and there is only animation of individual Lsystems. I was also only able to complete 2.5
+Lsystem patterns, and while I would have liked to design more (and I hope to continue adding them
+past this deadline) I am very happy with the designs that I was able to finish and polish up.
+
+I ended up enjoying the Lsystem designing process much more than I originally thought I would. I
+used reference patterns, and would identify all unique continuous sequences of line segments, and
+encode them into rules. The Lsystem functionality took care of the rest, making beautiful repeating
+geometric patterns.
+
+Overall, I would say I did not to take any drastic pivots throughout this project, rather just
+deprioritizing features that would have taken me longer than to complete. I am very pleased with the
+final result of this project, and hope to continue working on it and improving it in the near
+future.
+
+![](img/final-render-0.jpg)
+![](img/final-render-1.jpg)
