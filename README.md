@@ -1,3 +1,5 @@
+**Link to our Demo: https://www.youtube.com/watch?v=wak9uA7HMvA**
+
 # Design Document
 ## Introduction
 In this tile-laying game, players must strategically place procedurally generated tiles onto a hexagonal grid, ensuring that each tile connects appropriately to its neighbors; for instance, a forest tile must connect to another forest tile. 
@@ -42,9 +44,6 @@ Milestone 3: Improve the game level, create procedural planets based on differen
 | Jiefu Ling  | Design the Shader for the Planet and Get Modeling Prefabs of House, Trees, Ice. | Design atmosphere shader (cloud)                                                 | Create diverse planet surface shader    |
 | Xiaoyue Ma  | Implement the mapping of regular polygons on the planet                         | Create procedural terrain on the planet                                          | Create procedural diverse planets   |
 
-
-
-**Link to our Demo: https://www.youtube.com/watch?v=wak9uA7HMvA**
 
 
 # Milestone 1
