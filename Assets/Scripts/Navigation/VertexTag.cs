@@ -4,6 +4,7 @@ namespace Navigation
     {
         None,
         Doorway,
+        Room,
         Intersection
     }
 }

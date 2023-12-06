@@ -5,7 +5,7 @@ namespace Navigation
     public struct EdgeInfo
     {
         public int ToVertex;
-        public Geom.ICurve Curve;
+        public ICurve Curve;
         public EdgeTag Tag;
 
         public EdgeInfo(int toVertex, ICurve curve, EdgeTag tag)

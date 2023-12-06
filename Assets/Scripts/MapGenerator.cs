@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using BinaryPartition;
+using Geom;
+using GraphBuilder;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -26,12 +28,16 @@ public class MapGenerator : MonoBehaviour
     {
         Debug.Log("Running map generator...");
 
-        BinaryRoom room = new BinaryRoom(new Rectangle
-        {
-            Min = new Vector2(MinX, MinY),
-            Max = new Vector2(MaxX, MaxY)
-        });
-        room.RandomSplit();
+        // Builder builder = new Builder();
+        // PartitionRunner partitionRunner = new PartitionRunner(builder, new Rectangle
+        // {
+        //     Min = new Vector2(MinX, MinY),
+        //     Max = new Vector2(MaxX, MaxY)
+        // });
+        //
+        // partitionRunner.Run();
+        //
+        // List<Vector2> points = new List<Vector2>();
 
         List<Vector2> points = new List<Vector2>();
 
@@ -155,7 +161,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        Instantiate(textObject);
+        drawMap(points);
     }
 
     public void setLineProperties(LineRenderer lineRenderer)

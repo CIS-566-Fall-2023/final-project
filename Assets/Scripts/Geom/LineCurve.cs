@@ -39,7 +39,7 @@ namespace Geom
 
         public (ICurve, Vector2, ICurve) Split(float t)
         {
-            Vector2 point = Point(t);
+            var point = Point(t);
             return (new LineCurve(P0, point), point, new LineCurve(point, P1));
         }
 
