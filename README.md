@@ -1,18 +1,26 @@
 # CIS 5660 Final Project: Procedural Terrarium Generator
 
-As the final project for my Procedural Computer Graphics course at Penn, I will be developing a SideFX Houdini Generator Tool that allows users to create variations of succulents using procedural modeling.
+As the final project for my Procedural Computer Graphics course at Penn, I developed a SideFX Houdini Generator Tool that allows users to create variations of succulents using procedural modeling.
 
-#### Table of Contents
+
+
+### Table of Contents
 
 * [Final Renders](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/blob/main/README.md#final-renders)
-* 
+* [Milestone 1: Design Document](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/blob/main/README.md#design-doc)
+* [Milestone 2: Creating a Basic Succulent Generator](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/blob/main/README.md#milestone-2)
+* [Milestone 3: Building the Succulent, Cacti, and Pot Generators](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/blob/main/README.md#milestone-3)
+
 ## Final Renders
 
-
-## Design Doc
-<details>
-<summary>Click Here to Open / Close Design Doc</summary>
+  <p align = "center">
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/0238ca77-8f35-4149-a516-d96805852420" width=70%>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/e5ac4166-aab2-4cfc-b226-828ce5afc2ef" width=70%>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/b7a1b5c7-d36e-4c5d-aca2-0262e2df7efa" width=70%>
+  </p>
   
+## Design Doc
+
 ### Introduction
 
 <img align="right" src="https://debraleebaldwin.com/wp-content/uploads/IMG_1820-1240x827.jpg" width=330 height=auto>
@@ -91,11 +99,8 @@ For this project, I anticipate using Houdini procedural modeling techniques lear
   - Add some soil and/or rocks into the terrariums
   - Add lighting and apply materials
 
-</details>
 
 ## Milestone 2
-<details = open>
-<summary>Click Here to Open / Close Milestone 2</summary>
                                                    
 ### Building the Succulent Generator
 
@@ -118,12 +123,9 @@ One major challenge I faced when building the generator was implementing the "go
 
 My main goal for the next milestone is to tweak the generator to potentially add more controls for petal bending as well as implement color, which is crucial for creating a variety of visually interesting succulents. I want to try my hand at creating a cacti generator to go alongside the succulents, and I will be following [this tutorial](https://www.youtube.com/watch?v=BhXcOzpDQ1g) to build my ceramic pots with soil/pebbles.
 
-</details>
 
 ## Milestone 3
-<details = open>
-  <summary>Click Here to Open / Close Milestone 3</summary>
-  
+
 ### Succulent, Cacti, and Pot Generators
 For Milestone 3, I created three different generators for building variations of succulents, cacti, and containers for the plants. As of the deadline, every generator is feature complete and I'm very happy with the overall look and user controls! Using my generator, I created some different succulents and cacti and arranged them into the composition below.
 
@@ -160,5 +162,3 @@ To make the pot generator, I followed this helpful [YouTube tutorial](https://ww
 Based on the feedback received from class, I see some potential ways to spruce up this tool and polish it further. Since there are so many different possibilities for the succulent petal shapes it can be hard to replicate the exact parameters used to create certain shapes. So, I'm also thinking of creating and saving some ramp presets to make a more efficient and artist-friendly tool. If time permits, I also want to tackle random generation, using a global seed to create random succulents, cacti, and overall compositions. If I can't get the randomization done in time, I will go with my original plan of manually placing my generated plants into nice, aesthetic compositions.
 
 While I may not be able to fit these into the final submission, I am looking forward to further refining this tool in the future! :)
-
-</details>
