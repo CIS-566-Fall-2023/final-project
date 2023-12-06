@@ -4,7 +4,7 @@
 #include "Common.hlsl"
 #include "Texturing.hlsl"
 
-#define RAYMARCH_CONSTANT_STEPS 0
+#define RAYMARCH_CONSTANT_STEPS 1
 #define RAYMARCH_SPHERE_TRACE 1
 
 #define MAX_ITERS 1024
@@ -21,6 +21,22 @@ struct Ray
 float lengthSqr(float3 vec)
 {
 	return vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
+}
+
+bool intersectBox(float3 rayOrigin, float3 rayDirection, out float tNear, out float tFar) {
+	float3 rinvDir = 1.0 / rayDirection;
+	// for now we're assuming unit cube that is NOT moved!
+	float3 tbot = rinvDir * (float3(-0.5, -0.5, -0.5) - rayOrigin);
+	float3 ttop = rinvDir * (float3(0.5, 0.5, 0.5) - rayOrigin);
+	float3 tmin = min(ttop, tbot);
+	float3 tmax = max(ttop, tbot);
+	float2 t = max(tmin.xx, tmin.yz);
+	float t0 = max(t.x, t.y);
+	t = min(tmax.xx, tmax.yz);
+	float t1 = min(t.x, t.y);
+	tNear = t0;
+	tFar = t1;
+	return t1 > max(t0, 0.0);
 }
 
 // from IQ
@@ -57,10 +73,10 @@ float sdfCompoundObjectParent(float3 pos)
 
 float sdfBox(float3 pos, float3 size)
 {
-	if (pos.y > 0.1)
-	{
-		pos.y += sin(10 * pos.x) * sin(20 * pos.z) * 0.05;
-	}
+	//if (pos.y > 0.1)
+	//{
+	//	pos.y += sin(10 * pos.x) * sin(20 * pos.z) * 0.05;
+	//}
 	float3 q = abs(pos) - size;
 	return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
 }
@@ -425,7 +441,21 @@ float3 CalculateNormal(float3 pos)
 
 void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace, out float3 outPosition, out float4 outColor, out float3 objectSpaceNormal, out float outSmoothness, out float outMetallic, out float4 outEmissionColor)
 {
-	float dist = MIN_DIST;
+	float tNear, tFar;
+	if (!intersectBox(rayOriginObjectSpace, rayDirectionObjectSpace, tNear, tFar))
+	{
+		// don't raymarch if ray doesn't intersect the AABB of the object
+		outPosition = rayOriginObjectSpace + rayDirectionObjectSpace;
+		outColor = float4(0, 0, 0, 0);
+		objectSpaceNormal = float3(0, 0, 0);
+		outSmoothness = 0;
+		outMetallic = 0;
+		outEmissionColor = float4(0, 0, 0, 0);
+		return;
+	}
+
+	tFar = min(tFar, MAX_DIST);
+	float dist = max(MIN_DIST, tNear);
 
 	for (int i = 0; i < MAX_ITERS; i++)
 	{
@@ -450,7 +480,7 @@ void Raymarch_float(float3 rayOriginObjectSpace, float3 rayDirectionObjectSpace,
 #elif RAYMARCH_SPHERE_TRACE
 		dist += clamp(m, MIN_DIST, m);
 #endif
-		if (dist >= MAX_DIST)
+		if (dist >= tFar)
 		{
 			break;
 		}
