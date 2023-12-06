@@ -11,12 +11,9 @@ public class KnotsController : MonoBehaviour
     private Texture2D m_KnotOrientationMap;
     private Texture2D m_KnotStateMap;
 
-    [SerializeField]
-    private float m_MaxHeight = 100.0f;
-    [SerializeField]
-    private float m_MinRadius = 1.0f;
-    [SerializeField]
-    private float m_MaxRadius = 2.0f;
+    public float m_MaxHeight = 100.0f;
+    public float m_MinRadius = 1.0f;
+    public float m_MaxRadius = 2.0f;
 
     public Knot[] m_Knots;
     public Material[] m_Materials;

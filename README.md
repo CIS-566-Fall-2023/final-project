@@ -108,6 +108,32 @@ In the milestone #2:
 4. Mesh Fracture and Physical Simulation
 5. Final demo scene setup
 
+## Instruction
+**How to create unique model with wood texture?**
+1. Load any Mesh into the scene
+![](images/instruction/step1.png)
+
+2. Create an *empty object* **under** the mesh and add a *Trunk* script component to it
+![](images/instruction/step2.png)
+
+3. Create a new material use *Custom->StandardProceduralWood* Shader. Then, select wood color, normal, and *pith_and_radius* texture. 
+![](images/instruction/step3.png)
+
+4. Apply this material to the mesh and the *Trunk* script
+![](images/instruction/step4.png)
+
+5. Start the game, adjust the position, scale, and rotation of the object with the *Trunk* script until you are satisfying with the base wood texture. (Wood texture might not show up until the Trunk is adjusted to the appropriate position with appropriate scale). Once the wood texture looks fine, drag the entire object (including mesh and the Trunk) to the *project* window to save a **prefab** **before** exitting the **Play Mode**.
+![](images/instruction/step5.png)
+
+6. Add the *KnotsController* script to the mesh object. And assign the created wood texture materials you want to add knots to the *Materials* property of this script. (You can assign multiple materials if you want to keep the knot consistant across multiple objects)
+![](images/instruction/step6.png)
+
+7. Start the **Play Mode** , trigger the **Update Every Frame** option in the *KnotsController* script. Then, use the interface to add and edit the knots on the wood texture. (You can at most add **20 knots** on a wood texture). Once you are satisfying the result, save it to the **prefab** **before** exitting the **Play Mode**.
+![](images/instruction/step7.png)
+
+8. (Optional) Add HDR Image (Cube map) lighting to make the wood texture realistic!
+![](images/instruction/step8.png)
+
 ### Third party Resources
 - [Buddha Model](https://sketchfab.com/3d-models/wooden-buddha-statuette-675ce7f7a286400d84deb3bcaa38a93e)
 - [Desk Model](https://sketchfab.com/3d-models/computer-desk-05353724b7884bfb81211c7033a57fd4)
