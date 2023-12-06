@@ -8,7 +8,7 @@ https://drive.google.com/file/d/15XKgZ8FEwGIWtTHlS1ptps_W34qz6Zf_/view?usp=shari
 
 ### Unity Demo
 
-[Unity Demo](https://www.youtube.com/watch?v=N-EKHWHQJ0c)
+[Unity Demo](https://youtu.be/cTnlCxAMFwY)
 
 ### The Motivation of the Project
 The motivation behind our procedural graphics project is to capture the awe-inspiring beauty and complexity of natural landscapes, specifically focusing on islands. Our goal is to create a dynamic, procedurally generated island environment that is not only visually stunning but also reflects the unpredictable and diverse nature of these landscapes. Inspired by the procedural generation techniques seen in video games like "No Man's Sky" and "Minecraft," as well as the intricate simulations in film CGI, we aim to blend art and technology to simulate realistic environmental elements such as clouds, water, and wildlife. This project is an ambitious endeavor to push the boundaries of computer graphics, offering potential applications in game development, film, and environmental visualization. Through our work, we hope to showcase the power of procedural generation in creating immersive, ever-changing virtual worlds that captivate and inspire.
