@@ -5,7 +5,7 @@ using Geom;
 using GraphBuilder;
 using UnityEngine;
 using MyDebug;
-
+using UnityEditor;
 
 namespace Navigation {
     public class WandererManager : MonoBehaviour {
@@ -15,6 +15,7 @@ namespace Navigation {
         private Graph navGraph;
         private PathFinder pathFinder;
         private bool isInitialized = false;
+        public Sprite sprite;
 
         public void Initialize(Graph graph) {
             navGraph = graph;
@@ -34,6 +35,10 @@ namespace Navigation {
                 string gameObjectName = "Wanderer_" + i.ToString();
                 var wander = new GameObject(gameObjectName).AddComponent<Wanderer>();
                 wander.Initialize(navGraph, start, end, pathFinder);
+                
+                FootprintTrail fpt = wander.gameObject.AddComponent<FootprintTrail>();
+                fpt.sprite = sprite;
+
                 wanderers.Add(wander);
                 _drawables.Add(new DebugSquare() {position = wander.Position});
             }

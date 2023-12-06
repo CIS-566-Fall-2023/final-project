@@ -5,6 +5,7 @@ using Generation;
 using Geom;
 using GraphBuilder;
 using Navigation;
+using UnityEditor;
 using UnityEngine;
 
 namespace MyDebug
@@ -18,14 +19,16 @@ namespace MyDebug
         private Graph navGraph;
         private EdgeInfo currEdge; 
         private Builder builder = new Builder();
-        
+
+        public Sprite sprite;
+
         /*** DFS stuff 
         private EdgeInfo startEdge;
         private EdgeInfo endEdge;
         private List<EdgeInfo> path;
-        ***/ 
+        ***/
 
-        /*** Move stuff ***/ 
+        /*** Move stuff ***/
         private float lerpDuration = 1.0f; // You can adjust the duration to control the speed of movement
         private float lerpStartTime;
         /*
@@ -37,11 +40,13 @@ namespace MyDebug
         void Start()
         {
             Debug.Log("Running Debug Renderer");
+
             BuildingGenerator generator = new();
             generator.GenerateBuilding();
             navGraph = generator.Builder.ToGraph();
             wandererManager = new GameObject("Wanderer Manager").AddComponent<WandererManager>();
             wandererManager.Initialize(navGraph);
+            wandererManager.sprite = sprite;
 
             foreach (var curve in navGraph.Curves())
             {

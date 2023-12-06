@@ -42,6 +42,7 @@ namespace Navigation {
 
         void Update()
         {
+            this.GetComponent<FootprintTrail>().pos = this.Position;
             if (isInRoom) return;
             if (!isMoving  && path.Count > 0) {
                 currEdge = path.Pop();
