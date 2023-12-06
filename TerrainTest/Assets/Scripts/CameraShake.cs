@@ -10,18 +10,16 @@ public class CameraShake : MonoBehaviour
     Vector3 punchVec = new Vector3(0.03f, 0.05f, 0);
     float duration = 0.8f;
     Quaternion startRotation;
+    [HideInInspector] public Tween tween;
 
     public static CameraShake Instance { get; private set; }
 
     protected void Awake()
     {
         Instance = this as CameraShake;
-    }
-
-    private void Start()
-    {
         startRotation = transform.rotation;
-        transform.DOShakeRotation(1.5f, 0.5f, 2, 20, false, ShakeRandomnessMode.Harmonic).SetLoops(-1, LoopType.Yoyo);
+        tween = transform.DOShakeRotation(1.5f, 0.5f, 2, 20, false, ShakeRandomnessMode.Harmonic).SetLoops(-1, LoopType.Yoyo);
+        tween.Pause();
     }
 
     public void Shake()

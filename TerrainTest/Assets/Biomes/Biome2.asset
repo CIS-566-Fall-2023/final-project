@@ -29,6 +29,7 @@ MonoBehaviour:
     hasStone: 0
     stoneNumberPerGrid: 0
     stone: {fileID: 0}
+    tilePoolID: 9
     treePoolID: 0
     stonePoolID: 0
   mid:
@@ -44,6 +45,7 @@ MonoBehaviour:
     hasStone: 0
     stoneNumberPerGrid: 0
     stone: {fileID: 0}
+    tilePoolID: 10
     treePoolID: 0
     stonePoolID: 0
   far:
@@ -55,10 +57,11 @@ MonoBehaviour:
     tree: {fileID: 1313749818314350997, guid: 2fd043a687d70594da234cd86ff195d2, type: 3}
     treeNumberPerGrid: 3
     randomPosY: 1
-    randomPosYRange: {x: -0.3, y: 0}
+    randomPosYRange: {x: -0.4, y: -0.1}
     hasStone: 0
     stoneNumberPerGrid: 0
     stone: {fileID: 0}
-    treePoolID: 4
+    tilePoolID: 11
+    treePoolID: 5
     stonePoolID: 0
   skyConfig: {fileID: 11400000, guid: a895736ed37f4714d8de4cbb9c530960, type: 2}

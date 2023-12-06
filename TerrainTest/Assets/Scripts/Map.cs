@@ -126,7 +126,6 @@ public class Map : MonoBehaviour
         float pos_x; 
         if (z % 2 == 0) pos_x = m_headPos.x + x * hexSize * half_sqr3;
         else pos_x = m_headPos.x - 0.5f * hexSize * half_sqr3 + x * hexSize * half_sqr3;
-
         Layer layer = GetBiomeLayer(z);
         GameObject spawnedTile = ObjectManager.Instance.GetTileFromPool(layer.tilePoolID);
         spawnedTile.SetActive(true);
@@ -233,7 +232,7 @@ public class Map : MonoBehaviour
             Vector3 spawnPosition = new Vector3(randomX, terrainHeight, randomZ);
             if (randomPosY)
             {
-                spawnPosition.y += UnityEngine.Random.Range(randomPosYRange.x, randomPosYRange.x);
+                spawnPosition.y += UnityEngine.Random.Range(randomPosYRange.x, randomPosYRange.y);
             }
 
             GameObject newObj = ObjectManager.Instance.GetObjectFromPool(poolID);
