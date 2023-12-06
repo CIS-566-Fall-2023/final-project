@@ -10,6 +10,9 @@ The motivation behind this project is to utilize the power of proceduralism to r
 
 Succulents come in various shapes, sizes, colors, and arrangements, making them an interesting subject for procedural modeling. While there are endless types of succulents, for this project I will focus on the ___echeveria___, a type of succulent known for its aesthetic, rosette-shaped design.
 
+## Final Renders
+
+
 ## Design Doc
 <details>
 <summary>Click Here to Open / Close Design Doc</summary>
@@ -155,9 +158,4 @@ Based on the feedback received from class, I see some potential ways to spruce u
 
 While I may not be able to fit these into the final submission, I am looking forward to further refining this tool in the future! :)
 
-</details>
-
-## Final submission (due 12/5)
-<details>
-  <summary>Click Here to Open/Close Final Submission</summary>
 </details>
