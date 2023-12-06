@@ -3,10 +3,7 @@
 ## Final submission (due 12/5)
 Video is in the github directory. 
 
-Submission:
-- Push all your code / files to your repository
-- Come to class ready to present your finished project
-- Update your README with two sections 
+
   - final results with images and a live demo if possible
   - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
 
