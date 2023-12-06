@@ -149,10 +149,6 @@ Overview:
 |:--:|:--:| :--:|
 | *Goal Look* | *First deliverable slicer. Because of the even distributing of slicing region, it fails to capture the legs* | *Second Deliverable Slicer, which uses a bounding box to divide into regions* |
 
-|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/e646ba75-09e8-474c-a41f-e33a0c9114ab)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/c895cece-22e7-4178-8783-a0a0d7b1228d) | 
-|:--:|:--:|
-| *Unsliced Duck* | *Duck, sliced up* |
-
 
 
 * Breakdown of Tool: 
@@ -167,42 +163,35 @@ Overview:
 * Slicing the mesh
     * The animal is broken into 3 point groups: the center, left, and right. The user can specify the width of the capture region for the center group, and the left and right capture the remaining points on either side designated to the left and right portions. This region is defined by the user.
 
-
 |![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/b5d42c7d-860f-458c-93b6-24d0101aebf9) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/e40e66ff-7387-420b-8f44-90b5aae3aa79) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/30949184-0597-405f-99c3-250588376184) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/13547890-7940-4634-995a-79c5e6a6694c) | 
 |:--:|:--:|:--:|:--:|
 | *Middle group for three-panel* | *Right side group (symmetrical about left)* | *Outputted middle panel, created using a flatten + fill node* | *Outputted right panel, created using a flatten & remesh node* |
 
+This allows the user to isolate specific points on the mesh, for example legs, or wings. In this case, we used it to highlight the wing detail.
 
-If we adjust the groups, we can get 
- 
-  * The boolean points at which they intersect the mesh are used as the planes to begin extrusion, for the final wooden panels
-
-|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/48d66d75-46ee-4002-98f9-e9d82edf0876)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/51893121-9fc3-4de6-895a-5990f6d3690f) | 
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/e646ba75-09e8-474c-a41f-e33a0c9114ab)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/c895cece-22e7-4178-8783-a0a0d7b1228d) | 
 |:--:|:--:|
-| *Bounded planes* | *Boolean intersections* |
+| *Unsliced Duck* | *Duck, sliced up* |
 
- * The slices are also rotateable - though for the final product we only cared about the vertically-rotated slices, I thought it'd be cool to show some of the other rotations
 
-|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/568c506d-4bd5-49c4-b910-0c3be709a001)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/5f46f04f-df55-46cf-aad3-8f57f3977703) | 
-|:--:|:--:|
-| *Slices along (0, 90, 0)* | *Slices along (45, 45, 0)* |
 
-  * While I fiddled with some auto-calculations that approximate how much to extrude the wooden panels, I also gave the user the option to adjust the thickness as desired.
+To go for our original goal look, we can adjust the center bounding box to capture the whole mesh. We then get a single-sliced panel that captures the entire silhouette
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/8f7326a1-7a1e-408a-a713-7c2184b2c485)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/8fcc861c-0d72-46a5-86f2-19d04376af7f) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/433e6c4c-b2f9-4d4b-91a4-0cd0baefeae3) | 
+|:--:|:--:|:--:|
+| *New middle group* | *Flattened silhouette* | *Extruded panel* |
+
+This tool proves to be more versatile for different types of meshes, and allowed us to generate more animal meshes.
+
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/8584d693-f10a-45cc-9174-30ccade603a8) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/c5152797-9c8a-4b45-9393-14f81f57199c) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/a4cb9c17-edf9-4710-901c-be46c7223b5f) |
+|:--:|:--:|:--:|
+| *Lion* | *Seal* | *Giraffe* | 
+
 
 Next Steps: 
 
-* While I'm very pleased with the output, it proves to be a bit limited in a few ways:
-  * **Bad Mesh Input** The tool uses a polyfill node to make sure that the boolean intersection is not only on the surface, where the mesh is. If the inputted mesh is poor (ie. non-manifold edges), the polyfill no longer works and the tool completely breaks. Especially when we were pulling from free, poorer-quality meshes online, this is a problem.
-
-|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/b415c13b-0c1a-4516-951e-2a87c9aaed6c) | 
-|:--:|
-| *Buggy mesh slicing for non-manifold meshes* | 
-
-  * **Limited control of slice positions** The slices currently are just distributed evenly along the mesh, without any intelligence about what are the important points of the mesh (ex. legs, etc). For our original goal, where we wanted a main panel with some details isolated to a single slice, this could be a problem. In the future deliverables, I want the intersection point to capture the silhouette of the animal. 
-
-|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/fdb83969-ece1-4788-85e4-cab0057aebb3)  | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/459d3bbc-27c5-448a-b63e-127ae2d551f0) | 
-|:--:|:--:|
-| *Single sliced horse on an actual carousel* | *Single sliced tool, currently... yikes!* |
+* The mesh slicer still run into some challenges with the mesh 
+  * **Symmetrical mesh Input** When we slice the mesh into groups, the bounding box cannot be shaped in any other way, so either side must be symmetrical around the middle for good output. 
 
     
 # Milestone 1:
