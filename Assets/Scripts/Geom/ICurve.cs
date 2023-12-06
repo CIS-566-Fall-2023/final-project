@@ -7,7 +7,7 @@ namespace Geom
     {
         float Length();
         Vector2 Point(float t);
-        (ICurve, Vector2, ICurve) Split(float t);
+        float TangentAngle(float t);
         ICurve Reverse();
 
         public IEnumerable<Vector2> ToPointStream(float deltaLength = 10)

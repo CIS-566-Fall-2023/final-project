@@ -19,6 +19,12 @@ namespace Geom
             return Center + Radius * new Vector2(Mathf.Cos(theta), Mathf.Sin(theta));
         }
 
+        public float TangentAngle(float t)
+        {
+            var theta = Mathf.Lerp(Theta0, Theta1, t);
+            return (Theta1 > Theta0) ? theta : -theta;
+        }
+
         public (ICurve, Vector2, ICurve) Split(float t)
         {
             var point = Point(t);

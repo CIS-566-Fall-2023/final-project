@@ -14,14 +14,6 @@ namespace Geom
             P1 = p1;
         }
 
-        public List<Vector2> getPoints()
-        {
-            List<Vector2> points = new List<Vector2>();
-            points.Add(P0);
-            points.Add(P1);
-            return points;
-        }
-
         public Vector2 AsVector()
         {
             return P1 - P0;
@@ -35,6 +27,12 @@ namespace Geom
         public Vector2 Point(float t)
         {
             return Vector2.Lerp(P0, P1, t);
+        }
+
+        public float TangentAngle(float t)
+        {
+            Vector2 vec = AsVector();
+            return Mathf.Atan2(vec.y, vec.x);
         }
 
         public (ICurve, Vector2, ICurve) Split(float t)
