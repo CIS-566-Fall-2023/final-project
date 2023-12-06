@@ -1,5 +1,7 @@
 # CIS 5660 Final Project: Procedural Texturing of Solid Wood with Knots
 
+[Demo Video](https://drive.google.com/file/d/1zddFh9QtWFG72AUghzAmK_xkzrfWmmHf/view?usp=drive_link)
+
 ## Design Doc
 
 ### Introduction 
