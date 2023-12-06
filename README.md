@@ -1,4 +1,30 @@
 # Final Project - Debby Lin and Will Cai
+## Final Submission (due 12/6) 
+
+### Tree/rock assets - Debby 
+- Replaced the basic models with final models/shaders. This included 4 different rock types and 4 different tree types.
+- The shaders were made using three-tone shader graphs with the colors updated to replicate some of the assets used in Dredge.
+- Additionally, I added randomization to the scaling of the assets such tht there could be some visual variation among the assets that got placed.
+
+<img src="https://github.com/debbylin02/final-project/assets/82790216/cf61bc86-70d0-469c-bf68-7b90ed3cdf4a"  width = "350" height = "350"> 
+<img src="https://github.com/debbylin02/final-project/assets/82790216/c3f14b21-9ab1-4a66-922a-8606ddd1cc20"  width = "350" height = "350"> 
+<img src="https://github.com/debbylin02/final-project/assets/82790216/5dd80343-7980-46dd-a1de-1b3f83c32924"  width = "350" height = "350"> 
+<img src="https://github.com/debbylin02/final-project/assets/82790216/8550a6ea-9f65-461f-97e6-f77ef8a731d3"  width = "350" height = "350"> 
+
+### Biome shaders - Debby
+- Updated the biome shaders to appear more “dredge” like in color 
+- The biome shaders use a combination of height and normals to determine whether or not a section of the terrain will have grass growing on top. I aimed to have higher areas of the cliffs that are more flat to have grass on top (i.e. higher height and normals that are close to the up vector). I exposed variables to make it easier to adjust the height threshold and an error range for the normal vector of the terrain section. 
+
+### Cloud shader - Debby
+- Created a procedural cloud shader to generate a cloud material for the sky environment.
+- This was done by using panning UVs just like in the water shader I made (i.e. UVs that would scroll to give the clouds movement), layering noise functions to create cloud textures, and then using the result for the alpha channel/opacity of the material.
+- Using alpha clipping, I turned the texture into cut-out shapes for the clouds.
+- I also included a cloud color variable to adjust the base color of the clouds.
+- This stylized cloud material was applied to a plane that moved around like the skydome. 
+- Additionally, I used an ambient lighting gradient to apply changing colors to the clouds to showcase the passing of time and to blend it better with the day-night cycle I made.    
+- One helpful resource I used was: https://www.patreon.com/posts/27402644
+<img src="https://github.com/debbylin02/final-project/assets/82790216/71624ce0-dfc9-4717-a80d-0f02ec8cb06b"  width = "600" height = "400"> 
+
 ## Milestone 2: Implementation part 2 (due 11/27)
 ### Biomes: Will
 - I was mostly modifying the compute shader to create different biomes, specifically a cliffs and a beach biome. Because I was unable to figure out how to fix my previous Perlin function code, I ended up writing new FBM noise functions for each biome, “island” and “cliffs”.
