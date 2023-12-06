@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using BinaryPartition;
+using Generation;
 using Geom;
 using GraphBuilder;
 using UnityEngine;
@@ -28,6 +30,16 @@ public class MapGenerator : MonoBehaviour
     {
         Debug.Log("Running map generator...");
 
+        BuildingGenerator buildingGenerator = new();
+        buildingGenerator.GenerateBuilding();
+
+        List<List<Vector2>> lines = new();
+
+        foreach (var wall in buildingGenerator.GetWalls())
+        {
+            lines.Add(wall.ToPointStream().ToList());
+        }
+
         // Builder builder = new Builder();
         // PartitionRunner partitionRunner = new PartitionRunner(builder, new Rectangle
         // {
@@ -39,19 +51,19 @@ public class MapGenerator : MonoBehaviour
         //
         // List<Vector2> points = new List<Vector2>();
 
-        List<Vector2> points = new List<Vector2>();
+        //List<Vector2> points = new List<Vector2>();
 
-        int count = 0;
+        //int count = 0;
 
-        foreach (var rect in room.GetRects())
-        {
-            foreach (var p in rect.getPoints())
-            {
-                points.Add(p);
-                count++;
-            }
+        //foreach (var rect in room.GetRects())
+        //{
+        //    foreach (var p in rect.getPoints())
+        //    {
+        //        points.Add(p);
+        //        count++;
+        //    }
             
-        }
+        //}
 
         //foreach (var (a, b) in room.SplitDivider.GetSegments())
         //{
@@ -59,8 +71,8 @@ public class MapGenerator : MonoBehaviour
         //    points.Add(b);
         //}
 
-        drawMap(points);
-        drawTextMap(points);
+        drawMap(lines);
+        //drawTextMap(points);
     }
 
     void drawTextMap(List<Vector2> points)
@@ -161,7 +173,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        drawMap(points);
+        //drawMap(points);
     }
 
     public void setLineProperties(LineRenderer lineRenderer)
@@ -173,32 +185,25 @@ public class MapGenerator : MonoBehaviour
         lineRenderer.material = LineMaterial;
     }
 
-    public void drawMap(List<Vector2> points)
+    public void drawMap(List<List<Vector2>> lines)
     {
-        int vertexCount = 0;
-
-        LineRenderer currentLR = new GameObject().AddComponent<LineRenderer>();
-        currentLR.transform.parent = Lines.transform;
-        setLineProperties(currentLR);
-
-        for (int i = 0; i < points.Count; i++)
+        // Loop through the list of list of points
+        foreach(List<Vector2> line in lines)
         {
-            if (vertexCount == 2)
-            {
-                currentLR = new GameObject().AddComponent<LineRenderer>();
-                currentLR.transform.parent = Lines.transform;
-                setLineProperties(currentLR);
-                currentLR.positionCount = 2;
-                vertexCount = 0;
-            }
-            currentLR.SetPosition(
-            vertexCount,
-            new Vector3(
-            points[i].x, 
-            0,
-            points[i].y));
+            LineRenderer currentLR = new GameObject().AddComponent<LineRenderer>();
+            currentLR.transform.parent = Lines.transform;
+            setLineProperties(currentLR);
+            currentLR.positionCount = 2;
 
-            vertexCount++;
-        }
+            for(int i = 0; i < 2; i++)
+            {
+                currentLR.SetPosition(
+                i,
+                new Vector3(
+                line[i].x,
+                0,
+                line[i].y));
+                }
+        }  
     }
 }
