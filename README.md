@@ -1,4 +1,4 @@
-# 📀 AlgebRave📀
+# 📀AlgebRave📀
 
 AlgebRave is a Kinect-based Audioreactive and Interactive Experience built using TouchDesigner. This was done as a 4-week long final project for my Procedural Graphics class at the University of Pennsylvania in Fall 2023.
 ### [Click Here or on the image below to watch the trailer!](https://www.youtube.com/watch?v=MkDulP_K9ZY)
