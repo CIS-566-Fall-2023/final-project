@@ -43,6 +43,10 @@ Milestone 3: Improve the game level, create procedural planets based on differen
 | Xiaoyue Ma  | Implement the mapping of regular polygons on the planet                         | Create procedural terrain on the planet                                          | Create procedural diverse planets   |
 
 
+
+**Link to our Demo: https://www.youtube.com/watch?v=wak9uA7HMvA**
+
+
 # Milestone 1
 ## Jiefu Ling
  - Water Shader
@@ -102,7 +106,6 @@ I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and
 3. Create a 'Prehex' logic on the bottom
 
 ![](Milestone33.gif)
-
 
 # Final Project!
 
