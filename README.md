@@ -139,6 +139,14 @@ Unreal Engine:
 | :--: |
 |Sculpted hair in ZBrush.|
 
+##### Refined Procedural Ginkgo Leaf Tool
+
+Refined numbers and rotations for each of the procedural meshes that the tool outputs. Also added some controllers for ease of use.
+
+|![](Pictures/conpleteGinkgoToolSim.png)|
+| :--: |
+|Complete shot of the procedural ginkgo leaf tool.|
+
 ##### Enhanced Toon Shaders
 
 Set up vertex painting for blending between materials. This was done through a simple linear interpolation node in the material graph. Also added specular highlights to the jade material using the Blinn-Phong shading model. 
@@ -150,10 +158,17 @@ Sculpted a simple landscape in Maya. Created grass card opacity mask by baking a
 ##### Tree
 
 Procedurally created tree branches and trunk in Houdini. Hand-painted branch/leaf texture and created opacity mask in Procreate. 
+|![](Pictures/ginkgoTree_MAYA.png)|
+| :--: |
+|Created the branches in Houdini using procedural tree node. Hand drew textures for ginkgo leaf branches and placed them all over tree in the form of image planes.|
 
 ##### Falling Ginkgo Leaf Particle Sim
 
+Created particle simulation out of Unreal Engine 5's Niagara Particle System. Ported a custom texture for the particles, attached a ribbon renderer and extra sprite renderer for additional effects. 
 
+|![](Pictures/unrealGinkgoParticleSimPostProcess.png)|![](Pictures/unrealParticleSimGinkgo_TEST.png)|
+| :--: | :--: |
+|The particle simulation as viewed in the main Unreal viewport.|The particle simulation asset. As one can observe, there are three emitters that control the simulation's main particles and additional effects.|
 
 ##### Setup Cameras & Rendered Videos/Shots
 
