@@ -1,6 +1,8 @@
 # Laugh Out Loud's Handmade Toy Co.
 ### Est 2023, by Liu, Ouyang, Lu
 
+# [FINAL VIDEO SUBMISSION](https://vimeo.com/891748139?share=copy#t=0)
+
 #### Table of Contents
 
 * [Project Proposal](https://github.com/yuhanliu-tech/final-project/#project-proposal-wooden-toy-generator)
