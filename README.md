@@ -1,5 +1,15 @@
-# Final Project!
-[![Demo](img/final.png)](https://www.youtube.com/watch?v=VeFpExLoVDM)
+# Final Project - Train View Simulator
+#### Video Demo
+[![Demo](img/final.png)](https://www.youtube.com/watch?v=h999fLHmnr4)
+Train view is cool for anyone who wants to relax and enjoy the natural terrain winding out of the train window. We would like to provide a train view generator in Unity to simulate the passenger’s view point inside a large-window landscape express. We will provide a terrain generator to procedurally generate an infinitely-extending terrain landscape and a stylized shader to mimic the style of several pieces of 2D concept art. The project will finally be able to deliver an infinite tour aside by procedural stylized terrain view.
+
+#### Inspiration
+<img src="https://github.com/xchennnw/final-project/blob/main/img/train3.png" height="300px"/>
+<img src="https://github.com/xchennnw/final-project/blob/main/img/ref.png" height="400px"/>
+
+
+#### Screen Shots
+<img src="https://github.com/xchennnw/final-project/blob/main/img/shot.png" height="400px"/>
 
 <details>
   <summary> Project planning: Design Doc </summary>
@@ -34,7 +44,6 @@ We would like to provide a train view generator in Unity to simulate the passeng
     - Sun, moon, stars with animation
 - Cloud (To be decided: being a part of skybox or using other method)
 - Stylized shader of 2D concept arts.
-
 
 #### Techniques:
 - Terrain generation
