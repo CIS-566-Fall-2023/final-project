@@ -14,10 +14,21 @@ public class CellEditor : Editor
     void OnEnable()
     {
         cell = (Cell)target;
-        itemOptions = new string[WFCManager.Instance.ItemNum];
-        for (int i = 0; i < WFCManager.Instance.ItemNum; i++)
+        if (cell.pentagonDirection == -1)
         {
-            itemOptions[i] = WFCManager.Instance[i].ItemName;
+            itemOptions = new string[WFCManager.Instance.HexagonItemNum];
+            for (int i = 0; i < WFCManager.Instance.HexagonItemNum; i++)
+            {
+                itemOptions[i] = WFCManager.Instance.GetHexagonItem(i).ItemName;
+            }
+        }
+        else
+        {
+            itemOptions = new string[WFCManager.Instance.PentagonItemNum];
+            for (int i = 0; i < WFCManager.Instance.PentagonItemNum; i++)
+            {
+                itemOptions[i] = WFCManager.Instance.GetPentagonItem(i).ItemName;
+            }
         }
     }
     public override void OnInspectorGUI()
@@ -32,7 +43,12 @@ public class CellEditor : Editor
             selectedItem = EditorGUILayout.Popup(selectedItem, itemOptions);
             if (GUILayout.Button("Place"))
             {
-                cell.PlaceItem(WFCManager.Instance[selectedItem]);
+                if (cell.pentagonDirection == -1)
+                {
+                    cell.PlaceItem(WFCManager.Instance.GetHexagonItem(selectedItem));
+                }
+                else
+                    cell.PlaceItem(WFCManager.Instance.GetPentagonItem(selectedItem));
             }
             if (GUILayout.Button("Clear"))
             {

@@ -91,9 +91,17 @@ public class Cell : MonoBehaviour, IWFCCell
             this.item = Instantiate(__item, this.transform);
             if (pentagonDirection == -1)
             {
-                item.transform.position = this.transform.position + (bottomFlat? WFCManager.Instance.hexagonItemPositionOffset : -WFCManager.Instance.hexagonItemPositionOffset);
+                item.transform.localPosition = (bottomFlat? WFCManager.Instance.hexagonItemPositionOffset : -WFCManager.Instance.hexagonItemPositionOffset);
                 item.transform.localScale = WFCManager.Instance.hexagonItemLocalScale;
                 if (!bottomFlat) item.transform.localRotation = Quaternion.Euler(0, 180f, 0);
+            }
+            else
+            {
+                item.transform.localScale = WFCManager.Instance.pentagonItemLocalScale;
+                item.transform.localRotation = Quaternion.Euler(0, -72f * pentagonDirection, 0) * item.transform.localRotation;
+
+                item.transform.localPosition = (bottomFlat ? WFCManager.Instance.pentagonItemPositionOffset : -WFCManager.Instance.pentagonItemPositionOffset);
+                item.transform.localPosition = item.transform.localRotation * item.transform.localPosition;
             }
         }
     }

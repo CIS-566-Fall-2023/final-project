@@ -81,12 +81,20 @@ namespace Planetile
         [SerializeField]
         List<Item> itemPool;
         [SerializeField]
+        List<Item> pentagonItemPool;
+        [SerializeField]
         internal Vector3 hexagonItemLocalScale = Vector3.one;
         [SerializeField]
         internal Vector3 hexagonItemPositionOffset = Vector3.zero;
+        [SerializeField]
+        internal Vector3 pentagonItemLocalScale = Vector3.one;
+        [SerializeField]
+        internal Vector3 pentagonItemPositionOffset = Vector3.zero;
 
-        public int ItemNum => itemPool.Count;
-        public Item this[int index] => itemPool[index];
+        public int HexagonItemNum => itemPool.Count;
+        public int PentagonItemNum => pentagonItemPool.Count;
+        public Item GetPentagonItem(int index) => pentagonItemPool[index];
+        public Item GetHexagonItem(int index) => itemPool[index];
 
         /// <summary>
         /// Try to fill a tile's cells. Starting from cells on edges. 
