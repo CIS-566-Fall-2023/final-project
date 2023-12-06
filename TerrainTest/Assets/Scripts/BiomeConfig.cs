@@ -20,6 +20,7 @@ public class Layer
     public int stoneNumberPerGrid;
     public GameObject stone;
 
+    [HideInInspector] public int tilePoolID;
     [HideInInspector] public int treePoolID;
     [HideInInspector] public int stonePoolID;
 }
