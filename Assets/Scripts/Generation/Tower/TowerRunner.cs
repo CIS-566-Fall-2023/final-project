@@ -79,7 +79,6 @@ namespace Generation.Tower
                             .Concat(new []{(rLast, sLast + Utils.Tau)})
                             .Pairwise())
             {
-                Debug.Log($"{theta0}, {theta1}");
                 var curve = new ArcCurve
                 {
                     Center = center,
