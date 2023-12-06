@@ -2,10 +2,6 @@
 
 As the final project for my Procedural Computer Graphics course at Penn, I will be developing a SideFX Houdini Generator Tool that allows users to create variations of succulents using procedural modeling.
 
-## Design Doc
-<details>
-<summary>Click Here to Open / Close Design Doc</summary>
-  
 ### Introduction
 
 <img align="right" src="https://debraleebaldwin.com/wp-content/uploads/IMG_1820-1240x827.jpg" width=330 height=auto>
@@ -13,6 +9,11 @@ As the final project for my Procedural Computer Graphics course at Penn, I will 
 The motivation behind this project is to utilize the power of proceduralism to replicate naturally occurring phenomena from real-life flora! I was especially drawn to the concept of ___phyllotaxis___, the phenomenon in botany where leaves or petals are arranged around a stem in a spiraling pattern. Phyllotactic patterns (Fibonacci sequences, Golden Ratio, etc.) can be observed in a variety of plant species, such as succulents, which result in beautiful and fascinating geometric patterns. 
 
 Succulents come in various shapes, sizes, colors, and arrangements, making them an interesting subject for procedural modeling. While there are endless types of succulents, for this project I will focus on the ___echeveria___, a type of succulent known for its aesthetic, rosette-shaped design.
+
+## Design Doc
+<details>
+<summary>Click Here to Open / Close Design Doc</summary>
+
 
 ### Goal
 Through this project, I hope to accomplish the following:
@@ -149,10 +150,10 @@ To make the pot generator, I followed this helpful [YouTube tutorial](https://ww
     <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/0874345d-0ccb-4406-8a38-f1eb61428c3d" width=80%>
   </p>
 
-### Goals for Final Submission
-Based on the critique in class, for the final submission, I will focus on finetuning the textures and materials of the succulent and pots for the final render. I want to try to include more specific color controls for each succulent petal, and I want both a glass and ceramic version of the plants. Since there are so many different possibilities for the succulent petal shapes it can be hard to replicate the exact parameters used to create certain shapes. So, I'm also thinking of creating and saving some ramp presets to make a more efficient and artist-friendly tool.
+### Goals for the Future
+Based on the feedback received from class, I see some potential ways to spruce up this tool and polish it further. Since there are so many different possibilities for the succulent petal shapes it can be hard to replicate the exact parameters used to create certain shapes. So, I'm also thinking of creating and saving some ramp presets to make a more efficient and artist-friendly tool. If time permits, I also want to tackle random generation, using a global seed to create random succulents, cacti, and overall compositions. If I can't get the randomization done in time, I will go with my original plan of manually placing my generated plants into nice, aesthetic compositions.
 
-If time permits, I also want to tackle random generation, using a global seed to create random succulents, cacti, and overall compositions. If I can't get the randomization done in time, I will go with my original plan of manually placing my generated plants into nice, aesthetic compositions.
+While I may not be able to fit these into the final submission, I am looking forward to further refining this tool in the future! :)
 
 </details>
 
