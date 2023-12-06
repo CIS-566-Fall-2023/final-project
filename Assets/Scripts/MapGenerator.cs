@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using BinaryPartition;
+using Generation;
 using Geom;
 using GraphBuilder;
 using UnityEngine;
@@ -8,85 +10,49 @@ public class MapGenerator : MonoBehaviour
 {
     public int
     MinX = -100,
-    MinY = -100,
-    MaxX = 100,
+    MinY = -50,
+    MaxX = 150,
     MaxY = 100;
+
+    public float Scale = 5f;
 
     public Color LineColor;
     public float LineThickness;
     public Material LineMaterial;
 
-    void Start()
+    public GameObject Lines;
+
+    public Canvas Canvas;
+
+    public Font Font;
+
+    public GameObject TextPrefab;
+
+    public bool startDrawing = false;
+
+    public void Draw()
     {
-        Debug.Log("Running map generator...");
-
-        // Builder builder = new Builder();
-        // PartitionRunner partitionRunner = new PartitionRunner(builder, new Rectangle
-        // {
-        //     Min = new Vector2(MinX, MinY),
-        //     Max = new Vector2(MaxX, MaxY)
-        // });
-        //
-        // partitionRunner.Run();
-        //
-        // List<Vector2> points = new List<Vector2>();
-
-        // foreach (var rect in room.GetRects())
-        // {
-        //     foreach(var p in rect.getPoints())
-        //     {
-        //         points.Add(p);
-        //     }
-        // }
-        //
-        // foreach (var (a, b) in room.SplitDivider.GetSegments())
-        // {
-        //     points.Add(a);
-        //     points.Add(b);
-        // }
-
-        // drawMap(points);
-    }
-
-    public void setLineProperties(LineRenderer lineRenderer)
-    {
-        lineRenderer.startColor = LineColor;
-        lineRenderer.endColor = LineColor;
-        lineRenderer.startWidth = LineThickness;
-        lineRenderer.endWidth = LineThickness;
-        lineRenderer.material = LineMaterial;
-    }
-
-    public void drawMap(List<Vector2> points, Color altLineColor)
-    {
-        LineColor = altLineColor;
-        drawMap(points);
-    }
-
-    public void drawMap(List<Vector2> points)
-    {
-        int vertexCount = 0;
-
-        LineRenderer currentLR = Instantiate<GameObject>(new GameObject(), this.transform).AddComponent<LineRenderer>();
-        setLineProperties(currentLR);
-
-        for (int i = 0; i < points.Count; i++)
+        BuildingGenerator buildingGenerator = new();
+        buildingGenerator.GenerateBuilding();
+        
+        List<List<Vector2>> lines = new();
+        
+        foreach (var wall in buildingGenerator.GetWalls())
         {
-            if (vertexCount == 2)
-            {
-                currentLR = Instantiate<GameObject>(new GameObject(), this.transform).AddComponent<LineRenderer>();
-                setLineProperties(currentLR);
-                currentLR.positionCount = 2;
-                vertexCount = 0;
-            }
-            currentLR.SetPosition(
-            vertexCount,
-        new Vector3(
-            points[i].x,
-            points[i].y,
-            0));
+            lines.Add(wall.ToPointStream().ToList());
+        }
+        
+        drawMap(lines);
+    }
 
-            vertexCount++;
+    public void drawMap(List<List<Vector2>> lines)
+    {
+        foreach (List<Vector2> line in lines)
+        {
+            LineRenderer lineRenderer = Instantiate(TextPrefab, Lines.transform).GetComponent<LineRenderer>();
+            lineRenderer.positionCount = line.Count;
+            lineRenderer.SetPositions(line.Select(v2 =>
+                new Vector3(v2.x / Scale, 49.5f, v2.y / Scale)).ToArray());
         }
     }
 }

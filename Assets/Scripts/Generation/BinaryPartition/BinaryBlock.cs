@@ -8,7 +8,7 @@ namespace BinaryPartition
     public class BinaryBlock
     {
         private readonly PartitionRunner _partitionRunner;
-        private static readonly Vector2 MinDims = new Vector2(30, 30);
+        private static readonly Vector2 MinDims = new Vector2(20, 20);
         private static readonly Vector2 MaxDims = new Vector2(50, 50);
 
         private Rectangle _rectangle;

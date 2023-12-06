@@ -25,12 +25,12 @@ namespace Generation
 
         public void GenerateBuilding()
         {
-            var runner = new PartitionRunner(this, new Rectangle
+            var partitionRunner = new PartitionRunner(this, new Rectangle
             {
-                Min = new Vector2(-100, -50), Max = new Vector2(150, 100)
+                Min = new Vector2(-130, -60), Max = new Vector2(0, 60)
             });
-            runner.Run();
-            // var runner = new TowerRunner(this, new Vector2(0, 0), 10, 20);
+            partitionRunner.Run();
+            var towerRunner = new TowerRunner(this, new Vector2(75, 0), 10, 12);
         }
     }
 }

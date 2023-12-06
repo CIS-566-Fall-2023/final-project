@@ -39,5 +39,11 @@ namespace Geom
         {
             return new LineCurve(P1, P0);
         }
+        
+        public IEnumerable<Vector2> ToPointStream(float deltaLength = 10)
+        {
+            yield return P0;
+            yield return P1;
+        }
     }
 }
