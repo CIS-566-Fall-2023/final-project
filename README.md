@@ -2,6 +2,17 @@
 
 As the final project for my Procedural Computer Graphics course at Penn, I will be developing a SideFX Houdini Generator Tool that allows users to create variations of succulents using procedural modeling.
 
+#### Table of Contents
+
+* [Final Renders](https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/blob/main/README.md#final-renders)
+* 
+## Final Renders
+
+
+## Design Doc
+<details>
+<summary>Click Here to Open / Close Design Doc</summary>
+  
 ### Introduction
 
 <img align="right" src="https://debraleebaldwin.com/wp-content/uploads/IMG_1820-1240x827.jpg" width=330 height=auto>
@@ -9,14 +20,6 @@ As the final project for my Procedural Computer Graphics course at Penn, I will 
 The motivation behind this project is to utilize the power of proceduralism to replicate naturally occurring phenomena from real-life flora! I was especially drawn to the concept of ___phyllotaxis___, the phenomenon in botany where leaves or petals are arranged around a stem in a spiraling pattern. Phyllotactic patterns (Fibonacci sequences, Golden Ratio, etc.) can be observed in a variety of plant species, such as succulents, which result in beautiful and fascinating geometric patterns. 
 
 Succulents come in various shapes, sizes, colors, and arrangements, making them an interesting subject for procedural modeling. While there are endless types of succulents, for this project I will focus on the ___echeveria___, a type of succulent known for its aesthetic, rosette-shaped design.
-
-## Final Renders
-
-
-## Design Doc
-<details>
-<summary>Click Here to Open / Close Design Doc</summary>
-
 
 ### Goal
 Through this project, I hope to accomplish the following:
