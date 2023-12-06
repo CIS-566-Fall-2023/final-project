@@ -187,27 +187,22 @@ public class HexagonTile : MonoBehaviour, IWFCTile
             newTileGO.transform.parent = transform;
             cellData = newTileGO.GetComponent<HardcodedCells>();
             //oops
-            WFCType type1  = (WFCType)SimpleHash(1 + Random.Range(0, 1000));
-            WFCType type2 = (WFCType)SimpleHash(2 + Random.Range(0, 1000));
-            WFCType type3 = (WFCType)SimpleHash(3 + Random.Range(0, 1000));
-            WFCType type4 = (WFCType)SimpleHash(4 + Random.Range(0, 1000));
-            WFCType type5 = (WFCType)SimpleHash(5 + Random.Range(0, 1000));
-            WFCType type6 = (WFCType)SimpleHash(6 + Random.Range(0, 1000));
-            WFCType type7 = (WFCType)SimpleHash(7 + Random.Range(0, 1000));
-            WFCType type8 = (WFCType)SimpleHash(8 + Random.Range(0, 1000));
-            WFCType type9 = (WFCType)SimpleHash(9 + Random.Range(0, 1000));
-            WFCType type10 = (WFCType)SimpleHash(0 + Random.Range(0, 1000));
+            WFCType type1 = (WFCType)(0x01 << (SimpleHash(1 + Random.Range(0, 1000)) + 4));
+            WFCType type2 = (WFCType)(0x01 << (SimpleHash(2 + Random.Range(0, 1000)) + 4));
+            WFCType type3 = (WFCType)(0x01 << (SimpleHash(3 + Random.Range(0, 1000)) + 4));
+            WFCType type4 = (WFCType)(0x01 << (SimpleHash(4 + Random.Range(0, 1000)) + 4));
+            WFCType type5 = (WFCType)(0x01 << (SimpleHash(5 + Random.Range(0, 1000)) + 4));
 
             cellData.CellsOnTileEdge0[0].Type = type1;
-            cellData.CellsOnTileEdge0[1].Type = type2;
-            cellData.CellsOnTileEdge1[0].Type = type3;
-            cellData.CellsOnTileEdge1[1].Type = type4;
-            cellData.CellsOnTileEdge2[0].Type = type5;
-            cellData.CellsOnTileEdge2[1].Type = type6;
-            cellData.CellsOnTileEdge3[0].Type = type7;
-            cellData.CellsOnTileEdge3[1].Type = type8;
-            cellData.CellsOnTileEdge4[0].Type = type9;
-            cellData.CellsOnTileEdge4[1].Type = type10;
+            cellData.CellsOnTileEdge0[1].Type = type1;
+            cellData.CellsOnTileEdge1[0].Type = type2;
+            cellData.CellsOnTileEdge1[1].Type = type2;
+            cellData.CellsOnTileEdge2[0].Type = type3;
+            cellData.CellsOnTileEdge2[1].Type = type3;
+            cellData.CellsOnTileEdge3[0].Type = type4;
+            cellData.CellsOnTileEdge3[1].Type = type4;
+            cellData.CellsOnTileEdge4[0].Type = type5;
+            cellData.CellsOnTileEdge4[1].Type = type5;
 
             newTileGO.transform.position = center;
             newTileGO.transform.localScale = new Vector3(edgeLength, edgeLength, edgeLength);
@@ -222,7 +217,7 @@ public class HexagonTile : MonoBehaviour, IWFCTile
 
     private int SimpleHash(int input)
     {
-        int Modulus = 8; 
+        int Modulus = 4; 
         int Multiplier = 48271;
         int Increment = 214748367;
 
