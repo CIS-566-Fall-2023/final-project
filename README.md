@@ -2,9 +2,32 @@
 
 Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
 
-## Demo
+## Final Submission: 
+### Unity Demo
 [Unity Demo](https://www.youtube.com/watch?v=N-EKHWHQJ0c)
 
+### The Motivation of the Project
+The motivation behind our procedural graphics project is to capture the awe-inspiring beauty and complexity of natural landscapes, specifically focusing on islands. Our goal is to create a dynamic, procedurally generated island environment that is not only visually stunning but also reflects the unpredictable and diverse nature of these landscapes. Inspired by the procedural generation techniques seen in video games like "No Man's Sky" and "Minecraft," as well as the intricate simulations in film CGI, we aim to blend art and technology to simulate realistic environmental elements such as clouds, water, and wildlife. This project is an ambitious endeavor to push the boundaries of computer graphics, offering potential applications in game development, film, and environmental visualization. Through our work, we hope to showcase the power of procedural generation in creating immersive, ever-changing virtual worlds that captivate and inspire.
+
+### High-Level Explanation
+We are working on an advanced procedural graphics project that skillfully combines procedural generation in Houdini with Unity's robust rendering capabilities. In Houdini, we create dynamic, animated maps alongside unique island terrains and realistic cloud simulations, which are then exported to Unity. Within Unity, we elevate the environment with custom water and fog shaders, a skybox, and various assets from the Unity Asset Store, including a tailored butterfly flocking simulation for specific visual effects. This comprehensive approach results in a visually arresting, immersive island landscape that showcases our expertise in blending intricate procedural generation with sophisticated rendering techniques.
+
+### Technical Breakdown - Houdini
+
+**Cloud Simulation:** We used Houdini's metaballs to create dynamic cloud simulations, lending a fluid and lifelike quality to our clouds. By applying a combination of noises and cloud nodes, each cloud gained a realistic texture. The clouds are animated to demonstrate natural behaviors like collisions and merging, contributing to the environmental realism. This procedural approach allows the clouds to move organically around the island, enhancing the scene's dynamic feel.
+
+**Map:** Our map generation process started with designing a pattern texture in Photoshop. This texture served as a foundation for the wave function collapse node in Houdini, allowing us to generate a variety of similar yet distinct map patterns procedurally. This technique resulted in a diverse range of maps, each featuring unique island shapes and sizes, adding depth and variety to our project’s landscape.
+
+**Island:** In crafting the islands, we employed Houdini's advanced procedural techniques to sculpt realistic terrains. This involved using noise algorithms and distancing for terrain bottoms, and the Houdini brush tool to generate elevation for terrain top geometries, ensuring each island had its own distinct character. We focused on details such as elevation variations,  and integrating natural features like grass and vines to imbue each island with a sense of authenticity and detail.
+
+
+### Technical Breakdown - Unity
+
+**Fog:** We've developed a sophisticated fog system by calculating the fog intensity based on the camera's position. This involves determining the distance between the camera and the fog's start and endpoints. The result is then normalized by dividing by the distance between these points and clamped between 0 and 1 to yield the final fog intensity for each pixel. This technique allows for a realistic and dynamic fog effect that adjusts seamlessly with the camera's movement, enhancing the atmospheric depth of our scene.
+
+**Water:** Our water simulation is crafted using a blend of two normal textures to mimic the movement of water waves. To add realism, we've incorporated Blinn-Phong lighting, simulating the interplay of sunlight on the water's surface. The key to our reflection effect is a specially created reflection camera that renders the scene inversely, storing the outcome in a texture. This texture is then processed using the Kawase Blur method for a softened, realistic reflection. We map this blurred texture onto a planar surface, achieving a highly convincing water appearance with dynamic reflections and lighting.
+
+**Butterfly:** For the butterfly flocking effect, we utilized a Unity Asset from the Asset Store. However, to tailor it to our specific requirements, we modified the included flocking script. Our customizations were focused on creating optimal boid behaviors that perfectly complement our scene. This bespoke approach allowed us to integrate the butterfly flocking seamlessly into our environment, contributing to the dynamic and organic feel of the landscape. The result is a beautifully orchestrated movement of butterflies that enhances the overall visual appeal and lifelike quality of our project.
 
 
 ## Milestone 2
