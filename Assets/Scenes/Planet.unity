@@ -5338,7 +5338,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 1.6
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5908,7 +5908,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 172392494151628905, guid: 6883a8166a73d8c4091e18a8808dbbb0,
     type: 3}
   tileParent: {fileID: 1357102361}
-  tileBasicMat: {fileID: 2100000, guid: 5447c84c1084b1e409c9a2f4e505bb57, type: 2}
+  tileBasicMat: {fileID: 2100000, guid: 9a725025dc29bb34f84c0da0803362b9, type: 2}
   finalGrid:
     gridSize: 0
   size: 2
@@ -6019,8 +6019,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa750e9f00ed4e74fafbf5a843b3b78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexHighlight: {fileID: 2100000, guid: 392a9f6d949ec0144811355edad73f3d, type: 2}
-  originalMaterial: {fileID: 2100000, guid: 5447c84c1084b1e409c9a2f4e505bb57, type: 2}
+  hexHighlight: {fileID: 2100000, guid: 5447c84c1084b1e409c9a2f4e505bb57, type: 2}
+  originalMaterial: {fileID: 2100000, guid: 9a725025dc29bb34f84c0da0803362b9, type: 2}
   CameraTrans: {fileID: 963194228}
   preHex: {fileID: 1639115565}
   Items1:
