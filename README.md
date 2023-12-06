@@ -1,7 +1,9 @@
 # Final Project!
 
 ## Final submission (due 12/5)
-Video is in the github directory. 
+
+https://www.youtube.com/watch?v=B9qcNq_mkDs
+Video is also in the github directory. 
 
 
   - final results with images and a live demo if possible
