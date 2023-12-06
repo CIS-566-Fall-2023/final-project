@@ -8,7 +8,9 @@ public class Map : MonoBehaviour
 {
     public int layers = 3;
     public int length = 6;
-    public float hexSize = 0.8f;
+    private const float size_adjust = 1.0f;
+    private const float half_sqr3 = 0.8660254f;
+    private float hexSize = size_adjust * half_sqr3;
     public int tilesPerBiome = 6;
     public List<BiomeConfig> biomes;
 
@@ -16,9 +18,6 @@ public class Map : MonoBehaviour
     private int m_currBiome;
     private Vector2 m_headPos;
     private int m_tileCount = 0;
-
-    private const float half_sqr3 = 0.866f;
-    private const float size_adjust = 1.13f;
 
     private bool m_skyChanged = false;
 
@@ -85,7 +84,7 @@ public class Map : MonoBehaviour
     public void GenerateGrid()
     {
         m_hexTiles = new List<List<GameObject>>();
-        m_headPos.x = -0.5f * (length - 1) * hexSize * half_sqr3;
+        m_headPos.x = -0.5f * (length - 1) * hexSize;
         m_headPos.y = 0.5f * (layers - 1) * hexSize * half_sqr3;
 
         int currX = 0;
@@ -124,8 +123,9 @@ public class Map : MonoBehaviour
     {
         float pos_z = m_headPos.y - z * hexSize * half_sqr3;
         float pos_x; 
-        if (z % 2 == 0) pos_x = m_headPos.x + x * hexSize * half_sqr3;
-        else pos_x = m_headPos.x - 0.5f * hexSize * half_sqr3 + x * hexSize * half_sqr3;
+        if (z % 2 == 0) pos_x = m_headPos.x + x * hexSize;
+        else pos_x = m_headPos.x - 0.5f * hexSize + x * hexSize;
+
         Layer layer = GetBiomeLayer(z);
         GameObject spawnedTile = ObjectManager.Instance.GetTileFromPool(layer.tilePoolID);
         spawnedTile.SetActive(true);
