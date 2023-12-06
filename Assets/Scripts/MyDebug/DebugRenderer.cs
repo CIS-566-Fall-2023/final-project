@@ -57,8 +57,7 @@ namespace MyDebug
             startEdge = navGraph.GetRandomEdge();
             endEdge = navGraph.GetRandomEdge();
             currEdge = navGraph.GetRandomEdge();
-            var position =  (LineCurve) currEdge.Curve;
-            sprite.MoveTo(position.P0);
+            sprite.MoveTo(currEdge.Curve.Point(0));
             path = DFS(startEdge, endEdge);
         }
 
