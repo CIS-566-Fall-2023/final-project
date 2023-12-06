@@ -14,11 +14,14 @@ public class MapCustomInspector : Editor
 
     SerializedProperty lineColor,
     lineThickness,
-    lineMaterial;
+    lineMaterial,
+    lines,
+    canvas,
+    font,
+    textPrefab;
 
     public void OnEnable()
     {
-        
         MinXProp = serializedObject.FindProperty("MinX");
         MinYProp = serializedObject.FindProperty("MinY");
         MaxXProp = serializedObject.FindProperty("MaxX");
@@ -27,6 +30,10 @@ public class MapCustomInspector : Editor
         lineColor = serializedObject.FindProperty("LineColor");
         lineThickness = serializedObject.FindProperty("LineThickness");
         lineMaterial = serializedObject.FindProperty("LineMaterial");
+        lines = serializedObject.FindProperty("Lines");
+        canvas = serializedObject.FindProperty("Canvas");
+        font = serializedObject.FindProperty("Font");
+        textPrefab = serializedObject.FindProperty("TextPrefab");
     }
 
     public override void OnInspectorGUI()
@@ -49,6 +56,14 @@ public class MapCustomInspector : Editor
         lineColor.colorValue = EditorGUILayout.ColorField("Line Color", lineColor.colorValue);
         lineThickness.floatValue = EditorGUILayout.FloatField("Line Thickness", lineThickness.floatValue);
         lineMaterial.objectReferenceValue = (Material) EditorGUILayout.ObjectField("Line Material", lineMaterial.objectReferenceValue, typeof(Material));
+
+        lines.objectReferenceValue = EditorGUILayout.ObjectField("Lines", lines.objectReferenceValue, typeof(GameObject));
+        
+        canvas.objectReferenceValue = EditorGUILayout.ObjectField("Canvas", canvas.objectReferenceValue, typeof(Canvas));
+
+        font.objectReferenceValue = EditorGUILayout.ObjectField("Font", font.objectReferenceValue, typeof(Font));
+
+        textPrefab.objectReferenceValue = EditorGUILayout.ObjectField("TextPrefab", textPrefab.objectReferenceValue, typeof(GameObject));
 
         serializedObject.ApplyModifiedProperties();
     }
