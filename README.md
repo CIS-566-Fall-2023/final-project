@@ -1,7 +1,12 @@
 # Character Creator
 
+## [Watch Video Here](https://www.youtube.com/watch?v=CjKSifE5IyI)
+
 # Table of Contents
 
+- [Character Creator](#character-creator)
+  - [Watch Video Here](#watch-video-here)
+- [Table of Contents](#table-of-contents)
 - [Design Doc](#design-doc)
   - [Introduction](#introduction)
   - [Goal](#goal)
@@ -11,6 +16,10 @@
   - [Design](#design)
   - [Timeline](#timeline)
 - [Milestone #1: Setup SDFs and Raymarching (11/15/23)](#milestone-1-setup-sdfs-and-raymarching-111523)
+- [Milestone #2 \& #3: SDF Blending and Procedural Texturing](#milestone-2--3-sdf-blending-and-procedural-texturing)
+    - [Project pivot](#project-pivot)
+    - [Failed Attempt](#failed-attempt)
+- [Milestone #4, Final: Compound SDFs and making characters](#milestone-4-final-compound-sdfs-and-making-characters)
 - [Implementation Details](#implementation-details)
   - [1. Raymarch shader](#1-raymarch-shader)
   - [2. Lighting and Shading](#2-lighting-and-shading)
@@ -140,6 +149,53 @@ I hit pretty much most of my goals for Milestone 1, which is awesome! In summary
 
 
 https://github.com/utkarshdwivedi3997/character-creator/assets/22533563/a13740c8-93d7-497b-a462-8231ef2bc678
+
+# Milestone #2 & #3: SDF Blending and Procedural Texturing
+
+I hit most of my goals for this milestone. I added the following features:
+
+- `SDF Modeling`
+  - Moving, rotating and translating SDFs based on their transformations in Unity
+  - Improved blending of objects based on sdf addition and subtraction
+- `Procedural Texturing`
+  - `Primary and secondary colors`: two colors that are applied based on greyscale sampled textures
+  - `Plain`: the primary colour is applied across the whole object
+  - `Triplanar textures`: these textures are applied in a triplanar fashion along the 3 world coordinate axes. The following textures were added:
+    - `Stripes` with controllable stripes frequency, rotation and stripes blending
+    - `Polka Dots` with controllable frequency, blending, and scale
+    - `Diamonds` with controllable frequency, blending and scale
+    - `Waves` with controllable frequency, wavelenght, blending and scale
+    - `Procedural Pattern 1` - a procedural pattern with controllable frequency
+  - `3D textures`: these textures are noise based patterns sampled at the 3D coordinate of the SDF-ray intersection
+    - `Worley` - worley noise texture with controllable scale and blending
+    - `FBM` - fractal brownian motion texture with controllable scale and blending
+    - `Perlin` - perlin noise texture with controllable scale and blending
+  - `PBR properties`: the following Unity PBR properties were enabled:
+    - `Smoothness`
+    - `Metallic`
+    - `Emission Color`
+  - `Material Blending`: all textures, colours and PBR properties blend according to the blend factor that blends the objects!
+  - `Color Blend Mode`: thanks to IQ's suggestion! I have added a mode to blend only an object's colour on top of another object, rather than applying an object add, subtract or intersection blending.
+
+### Project pivot
+
+I decided to drop a game-ified UI for this project, but rather to focus on improving the capabilities of the procedural modeling toolkit. No animation curve based UI was added.
+
+### Failed Attempt
+
+I also tried playing around with non-procedural textures using `Texture3D` and `Texture2DArray` in Unity - and got them to work! But I quickly ran into memory and performance limits when an SDFCollection had too many SDFObjects with textures, so I decided to cut this feature and focus on procedural texturing instead. The below images are from the working attempts that I scraped later on.
+
+|Texture 1|Textures 2|Textures 3|
+|:-:|:-:|:-:|
+|<img src="img/tex2.png" width=300>|<img src="img/tex1.png" width=300>|<img src="img/tex3.png" width=300>|
+
+# Milestone #4, Final: Compound SDFs and making characters
+
+This milestone was polish, but I did add one more feature, thanks again to IQ's suggestion! I added these features:
+
+- `Compound SDFs`: Each `SDFObject` can now be converted to a `Compound` type, and have children `SDFObject`s under it! This enables each compound sdf to evaluate all its children together, but the compound SDF is then treated as a single SDF. This helps with issues where some SDFs would blend with others in the same `SDFCollection`, which limited artistic possibilities. `SDFCollection`s can have `Compound` `SDFObject` children but not `Compound SDFObject` grandchildren. Only 1 layer is supported for performance reasons.
+- `Bounding Box Optimisation`: the raymarching algorithm first checks to see if the ray intersects with the axis-aligned bounding box of the `SDFCollection`, and only performs additional raymarching if the ray intersects the box. Additionally, the ray now starts at the intersection point on the box, and ends at the far-intersection point on the box. This saves some computation power.
+- `Sphere-tracing vs raymarching modes`: I added support for sphere tracing vs constant ray-marching based on consistent stepping. Sphere tracing is optimized, but leads to artifacts at very small `t` values. Raymarching helps render crisp SDFs!
 
 
 # Implementation Details
