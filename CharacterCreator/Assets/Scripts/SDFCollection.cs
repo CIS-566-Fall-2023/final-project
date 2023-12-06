@@ -228,7 +228,7 @@ public class SDFCollection : MonoBehaviour
         for (int i = 0; i < compoundSdf.NumSDFChildren; i++)
         {
             SDFObject compObjChild = compoundSdf.SDFChildren[i];
-            sdfObjects[sdfCountCompounded + i + 1] = compObjChild;
+            sdfObjects[sdfCountTotal + i + 1] = compObjChild;
             compObjChild.SetParentCollection(this);
         }
     }
