@@ -4,10 +4,10 @@
 
 Above image is a link to video :)
 
-Train view is cool for anyone who wants to relax and enjoy the natural terrain winding out of the train window. We would like to provide a train view generator in Unity to simulate the passenger’s view point inside a large-window landscape express. We will provide a terrain generator to procedurally generate an infinitely-extending terrain landscape and a stylized shader to mimic the style of several pieces of 2D concept art. The project will finally be able to deliver an infinite tour aside by procedural stylized terrain view.
+Train view is cool for anyone who wants to relax and enjoy the natural terrain winding out of the train window. We would like to provide a train view generator in Unity to simulate the passenger’s view point inside a large-window landscape express. We will provide a terrain generator to procedurally generate an infinitely-extending terrain landscape and a stylized shader to mimic the style of several pieces of 2D concept art. The project will finally be able to deliver an infinite tour aside by procedural stylized terrain view, with biomes and sky that can be fully customized by users in Unity.
 
 #### Inspiration
-<img src="https://github.com/xchennnw/final-project/blob/main/img/train3.png" height="200px"/> <img src="https://github.com/xchennnw/final-project/blob/main/img/ref.png" height="300px"/>
+<img src="https://github.com/xchennnw/final-project/blob/main/img/train3.png" height="300px"/> <img src="https://github.com/xchennnw/final-project/blob/main/img/ref.png" height="300px"/>
 
 
 #### Screen Shots
@@ -110,6 +110,46 @@ Above image is a link to video :)
     
 ## Final submission (due 12/5)
 In the final milestone, we added more biomes and adjust the color such that visual effect of the whole tune to make it more alike to the reference image. Some vfx effect is added, such as camera shaking and star blinking. Considering the background under a game engine, we add some interactivity for user to control the train.
+
+### Techinical breakdown
+#### Terrain & biome
+- We use a hex map for a relatively easy control of different biomes.
+  - Number of rows and columns showing can be set according to train’s field of view.
+  - Also defines the length of each biome.
+  - Spawn and disable tiles endlessly as the camera moves, using an object pool to manage all the tiles for performance optimization.
+<br> 
+- We use a self-designed biome structure to mimic the window view from a train and make it easy to customize.
+  - Each biome is composed by 3 layers: near, mid, and far (from the train's view). 
+  - The hex tile meshes, materials, and objects(e.g. tree and stones) can be defined for each layer. 
+<br> 
+- Biome user config: Each biome is defined by a Unity ScriptableObject. We can customize these for near, mid, and far layers
+  - A list of tile meshes the layer uses.
+  - Number of rows this layer occupies.
+  - Material.
+  - Whether to blend the layers. If choose to do so, the row of tiles between 2 layers will has both layers’ tiles according a ratio defined here.
+  - Whether to spawn trees and other objects, number to spawn, and some parameters that help spawning.
+  - Sky Config for this biome.
+<br> 
+- Set ciomes for the terrain
+  - There is a list that you can put infinite biomes in specific order, and the train will loop through them.
+<br>  
+
+#### Sky
+- Sky box
+  - Three layer sky color, for each biome
+  - Blinking stars
+  - Moving poly clouds
+- Sky color config
+  - Help user to define top Color, horizon color, and ground color to make the sky color fits a biome’s style.
+
+#### Others
+- Shaders
+  - Toon shader + Paper Style Post process
+  - Sand ground
+  - Stylized Water Surface
+    
+- Train simulation camera shaking
+  - Simulate train on railroad tracks, shaking and clang on joint of railway.
 
 ## Post mortem
 Overall our project goes pretty well. We made a delicate train view generator in Unity with stylized landscape and skybox (we are visually satisfied in the middle of it). The coordination is smooth and we all did our job well. After this project, we are more familar with the formation of Unity shadergraph and stylization continue from hw4.
