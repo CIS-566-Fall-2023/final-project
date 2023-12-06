@@ -188,3 +188,11 @@ future.
 
 ![](img/final-render-0.jpg)
 ![](img/final-render-1.jpg)
+
+
+### Acknowledgements
+HDRI: https://hdri-haven.com/
+
+Table Model: https://www.turbosquid.com/3d-models/3d-egyptian-table-2059971
+
+Wood Texture: https://patternpanda.org/wood.html
