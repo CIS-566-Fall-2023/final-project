@@ -2,6 +2,28 @@
 Authors: Tianyi Xiao and Linda Zhu
 
 <details>
+  <summary> Milestone 3 </summary>
+
+## Texture Generation
+To create textures for procedurally generated models (like walls, boxs), we use Substance Painter to paint them and generate corresponding diffuse and metallic textures for the URP rendering pipeline.
+
+![](/img/SP.png)
+
+Besides, we generate the ground textures using Substance Designer. And we also use designer to modify textures from [resources](https://assetstore.unity.com/packages/2d/textures-materials/metals/yughues-free-metal-materials-12949), to make it unified with our color palette.
+
+![](/img/SD.png)
+
+![](/img/modified_tex.png)
+
+## Dissolve Effect
+
+To enrich the interactivity of the game level, I implement a dissolve effect when player get closer to the box, which is controlled by a dissolve factor and a noise texture. In fragment shader, the noise texture will be sampled and compared with an increasing dissolve factor, if noise is smaller then it would be alpha-clipped, which looks like dissolved. What's more, I add a white edge at the area where nearly but haven't be clipped.
+
+![](/img/dissolve.png)
+
+</details>
+
+<details>
   <summary> Milestone 2 </summary>
 
 ## Corridor Map System (Continued)
@@ -53,7 +75,7 @@ We followed [this tutorial by Simon Verstratete](https://www.sidefx.com/tutorial
 
 Below is an example of input image in PSD file (We chose PSD since Photoshop has built-in layers and it happens that Houdini has a `Trace PSD File` to load PSD layers, but we can change it to any image format really).
 <p align="left">
-  <img src="/img/milestone2/panel_psd_1.png" width="300"/>
+  <img src="img/milestone2/panel_psd_1.png" width="300"/>
 </p>
 
 |                    **Extracted Layers**              |
@@ -65,7 +87,7 @@ Layer 1  | Layer 2 | Layer 3 | Layer 4       | Layer 5 |
 Next, we can work on each individual layer. We start with the panels. Since the Sci-Fi style objects usually appear chunky/bulky/heavy without much delicate curvature, we simply `Thicken` the layers to turn a surface into a polygon, `Transform` the layer polygons mainly to ensure they stack on each other. 
 
 <p align="left">
-  <img src="/img/milestone2/panels.png" width="300"/>
+  <img src="img/milestone2/panels.png" width="300"/>
 </p>
 
 Now we have the wall frame ready but they are mostly rectangles which look boring. For the panel details, we want to add more vairations in terms of geometry than just extrusion. Here we used the tiling brick from the LEGO-ifier project as the base model to be `Copy`ed`to Points` at the red dots. I added some randomization in the orientation of the blocks.
@@ -92,7 +114,7 @@ Boolean Shatter  | Panels with Details
 To fill out the holes of the bottom panel, we add an array of pipes at the back. Pipes are composed of tubes and rings, the sizes of which can both be configured procedurally and randomly.
 
 <p align="left">
-  <img src="/img/milestone2/pipes.png" width="300"/>
+  <img src="img/milestone2/pipes.png" width="300"/>
 </p>
 
 Before merging every layer, we tweaked more of the panels by bending them on the lower half.
