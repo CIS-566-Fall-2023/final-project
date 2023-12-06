@@ -6,7 +6,6 @@ using UnityEngine;
 public class HexSelector : MonoBehaviour
 {
     public Material hexHighlight;
-    public Material hexSelect;
     public Material originalMaterial;
     public Transform CameraTrans;
     private HexagonTile selected;
@@ -105,7 +104,7 @@ public class HexSelector : MonoBehaviour
                 if (hex != null && hex.corners.Count == 6 && !hex.hasSelected)
                 {
                     selected = hex;
-                    selected.GetComponent<MeshRenderer>().material = hexSelect;
+                    //selected.GetComponent<MeshRenderer>().material = hexSelect;
                     selected.hasSelected = true;
                     selected.cellData.CellsOnTileEdge0[0].Type = hex.cellData.CellsOnTileEdge0[0].Type;
                     selected.cellData.CellsOnTileEdge0[1].Type = hex.cellData.CellsOnTileEdge0[1].Type;
