@@ -1,7 +1,7 @@
 # Final Project!
 
 ## Final submission (due 12/5)
-Time to polish! Spen this last week of your project using your generator to produce beautiful output. Add textures, tune parameters, play with colors, play with camera animation. Take the feedback from class critques and use it to take your project to the next level.
+Video is in the github directory. 
 
 Submission:
 - Push all your code / files to your repository
