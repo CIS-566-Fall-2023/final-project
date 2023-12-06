@@ -3,8 +3,10 @@
 Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
 
 ## Final Submission: 
-### Unity Demo
+![](./output2.png)
 https://drive.google.com/file/d/15XKgZ8FEwGIWtTHlS1ptps_W34qz6Zf_/view?usp=sharing
+
+### Unity Demo
 
 [Unity Demo](https://www.youtube.com/watch?v=N-EKHWHQJ0c)
 
