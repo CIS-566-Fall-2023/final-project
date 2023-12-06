@@ -32,7 +32,7 @@ public class Box : MonoBehaviour
             r.material = tempMat;
         }
 
-        float ratio = 0.0f;
+        float ratio = -0.1f;
         float del = 0.02f;
         while(ratio <= 1.0f)
         {
