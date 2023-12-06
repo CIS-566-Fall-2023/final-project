@@ -87,7 +87,7 @@ I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and
 ![](Milestone2_2.gif)
 
 # Milestone 3
-
+Link to our Demo: https://www.youtube.com/watch?v=wak9uA7HMvA
 
 # Final Project!
 
