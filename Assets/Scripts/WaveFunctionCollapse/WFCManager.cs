@@ -84,6 +84,8 @@ namespace Planetile
         [SerializeField]
         List<Item> pentagonItemPool;
         [SerializeField]
+        List<Item> hexagonFallBackPool;
+        [SerializeField]
         internal Vector3 hexagonItemLocalScale = Vector3.one;
         [SerializeField]
         internal Vector3 hexagonItemPositionOffset = Vector3.zero;
@@ -124,8 +126,23 @@ namespace Planetile
                 }
                 else
                 {
-                    Debug.LogError($"Failed to fill the cell {cell}.");
-                    break;
+                    cell = startingCells.First();
+                    startingCells.Remove(cell);
+                    Debug.LogWarning($"Failed to fill the cell. Fallback at {cell}");
+
+                    foreach (var item in hexagonFallBackPool)
+                    {
+                        if ((cell.Type & item.Type) == 0) continue;
+                        else
+                        {
+                            cell.PlaceItem(item);
+                            break;
+                        }
+                    }
+                    if (!cell.IsPlaced)
+                    {
+                        cell.PlaceItem(hexagonFallBackPool[Random.Range(0, hexagonFallBackPool.Count)]);
+                    }
                 }
             }
         }

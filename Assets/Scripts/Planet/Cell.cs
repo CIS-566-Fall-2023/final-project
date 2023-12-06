@@ -119,6 +119,7 @@ public class Cell : MonoBehaviour, IWFCCell
                 item.transform.localPosition = WFCManager.Instance.pentagonItemPositionOffset;
                 item.transform.localPosition = item.transform.localRotation * item.transform.localPosition;
             }
+            item.transform.localPosition = new Vector3(item.transform.localPosition.x, 0.1f, item.transform.localPosition.z);
         }
     }
     private void OnDrawGizmosSelected()
