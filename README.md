@@ -89,20 +89,26 @@ In the milestone #2:
 ### Outcomes
 ![](images/desk.png)
 
-|Lambert only |With environment map lighting|
-|:-------:|:--------:|
-|![](images/buddha.png)|![](images/buddha_2.png)|
+|Lambert only |With environment map lighting|Unity Standard Surface Shading|
+|:-------:|:--------:|:---------:|
+|![](images/buddha.png)|![](images/buddha_2.png)|![](images/bunny.png)|
 
 #### Live Demo
 <p align = "middle">
    <img src = "images/milestone3_demo.gif">
 </p>
+<p align = "middle">
+   <img src = "images/bunny_demo.gif">
+</p>
 
 #### Progress
 1. Finish normal mapping for wood texture with knots
 2. Unity Skybox and Image based lighting setup
-3. Final demo scene setup
+3. Plugin to Unity Standard Surface shading pipeline
+4. Mesh Fracture and Physical Simulation
+5. Final demo scene setup
 
 ### Third party Resources
 - [Buddha Model](https://sketchfab.com/3d-models/wooden-buddha-statuette-675ce7f7a286400d84deb3bcaa38a93e)
 - [Desk Model](https://sketchfab.com/3d-models/computer-desk-05353724b7884bfb81211c7033a57fd4)
+- Stanford Bunny

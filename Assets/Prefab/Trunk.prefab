@@ -73,6 +73,33 @@ MonoBehaviour:
     m_Orientation: -11.8
     m_TimeOfDeath: 0.5
     m_Radius: 0.5
+  - m_HeightMap:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: -0.0312981
+        value: 0.047174998
+        inSlope: 0.076365136
+        outSlope: 0.076365136
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.0187032
+        value: 0.1273585
+        inSlope: 0.076365136
+        outSlope: 0.076365136
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_Orientation: -11.8
+    m_TimeOfDeath: 0.5
+    m_Radius: 0.5
   m_MaxHeight: 100
   m_MinRadius: 1
   m_MaxRadius: 2
