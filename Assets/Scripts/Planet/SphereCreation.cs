@@ -36,11 +36,13 @@ public class SphereCreation : MonoBehaviour
     public sHexGrid finalGrid;
     public int size = 0;
     public float planetSize = 1.0f;
+    public int PlanetNum = 5;
     // Start is called before the first frame update
     void Start()
     {
         finalGrid = size_n_grid(size);
         CreateTiles();
+        
         tileParent.transform.localScale *= planetSize;
     }
 

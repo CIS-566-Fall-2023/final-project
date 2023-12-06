@@ -58,6 +58,6 @@ public class CameraMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoom, Time.deltaTime * zoomSpeed);
+        //camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoom, Time.deltaTime * zoomSpeed);
     }
 }

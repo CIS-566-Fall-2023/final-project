@@ -28,6 +28,14 @@ public class Cell : MonoBehaviour, IWFCCell
 
     public Cell neighborInOtherTile;
 
+    
+
+    private void Start()
+    {
+        
+    }
+
+    
     /// <summary>
     /// include neighbor in the other tile
     /// </summary>
