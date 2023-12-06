@@ -1,7 +1,7 @@
 #ifndef COMMONSHADERINCLUDE
 #define COMMONSHADERINCLUDE
 
-#define MAX_SDF_OBJECTS 256
+#define MAX_SDF_OBJECTS 128
 
 // Uniforms set using MaterialPropertyBlock
 float SDFType[MAX_SDF_OBJECTS];
@@ -19,6 +19,8 @@ float4 SDFTextureData[MAX_SDF_OBJECTS];				// .x is texture scale
 float4 SDFEmissionColors[MAX_SDF_OBJECTS];
 float SDFSmoothness[MAX_SDF_OBJECTS];
 float SDFMetallic[MAX_SDF_OBJECTS];
-float SDFCount;
+float SDFCountTotal;								// in this number each compound object counts itself but also its children		
+float SDFCountCompounded;							// in this number compound objects = 1
+float OffsetsToNextSdf[MAX_SDF_OBJECTS];
 
 #endif

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [ExecuteAlways]
@@ -5,13 +6,15 @@ using UnityEngine;
 public class SDFCollection : MonoBehaviour
 {
     #region Shader Properties
-    private const int MAX_SDF_OBJECTS = 256;
+    private const int MAX_SDF_OBJECTS = 128;
     private static readonly int SDFTypeShaderPropertyID = Shader.PropertyToID("SDFType");
     private static readonly int SDFTransformMatricesPropertyID = Shader.PropertyToID("SDFTransformMatrices");
     private static readonly int SDFDataShaderPropertyID = Shader.PropertyToID("SDFData");
     private static readonly int SDFBlendOperationShaderPropertyID = Shader.PropertyToID("SDFBlendOperation");
     private static readonly int SDFBlendFactorShaderPropertyID = Shader.PropertyToID("SDFBlendFactor");
-    private static readonly int SDFCountShaderPropertyID = Shader.PropertyToID("SDFCount");
+    private static readonly int SDFCountTotalShaderPropertyID = Shader.PropertyToID("SDFCountTotal");
+    private static readonly int SDFCountCompoundedShaderPropertyID = Shader.PropertyToID("SDFCountCompounded");
+    private static readonly int SDFOffsetsShaderPropertyID = Shader.PropertyToID("OffsetsToNextSdf");
     private static readonly int SDFPrimaryColorsPropertyID = Shader.PropertyToID("SDFPrimaryColors");
     private static readonly int SDFSecondaryColorsPropertyID = Shader.PropertyToID("SDFSecondaryColors");
     private static readonly int SDFTextureTypePropertyID = Shader.PropertyToID("SDFTextureType");
@@ -23,7 +26,9 @@ public class SDFCollection : MonoBehaviour
     #endregion
 
     private SDFObject[] sdfObjects;
-    int numSDFObjects;
+    private int sdfCountTotal;      // compound objects are counted = number of the children in that compound
+    private int sdfCountCompounded; // compound objects are counted as 1 object here
+
     [SerializeField] private SDFObject sdfObjectPrefab;
 
     private Renderer renderer;
@@ -41,6 +46,7 @@ public class SDFCollection : MonoBehaviour
     private float[] sdfSmoothnessValues = new float[MAX_SDF_OBJECTS];
     private float[] sdfMetallicValues = new float[MAX_SDF_OBJECTS];
     private Vector4[] sdfEmissionColors = new Vector4[MAX_SDF_OBJECTS];
+    private float[] offsetsToNextSdf = new float[MAX_SDF_OBJECTS];
 
     private bool hasInitialized = false;
 
@@ -51,6 +57,8 @@ public class SDFCollection : MonoBehaviour
 
     private void OnTransformChildrenChanged()
     {
+        // OnTransformChildrenChanged() is NOT fired if a grand-child changes.
+        // Only the immediate child hierarchy below this parent is evaluated and fires this.
         ValidateTransformChildrenChange();
     }
 
@@ -79,12 +87,15 @@ public class SDFCollection : MonoBehaviour
         sdfTextureData = new Vector4[MAX_SDF_OBJECTS];
         sdfMetallicValues = new float[MAX_SDF_OBJECTS];
         sdfEmissionColors = new Vector4[MAX_SDF_OBJECTS];
+        offsetsToNextSdf = new float[MAX_SDF_OBJECTS];
 
         renderer = GetComponent<Renderer>();
 
         materialPropertyBlock = new MaterialPropertyBlock();
 
         ValidateTransformChildrenChange();
+
+        SDFObject.OnChildrenUpdated += OnCompoundSDFObjectUpdated;
 
         hasInitialized = true;
     }
@@ -96,7 +107,7 @@ public class SDFCollection : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < numSDFObjects; i++)
+        for (int i = 0; i < sdfCountTotal; i++)
         {
             SDFObject sdf = sdfObjects[i];
             sdfTypes[i] = (int)sdf.Type;
@@ -118,7 +129,8 @@ public class SDFCollection : MonoBehaviour
         materialPropertyBlock.SetVectorArray(SDFDataShaderPropertyID, sdfData);
         materialPropertyBlock.SetFloatArray(SDFBlendOperationShaderPropertyID, sdfBlendOperations);
         materialPropertyBlock.SetFloatArray(SDFBlendFactorShaderPropertyID, sdfBlends);
-        materialPropertyBlock.SetInt(SDFCountShaderPropertyID, numSDFObjects);
+        materialPropertyBlock.SetInt(SDFCountTotalShaderPropertyID, sdfCountTotal);
+        materialPropertyBlock.SetInt(SDFCountCompoundedShaderPropertyID, sdfCountCompounded);
         materialPropertyBlock.SetVectorArray(SDFPrimaryColorsPropertyID, sdfPrimaryColors);
         materialPropertyBlock.SetVectorArray(SDFSecondaryColorsPropertyID, sdfSecondaryColors);
         materialPropertyBlock.SetFloatArray(SDFTextureTypePropertyID, sdfTextureTypes);
@@ -126,6 +138,7 @@ public class SDFCollection : MonoBehaviour
         materialPropertyBlock.SetFloatArray(SDFSmoothnessPropertyID, sdfSmoothnessValues);
         materialPropertyBlock.SetFloatArray(SDFMetallicPropertyID, sdfMetallicValues);
         materialPropertyBlock.SetVectorArray(SDFEmissionColorsPropertyID, sdfEmissionColors);
+        materialPropertyBlock.SetFloatArray(SDFOffsetsShaderPropertyID, offsetsToNextSdf);
 
         renderer.SetPropertyBlock(materialPropertyBlock);
     }
@@ -143,31 +156,112 @@ public class SDFCollection : MonoBehaviour
         renderer.SetPropertyBlock(null);
     }
 
+    private void OnDestroy()
+    {
+        SDFObject.OnChildrenUpdated -= OnCompoundSDFObjectUpdated;
+    }
+
     #region HELPERS
     [ContextMenu("Add SDF Object")]
     private void AddSDFObject()
     {
-        if (numSDFObjects == MAX_SDF_OBJECTS)
+        if (sdfCountCompounded == MAX_SDF_OBJECTS)
         {
             // Can't add any more to this SDFCollection!
             return;
         }
 
-        SDFObject sdfObject = Instantiate(sdfObjectPrefab, transform);
-        sdfObjects[numSDFObjects] = sdfObject;
-        numSDFObjects++;
+        SDFObject sdfObject = InstantiateSDFObject(transform);
+    }
+
+    public SDFObject InstantiateSDFObject(Transform parent)
+    {
+        SDFObject sdfObject = Instantiate(sdfObjectPrefab, parent);
+        sdfObject.SetParentCollection(this);
+        return sdfObject;
+    }
+
+    private void OnCompoundSDFObjectUpdated(SDFCollection parentCollection)
+    {
+        if (parentCollection != this)
+        {
+            // someone else's sdf child
+            return;
+        }
+
+        ValidateTransformChildrenChange();
     }
 
     private void ValidateTransformChildrenChange()
     {
         SDFObject[] objects = GetComponentsInChildren<SDFObject>();
-        numSDFObjects = Mathf.Clamp(objects.Length, 0, MAX_SDF_OBJECTS);
-        for (int i = 0; i < numSDFObjects; i++)
+        int childCount = Mathf.Clamp(objects.Length, 0, MAX_SDF_OBJECTS);
+
+        sdfCountTotal = 0;
+        sdfCountCompounded = 0;
+        
+        for (int i = 0; i < childCount; i++)
         {
-            sdfObjects[i] = objects[i];
+            SDFObject curObject = objects[i];
+            if (curObject.IsChildOfCompoundSDF)
+            {
+                // this case happens when a child object is destroyed
+                continue;
+            }
+            offsetsToNextSdf[sdfCountCompounded] = sdfCountTotal + curObject.NumSDFChildren + 1;
+            sdfObjects[sdfCountTotal] = curObject;
+            curObject.SetParentCollection(this);
+            if (curObject.Type == SDFObject.SDFObjectType.Compound)
+            {
+                // for compound objects we don't send both parent and children to the GPU
+                InsertCompoundObject(curObject);
+
+                i += curObject.NumSDFChildren;
+            }
+            sdfCountTotal += curObject.NumSDFChildren + 1;
+            sdfCountCompounded++;
+        }
+    }
+
+    private void InsertCompoundObject(SDFObject compoundSdf)
+    {
+        for (int i = 0; i < compoundSdf.NumSDFChildren; i++)
+        {
+            SDFObject compObjChild = compoundSdf.SDFChildren[i];
+            sdfObjects[sdfCountCompounded + i + 1] = compObjChild;
+            compObjChild.SetParentCollection(this);
         }
     }
     #endregion
+
+    private void TraverseCompound(int index, int lastIndex)
+    {
+        for (int i = index; i < lastIndex; i++)
+        {
+            int crap = 0;
+        }
+    }
+
+    [ContextMenu("Run test")]
+    private void Traverse()
+    {
+        int i = 0;
+        int elementIndex = 0;
+        int sdfsDone = 0;
+        while (sdfsDone < sdfCountCompounded)
+        {
+            elementIndex = i;
+            if (sdfObjects[i].Type == SDFObject.SDFObjectType.Compound)
+            {
+                elementIndex++;
+            }
+            TraverseCompound(elementIndex, (int)offsetsToNextSdf[sdfsDone]);
+            i = (int)offsetsToNextSdf[sdfsDone];
+            sdfsDone++;
+        }
+
+        Debug.Log("done");
+    }
 
     private void OnDrawGizmos()
     {

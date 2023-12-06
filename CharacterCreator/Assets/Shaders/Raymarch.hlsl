@@ -50,6 +50,10 @@ float intersect(float a, float b)
 {
 	return float2(max(a, b), 0);
 }
+float sdfCompoundObjectParent(float3 pos)
+{
+	return 0.0f;
+}
 
 float sdfBox(float3 pos, float3 size)
 {
@@ -91,12 +95,15 @@ float sdfOctahedron(float3 pos, float size)
 	return (pos.x + pos.y + pos.z - size) * 0.57735027;
 }
 
-float sdfCone(float3 pos, float angle, float height)
+float sdfCappedCone(float3 pos, float height, float r1, float r2)
 {
-	float2 c = float2(sin(angle), cos(angle));
-	float q = length(pos.xz);
-	//pos.y -= height;
-	return max(dot(c.xy, float2(q, pos.y)), -height - pos.y);
+	float2 q = float2(length(pos.xz), pos.y);
+	float2 k1 = float2(r2, height);
+	float2 k2 = float2(r2 - r1, 2.0 * height);
+	float2 ca = float2(q.x - min(q.x, (q.y < 0.0) ? r1 : r2), abs(q.y) - height);
+	float2 cb = q - k1 + k2 * clamp(dot(k1 - q, k2) / dot(k2, k2), 0.0, 1.0);
+	float s = (cb.x < 0.0 && ca.y < 0.0) ? -1.0 : 1.0;
+	return s * sqrt(min(dot(ca,ca), dot(cb,cb)));
 }
 
 float sdfRoundness(float sdf, float roundness)
@@ -104,16 +111,15 @@ float sdfRoundness(float sdf, float roundness)
 	return sdf - roundness;
 }
 
-// Version that only calculates sdf minDist
-float sceneSdf(float3 pos)
+float sdfElement(float3 pos, int index, int lastIndex)
 {
 	float3 posTransformed;
-	float2 sdf = float2(FLT_MAX, 1.0);
+	float2 sdf = float2(MAX_DIST, 1.0);
 
-	for (int i = 0; i < SDFCount; i++)
+	for (int i = index; i < lastIndex; i++)
 	{
 		float size = SDFData[i].x;
-		int blendOp = SDFBlendOperation[i];
+		int blendOp = i == index? 0 : SDFBlendOperation[i];	// the first individual element should always ADD 
 		int sdfType = SDFType[i];
 
 		float4x4 transform = SDFTransformMatrices[i];
@@ -150,7 +156,7 @@ float sceneSdf(float3 pos)
 		}
 		else if (sdfType == 6)
 		{
-			curSdf = sdfCone(posTransformed, size, SDFData[i].y);
+			curSdf = sdfCappedCone(posTransformed, size, SDFData[i].y, SDFData[i].z);
 		}
 
 		if (roundness > 0.0)
@@ -184,23 +190,69 @@ float sceneSdf(float3 pos)
 	return sdf.x;
 }
 
-// Version that calculates material properties
-float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoothness, out float outMetallic, out float4 outEmissionColor)
+// Version that only calculates sdf minDist
+float sceneSdf(float3 pos)
+{
+	float2 sdf = float2(FLT_MAX, 1.0);
+
+	int i = 0;
+	int sdfsDone = 0;
+	while (sdfsDone < SDFCountCompounded)
+	{
+		int sdfType = SDFType[i];
+		int elementIndex = i;
+		int blendOp = SDFBlendOperation[i];
+		int elemBlendOp = 0;	// add for individual element blends
+		if (sdfType == -1)	// compound sdf
+		{
+			elementIndex++;	// this is the parent. ignore and go to children
+		}
+
+		float curSdf = sdfElement(pos, elementIndex, OffsetsToNextSdf[sdfsDone]);
+		float blendT = 0.0f;
+
+		if (blendOp == 0)	// add
+		{
+			sdf = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = sdf.y;
+		}
+		else if (blendOp == 1)	// subtract
+		{
+			sdf = subtract(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = sdf.y;
+		}
+		else if (blendOp == 2)	// intersect
+		{
+			sdf = intersect(sdf, curSdf);
+			blendT = sdf.y;
+		}
+		else	// colour blend
+		{
+			// sdf doesn't change! we only update colors
+			float2 tmp = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = tmp.y;
+		}
+
+		i = OffsetsToNextSdf[sdfsDone];
+		sdfsDone++;
+	}
+
+	return sdf.x;
+}
+
+float sdfElement(float3 pos, int index, int lastIndex, float3 normal, out float4 outColor, out float outSmoothness, out float outMetallic, out float4 outEmissionColor)
 {
 	float3 posTransformed;
 	float2 sdf = float2(FLT_MAX, 1.0);
 
-	outColor = float4(0, 0, 0, 0);
-	outSmoothness = 0;
-	outMetallic = 0;
-	outEmissionColor = float4(0, 0, 0, 0);
-
 	float4 texturedColor = float4(0, 0, 0, 0);
+	bool isFirst;
 
-	for (int i = 0; i < SDFCount; i++)
+	for (int i = index; i < lastIndex; i++)
 	{
+		isFirst = i == index;
 		float size = SDFData[i].x;
-		int blendOp = SDFBlendOperation[i];
+		int blendOp = isFirst ? 0 : SDFBlendOperation[i];	// the first individual element should always ADD 
 		int sdfType = SDFType[i];
 
 		float4x4 transform = SDFTransformMatrices[i];
@@ -237,7 +289,7 @@ float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoo
 		}
 		else if (sdfType == 6)
 		{
-			curSdf = sdfCone(posTransformed, size, SDFData[i].y);
+			curSdf = sdfCappedCone(posTransformed, size, SDFData[i].y, SDFData[i].z);
 		}
 
 		if (roundness > 0.0)
@@ -272,6 +324,93 @@ float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoo
 		outSmoothness = lerp(outSmoothness, SDFSmoothness[i], abs(blendT));
 		outMetallic = lerp(outMetallic, SDFMetallic[i], abs(blendT));
 		outEmissionColor = lerp(outEmissionColor, SDFEmissionColors[i], abs(blendT));
+	}
+
+	return sdf.x;
+}
+// Version that calculates material properties
+float sceneSdf(float3 pos, float3 normal, out float4 outColor, out float outSmoothness, out float outMetallic, out float4 outEmissionColor)
+{
+	float3 posTransformed;
+	float2 sdf = float2(FLT_MAX, 1.0);
+
+	outColor = float4(0, 0, 0, 0);
+	outSmoothness = 0;
+	outMetallic = 0;
+	outEmissionColor = float4(0, 0, 0, 0);
+
+	float4 curOutColor = float4(0, 0, 0, 0);
+	float4 texturedColor = float4(0, 0, 0, 0);
+	float4 curTexturedColor = float4(0, 0, 0, 0);
+	float curSmoothness = 0;
+	float curMetallic = 0;
+	float4 curEmissionColor = float4(0, 0, 0, 0);
+
+	int i = 0;
+	int sdfsDone = 0;
+
+	while (sdfsDone < SDFCountCompounded)
+	{
+		float blendT = 0.0f;
+
+		int sdfType = SDFType[i];
+		int elementIndex = i;
+		if (sdfType == -1)	// compound sdf
+		{
+			elementIndex++;	// this is the parent. ignore and go to children
+		}
+
+		float4 discarding;
+		float discardingg;
+		curOutColor = float4(0, 0, 0, 0);
+		curTexturedColor = float4(0, 0, 0, 0);
+
+		float curSdf = sdfElement(pos, elementIndex, OffsetsToNextSdf[sdfsDone], normal, curOutColor, curSmoothness, curMetallic, curEmissionColor);
+		int blendOp = SDFBlendOperation[i];
+
+		float4x4 transform = SDFTransformMatrices[i];
+		posTransformed = mul(transform, float4(pos, 1.0)).xyz;
+
+		if (blendOp == 0)	// add
+		{
+			sdf = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = sdf.y;
+		}
+		else if (blendOp == 1)	// subtract
+		{
+			sdf = subtract(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = sdf.y;
+		}
+		else if (blendOp == 2)	// intersect
+		{
+			sdf = intersect(sdf, curSdf);
+			blendT = sdf.y;
+		}
+		else	// colour blend
+		{
+			// sdf doesn't change! we only update colors
+			float2 tmp = add_smoothMin2(sdf, curSdf, SDFBlendFactor[i]);
+			blendT = tmp.y;
+		}
+
+		if (sdfType == -1)
+		{
+			// compound sdf, apply its texture too
+			GetTexture(posTransformed, mul(transform, float4(normal, 1)).xyz, i, curTexturedColor);
+			curOutColor *= curTexturedColor;
+			curSmoothness *= SDFSmoothness[i];
+			curMetallic *= SDFMetallic[i];
+			curEmissionColor *= SDFEmissionColors[i];
+		}
+
+		// blend each individual (or set of compound) element material
+		outColor = lerp(outColor, curOutColor, abs(blendT));
+		outSmoothness = lerp(outSmoothness, curSmoothness, abs(blendT));
+		outMetallic = lerp(outMetallic, curMetallic, abs(blendT));
+		outEmissionColor = lerp(outEmissionColor, curEmissionColor, abs(blendT));
+
+		i = OffsetsToNextSdf[sdfsDone];
+		sdfsDone++;
 	}
 
 	return sdf.x;
