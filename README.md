@@ -7,7 +7,7 @@ Members: Xiaoxiao(Crystal) Zou, Keyu Lu, Ruijun(Daniel) Zhong
 https://drive.google.com/file/d/15XKgZ8FEwGIWtTHlS1ptps_W34qz6Zf_/view?usp=sharing
 
 ### Unity Demo
-
+![](./images/UnityDemo.png)
 [Unity Demo](https://youtu.be/cTnlCxAMFwY)
 
 ### The Motivation of the Project
