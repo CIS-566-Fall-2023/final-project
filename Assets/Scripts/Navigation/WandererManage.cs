@@ -17,9 +17,9 @@ namespace Navigation {
         private bool isInitialized = false;
 
         public void Initialize(Graph graph) {
-                navGraph = graph;
-                isInitialized = true;
-            }
+            navGraph = graph;
+            isInitialized = true;
+        }
 
         void Start() {
 
@@ -37,7 +37,6 @@ namespace Navigation {
                 wanderers.Add(wander);
                 _drawables.Add(new DebugSquare() {position = wander.Position});
             }
-
         }
 
         void Update() {

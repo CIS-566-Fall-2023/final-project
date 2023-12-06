@@ -28,7 +28,6 @@ namespace MyDebug
         /*** Move stuff ***/ 
         private float lerpDuration = 1.0f; // You can adjust the duration to control the speed of movement
         private float lerpStartTime;
-        private BezierCurveMover curveMover;
         /*
         private bool justEntered = false;
         */
