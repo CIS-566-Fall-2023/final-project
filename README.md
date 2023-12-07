@@ -19,15 +19,75 @@
 
 * [Milestone 2: Diana OuYang, Tweaks to Carousel Decorations](https://github.com/yuhanliu-tech/final-project/tree/main#tool-tweaks-additional-customizability---diana-ouyang)
 
-* [Milestone 3: Yuhan Liu, Carousel Style Variations]()
+* [Milestone 3: Yuhan Liu, Carousel Style Variations + Presets](https://github.com/yuhanliu-tech/final-project/blob/main/README.md#carousel-style-variations---yuhan-liu)
 
 * [Milestone 3: Diana OuYang, Mesh Slicing Variation](https://github.com/yuhanliu-tech/final-project/tree/main#alternate-animal-slicer---diana-ouyang)
 
 # Milestone 3:
 
-# Carousel Style Variations - Yuhan Liu
+# Carousel Style Variations + Presets - Yuhan Liu
 
+Goal: In line with the reference images, I wanted to enable the tool to create a wider variety of carousel styles.
+Reference Images for Carousel Types: 
 
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/ref3.png" width="300"/>
+
+## New Procedural Components: 
+
+* Box/Base Types
+   * **Tiered**: Instead of a music box, the carousel base can be composed of tiers to look like stairs, with user adjustments for the tier number.
+     * Created using copy nodes
+   * **Faberge Egg**: Inspired by Russian egg-shaped carousels, I created a round base with ornaments that is supported by spiral legs 
+     * I made the legs by fusing a bent line with a spiral, and then polywiring. I then used matchsize and copy to points to place it so that it appears to support the egg. 
+
+* Middle Column
+   * **Spheres**: I added a new middle column option by copying spheres to points on a line. This middle column is cute and simple, matching many of the ones in the references. 
+
+* Roof
+   * **Roof Flag Topper**: I used the LABS Sine Wave node on a grid to create the flag, which became an essential topper to use for amusement park or carnival themed carousels. 
+
+* Figures
+   * **Non-Animal Figures**:
+     * I wanted the tool to be able to support non-animal figures as well.
+     * Thus, I added a setting for dancer figures and a setting for toy planes, neither of which use the poles that I created for the animals.
+     * Although this parameter is not exposed, it should theoretically work for any mesh that is either (1) dangling from the top of the carousel (e.g. plane) or (2) grounded on the bottom of the caorusel (e.g. dancer).
+     * I used largely the same technique in sizing and placing the meshes. 
+   * **Horse & Animal Customizability**:
+     * Resolved some bugs with integrating the figures.
+     * Our post-milestone 2 file only supported the alternating animals, so I added radio buttons along with the original horse subnetwork.
+     * I also added a toggle for the horses that allows the user to change between chunkier, 3 slice horses versus the more detailed horse slice technique.
+    
+* Photos of New Components
+
+Faberge Egg Base + Dancer Figures + Spheres Middle Column
+
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/egg.png" width="300"/>
+
+Tiered Base + Flag Roof Topper
+
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/tiered.png" width="300"/>
+
+Planes
+
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/planes.png" width="300"/>
+
+* **Two-Tiered**
+   * Added a toggle in General Controls to build a second layer in the carousel.
+ 
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/twotier.png" width="200"/>
+
+## Presets: 
+
+* While critiquing our Milestone 2 Carousel Generator, IQ advised us to improve artist workflow. I decided to add presets that the artist can choose for the overall carousel vibe, and then later fine-tune using the generator controls.
+
+* I ended up creating 3 presets using Houdini's subnetwork settings (left to right): Dainty Egg, Fun Carnival, Classic Carousel
+   * Dainty Egg: Inspired by Faberge Egg designs, with round shapes throughout the design
+   * Fun Carnival: Simple designs but lots of fun alternating animals in a carnival/amusement park theme. 
+   * Classic Carousel: Music Box Carousel, very similar to one from Milestone 2
+    
+* They can be accessed by navigating to the gear icon on the tool, and then moving down to the bottom of the tab.
+
+<img src="https://github.com/yuhanliu-tech/final-project/blob/main/presets.png" width="600"/>
 
 # Tool Tweaks, Additional Customizability - Diana Ouyang
   * The final deliverable was focused more on tweaking the tool, consolidating parameters, and adding functionalities. 
