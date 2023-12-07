@@ -21,8 +21,55 @@
 
 * [Milestone 3: Diana OuYang, Mesh Slicing Variation]()
 
-# Milestone 2:
+# Milestone 3:
 
+# Tool Tweaks, Additional Customizability - Diana Ouyang
+  * The final deliverable was focused more on tweaking the tool, consolidating parameters, and adding functionalities. 
+  * ## Crown Tool:
+    * Breakdown of Tool:
+      * **Output:** Crown geometry, fitted to the roof.
+      * **Parameters:**
+          * **Base crown size**, dictating the base thickness if there is no top crown or bottom crown (float)
+          * **Top amplitude**, dictating the strength of influence top pattern has
+          * **Top pattern**, a channel ramp where the points chosen map to y displacement of the crown's top vertices
+          * **Bottom amplitude**, dictating the strength of influence the bottom pattern has
+          * **Bottom pattern**, a channel ramp where the points chosen map to y displacement of the crown's bottom vertices
+    * I wanted the crown to have greater user customizability, beyond the set wave-shape. With this deliverable, the user now has increased granularity with a channel ramp:
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/c2af06cf-116b-45dc-82d8-9e244309a215) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/78aeafb5-5a42-4795-a360-50069fb5d76f) |
+|:--:|:--:|
+| *Input Parameters* | *Output Crown* | 
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/23deb2f8-b5dc-4fab-8479-a7bd75ee50ca) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/3796624f-0e83-47f7-bdb3-e6d3c73e2702) |
+|:--:|:--:|
+| *Input Parameters for cloudy crown* | *Output Crown* | 
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/bb86f813-565c-456b-8ec2-b2450c4f0978) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/f23be6ea-964f-4a2d-9e5d-d9270177df07) |
+|:--:|:--:|
+| *Input Parameters for rockstar crown* | *Output Crown* | 
+
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/ecb2f70c-f430-4035-b936-b1ce93376869) | ![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/3c9d2f00-7054-4d54-b71c-310a984e7043) |
+|:--:|:--:|
+| *Input Parameters for snowy crown* | *Output Crown* | 
+
+
+  * ## Other Notable Tweaks
+    * **Increased granularity of coloring:** users can now color each major part of the carousel
+
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/56070952-cfc2-47bd-9652-d4626b507fde) | 
+|:--:|
+| *Color Controls Panel* | 
+
+
+   * **Animal Copying:** Alternating circus animals can now be placed around the carousel
+     
+|![image](https://github.com/yuhanliu-tech/final-project/assets/90532124/55bde8c2-6c0a-462e-a181-d806743bee4e) | 
+|:--:|
+| *Animal circle* | 
+
+
+# Milestone 2:
 # Revamped Tool - Yuhan Liu
 
 Overview: 
