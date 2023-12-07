@@ -11,15 +11,15 @@
 
 * [Milestone 1: Claire Lu, Ornamental Tool](https://github.com/yuhanliu-tech/final-project/#procedural-ornament-tool---claire-lu)
 
-* [Milestone 1: Diana OuYang, Mesh Slicing Tool V1]()
+* [Milestone 1: Diana OuYang, Mesh Slicing Tool V1](https://github.com/yuhanliu-tech/final-project/tree/main#procedural-mesh-slicer---diana-ouyang)
 
 * [Milestone 2: Yuhan Liu, Revamped Tool](https://github.com/yuhanliu-tech/final-project/blob/main/README.md#revamped-tool---yuhan-liu)
 
 * [Milestone 2: Claire Lu, Procedural Textures](https://github.com/yuhanliu-tech/final-project#procedural-materials--applying-textures---claire-lu)
 
-* [Milestone 2: Diana OuYang, Tweaks to Carousel Decorations]()
+* [Milestone 2: Diana OuYang, Tweaks to Carousel Decorations](https://github.com/yuhanliu-tech/final-project/tree/main#tool-tweaks-additional-customizability---diana-ouyang)
 
-* [Milestone 3: Diana OuYang, Mesh Slicing Variation]()
+* [Milestone 3: Diana OuYang, Mesh Slicing Variation](https://github.com/yuhanliu-tech/final-project/tree/main#alternate-animal-slicer---diana-ouyang)
 
 # Milestone 3:
 
