@@ -19,9 +19,15 @@
 
 * [Milestone 2: Diana OuYang, Tweaks to Carousel Decorations](https://github.com/yuhanliu-tech/final-project/tree/main#tool-tweaks-additional-customizability---diana-ouyang)
 
+* [Milestone 3: Yuhan Liu, Carousel Style Variations]()
+
 * [Milestone 3: Diana OuYang, Mesh Slicing Variation](https://github.com/yuhanliu-tech/final-project/tree/main#alternate-animal-slicer---diana-ouyang)
 
 # Milestone 3:
+
+# Carousel Style Variations - Yuhan Liu
+
+
 
 # Tool Tweaks, Additional Customizability - Diana Ouyang
   * The final deliverable was focused more on tweaking the tool, consolidating parameters, and adding functionalities. 
