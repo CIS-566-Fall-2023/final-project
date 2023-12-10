@@ -4,6 +4,7 @@ using BinaryPartition;
 using Generation;
 using Geom;
 using GraphBuilder;
+using Navigation;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -28,13 +29,24 @@ public class MapGenerator : MonoBehaviour
 
     public GameObject TextPrefab;
 
+
+    public Sprite footprintSprite;
+    public GameObject footprintParticle;
+
     public bool startDrawing = false;
+
+    // Wanderer properties
+    [Header("Wanderer Properties")]
+    public WandererManager wandererManager;
+    private Graph navGraph;
 
     public void Draw()
     {
         BuildingGenerator buildingGenerator = new();
         buildingGenerator.GenerateBuilding();
-        
+
+        navGraph = buildingGenerator.Builder.ToGraph();
+
         List<List<Vector2>> lines = new();
         
         foreach (var wall in buildingGenerator.GetWalls())
@@ -43,6 +55,10 @@ public class MapGenerator : MonoBehaviour
         }
         
         drawMap(lines);
+
+        wandererManager = gameObject.AddComponent<WandererManager>();
+        wandererManager.particleSys = footprintParticle;
+        wandererManager.Initialize(navGraph);
     }
 
     public void drawMap(List<List<Vector2>> lines)

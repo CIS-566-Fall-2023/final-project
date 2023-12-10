@@ -19,7 +19,9 @@ public class MapCustomInspector : Editor
     lines,
     canvas,
     font,
-    textPrefab;
+    textPrefab,
+    footprintSprite,
+    footprintParticle;
 
     public void OnEnable()
     {
@@ -37,6 +39,10 @@ public class MapCustomInspector : Editor
         // canvas = serializedObject.FindProperty("Canvas");
         // font = serializedObject.FindProperty("Font");
         textPrefab = serializedObject.FindProperty("TextPrefab");
+
+        footprintSprite = serializedObject.FindProperty("footprintSprite");
+
+        footprintParticle = serializedObject.FindProperty("footprintParticle");
     }
 
     public override void OnInspectorGUI()
@@ -69,6 +75,10 @@ public class MapCustomInspector : Editor
         // font.objectReferenceValue = EditorGUILayout.ObjectField("Font", font.objectReferenceValue, typeof(Font));
 
         textPrefab.objectReferenceValue = EditorGUILayout.ObjectField("TextPrefab", textPrefab.objectReferenceValue, typeof(GameObject));
+
+        footprintSprite.objectReferenceValue = EditorGUILayout.ObjectField("footprintSprite", footprintSprite.objectReferenceValue, typeof(Sprite));
+
+        footprintParticle.objectReferenceValue = EditorGUILayout.ObjectField("footprintParticle", footprintParticle.objectReferenceValue, typeof(GameObject));
 
         serializedObject.ApplyModifiedProperties();
     }

@@ -68,8 +68,5 @@ namespace Navigation
             {
                 return _adjList[edge.ToVertex];
             }
-
-
-        // TODO: Insha implements pathfinding algos
     }
 }

@@ -15,7 +15,7 @@ namespace MyDebug
         private List<IDebugDrawable> _drawables = new();
         private List<Wanderer> feet = new List<Wanderer>();
         private WandererManager wandererManager;
-        private int tick = 0;
+        //private int tick = 0;
         private Graph navGraph;
         private EdgeInfo currEdge; 
         private Builder builder = new Builder();
@@ -29,7 +29,7 @@ namespace MyDebug
         ***/
 
         /*** Move stuff ***/
-        private float lerpDuration = 1.0f; // You can adjust the duration to control the speed of movement
+        //private float lerpDuration = 1.0f; // You can adjust the duration to control the speed of movement
         private float lerpStartTime;
         /*
         private bool justEntered = false;
@@ -46,7 +46,6 @@ namespace MyDebug
             navGraph = generator.Builder.ToGraph();
             wandererManager = new GameObject("Wanderer Manager").AddComponent<WandererManager>();
             wandererManager.Initialize(navGraph);
-            wandererManager.sprite = sprite;
 
             foreach (var curve in navGraph.Curves())
             {

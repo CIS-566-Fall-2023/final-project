@@ -12,7 +12,6 @@ namespace Navigation {
         public float Speed { get; set; }
         public bool isMoving = false;
         public bool isInRoom = false;
-        private PathFinder pathFinder;
         public Graph navGraph;
         public Stack<EdgeInfo> path;
         public EdgeInfo startEdge { get; set; }
@@ -20,74 +19,91 @@ namespace Navigation {
         public EdgeInfo endEdge { get; set; }
         public bool justEntered = false;
 
+        public bool isInitialized = false;
+
+        public GameObject particleSys;
+
+        //public FootprintTrail fpt;
+        
+        private PathFinder pathFinder;
+
         // MOVEMENT
         private float lerpDuration = 1.5f; // You can adjust the duration to control the speed of movement
         private float lerpDurationRoom= 10.0f;
         private float lerpStartTime;
 
         // yum BEZIER STUFF
-        private List<Vector2> controlPoints;
-        private float movementDuration;
+        //private List<Vector2> controlPoints;
+        //private float movementDuration;
 
         public void Initialize(Graph navGraph, EdgeInfo start, EdgeInfo end, PathFinder pathFinder) {
-
+            Instantiate(particleSys, gameObject.transform);
             this.navGraph = navGraph;
             this.Position = start.Curve.Point(0);
             this.startEdge = start;
             this.endEdge = end;
             this.pathFinder = pathFinder;
             this.path = pathFinder.FindPath(start, end);
+            isInitialized = true;
         }
-
 
         void Update()
         {
-            this.GetComponent<FootprintTrail>().pos = this.Position;
-            if (isInRoom) return;
-            if (!isMoving  && path.Count > 0) {
-                currEdge = path.Pop();
-                StartCoroutine(MoveToTarget(currEdge.Curve));
-                if (currEdge.Tag == EdgeTag.Doorway && justEntered == false)
+            if(isInitialized)
+            {
+                if (isInRoom) return;
+                if (!isMoving && path.Count > 0)
                 {
-                    isInRoom = true;
-                    StartCoroutine(EnterRoom(currEdge));
+                    currEdge = path.Pop();
+                    StartCoroutine(MoveToTarget(currEdge.Curve));
+                    if (currEdge.Tag == EdgeTag.Doorway && justEntered == false)
+                    {
+                        isInRoom = true;
+                        StartCoroutine(EnterRoom(currEdge));
+                    }
+                    else
+                    {
+                        justEntered = false;
+                        StartCoroutine(MoveToTarget(currEdge.Curve));
+                    }
+
                 }
-                else
+                else if (path.Count == 0)
                 {
-                    justEntered = false;
-                    StartCoroutine(MoveToTarget(currEdge.Curve)); 
+                    endEdge = navGraph.GetRandomEdge();
+                    path = pathFinder.FindPath(currEdge, endEdge);
                 }
-                  
-            }
-            else if (path.Count == 0) {
-                endEdge = navGraph.GetRandomEdge();
-                path = pathFinder.FindPath(currEdge, endEdge);
+
+                gameObject.transform.SetLocalPositionAndRotation(
+                    new Vector3(Position.x / 4, 49.5f, Position.y / 4),
+                    Quaternion.identity
+                    );
             }
         }
         
-
         public void MoveTo(Vector2 newPosition)
         {
             Position = newPosition;
         }
 
         private IEnumerator MoveToTarget(ICurve curve)
-                {
-                    isMoving = true;
-                    lerpStartTime = Time.time;
-                    Vector2 startPosition = this.Position;
+        {
+            isMoving = true;
+            lerpStartTime = Time.time;
+            Vector2 startPosition = this.Position;
 
-                    while (Time.time - lerpStartTime < lerpDuration)
-                    {
-                        float t = (Time.time - lerpStartTime) / lerpDuration;
-                        MoveTo(curve.Point(t));
-                        yield return null;
-                    }
-                    MoveTo(curve.Point(1));
-                    isMoving = false;
-                    yield return null;
+            while (Time.time - lerpStartTime < lerpDuration)
+            {
+                float t = (Time.time - lerpStartTime) / lerpDuration;
+                MoveTo(curve.Point(t));
+                yield return null;
+            }
+            MoveTo(curve.Point(1));
+            isMoving = false;
+            yield return null;
 
-                }
+        }
+
         private IEnumerator EnterRoom(EdgeInfo edge)
         {
             List<Vector2> randomPoints = new List<Vector2>();

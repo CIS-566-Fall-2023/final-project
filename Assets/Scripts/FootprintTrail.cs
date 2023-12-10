@@ -5,7 +5,6 @@ using UnityEngine;
 public class FootprintTrail : MonoBehaviour
 {
     public int ClonesPerSecond = 4;
-    public Sprite sprite;
     public Vector2 pos;
 
     private SpriteRenderer sr;
@@ -14,12 +13,16 @@ public class FootprintTrail : MonoBehaviour
     private List<SpriteRenderer> clones;
     public Vector3 scalePerSecond = new Vector3(1f, 1f, 1f);
     public Color colorPerSecond = new Color(255, 255, 255, 1f);
+    public Vector2 velocity = new Vector2(1f, 1f);
     void Start()
     {
         rb = gameObject.AddComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.velocity = velocity;
+        rb.rotation = 90;
         tf = GetComponent<Transform>();
-        sr = gameObject.AddComponent<SpriteRenderer>();
-        sr.sprite = sprite;
+        tf.position = pos;
+        sr = gameObject.GetComponent<SpriteRenderer>();
         clones = new List<SpriteRenderer>();
         StartCoroutine(trail());
     }
@@ -43,14 +46,16 @@ public class FootprintTrail : MonoBehaviour
     {
         for (; ; ) //while(true)
         {
+            //if (rb.velocity != Vector2.zero)
+            {
                 var clone = new GameObject("trailClone");
-                clone.transform.position = pos;
+                clone.transform.position = tf.position;
                 clone.transform.localScale = tf.localScale;
                 var cloneRend = clone.AddComponent<SpriteRenderer>();
                 cloneRend.sprite = sr.sprite;
                 cloneRend.sortingOrder = sr.sortingOrder - 1;
                 clones.Add(cloneRend);
-
+            }
             yield return new WaitForSeconds(1f / ClonesPerSecond);
         }
     }
