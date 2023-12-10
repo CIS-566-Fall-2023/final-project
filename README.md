@@ -1,5 +1,5 @@
 ***<h3 style="text-align: center;">We solemnly swear that we are up to no good . . .</h3>***
-<p style="text-align: center"><img src="map_logo.jpg"></p>
+<p style="text-align: center"><img src="proposal/map_logo.jpg"></p>
 
 # Meet the Team
 - Nadine Adnane
@@ -23,25 +23,25 @@ While looking for reference materials, we also came across this Marauder's map s
 ### Important features we'd like to implement:
 
 Walls made of text & a roughly rectangular but overall non-uniform map shape</br>
-<img src="Footprint.png" height="200">
+<img src="proposal/Footprint.png" height="200">
 
 **Blocky rooms** which are generally rectangular </br>
-<img src="BlockRoom.png" height="150">
+<img src="proposal/BlockRoom.png" height="150">
 
 **Circular towers** and curved hallways around them. Rooms in concentric rings.<br>
 Time permitting, we may implement changes in the level of detail depending on the magnification of the map (zoom in/out).
 
-<img src="Tower.png" height="200">
+<img src="proposal/Tower.png" height="200">
 
-<img src="Tower2.png" height="200">
+<img src="proposal/Tower2.png" height="200">
 
 **Slanted rooms** with clipped corners & slanted hallways
 
-<img src="SlantedHallway.png" height="200">
+<img src="proposal/SlantedHallway.png" height="200">
 
 **Multi-rooms** that lead into other rooms, not just into hallways
 
-<img src="MultiRoom.png" height="200">
+<img src="proposal/MultiRoom.png" height="200">
 
 
 # Specification
@@ -66,7 +66,7 @@ We are currently planning to implement our project using WebGL, which will allow
 
 Below is a free-body diagram which illustrates how the components of our project will work together:
 
-<img src="FBD.png" height="200">
+<img src="proposal/FBD.png" height="200">
 
 # Timeline
 <details>
