@@ -187,11 +187,11 @@ public class HexagonTile : MonoBehaviour, IWFCTile
             newTileGO.transform.parent = transform;
             cellData = newTileGO.GetComponent<HardcodedCells>();
             //oops
-            WFCType type1 = (WFCType)(0x01 << (SimpleHash(1 + Random.Range(0, 1000)) + 4));
-            WFCType type2 = (WFCType)(0x01 << (SimpleHash(2 + Random.Range(0, 1000)) + 4));
-            WFCType type3 = (WFCType)(0x01 << (SimpleHash(3 + Random.Range(0, 1000)) + 4));
-            WFCType type4 = (WFCType)(0x01 << (SimpleHash(4 + Random.Range(0, 1000)) + 4));
-            WFCType type5 = (WFCType)(0x01 << (SimpleHash(5 + Random.Range(0, 1000)) + 4));
+            WFCType type1 = (WFCType)(0x01 << (SimpleHash(1 + Random.Range(0, 1000)) + 6));
+            WFCType type2 = (WFCType)(0x01 << (SimpleHash(2 + Random.Range(0, 1000)) + 6));
+            WFCType type3 = (WFCType)(0x01 << (SimpleHash(3 + Random.Range(0, 1000)) + 6));
+            WFCType type4 = (WFCType)(0x01 << (SimpleHash(4 + Random.Range(0, 1000)) + 6));
+            WFCType type5 = (WFCType)(0x01 << (SimpleHash(5 + Random.Range(0, 1000)) + 6));
 
             cellData.CellsOnTileEdge0[0].Type = type1;
             cellData.CellsOnTileEdge0[1].Type = type1;
@@ -217,7 +217,7 @@ public class HexagonTile : MonoBehaviour, IWFCTile
 
     private int SimpleHash(int input)
     {
-        int Modulus = 4; 
+        int Modulus = 2; 
         int Multiplier = 48271;
         int Increment = 214748367;
 

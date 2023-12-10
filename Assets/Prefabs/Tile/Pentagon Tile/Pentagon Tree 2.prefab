@@ -2970,7 +2970,8 @@ MonoBehaviour:
   itemName: Pentagon Tree 2
   type: 64
   rules:
-  - rule: 0 == Pentagon Tree && 1 == Tree && 2 == Pentagon Tree
+  - rule: (0 == PentagonTree || 0 == Tree) && (1 == PentagonTree || 1 == Tree) &&
+      (2 == PentagonTree || 2 == Tree)
     operation: 8
     value: 999
   mesh: {fileID: 0}

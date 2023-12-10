@@ -72,6 +72,7 @@ namespace Planetile
             mesh.vertices = vertices;
             mesh.triangles = triangles;
             mesh.uv = uvs;
+            mesh.RecalculateNormals();
         }
 
         public float Entropy(IWFCCell cell)

@@ -519,7 +519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1902629450
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1115,7 +1115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2309265062132205069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pentagonDirection: 1
   bottomFlat: 1
-  type: 16
+  type: 64
   item: {fileID: 0}
   edgeNum: 3
   neighbors:
@@ -2377,7 +2377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pentagonDirection: 1
   bottomFlat: 1
-  type: 16
+  type: 64
   item: {fileID: 0}
   edgeNum: 3
   neighbors:

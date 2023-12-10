@@ -1,3 +1,5 @@
+**Link to our Demo: https://www.youtube.com/watch?v=wak9uA7HMvA**
+
 # Design Document
 ## Introduction
 In this tile-laying game, players must strategically place procedurally generated tiles onto a hexagonal grid, ensuring that each tile connects appropriately to its neighbors; for instance, a forest tile must connect to another forest tile. 
@@ -43,6 +45,7 @@ Milestone 3: Improve the game level, create procedural planets based on differen
 | Xiaoyue Ma  | Implement the mapping of regular polygons on the planet                         | Create procedural terrain on the planet                                          | Create procedural diverse planets   |
 
 
+
 # Milestone 1
 ## Jiefu Ling
  - Water Shader
@@ -76,6 +79,7 @@ I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and
   ![image](https://github.com/Jeff-Ling/final-project/assets/28486541/f9cac0c4-b9fa-4dfd-87ba-ba3f39203d3a)
 
 - Compute cell positions in a Hexagon tile. A cell has an equilateral triangle shape and its position is its barycentric location.
+
   ![image](https://github.com/Jeff-Ling/final-project/assets/28486541/fe16b236-8b4b-4116-b7a4-ff279aea427d)
 
 ## Xiaoyue Ma
@@ -88,6 +92,19 @@ I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and
 
 # Milestone 3
 
+## Xiaoyue Ma
+
+1. Basic UI
+
+![](Milestone31.gif)
+
+2. Camera Movement and Hex Interaction
+
+![](Milestone32.gif)
+
+3. Create a 'Prehex' logic on the bottom
+
+![](Milestone33.gif)
 
 # Final Project!
 
