@@ -17,20 +17,22 @@ public class MapGenerator : MonoBehaviour
 
     public float Scale = 5f;
 
-    public Color LineColor;
-    public float LineThickness;
-    public Material LineMaterial;
+    //public Color LineColor;
+    //public float LineThickness;
+    //public Material LineMaterial;
 
     public GameObject Lines;
 
-    public Canvas Canvas;
+    //public Canvas Canvas;
 
-    public Font Font;
+    //public Font Font;
 
     public GameObject TextPrefab;
 
+    public Material lineMat1, lineMat2, lineMat3, lineMat4;
 
-    public Sprite footprintSprite;
+
+    //public Sprite footprintSprite;
     public GameObject footprintParticle;
 
     public bool startDrawing = false;

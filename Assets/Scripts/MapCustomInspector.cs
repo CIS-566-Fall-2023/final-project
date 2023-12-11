@@ -13,15 +13,20 @@ public class MapCustomInspector : Editor
         maxY,
         scale;
 
-    SerializedProperty lineColor,
-    lineThickness,
-    lineMaterial,
+    SerializedProperty 
+    //lineColor,
+    //lineThickness,
+    //lineMaterial,
     lines,
-    canvas,
-    font,
+    //canvas,
+    //font,
     textPrefab,
-    footprintSprite,
-    footprintParticle;
+    //footprintSprite,
+    footprintParticle,
+    lineMat1, 
+    lineMat2,
+    lineMat3,
+    lineMat4;
 
     public void OnEnable()
     {
@@ -35,14 +40,20 @@ public class MapCustomInspector : Editor
         // lineColor = serializedObject.FindProperty("LineColor");
         // lineThickness = serializedObject.FindProperty("LineThickness");
         // lineMaterial = serializedObject.FindProperty("LineMaterial");
-        // lines = serializedObject.FindProperty("Lines");
+        lines = serializedObject.FindProperty("Lines");
         // canvas = serializedObject.FindProperty("Canvas");
         // font = serializedObject.FindProperty("Font");
         textPrefab = serializedObject.FindProperty("TextPrefab");
 
-        footprintSprite = serializedObject.FindProperty("footprintSprite");
+        lineMat1 = serializedObject.FindProperty("lineMat1");
+        lineMat2 = serializedObject.FindProperty("lineMat2");
+        lineMat3 = serializedObject.FindProperty("lineMat3");
+        lineMat4 = serializedObject.FindProperty("lineMat4");
+
+        //footprintSprite = serializedObject.FindProperty("footprintSprite");
 
         footprintParticle = serializedObject.FindProperty("footprintParticle");
+
     }
 
     public override void OnInspectorGUI()
@@ -76,9 +87,15 @@ public class MapCustomInspector : Editor
 
         textPrefab.objectReferenceValue = EditorGUILayout.ObjectField("TextPrefab", textPrefab.objectReferenceValue, typeof(GameObject));
 
-        footprintSprite.objectReferenceValue = EditorGUILayout.ObjectField("footprintSprite", footprintSprite.objectReferenceValue, typeof(Sprite));
+        //footprintSprite.objectReferenceValue = EditorGUILayout.ObjectField("footprintSprite", footprintSprite.objectReferenceValue, typeof(Sprite));
 
         footprintParticle.objectReferenceValue = EditorGUILayout.ObjectField("footprintParticle", footprintParticle.objectReferenceValue, typeof(GameObject));
+
+        lineMat1.objectReferenceValue = EditorGUILayout.ObjectField("lineMat1", lineMat1.objectReferenceValue, typeof(Material));
+        lineMat2.objectReferenceValue = EditorGUILayout.ObjectField("lineMat2", lineMat2.objectReferenceValue, typeof(Material));
+        lineMat3.objectReferenceValue = EditorGUILayout.ObjectField("lineMat3", lineMat3.objectReferenceValue, typeof(Material));
+        lineMat4.objectReferenceValue = EditorGUILayout.ObjectField("lineMat4", lineMat4.objectReferenceValue, typeof(Material));
+        
 
         serializedObject.ApplyModifiedProperties();
     }
