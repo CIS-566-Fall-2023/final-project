@@ -352,7 +352,7 @@ class Road extends Drawable {
                     return {node: this.nodes[this.nodecount-1], merged: true};
                 }
                 else {
-                    //toMerge = true;
+                    //toMerge = true; 
                 }
             }
         }
