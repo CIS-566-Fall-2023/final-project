@@ -1,6 +1,12 @@
 ***<h3 style="text-align: center;">We solemnly swear that we are up to no good . . .</h3>***
 <p style="text-align: center"><img src="proposal/map_logo.jpg"></p>
 
+# Presentation Links
+https://drive.google.com/file/d/151bN_SmVmYf8pYRNdMN71J27yp8UWNIx/view?usp=drive_link, 
+https://drive.google.com/file/d/1MvLcDiij6jcQsvgciwN9479qnozQwp3-/view?usp=drive_link, 
+https://drive.google.com/file/d/1ZAWCUCIz_tjufm5roYYtgfrHDat_GOop/view?usp=drive_link, 
+https://drive.google.com/file/d/1_NIrF6KQkl-19mpZpq_-dLrtlod3lRqT/view?usp=drive_link
+
 # Meet the Team
 - Nadine Adnane
 - Nick Liu
