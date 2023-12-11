@@ -10,6 +10,7 @@ namespace Navigation
     public class Wanderer : MonoBehaviour
     {
         public Vector2 Position { get; set; }
+        private float _rotationAngle = 0;
         public float Speed { get; set; }
         public bool isMoving = false;
         public bool isInRoom = false;
@@ -56,7 +57,7 @@ namespace Navigation
                 if (!isMoving && path.Count > 0)
                 {
                     currEdge = path.Pop();
-                    StartCoroutine(MoveToTarget(currEdge.Curve));
+                    StartCoroutine(MoveAlongCurve(currEdge.Curve));
                     if (currEdge.Tag == EdgeTag.Doorway && justEntered == false)
                     {
                         isInRoom = true;
@@ -76,7 +77,7 @@ namespace Navigation
             }
 
             gameObject.transform.SetLocalPositionAndRotation(new Vector3(Position.x / 4, 49.5f, Position.y / 4),
-                Quaternion.identity);
+                Quaternion.Euler(0f, Mathf.Rad2Deg * _rotationAngle, 0f));
         }
 
 
@@ -85,7 +86,13 @@ namespace Navigation
             Position = newPosition;
         }
 
-        private IEnumerator MoveToTarget(ICurve curve)
+        private void Move(ICurve curve, float t)
+        {
+            Position = curve.Point(t);
+            _rotationAngle = curve.TangentAngle(t);
+        }
+
+        private IEnumerator MoveAlongCurve(ICurve curve)
         {
             isMoving = true;
             lerpStartTime = Time.time;
@@ -94,11 +101,11 @@ namespace Navigation
             while (Time.time - lerpStartTime < lerpDuration)
             {
                 float t = (Time.time - lerpStartTime) / lerpDuration;
-                MoveTo(curve.Point(t));
+                Move(curve, t);
                 yield return null;
             }
 
-            MoveTo(curve.Point(1));
+            Move(curve, 1);
             isMoving = false;
             yield return null;
         }
