@@ -2,6 +2,8 @@
 
 For the final project of this class, we (Hansen and Kisha) would like to create an isometric room generator!
 
+Presentation: https://docs.google.com/presentation/d/1jxzNpsYsw52H4KbOMdeyZMge3ZEdrqzh09D1cpKF_MM/edit?usp=sharing
+
 ## Design Doc
 
 ### Introduction
