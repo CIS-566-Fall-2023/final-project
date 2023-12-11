@@ -53,7 +53,7 @@ namespace Geom
             float uuu = uu * u;
             float ttt = tt * t;
 
-            Vector2 tangentVector = -3 * uu * Points[0] +
+            Vector2 tangentVector = -3 * uuu * Points[0] +
                                     3 * (2 * uu - 3 * u) * (Points[1] - Points[2]) +
                                     3 * (3 * t - 2) * (Points[2] - Points[3]) +
                                     3 * ttt * (Points[3] - Points[2]);
