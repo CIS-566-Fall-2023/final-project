@@ -7,7 +7,7 @@ Video is also in the github directory.
 You can run the program in the build folder. 
 The project file is too large and github gives errors when pushing. 
 
-![](final_image/pic3.png)
+![](final0.png)
 
 Post mortem: How did your project go overall? My project went pretty well overall. I learned a lot of things about procedural map and making creative works in unity.
 Did you accomplish your goals? I did accomplish my goals. The end product as we see in the demo, the end product is very close to the map that minecraft dungeon has in the 2d view.This is what I was looking to achieve. 
