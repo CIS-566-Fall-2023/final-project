@@ -29,7 +29,7 @@ public class Interactivity : MonoBehaviour
 
         bool verifyInput()
     {
-        if(input1.text.ToLower() == "i solemnly swear i am up to no good")
+        if(input1.text.ToLower() == "i solemnly swear that i am up to no good")
         {
             return true;
         }
