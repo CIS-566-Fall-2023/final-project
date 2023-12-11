@@ -1,6 +1,6 @@
 # CIS 5660 Final Project
 
-[https://youtu.be/n10EsgC-nME](https://youtu.be/n10EsgC-nME)
+[https://youtu.be/oI4D4JgaK6Q](https://youtu.be/oI4D4JgaK6Q)
 
 #### Introduction
 We were inspired to create this character by the various beautiful visuals of our favorite video game characters. 
