@@ -9,7 +9,7 @@ class Camera {
   aspectRatio: number = 1;
   near: number = 0.1;
   far: number = 1000;
-  position: vec3 = vec3.create();
+  position: vec3 = vec3.fromValues(0, 5, 0);
   direction: vec3 = vec3.create();
   target: vec3 = vec3.create();
   up: vec3 = vec3.create();

@@ -1,10 +1,13 @@
-import {vec2, vec3, vec4} from 'gl-matrix';
+import {mat4, vec2, vec3, vec4} from 'gl-matrix';
 import Drawable from '../rendering/gl/Drawable';
 import {gl} from '../globals';
 import fbm from '../noise/Fbm';
 import dist from '../noise/Dist';
 import Road from './Road';
 import {QuadTree, Box, Point, Circle} from 'js-quadtree';
+import Sprawler from './Sprawler';
+
+const sea_level = -7;
 
 class Terrain extends Drawable {
   indices: Uint32Array;
@@ -18,15 +21,25 @@ class Terrain extends Drawable {
   size: any; //parameters for height map generation
   pop: any; //parameters for population generation
 
+  creep_spawn = 0.3;
+  crawl_persist = 0.2;
+  street_spacer = 250;
+
+  block_mult = 1;
+  max_highways = 10;
+
   nodes: QuadTree; //nodes
   intersects: QuadTree; //intersection nodes
   stage: number; //generation stage, 0: highways and streets, 1: roads, 2: blocking, 3: adding buildings
   iterations: number; //iterations 
   street_sprawn: number;
+  street_snode: number;
 
   highways: any; //store the highway roads here
   streets: any; //store the streets here
   roads: any; //store the roads here
+
+  buildings: Array<mat4>;
 
   constructor(size: any, pop: any) {
     super(); // Call the constructor of the super class. This is required.
@@ -42,13 +55,13 @@ class Terrain extends Drawable {
     this.nodes = new QuadTree(new Box(0, 0, this.size.x, this.size.y), {
         removeEmptyNodes: true,  // Specify if the quadtree has to remove subnodes if they are empty (default: false).
         arePointsEqual: (point1, point2) => false, //don't remove repeat points
-        maximumDepth: 8,         // Specify the maximum depth of the quadtree. -1 for no limit (default: -1).   
+        maximumDepth: 12,         // Specify the maximum depth of the quadtree. -1 for no limit (default: -1).   
     });
 
     this.intersects = new QuadTree(new Box(0, 0, this.size.x, this.size.y), {
         removeEmptyNodes: true,  // Specify if the quadtree has to remove subnodes if they are empty (default: false).
         arePointsEqual: (point1, point2) => false, //don't remove repeat points
-        maximumDepth: 8,         // Specify the maximum depth of the quadtree. -1 for no limit (default: -1).   
+        maximumDepth: 12,         // Specify the maximum depth of the quadtree. -1 for no limit (default: -1).   
     });
 
     this.pop = pop;
@@ -67,16 +80,18 @@ class Terrain extends Drawable {
     this.highways = [];
     this.streets = [];
     this.roads = [];
+    this.buildings = new Array();
     this.stage = 0;
     this.iterations = 0;
     this.street_sprawn = 0;
+    this.street_snode = 0;
     this.nodes.clear();
     this.intersects.clear();
 
     //find some good starting points for highways
     let sources: any;
     sources = [];
-    for(let i = 0; i < 10; i++) {
+    for(let i = 0; i < this.max_highways; i++) {
         let currmax = 0;
         let maxpos = {x: -1, y: -1};
         for(let x = 0; x < this.size.x; x++) {
@@ -110,6 +125,8 @@ class Terrain extends Drawable {
         //let next = sources[(i+1)%sources.length];
         //this.highways.push(new Road(src, Math.atan((src.y-next.y)/(src.x-next.x)), 2, i, 1, this));
     }
+
+    //this.create();
   }
 
   generate() {
@@ -118,7 +135,7 @@ class Terrain extends Drawable {
     for(let i = 0; i < this.size.x; i++) {
         let temp = [];
         for(let j = 0; j < this.size.y; j++) {
-            temp.push(this.size.h*fbm(i*this.size.ps, j*this.size.ps, 8));
+            temp.push(Math.max(sea_level, this.size.h*fbm(i*this.size.ps, j*this.size.ps, 8)));
         }
         this.height.push(temp);
     }
@@ -167,32 +184,144 @@ class Terrain extends Drawable {
             this.stage = 1;
         }
     }
-    else if(this.stage == 1) {
+    else if(this.stage == 1 || this.stage == 2) {
         if(this.street_sprawn >= this.streets.length){
+            this.street_sprawn = 0;
+            this.street_snode = 0;
             this.stage++;
         }
         else {
-            let roadHead = false;
-            for(let road of this.roads) {
-                if(road.heads.length > 0) {
-                    roadHead = true;
-                    road.sprawl();
-                }
+            //sprawls most recent sprawler, if possible
+            if(this.roads.length > 0 && this.roads[this.roads.length-1].queue.size > 0) {
+                this.roads[this.roads.length-1].sprawl();
             }
-            if(!roadHead) {
-                let street_params = {minx: 10+ Math.random()*4, miny: 10+ Math.random()*4};
-                for(let i = street_params.minx; i < this.streets[this.street_sprawn].nodecount; ) {
-                    let i2 = Math.floor(i);
-                    let thisNode = this.streets[this.street_sprawn].nodes[i2];
+            //otherwise attempt to add in a new sprawler
+            else {
+                while(this.street_sprawn < this.streets.length) {
+                    let street_params = {minx: this.block_mult*(6+ Math.random()*2), miny: this.block_mult*(3+ Math.random()*1), varx: this.block_mult*(0.5), vary: this.block_mult*(0.5)};
+                    let jane = this.streets[Math.floor(this.street_sprawn)];
+                    console.log("street" + (jane.id+1) + "/" + this.streets.length + "node" + (this.street_snode+1) + "/" + jane.nodecount);
+                    let thisNode = jane.nodes[this.street_snode];
 
-                    this.roads.push(new Road(thisNode.pos, thisNode.angle + Math.PI/2, 2, this.roads.length, 3, this));
+                    let angle = thisNode.angle + Math.PI/2;
+                    if(this.stage%2 == 1) angle -= Math.PI/2;
 
-                    i += street_params.minx + Math.random();
+                    let p = thisNode.pos;
+                    let inc = {x: Math.cos(angle), y: Math.sin(angle)};
 
+                    let l = 5;
+                    let hitSomething = false;
+                    let hitSprawler = false;
+
+                    while(this.inBounds(p.x, p.y) && !hitSomething) {
+                        let otherNodes = this.nodes.query(new Circle(p.x + l*inc.x, p.y + l*inc.y, 1));
+                        
+                        for(let on of otherNodes) {
+                            if(on.data.type != 2 || on.data.id != jane.id) {
+                                hitSomething = true;
+                                break;
+                            }
+                        }
+
+                        if(this.getPop(p.x + l*inc.x, p.y + l*inc.y) < 0.1) {
+                            hitSomething = true;
+                        }
+                        l+=0.5;
+                    }
+
+                    let otherNodes = this.nodes.query(new Circle(p.x + l/2*inc.x, p.y + l/2*inc.y, 5));
+
+                    for(let on of otherNodes) {
+                        if(on.data.type == 3){
+                            hitSprawler = true;
+                            break;
+                        }
+                    }
+
+
+                    //increment along the street
+                    this.street_snode += 9;
+
+                    if(this.street_snode >= jane.nodecount) {
+                        this.street_sprawn++;
+                        this.street_snode = 0;
+                    }
+
+                    // if(l < 5) console.log("too short");
+                    // if(hitSprawler) console.log("hit");
+                    if(l > 8 && !hitSprawler) {
+                        this.roads.push(new Sprawler({x: p.x + l/2*inc.x, y: p.y + l/2*inc.y}, street_params, angle + (Math.random()-0.5) * Math.PI/8, this.roads.length, this));
+                        break;
+                    }
                 }
-                this.street_sprawn++;
             }
         }
+    }
+    else if(this.stage == 3) {
+        let new_roads = [];
+        let i = 0;
+        for(let road of this.roads) {
+            if(road.gridcount >= 10) {
+                road.id = i++;
+                new_roads.push(road);
+            }
+        }
+
+        console.log("pruned " + (this.roads.length-new_roads.length) + "bad roads"); 
+        this.roads = new_roads;
+        this.stage++;
+    }
+    else if(this.stage == 4){
+        for(let road of this.roads) {
+            for(let xx in road.grid) {
+                for(let yy in road.grid[xx]) {
+                    let x = Number(xx);
+                    let y = Number(yy);
+                    if(road.isInGrid(x+1, y+1) && road.isInGrid(x+1, y) && road.isInGrid(x, y+1) && road.atGrid(x+1, y+1).links.size > 0 && road.atGrid(x+1, y).links.size > 0 && road.atGrid(x, y+1).links.size > 0) {
+                        let p1 = road.atGrid(x, y).pos;
+                        let p2 = road.atGrid(x+1, y).pos;
+                        let p3 = road.atGrid(x, y+1).pos;
+                        let p4 = road.atGrid(x+1, y+1).pos;
+
+                        let thisPop = 5*this.getPop((p1.x + p4.x)/2, (p1.y + p4.y)/2) + 2;
+                        thisPop = Math.pow(thisPop, 1.3);
+
+                        let pp1 = this.getPos(p1.x, p1.y);
+                        let pp2 = this.getPos(p2.x, p2.y);
+                        let pp3 = this.getPos(p3.x, p3.y);
+                        let pp4 = this.getPos(p4.x, p4.y);
+
+                        let minh = Math.min(pp1[1], pp2[1], pp3[1], pp4[1]); 
+
+                        let dx = {x: pp2[0]-pp1[0], y:pp2[2]-pp1[2]};
+                        let dy = {x: pp3[0]-pp1[0], y:pp3[2]-pp1[2]};
+
+                        let mx = dist([dx.x, dx.y], [0, 0]);
+                        let my = dist([dy.x, dy.y], [0, 0]);
+
+                        let a = Math.atan2(dy.y, dy.x);
+                        for(let i = 0; i <2; i++) {
+                            for(let j = 0; j <2; j++) {
+                                let m1 = mat4.create();
+                                let m2 = mat4.create();
+                                let m3 = mat4.create();
+                                mat4.fromScaling(m1, vec3.fromValues(mx, thisPop, my));
+                                mat4.fromRotation(m2, a, vec3.fromValues(0, 1, 0));
+                                // pp1[0] + dx.x * (0.5+i)/2 + dy.x * (0.5+j)/2, minh+thisPop/2, pp1[2] + dx.y * (0.5+i)/2 + dy.y * (0.5+j)/2));
+                                mat4.fromTranslation(m3, vec3.fromValues((pp1[0] + pp4[0])/2, minh, (pp1[2] + pp4[2])/2));
+                                let m = mat4.create();
+                                mat4.mul(m, m1, m);
+                                mat4.mul(m, m2, m);
+                                mat4.mul(m, m3, m);
+                                this.buildings.push(m);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        console.log("Generated " + this.buildings.length + " buildings");
+        this.stage++;
     }
     this.iterations++;
   }
@@ -235,7 +364,7 @@ class Terrain extends Drawable {
     // }
     // dh = dSum/dWeight;
 
-    let dh = this.size.h*fbm(x*this.size.ps, y*this.size.ps, 8);
+    let dh = Math.max(sea_level, this.size.h*fbm(x*this.size.ps, y*this.size.ps, 8));
 
     return vec3.fromValues(newx, dh, newy);
   }
@@ -258,7 +387,7 @@ class Terrain extends Drawable {
     //     }
     // }
     // return dSum/dWeight;
-
+    if(this.getPos(x, y)[1] == sea_level) return -1;
     if(this.pop.type == "fbm") {
         let offset = 5000;
         let nval = Math.pow(1-this.getPos(x, y)[1]*0.5, this.pop.hscale) * (fbm(x*this.pop.ps + offset, y*this.pop.ps + offset, 4) + 0.25);
@@ -322,7 +451,7 @@ class Terrain extends Drawable {
                 //insert populations
                 k = 0;
                 for(let p of tri.ind) {
-                    this.populations[c*3+k] = this.population[p[0]][p[1]];
+                    this.populations[c*3+k] = this.getPop(p[0], p[1]);
                     k++;
                 }
                 

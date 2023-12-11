@@ -52,6 +52,23 @@ class OpenGLRenderer {
       prog.draw(drawable);
     }
   }
+
+  //buildings render
+  render_super(camera: Camera, prog: ShaderProgram, drawable: Drawable, models: Array<mat4>) {
+    let model = mat4.create();
+    let viewProj = mat4.create();
+
+    mat4.identity(model);
+    mat4.multiply(viewProj, camera.projectionMatrix, camera.viewMatrix);
+    prog.setColoring(2);
+   // prog.setModelMatrix(model);
+    prog.setViewProjMatrix(viewProj);
+
+    for (let model of models) {
+      prog.setModelMatrix(model);
+      prog.draw(drawable);
+    }
+  }
 };
 
 export default OpenGLRenderer;

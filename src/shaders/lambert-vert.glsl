@@ -37,11 +37,14 @@ const vec4 lightPos = vec4(5, 5, 3, 1); //The position of our virtual light, whi
 
 void main()
 {
-    float rb = clamp(-0.5f, 0.5f, (vs_Pos[1]-0.35f)/16.f);
+    float rb = clamp(-0.5f, 0.5f, (vs_Pos[1]-4.f)/24.f);
 
     // Pass the vertex colors to the fragment shader for interpolation
     if(u_Coloring == 0) {
-        fs_Col = vec4(clamp(0.f, 0.4, 0.15f+rb), clamp(0.f, 0.4, 0.3f + rb*0.5), clamp(0.f, 0.4, 0.15f+rb), 1.f);  
+        fs_Col = vec4(clamp(0.f, 0.4, 0.15f+rb), clamp(0.f, 0.4, 0.3f + rb*0.5), clamp(0.f, 0.4, 0.15f+rb), 1.f);
+        if(vs_Pos[1] == -7.f) {
+            fs_Col = vec4(0.03, 0.05, 0.2, 1.f);
+        }  
     }
     else if(u_Coloring == 1) {
         fs_Col = vec4(vs_Pop, vs_Pop, vs_Pop, 1.f);  
