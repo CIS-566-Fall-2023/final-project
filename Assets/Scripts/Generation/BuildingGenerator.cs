@@ -30,7 +30,7 @@ namespace Generation
                 Min = new Vector2(-130, -60), Max = new Vector2(0, 60)
             });
             partitionRunner.Run();
-            var towerRunner = new TowerRunner(this, new Vector2(75, 0), 10, 12);
+            new TowerRunner(this, new Vector2(75, 0), 10, 12);
         }
     }
 }

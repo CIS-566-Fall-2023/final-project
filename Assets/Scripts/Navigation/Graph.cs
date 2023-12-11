@@ -32,9 +32,9 @@ namespace Navigation
         {
             foreach (var vertex in _vertices)
             {
-                if (vertex.region is RectangleRegion)
+                if (vertex.region is RectangleRegion region)
                 {
-                    yield return ((RectangleRegion)vertex.region).Rectangle;
+                    yield return region.Rectangle;
                 }
             }
         }
@@ -44,29 +44,32 @@ namespace Navigation
             return _vertices[vertexId];
         }
 
-        public List<List<EdgeInfo>> GetAdjList()
+        public EdgeInfo GetRandomEdge()
         {
-            return _adjList;
+            while (true)
+            {
+                var index = Random.Range(0, _adjList.Count - 1);
+                if (_adjList[index].Count > 0) return _adjList[index][0];
+            }
         }
 
-        public VertexInfo GetRandomVertex()
+        public EdgeInfo GetNextEdge(int prev, int curr)
+        {
+            var edges = _adjList[curr];
+            if (edges.Count == 1)
             {
-                int index = Random.Range(0, _vertices.Count-1);
-                return _vertices[index];
+                return edges[0];
             }
+            while (true)
+            {
+                var edge = edges[Random.Range(0, edges.Count)];
+                if (edge.ToVertex != prev) return edge;
+            }
+        }
 
-        public EdgeInfo GetRandomEdge()
-            {
-                int index = Random.Range(0, _adjList.Count-1);
-                if (_adjList[index].Count > 0)
-                    return _adjList[index][0];
-                else 
-                    return GetRandomEdge();
-            }
-
-        public List<EdgeInfo> GetAdjacentEdges(EdgeInfo edge)
-            {
-                return _adjList[edge.ToVertex];
-            }
+        // public List<EdgeInfo> GetAdjacentEdges(EdgeInfo edge)
+        // {
+        //     return _adjList[edge.ToVertex];
+        // }
     }
 }

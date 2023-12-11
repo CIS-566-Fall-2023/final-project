@@ -9,156 +9,99 @@ namespace Navigation
 {
     public class Wanderer : MonoBehaviour
     {
-        public Vector2 Position { get; set; }
-        private float _rotationAngle = 0;
-        public float Speed { get; set; }
-        public bool isMoving = false;
-        public bool isInRoom = false;
-        public Graph navGraph;
-        public Stack<EdgeInfo> path;
-        public EdgeInfo startEdge { get; set; }
-        public EdgeInfo currEdge { get; set; }
-        public EdgeInfo endEdge { get; set; }
-        public bool justEntered = false;
+        private Vector2 _position;
+        private float _rotationAngle;
+        private Graph _navGraph;
 
-        public bool isInitialized = false;
+        private int _prevVertex;
+        private int _nextVertex;
+        private ICurve _currCurve;
+        private float _curveT;
+
+        private bool _inRoom = false;
 
         public GameObject particleSys;
 
-        //public FootprintTrail fpt;
+        private const float _speed = 10f;
 
-        private PathFinder pathFinder;
-
-        // MOVEMENT
-        private float lerpDuration = 1.5f; // You can adjust the duration to control the speed of movement
-        private float lerpDurationRoom = 10.0f;
-        private float lerpStartTime;
-
-        // yum BEZIER STUFF
-        //private List<Vector2> controlPoints;
-        //private float movementDuration;
-
-        public void Initialize(Graph navGraph, EdgeInfo start, EdgeInfo end, PathFinder pathFinder)
+        public void Initialize(Graph navGraph)
         {
             Instantiate(particleSys, gameObject.transform);
-            this.navGraph = navGraph;
-            this.Position = start.Curve.Point(0);
-            this.startEdge = start;
-            this.endEdge = end;
-            this.pathFinder = pathFinder;
-            this.path = pathFinder.FindPath(start, end);
-            isInitialized = true;
+            _navGraph = navGraph;
+            _prevVertex = navGraph.GetRandomEdge().ToVertex;
+            var edge = navGraph.GetNextEdge(_prevVertex, _prevVertex);
+            _currCurve = edge.Curve;
+            _nextVertex = edge.ToVertex;
+            _curveT = 0;
         }
 
         void Update()
         {
-            if (!isInRoom)
+            float dist = _speed * Time.deltaTime;
+            float deltaT = dist / _currCurve.Length();
+            while (_curveT + deltaT > 1)
             {
-                if (!isMoving && path.Count > 0)
-                {
-                    currEdge = path.Pop();
-                    StartCoroutine(MoveAlongCurve(currEdge.Curve));
-                    if (currEdge.Tag == EdgeTag.Doorway && justEntered == false)
-                    {
-                        isInRoom = true;
-                        StartCoroutine(EnterRoom(currEdge));
-                    }
-                    else
-                    {
-                        isInRoom = false;
-                        justEntered = false;
-                    }
-                }
-                else if (!isMoving && path.Count == 0)
-                {
-                    endEdge = navGraph.GetRandomEdge();
-                    path = pathFinder.FindPath(currEdge, endEdge);
-                }
+                dist -= (1 - _curveT) * _currCurve.Length();
+                deltaT = dist / _currCurve.Length();
+                _curveT = 0;
+                FindNextCurve();
             }
 
-            gameObject.transform.SetLocalPositionAndRotation(new Vector3(Position.x / 4, 49.5f, Position.y / 4),
+            _curveT += deltaT;
+            _position = _currCurve.Point(_curveT);
+            _rotationAngle = _currCurve.TangentAngle(_curveT);
+            gameObject.transform.SetLocalPositionAndRotation(new Vector3(_position.x / 4, 49.5f, _position.y / 4),
                 Quaternion.Euler(0f, Mathf.Rad2Deg * _rotationAngle, 0f));
         }
 
-
-        public void MoveTo(Vector2 newPosition)
+        private void FindNextCurve()
         {
-            Position = newPosition;
+            // if (_navGraph.GetVertex(_nextVertex).tag == VertexTag.Room)
+            // {
+            //     _inRoom = true;
+            //     _currCurve = GenerateRoomCurve();
+            // }
+            var edge = _navGraph.GetNextEdge(_prevVertex, _nextVertex);
+            _prevVertex = _nextVertex;
+            _nextVertex = edge.ToVertex;
+            _currCurve = edge.Curve;
         }
 
-        private void Move(ICurve curve, float t)
+        // private void Move(ICurve curve, float t)
+        // {
+        //     _position = curve.Point(t);
+        //     _rotationAngle = curve.TangentAngle(t);
+        // }
+
+        ICurve GenerateRoomCurve(Vector2 entrance, Vector2 exit)
         {
-            Position = curve.Point(t);
-            _rotationAngle = curve.TangentAngle(t);
+            return new LineCurve(entrance, exit);
         }
 
-        private IEnumerator MoveAlongCurve(ICurve curve)
-        {
-            isMoving = true;
-            lerpStartTime = Time.time;
-            Vector2 startPosition = this.Position;
-
-            while (Time.time - lerpStartTime < lerpDuration)
-            {
-                float t = (Time.time - lerpStartTime) / lerpDuration;
-                Move(curve, t);
-                yield return null;
-            }
-
-            Move(curve, 1);
-            isMoving = false;
-            yield return null;
-        }
-
-        private IEnumerator EnterRoom(EdgeInfo edge)
-        {
-            isInRoom = true;
-            isMoving = true;
-            List<Vector2> randomPoints = new List<Vector2>();
-            randomPoints.Add(currEdge.Curve.Point(1));
-            int points = UnityEngine.Random.Range(4, 10);
-
-            for (int i = 0; i < 5; i++)
-            {
-                Vector2 randomPoint = navGraph._vertices[edge.ToVertex].region.RandPoint();
-                randomPoints.Add(randomPoint);
-            }
-
-            //changed post exit code
-            var exit = path.Pop();
-            randomPoints.Add(exit.Curve.Point(0));
-            path = pathFinder.FindPath(exit, navGraph.GetRandomEdge());
-            lerpStartTime = Time.time;
-            Vector2 startPosition = this.Position;
-            while (Time.time - lerpStartTime < lerpDurationRoom)
-            {
-                float t = (Time.time - lerpStartTime) / lerpDuration;
-                Vector2 bezierPosition = DeCasteljauRecursive(randomPoints, t);
-                MoveTo(bezierPosition);
-                yield return null;
-            }
-
-            justEntered = true;
-            isInRoom = false;
-            isMoving = false;
-            yield return null;
-        }
-
-        private Vector2 DeCasteljauRecursive(List<Vector2> points, float t)
-        {
-            if (points.Count == 1)
-            {
-                return points[0];
-            }
-
-            List<Vector2> newPoints = new List<Vector2>();
-            for (int i = 0; i < points.Count - 1; i++)
-            {
-                Vector2 newPoint = Vector2.Lerp(points[i], points[i + 1], t);
-                newPoints.Add(newPoint);
-            }
-
-            return DeCasteljauRecursive(newPoints, t);
-        }
+        // private IEnumerator EnterRoom(EdgeInfo edge)
+        // {
+        //     
+        //     var startPoint = currEdge.Curve.Point(1);
+        //     var exit = path.Pop();
+        //     var endPoint = exit.Curve.Point(0);
+        //
+        //     var roomVertex = _navGraph._vertices[edge.ToVertex].region;
+        //     
+        //     var controlPoints = new Vector2[4];
+        //     controlPoints[0] = startPoint;
+        //     controlPoints[1] = roomVertex.RandPoint();
+        //     controlPoints[2] = roomVertex.RandPoint();
+        //     controlPoints[3] = endPoint;
+        //
+        //     var bezier = new BezierCurve(controlPoints);
+        //     while (Time.time - lerpStartTime < lerpDurationRoom)
+        //     {
+        //         float t = (Time.time - lerpStartTime) / lerpDuration;
+        //         Move(bezier, t);
+        //         yield return null;
+        //     }
+        //     Move(bezier, 1);
+        //     yield return null;
+        // }
     }
 }

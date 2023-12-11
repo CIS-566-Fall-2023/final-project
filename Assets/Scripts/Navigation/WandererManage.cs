@@ -12,7 +12,7 @@ namespace Navigation {
 
         private List<Wanderer> wanderers = new List<Wanderer>();
         private Graph navGraph;
-        private PathFinder pathFinder;
+        // private PathFinder pathFinder;
         private bool isInitialized = false;
         public GameObject particleSys;
 
@@ -26,8 +26,8 @@ namespace Navigation {
             if (!isInitialized){
                 return;
             }
-            pathFinder = new PathFinder(navGraph);
-            for (int i = 0; i < 5; i++){
+            // pathFinder = new PathFinder(navGraph);
+            for (int i = 0; i < 1; i++){
                 var start = navGraph.GetRandomEdge();
                 var end = navGraph.GetRandomEdge();
                 string wandererName = "Wanderer_" + i.ToString();
@@ -35,7 +35,8 @@ namespace Navigation {
                 //float scale = .25f;
                 //wander.transform.localScale.Scale(new Vector3(scale, scale, scale));
                 wander.particleSys = particleSys;
-                wander.Initialize(navGraph, start, end, pathFinder);
+                wander.Initialize(navGraph);
+                //wander.Initialize(navGraph, start, end, pathFinder);
 
                 wanderers.Add(wander);
                 //_drawables.Add(new DebugSquare() {position = wander.Position});
