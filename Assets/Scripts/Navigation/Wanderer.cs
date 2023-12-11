@@ -23,7 +23,7 @@ namespace Navigation
         
         public GameObject particleSys;
 
-        private const float _speed = 30f;
+        private const float _speed = 10f;
 
         public void Initialize(Graph navGraph)
         {
@@ -66,13 +66,6 @@ namespace Navigation
                     _path.Enqueue(curve);
                 }
                 _pathEnd = target;
-                // var nextEdge = _navGraph.GetNextEdge(_pathEnd);
-                // if (_navGraph.GetVertex(_pathEnd).tag == VertexTag.Room)
-                // {
-                //     _path.Enqueue(GenerateRoomCurve(_currCurve.Point(1), nextEdge.Curve.Point(0)));
-                // }
-                // _pathEnd = nextEdge.ToVertex;
-                // _path.Enqueue(nextEdge.Curve);
             }
             _currCurve = _path.Dequeue();
         }

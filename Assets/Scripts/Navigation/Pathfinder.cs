@@ -41,6 +41,7 @@ namespace Navigation
             while (stack.Count > 0)
             {
                 int u = stack.Pop();
+                PathStep parentStep = pathEndingIn[u];
                 if (u == target)
                 {
                     break;
@@ -51,16 +52,20 @@ namespace Navigation
                     if (seen[v]) continue;
                     seen[v] = true;
                     stack.Push(v);
-                    var endingStep = new PathStep(pathEndingIn[u], edge.Curve);
-                    // if (graph.GetVertex(v).tag == VertexTag.Room)
-                    // {
-                    //     var roomCurve = GenerateRoomCurve(
-                    //         pathEndingIn[u].Curve.Point(1),
-                    //         endingStep.Curve.Point(0));
-                    //     var roomStep = new PathStep(pathEndingIn[u], roomCurve);
-                    //     endingStep.Parent = roomStep;
-                    // }
-                    pathEndingIn[v] = endingStep;
+                    
+                    if (graph.GetVertex(u).tag == VertexTag.Room)
+                    {
+                        var roomCurve = GenerateRoomCurve(
+                            parentStep.Curve.Point(1),
+                            edge.Curve.Point(0));
+                        var roomStep = new PathStep(parentStep, roomCurve);
+                        pathEndingIn[v] = new PathStep(roomStep, edge.Curve);
+                    }
+                    else
+                    {
+                        pathEndingIn[v] = new PathStep(parentStep, edge.Curve);
+                    }
+                    
                 }
             }
             
