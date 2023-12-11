@@ -106,6 +106,18 @@ I wrote the basic Wave Function Collapse workflow in the class `WFCManager`, and
 
 ![](Milestone33.gif)
 
+## Alex Fu
+
+1. Create the Pentagon subdivision:
+
+![image](https://github.com/Jeff-Ling/final-project/assets/28486541/97f6e560-80e3-42fa-86f4-8e3b72cc4955)
+
+2. Pentagon fill:
+
+![image](https://github.com/Jeff-Ling/final-project/assets/28486541/50f8ff26-8052-4e6c-b181-559fb2545348)
+
+
+
 # Final Project!
 
 This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
