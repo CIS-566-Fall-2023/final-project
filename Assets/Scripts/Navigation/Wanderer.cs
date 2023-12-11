@@ -69,7 +69,7 @@ namespace Navigation {
                     path = pathFinder.FindPath(currEdge, endEdge);
                 }
             }
-
+           
              gameObject.transform.SetLocalPositionAndRotation( new Vector3(Position.x / 4, 49.5f, Position.y / 4), Quaternion.identity);
         }
         
