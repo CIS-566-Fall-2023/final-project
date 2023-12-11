@@ -4,10 +4,14 @@
 
 https://www.youtube.com/watch?v=B9qcNq_mkDs
 Video is also in the github directory. 
+You can run the program in the build folder. 
+The project file is too large and github gives errors when pushing. 
 
+![](final_image/pic3.png)
 
-  - final results with images and a live demo if possible
-  - post mortem: how did your project go overall? Did you accomplish your goals? Did you have to pivot?
+Post mortem: How did your project go overall? My project went pretty well overall. I learned a lot of things about procedural map and making creative works in unity.
+Did you accomplish your goals? I did accomplish my goals. The end product as we see in the demo, the end product is very close to the map that minecraft dungeon has in the 2d view.This is what I was looking to achieve. 
+Did you have to pivot? I didn't have to pivot much. I am looking to put a player in for the future work.
 
 ## Project planning: Design Doc (due 11/8)
 Before submitting your first milestone, _you must get your project idea and scope approved by Rachel, Adam or a TA._
@@ -62,16 +66,9 @@ Submit your Design doc as usual via pull request against this repository.
 In the first week, I was doing some research on how other generation maps work. I read some articles on redblobgames.
 
 ## Milestone 3: Implementation part 2 (due 11/27)
-We're over halfway there! This week should be about fixing bugs and extending the core of your generator. Make sure by the end of this week _your generator works and is feature complete._ Any core engine features that don't make it in this week should be cut! Don't worry if you haven't managed to exactly hit your goals. We're more interested in seeing proof of your development effort than knowing your planned everything perfectly. 
 
-Put all your code in your forked repository.
-
-Submission: Add a new section to your README titled: Milestone #3, which should include
-- written description of progress on your project goals. If you haven't hit all your goals, what did you have to cut and why? 
-- Detailed output from your generator, images, video, etc.
-We'll check your repository for updates. No need to create a new pull request.
-
-Come to class on the due date with a WORKING COPY of your project. We'll be spending time in class critiquing and reviewing your work so far.
+In this week, I got started with my dungeon generator. I haven't been able to create the entire dungeons. However, I have find ways to place random blocks and form an island. Here is an early work image. 
+![](final_image/pic0.png)
 
 ## Topic Suggestions
 
