@@ -53,18 +53,10 @@ namespace Navigation
             }
         }
 
-        public EdgeInfo GetNextEdge(int prev, int curr)
+        public EdgeInfo GetNextEdge(int vertex)
         {
-            var edges = _adjList[curr];
-            if (edges.Count == 1)
-            {
-                return edges[0];
-            }
-            while (true)
-            {
-                var edge = edges[Random.Range(0, edges.Count)];
-                if (edge.ToVertex != prev) return edge;
-            }
+            var edges = _adjList[vertex];
+            return edges[Random.Range(0, edges.Count)];
         }
 
         // public List<EdgeInfo> GetAdjacentEdges(EdgeInfo edge)
