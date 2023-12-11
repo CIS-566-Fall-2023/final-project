@@ -8,8 +8,9 @@ namespace Navigation
 {
     public class Graph
     {
-        public List<List<EdgeInfo>> _adjList;
-        public List<VertexInfo> _vertices;
+        private readonly List<List<EdgeInfo>> _adjList;
+        private readonly List<VertexInfo> _vertices;
+        public int NumVerts => _adjList.Count;
 
         public Graph(List<List<EdgeInfo>> adjList, List<VertexInfo> vertices)
         {
@@ -59,9 +60,9 @@ namespace Navigation
             return edges[Random.Range(0, edges.Count)];
         }
 
-        // public List<EdgeInfo> GetAdjacentEdges(EdgeInfo edge)
-        // {
-        //     return _adjList[edge.ToVertex];
-        // }
+        public IEnumerable<EdgeInfo> GetAdj(int vertex)
+        {
+            return _adjList[vertex];
+        }
     }
 }

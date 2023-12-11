@@ -1,6 +1,11 @@
+using System.Collections;
 using Geom;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Numerics;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Navigation
 {
@@ -18,7 +23,7 @@ namespace Navigation
         
         public GameObject particleSys;
 
-        private const float _speed = 10f;
+        private const float _speed = 30f;
 
         public void Initialize(Graph navGraph)
         {
@@ -54,20 +59,22 @@ namespace Navigation
         {
             if (_path.Count == 0)
             {
-                var nextEdge = _navGraph.GetNextEdge(_pathEnd);
-                if (_navGraph.GetVertex(_pathEnd).tag == VertexTag.Room)
+                var source = _pathEnd;
+                var (path, target) = PathFinder.RandomPath(_navGraph, source);
+                foreach (var curve in path)
                 {
-                    _path.Enqueue(GenerateRoomCurve(_currCurve.Point(1), nextEdge.Curve.Point(0)));
+                    _path.Enqueue(curve);
                 }
-                _pathEnd = nextEdge.ToVertex;
-                _path.Enqueue(nextEdge.Curve);
+                _pathEnd = target;
+                // var nextEdge = _navGraph.GetNextEdge(_pathEnd);
+                // if (_navGraph.GetVertex(_pathEnd).tag == VertexTag.Room)
+                // {
+                //     _path.Enqueue(GenerateRoomCurve(_currCurve.Point(1), nextEdge.Curve.Point(0)));
+                // }
+                // _pathEnd = nextEdge.ToVertex;
+                // _path.Enqueue(nextEdge.Curve);
             }
             _currCurve = _path.Dequeue();
-        }
-        
-        ICurve GenerateRoomCurve(Vector2 entrance, Vector2 exit)
-        {
-            return new LineCurve(entrance, exit);
         }
     }
 }
