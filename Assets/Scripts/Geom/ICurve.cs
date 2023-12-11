@@ -15,7 +15,7 @@ namespace Geom
         public float TangentAngle(float t)
         {
             Vector2 tangent = Tangent(t);
-            return Mathf.Atan2(tangent.y, tangent.x);
+            return Mathf.Atan2(-tangent.y, tangent.x);
         }
 
         public IEnumerable<Vector2> ToPointStream(float deltaLength = 10)
