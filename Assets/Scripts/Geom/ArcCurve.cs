@@ -23,7 +23,7 @@ namespace Geom
         {
             var theta = Mathf.Lerp(Theta0, Theta1, t);
             var tangent = new Vector2(-Mathf.Sin(theta), Mathf.Cos(theta));
-            if (Theta1 > Theta0) tangent *= -1;
+            if (Theta1 < Theta0) tangent *= -1;
             return tangent;
         }
 
