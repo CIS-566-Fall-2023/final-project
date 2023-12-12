@@ -1,8 +1,9 @@
 # CIS 5660 Final Project: Procedural Terrarium Generator
 
-As the final project for my Procedural Computer Graphics course at Penn, I developed a SideFX Houdini Generator Tool that allows users to create variations of succulents using procedural modeling.
+As the final project for my Procedural Computer Graphics course at Penn, I developed a SideFX Houdini Generator Tool that allows users to create variations of succulents and cacti using procedural modeling.
 
-
+### [Final Presentation Slides](https://docs.google.com/presentation/d/1w8xcrTtV7Av6USqMMAVL6e4-5wygFOCWcM9LKY3COJE/edit?usp=sharing)
+### [Video Demos for Generators](https://drive.google.com/file/d/1Eeo94UtBY_vV1yXrRKvDlulw4skYYJ7O/view?usp=sharing)
 
 ### Table of Contents
 
@@ -14,11 +15,13 @@ As the final project for my Procedural Computer Graphics course at Penn, I devel
 ## Final Renders
 
   <p align = "center">
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/b7a1b5c7-d36e-4c5d-aca2-0262e2df7efa" width=70%>
     <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/0238ca77-8f35-4149-a516-d96805852420" width=70%>
     <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/e5ac4166-aab2-4cfc-b226-828ce5afc2ef" width=70%>
-    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/b7a1b5c7-d36e-4c5d-aca2-0262e2df7efa" width=70%>
+    <img src = "https://github.com/CIIINDYXUU/Procedural-Terrarium-Generator/assets/88256581/acbe10a2-ec8d-4128-92b4-e0b81efde309" width=70%>
+    
   </p>
-  
+
 ## Design Doc
 
 ### Introduction
