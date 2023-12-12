@@ -1,4 +1,4 @@
-#### Final Project
+#### Final Project (Kevin Zhang)
 I created a WebGL city roadmap generator that procedurally generates a city roadmap from noise-based terrain and population inputs. The user is able to control the following parameters for the simulation:
    - Terrain size: the size of the terrain to generate. For me, >500 usually has a bit of lag when generating the terrain
    - Terrain scaling: scales the terrain height
