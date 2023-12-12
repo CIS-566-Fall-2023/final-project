@@ -17,8 +17,7 @@ I created a WebGL city roadmap generator that procedurally generates a city road
 [https://youtu.be/5yCk9TVha9E](https://youtu.be/5yCk9TVha9E)
 
 #### Final Results
-Presentation deck: https://docs.google.com/presentation/d/1lm5N7C19Atu_MhVZVObkUcL93ecJ1wlXiOA1gLlM4Wg/edit?usp=sharing
-My presentation slide deck has images from the project and also explanations of my algorithmic implementations. I created a large grid and triangulized it to display the terrain, using a shader to add coloring to the terrain to create the snowy peaks, greener lowlands, and water effects. I also had an option to switch between terrain and population coloring for easier visualization of each parameter. Roads were rendered using a bunch of line segments snapped onto the terrain. I originally wanted to calculate this in the GPU but I was unable to figure out a consistent and clean method of using the noise functions in my calculations as well as in the shader.
+My presentation slide deck (https://docs.google.com/presentation/d/1lm5N7C19Atu_MhVZVObkUcL93ecJ1wlXiOA1gLlM4Wg/edit?usp=sharing) has images from the project and also explanations of my algorithmic implementations. I created a large grid and triangulized it to display the terrain, using a shader to add coloring to the terrain to create the snowy peaks, greener lowlands, and water effects. I also had an option to switch between terrain and population coloring for easier visualization of each parameter. Roads were rendered using a bunch of line segments snapped onto the terrain. I originally wanted to calculate this in the GPU but I was unable to figure out a consistent and clean method of using the noise functions in my calculations as well as in the shader.
 
 I also tried getting the live demo to run under gh-pages, but was unable to figure it out.
 
