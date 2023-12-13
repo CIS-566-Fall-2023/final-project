@@ -1,4 +1,4 @@
-**Link to our Demo: https://www.youtube.com/watch?v=wak9uA7HMvA**
+**Link to our Demo: https://youtu.be/MQxo6jGBajI**
 
 # Design Document
 ## Introduction
