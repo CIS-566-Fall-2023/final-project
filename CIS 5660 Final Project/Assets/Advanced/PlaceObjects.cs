@@ -16,18 +16,90 @@ public class PlaceObjects : MonoBehaviour {
             int prefabType = Random.Range(0, TerrainController.PlaceableObjects.Length);
             Vector3 startPoint = RandomPointAboveTerrain();
 
-            RaycastHit hit;
+            int cloudsLayer = LayerMask.NameToLayer("Cloud");
+            int layerMask = ~(1 << cloudsLayer);
 
-            if (Physics.Raycast(startPoint, Vector3.down, out hit)
-                && hit.point.y > TerrainController.Water.transform.position.y && hit.collider.CompareTag("Terrain")) {
+            RaycastHit hit;
+            bool raycastResult = Physics.Raycast(startPoint, Vector3.down, out hit, Mathf.Infinity, layerMask);
+            bool yCondition = hit.point.y > TerrainController.Water.transform.position.y;
+            bool tagCondition = hit.collider != null && hit.collider.CompareTag("Terrain");
+            bool waterNearby = false;
+            Vector3[] directions = new Vector3[8];
+            float angle = 5.0f; // degrees
+            for (int j = 0; i < 70; i++)
+            {
+                float angleRad = Mathf.Deg2Rad * angle * j;
+                directions[j] = new Vector3(Mathf.Sin(angleRad), 0, Mathf.Cos(angleRad));
+                RaycastHit waterHit;
+                if (Physics.Raycast(startPoint, directions[j], out waterHit) && waterHit.collider.CompareTag("Water"))
+                {
+                    waterNearby = true;
+                    break;
+                }
+            }
+
+            if (!raycastResult)
+            {
+                Debug.Log("Raycast did not hit anything.");
+            }
+            if (!yCondition)
+            {
+                Debug.Log("Y-coordinate condition not met: y <= TerrainController.Water.transform.position.y");
+            }
+            if (!tagCondition)
+            {
+                string hitTag = hit.collider != null ? hit.collider.tag : "No collider";
+                Debug.Log("Collider tag is not 'Terrain'. Actual tag: " + hitTag);
+            }
+
+            if (waterNearby)
+            {
+                Debug.Log("Water detected nearby.");
+            }
+
+            if (raycastResult && yCondition && tagCondition && !waterNearby)
+            {
 
                 Quaternion orientation = Quaternion.Euler(Vector3.up * Random.Range(0f, 360f));
                 RaycastHit boxHit;
                 // get object size 
                 GameObject objectToPlace = TerrainController.PlaceableObjects[prefabType];
-                Vector3 objectSize = objectToPlace.transform.localScale; 
+                Vector3 objectSize = objectToPlace.transform.localScale;
 
-                if (Physics.BoxCast(startPoint, objectSize, Vector3.down, out boxHit, orientation) && boxHit.collider.CompareTag("Terrain"))
+
+                int cloudLayer = LayerMask.NameToLayer("Cloud");
+                int layerMask2 = ~(1 << cloudLayer);
+
+                bool waterNearbyy = false;
+                Vector3[] directions2 = new Vector3[70];
+                float angle2 = 5.0f; // degrees
+                for (int k = 0; k < 8; k++)
+                {
+                    float angleRad = Mathf.Deg2Rad * angle2 * k;
+                    directions2[k] = new Vector3(Mathf.Sin(angleRad), 0, Mathf.Cos(angleRad));
+                    RaycastHit waterHit;
+                    if (Physics.BoxCast(startPoint, objectSize, directions2[k], out waterHit, orientation, Mathf.Infinity, layerMask2)
+                        && waterHit.collider.CompareTag("Water"))
+                    {
+                        waterNearbyy = true;
+                        break;
+                    }
+                }
+
+                bool boxCastResult = Physics.BoxCast(startPoint, objectSize, Vector3.down, out boxHit, orientation, Mathf.Infinity, layerMask2);
+                bool tagCondition2 = boxCastResult && boxHit.collider.CompareTag("Terrain");
+
+                if (!boxCastResult)
+                {
+                    Debug.Log("BoxCast did not hit anything or ignored objects on 'Cloud' layer.");
+                }
+                else if (!tagCondition2)
+                {
+                    string hitTag = boxHit.collider != null ? boxHit.collider.tag : "No collider";
+                    Debug.Log("Collider tag is not 'Terrain'. Actual tag: " + hitTag);
+                }
+
+                if (boxCastResult && tagCondition && !waterNearbyy)
                 {
                     // check object tags
                     if (objectToPlace.tag == "Pine Tree" || objectToPlace.tag == "Mushroom Tree" || objectToPlace.tag == "Swirl Tree" || objectToPlace.tag == "Palm Tree")
@@ -36,8 +108,7 @@ public class PlaceObjects : MonoBehaviour {
                         Vector3 fixRotation = new Vector3(-90, 0, 0);
                         orientation = Quaternion.Euler(fixRotation);
                     }
-
-                    // instantiating rocks 
+                    // instantiating rocks  
                     if (objectToPlace.tag == "Rock")
                     {
                         // Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x - 3, hit.point.y - 12, startPoint.z - 5), orientation, transform);
@@ -48,10 +119,7 @@ public class PlaceObjects : MonoBehaviour {
                     if (objectToPlace.tag == "Pine Tree" || objectToPlace.tag == "Mushroom Tree" || objectToPlace.tag == "Swirl Tree")
                     {
                         // check if above rock coast line 
-                        if (hit.point.y > 0.0f)
-                        {
-                            Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x, hit.point.y, startPoint.z), orientation, transform);
-                        }
+                        Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x, hit.point.y, startPoint.z), orientation, transform);
                     }
 
                     // instantiating palm tree for beach biome 
@@ -62,10 +130,14 @@ public class PlaceObjects : MonoBehaviour {
                 }
 
                 //Debug code. To use, uncomment the giant thingy below
-                //Debug.DrawRay(startPoint, Vector3.down * 10000, Color.blue);
+                 //Debug.DrawRay(startPoint, Vector3.down * 10000, Color.blue);
                 //DrawBoxCastBox(startPoint, new Vector3(1, 1, 1), orientation, Vector3.down, 10000, Color.red);
-                //UnityEditor.EditorApplication.isPaused = true;
+                 //UnityEditor.EditorApplication.isPaused = true;
             }
+            //Debug code. To use, uncomment the giant thingy below
+            //Debug.DrawRay(startPoint, Vector3.down * 10000, Color.red);
+            //DrawBoxCastBox(startPoint, new Vector3(1, 1, 1), orientation, Vector3.down, 10000, Color.red);
+            //UnityEditor.EditorApplication.isPaused = true;
 
         }
     }

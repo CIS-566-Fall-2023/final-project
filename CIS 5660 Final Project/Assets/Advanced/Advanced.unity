@@ -188,6 +188,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds
       objectReference: {fileID: 0}
+    - target: {fileID: 8567922680359158196, guid: 82ef19d08db63ed4f8714502a0bbc605, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567922680359158196, guid: 82ef19d08db63ed4f8714502a0bbc605, type: 3}
+      propertyPath: m_TagString
+      value: CloudPlane
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -302,7 +310,7 @@ GameObject:
   - component: {fileID: 465628385}
   m_Layer: 0
   m_Name: Controller
-  m_TagString: Untagged
+  m_TagString: Controller
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -400,9 +408,9 @@ GameObject:
   - component: {fileID: 580105534}
   - component: {fileID: 580105533}
   - component: {fileID: 580105531}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -665,9 +673,9 @@ GameObject:
   - component: {fileID: 1156644612}
   - component: {fileID: 1156644611}
   - component: {fileID: 1156644610}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Bruh Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -966,7 +974,7 @@ GameObject:
   - component: {fileID: 1560302061}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: WeirdCube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

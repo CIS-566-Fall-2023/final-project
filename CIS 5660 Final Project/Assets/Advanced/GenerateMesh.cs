@@ -164,7 +164,7 @@ public class GenerateMesh : MonoBehaviour {
 
     private float[] TestMe2(ComputeShader compShader, Data[] positionData)
     {
-        Debug.Log("Sending positionData[0].x = " + positionData[0].x + ", positionData[0].y = " + positionData[0].y + " at [" + xyIndex.x + ", " + xyIndex.y + "]");
+        //Debug.Log("Sending positionData[0].x = " + positionData[0].x + ", positionData[0].y = " + positionData[0].y + " at [" + xyIndex.x + ", " + xyIndex.y + "]");
         int kernelIndex = 0;
         int threadGroupSize = 100; // For example, you might define 64 threads per group in x dimension
 
@@ -185,7 +185,7 @@ public class GenerateMesh : MonoBehaviour {
         positionBuffer.Release();
         resultBuffer.Release();
 
-        Debug.Log("Returning height[0] = " + resultData[0] + " at [" + xyIndex.x + ", " + xyIndex.y + "]");
+        //Debug.Log("Returning height[0] = " + resultData[0] + " at [" + xyIndex.x + ", " + xyIndex.y + "]");
 
         return resultData;
     }
