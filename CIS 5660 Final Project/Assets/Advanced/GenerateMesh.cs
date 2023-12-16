@@ -93,7 +93,7 @@ public class GenerateMesh : MonoBehaviour {
                 positionData[j + 1] = new Data { x = noiseX, y = noiseZ1 };
                 positionData[j + 2] = new Data { x = noiseX1, y = noiseZ };
                 positionData[j + 3] = new Data { x = noiseX1, y = noiseZ1 };
-
+                
                 j = j + 4;
             }
         }
@@ -188,122 +188,5 @@ public class GenerateMesh : MonoBehaviour {
         Debug.Log("Returning height[0] = " + resultData[0] + " at [" + xyIndex.x + ", " + xyIndex.y + "]");
 
         return resultData;
-    }
-
-    //int kernelHandle = compShader.FindKernel("CSMain");
-
-    //// Create compute buffers
-    //ComputeBuffer inputBuffer = new ComputeBuffer(positionData.Length, sizeof(float) * 2); // Size of Data struct
-    //ComputeBuffer resultBuffer = new ComputeBuffer(positionData.Length, sizeof(float));
-
-    //// Set data to buffers
-    //inputBuffer.SetData(positionData);
-    //compShader.SetBuffer(kernelHandle, "InputData", inputBuffer);
-    //compShader.SetBuffer(kernelHandle, "ResultBuffer", resultBuffer);
-
-    //// Dispatch compute shader
-    //compShader.Dispatch(kernelHandle, positionData.Length / 64, 1, 1); // Adjust based on your thread configuration and data size
-
-    //// Retrieve data
-    //float[] heights = new float[positionData.Length];
-    //resultBuffer.GetData(heights);
-
-    //// Release buffers
-    //inputBuffer.Release();
-    //resultBuffer.Release();
-
-    //return heights;
-
-
-    //private void TestMe(ComputeShader compShader)
-    //{
-    //    int kernelHandle = compShader.FindKernel("CSMain");
-
-    //    ComputeBuffer resultBuffer = new ComputeBuffer(1, sizeof(float), ComputeBufferType.Default);
-
-    //    noiseComputeShader.SetBuffer(kernelHandle, "ResultBuffer", resultBuffer);
-
-    //    noiseComputeShader.Dispatch(kernelHandle, 1, 1, 1);
-
-    //    float[] data = new float[1];
-    //    resultBuffer.GetData(data);
-    //    Debug.Log("Compute Shader Result: " + data[0]);
-
-    //    resultBuffer.Release();
-    //}
-
-    //private float GetHeight(int x, int z, int xSegments, int zSegments, Vector2 noiseOffset, float noiseScale, ComputeShader noiseComputeShader)
-    //{
-    //    float noiseX = noiseScale * x / xSegments + noiseOffset.x;
-    //    float noiseZ = noiseScale * z / zSegments + noiseOffset.y;
-
-    //    if (usePerlinNoise)
-    //    {
-    //        //TestMe(noiseComputeShader);
-    //        return Mathf.PerlinNoise(noiseX, noiseZ);
-    //    }
-    //    else
-    //    {
-    //        return TerrainController.noisePixels[(int)noiseX % TerrainController.noisePixels.Length][(int)noiseZ % TerrainController.noisePixels[0].Length];
-    //    }
-    //}
-
-    //return DispatchComputeShader(noiseX, noiseZ, noiseComputeShader);
-
-    //private float GetHeight(int x, int z, int xSegments, int zSegments, Vector2 noiseOffset, float noiseScale, ComputeShader noiseComputeShader)
-    //{
-    //    float noiseX = noiseScale * x / xSegments + noiseOffset.x;
-    //    float noiseZ = noiseScale * z / zSegments + noiseOffset.y;
-    //    if (usePerlinNoise)
-    //        return Mathf.PerlinNoise(noiseX, noiseZ);
-    //    else
-    //        return TerrainController.noisePixels[(int)noiseX % TerrainController.noisePixels.Length][(int)noiseZ % TerrainController.noisePixels[0].Length];
-    //}
-
-    private float DispatchComputeShader(float noiseX, float noiseZ, ComputeShader computeShader)
-    {
-        int kernelHandle = computeShader.FindKernel("CSMain");
-
-        // Create the buffer to store the result
-        ComputeBuffer resultBuffer = new ComputeBuffer(1, sizeof(float), ComputeBufferType.Default);
-
-        // Set the buffer on the compute shader
-        computeShader.SetBuffer(kernelHandle, "ResultBuffer", resultBuffer);
-
-        // Dispatch the compute shader
-        computeShader.Dispatch(kernelHandle, 1, 1, 1);
-
-        // Read data back from the buffer
-        float[] data = new float[1];
-        resultBuffer.GetData(data);
-        Debug.Log("Compute Shader Result: " + data[0]);
-
-        // Release the buffer
-        resultBuffer.Release();
-        return Mathf.PerlinNoise(noiseX, noiseZ);
-
-
-        //int kernelHandle = computeShader.FindKernel("CSMain");
-
-        //ComputeBuffer inputDataBuffer = new ComputeBuffer(1, sizeof(float) * 2);
-        //Vector2 inputData = new Vector2(noiseX, noiseZ);
-
-        //inputDataBuffer.SetData(new Vector2[] { inputData });
-        //computeShader.SetBuffer(kernelHandle, "InputData", inputDataBuffer);
-
-        //ComputeBuffer outputBuffer = new ComputeBuffer(1, sizeof(float));
-        //computeShader.SetBuffer(kernelHandle, "Result", outputBuffer);
-
-        //computeShader.Dispatch(kernelHandle, 1, 1, 1);
-
-        //// Retrieve data
-        //float[] result = new float[1];
-        //outputBuffer.GetData(result);
-
-        //// Cleanup
-        //inputDataBuffer.Release();
-        //outputBuffer.Release();
-
-        //return result[0]; // We expect only one result as we dispatched only one thread
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 [RequireComponent(typeof(GenerateMesh))]
 public class PlaceObjects : MonoBehaviour {
 
     public TerrainController TerrainController { get; set; }
-
     public void Place() {
         // random num objects btwn the min and max number of objects per tile 
         int numObjects = Random.Range(TerrainController.MinObjectsPerTile, TerrainController.MaxObjectsPerTile);
@@ -15,26 +15,55 @@ public class PlaceObjects : MonoBehaviour {
             // pick random prefab stored in pleaceable objects in terrain controller
             int prefabType = Random.Range(0, TerrainController.PlaceableObjects.Length);
             Vector3 startPoint = RandomPointAboveTerrain();
+
             RaycastHit hit;
-            if (Physics.Raycast(startPoint, Vector3.down, out hit) && hit.point.y > TerrainController.Water.transform.position.y && hit.collider.CompareTag("Terrain")) {
+
+            if (Physics.Raycast(startPoint, Vector3.down, out hit)
+                && hit.point.y > TerrainController.Water.transform.position.y && hit.collider.CompareTag("Terrain")) {
+
                 Quaternion orientation = Quaternion.Euler(Vector3.up * Random.Range(0f, 360f));
                 RaycastHit boxHit;
                 // get object size 
                 GameObject objectToPlace = TerrainController.PlaceableObjects[prefabType];
                 Vector3 objectSize = objectToPlace.transform.localScale; 
 
-                // if (Physics.BoxCast(startPoint, TerrainController.PlaceableObjectSizes[prefabType], Vector3.down, out boxHit, orientation) && boxHit.collider.CompareTag("Terrain")) {
-                //     Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x, hit.point.y, startPoint.z), orientation, transform);
-                // }
-
                 if (Physics.BoxCast(startPoint, objectSize, Vector3.down, out boxHit, orientation) && boxHit.collider.CompareTag("Terrain"))
                 {
-                    Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x, hit.point.y, startPoint.z), orientation, transform);
+                    // check object tags
+                    if (objectToPlace.tag == "Pine Tree" || objectToPlace.tag == "Mushroom Tree" || objectToPlace.tag == "Swirl Tree" || objectToPlace.tag == "Palm Tree")
+                    {
+                        // change orientation for trees
+                        Vector3 fixRotation = new Vector3(-90, 0, 0);
+                        orientation = Quaternion.Euler(fixRotation);
+                    }
+
+                    // instantiating rocks 
+                    if (objectToPlace.tag == "Rock")
+                    {
+                        // Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x - 3, hit.point.y - 12, startPoint.z - 5), orientation, transform);
+                        Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x, hit.point.y - 5, startPoint.z), orientation, transform);
+                    }
+
+                    // cliff trees 
+                    if (objectToPlace.tag == "Pine Tree" || objectToPlace.tag == "Mushroom Tree" || objectToPlace.tag == "Swirl Tree")
+                    {
+                        // check if above rock coast line 
+                        if (hit.point.y > 0.0f)
+                        {
+                            Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x, hit.point.y, startPoint.z), orientation, transform);
+                        }
+                    }
+
+                    // instantiating palm tree for beach biome 
+                    if (objectToPlace.tag == "Palm Tree")
+                    {
+                        Instantiate(TerrainController.PlaceableObjects[prefabType], new Vector3(startPoint.x, hit.point.y, startPoint.z), orientation, transform);
+                    }
                 }
 
                 //Debug code. To use, uncomment the giant thingy below
                 //Debug.DrawRay(startPoint, Vector3.down * 10000, Color.blue);
-                //DrawBoxCastBox(startPoint, TerrainController.PlaceableObjectSizes[prefabType], orientation, Vector3.down, 10000, Color.red);
+                //DrawBoxCastBox(startPoint, new Vector3(1, 1, 1), orientation, Vector3.down, 10000, Color.red);
                 //UnityEditor.EditorApplication.isPaused = true;
             }
 
@@ -52,7 +81,7 @@ public class PlaceObjects : MonoBehaviour {
 
     //code to help visualize the boxcast
     //source: https://answers.unity.com/questions/1156087/how-can-you-visualize-a-boxcast-boxcheck-etc.html
-    /*
+    
     //Draws just the box at where it is currently hitting.
     public static void DrawBoxCastOnHit(Vector3 origin, Vector3 halfExtents, Quaternion orientation, Vector3 direction, float hitInfoDistance, Color color) {
         origin = CastCenterOnCollision(origin, direction, hitInfoDistance);
@@ -149,5 +178,5 @@ public class PlaceObjects : MonoBehaviour {
         Vector3 direction = point - pivot;
         return pivot + rotation * direction;
     }
-    */
+    
 }

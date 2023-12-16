@@ -12,6 +12,8 @@ public class LightingManager : MonoBehaviour
     //Variables 
     [SerializeField, Range(0, 24)] private float TimeOfDay;
 
+    public Material postProcessMaterial;
+
 
     private void Update()
     {
@@ -25,6 +27,10 @@ public class LightingManager : MonoBehaviour
             TimeOfDay += Time.deltaTime;
             TimeOfDay %= 24; //Modulus to ensure always between 0-24
             UpdateLighting(TimeOfDay / 24f);
+            if (postProcessMaterial != null)
+            {
+                postProcessMaterial.SetFloat("_TimeOfDay", TimeOfDay);
+            }
         }
         else
         {

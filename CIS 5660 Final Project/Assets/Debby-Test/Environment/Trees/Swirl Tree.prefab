@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2518988928929192515}
   - component: {fileID: 4014716213538502107}
   - component: {fileID: -9163328026124986555}
+  - component: {fileID: 1047906587623063144}
   m_Layer: 0
   m_Name: Swirl Tree
-  m_TagString: Untagged
+  m_TagString: Swirl Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: -21.586845, y: 0.24420373, z: -12.58}
-  m_LocalScale: {x: 84.56145, y: 84.56143, z: 84.56143}
+  m_LocalScale: {x: 30, y: 30, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -62,8 +63,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c1ee0bf512ff3b7438ba0c09abd9cff6, type: 2}
-  - {fileID: 2100000, guid: 5819ee8c244f301458a1b45b1e5fb48a, type: 2}
+  - {fileID: 2100000, guid: 8254e90b5d734834f854c7a3ab087a30, type: 2}
+  - {fileID: 2100000, guid: 8086f8d870c6f2a4e9e2e2e213f8b863, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,3 +98,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbe38e533c0fe5743a4d346bad05eaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 2
+--- !u!65 &1047906587623063144
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413433741945265268}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.11150693, y: 0.11383839, z: 0.1351361}
+  m_Center: {x: 0.00021512806, y: 0.000960881, z: 0.06756805}

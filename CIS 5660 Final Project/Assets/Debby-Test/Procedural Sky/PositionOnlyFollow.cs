@@ -11,7 +11,8 @@ public class PositionOnlyFollow : MonoBehaviour
         if (parentTransform != null)
         {
             // Update position to match the parent, but keep local rotation unchanged
-            transform.position = parentTransform.position;
+            transform.position = new Vector3(parentTransform.position.x, transform.position.y, parentTransform.position.z);
+
         }
     }
 }

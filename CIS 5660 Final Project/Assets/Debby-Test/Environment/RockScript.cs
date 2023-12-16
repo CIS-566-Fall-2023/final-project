@@ -7,7 +7,7 @@ public class RockScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // randomize scale btwn 1 and 3  
+        // randomize scale btwn 1 and 2 
         Vector3 randScale = new Vector3(Random.Range(1.0f, 2.0f), Random.Range(1.0f, 2.0f), Random.Range(1.0f, 2.0f));
         transform.localScale = randScale;
     }

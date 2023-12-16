@@ -116,10 +116,15 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _Error_Threshold: 0.43
+    - _Error_Threshold_C: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _GrassNoiseIntensity: 0.23
+    - _GrassNoiseScale: 0.33
     - _Height: 23
+    - _HeightC: 0
     - _MAIN_LIGHT_SHADOWS_CASCADE: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -130,28 +135,43 @@ Material:
     - _Rim_Light_Strength: 0
     - _Rim_Light_Threshold: 0.1
     - _SHADOWS_SOFT: 1
-    - _Shininess: 50
+    - _Shininess: 0
     - _Smoothness: 5.37
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Specular_Light_Strength: 0.7
+    - _Specular_Light_Strength: 1.21
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
+    - _Step_Value: 0.18
+    - _Step_Value_C: 0.42
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _cellSize: 0
+    - _noiseScale: 0
     m_Colors:
     - _3_Tone_Thresholds: {r: 0.21, g: 0.64, b: 0, a: 0}
+    - _3_Tone_Thresholds_C: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Grass_Highlight: {r: 0.37410024, g: 0.5566038, b: 0.30718228, a: 0}
-    - _Grass_Midtone: {r: 0.09411711, g: 0.14150941, b: 0.096904896, a: 0}
-    - _Grass_Shadow: {r: 0.2025187, g: 0.38679248, b: 0.2025187, a: 0}
+    - _GrassHighlightC: {r: 0.6039216, g: 0.45098042, b: 0.23137257, a: 0}
+    - _GrassMidtoneC: {r: 0, g: 0, b: 0, a: 0}
+    - _GrassShadowC: {r: 0, g: 0, b: 0, a: 0}
+    - _Grass_Highlight: {r: 0.6037736, g: 0.45243484, b: 0.2306871, a: 0}
+    - _Grass_Midtone: {r: 0.4528302, g: 0.29246235, b: 0.11747954, a: 0}
+    - _Grass_Shadow: {r: 0.38679248, g: 0.20031704, b: 0.06750623, a: 0}
     - _Highlight: {r: 0.5660378, g: 0.5259879, b: 0.5259879, a: 0}
+    - _HighlightC: {r: 0, g: 0, b: 0, a: 0}
     - _Midtone: {r: 0.33962262, g: 0.29957277, b: 0.29957277, a: 0}
+    - _MidtoneC: {r: 1, g: 0.6556604, b: 0.8852321, a: 0}
     - _Ramped_Diffuse_Values: {r: 0.2, g: 0.4, b: 1, a: 0}
+    - _Ramped_Diffuse_Values_C: {r: 0, g: 0, b: 0, a: 0}
     - _Rim_Light_Color: {r: 0, g: 0, b: 0, a: 0}
     - _Shadow: {r: 0.20754719, g: 0.19090426, b: 0.19090426, a: 0}
+    - _ShadowC: {r: 0.8113208, g: 0.0956746, b: 0.4588921, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _noiseOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _terrainSize: {r: 0, g: 0, b: 0, a: 0}
+    - _tileXYloc: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -28,10 +28,11 @@ public class TerrainController : MonoBehaviour {
     [SerializeField]
     private GameObject[] placeableObjects;
     public GameObject[] PlaceableObjects { get { return placeableObjects; } }
+    public Material terrainMaterial;
 
-/*    [SerializeField]
-    private Vector3[] placeableObjectSizes;//the sizes of placeableObjects, in matching order
-    public Vector3[] PlaceableObjectSizes { get { return placeableObjectSizes; } }*/
+    /*    [SerializeField]
+        private Vector3[] placeableObjectSizes;//the sizes of placeableObjects, in matching order
+        public Vector3[] PlaceableObjectSizes { get { return placeableObjectSizes; } }*/
 
     [SerializeField]
     private int minObjectsPerTile = 0, maxObjectsPerTile = 20;
@@ -81,7 +82,6 @@ public class TerrainController : MonoBehaviour {
         water.localScale = new Vector3(terrainSize.x / 10 * waterSideLength, 1, terrainSize.z / 10 * waterSideLength);
 
         Random.InitState(seed);
-        //choose a random place on perlin noise
         startOffset = new Vector2(Random.Range(0f, noiseRange.x), Random.Range(0f, noiseRange.y));
         RandomizeInitState();
     }
@@ -131,7 +131,6 @@ public class TerrainController : MonoBehaviour {
     }
 
     //Helper methods below
-
     private void ActivateOrCreateTile(int xIndex, int yIndex, List<GameObject> tileObjects) {
         if (!terrainTiles.ContainsKey(new Vector2(xIndex, yIndex))) {
             tileObjects.Add(CreateTile(xIndex, yIndex));
@@ -156,6 +155,22 @@ public class TerrainController : MonoBehaviour {
 
         terrainTiles.Add(new Vector2(xIndex, yIndex), terrain);
 
+        // Set the specified material
+        MeshRenderer renderer = terrain.GetComponent<MeshRenderer>();
+        if (renderer != null && terrainMaterial != null)
+        {
+            renderer.material = terrainMaterial;
+            renderer.material.SetVector("_tileXYloc", new Vector2(xIndex, yIndex));
+            renderer.material.SetVector("_terrainSize", terrainSize);
+            renderer.material.SetFloat("_cellSize", cellSize);
+            renderer.material.SetFloat("_noiseScale", noiseScale);
+            renderer.material.SetVector("_noiseOffset", NoiseOffset(xIndex, yIndex, noiseScale));
+        }
+        else
+        {
+            Debug.LogWarning("MeshRenderer or terrainMaterial not found on terrain prefab");
+        }
+
         // call generate mesh 
         GenerateMesh gm = terrain.GetComponent<GenerateMesh>();
 
@@ -178,22 +193,8 @@ public class TerrainController : MonoBehaviour {
         return terrain;
     }
 
-    private Vector2 NoiseOffsetBad(int xIndex, int yIndex) {
-        Vector2 noiseOffset = new Vector2(
-            (xIndex * noiseScale + startOffset.x) % noiseRange.x,
-            (yIndex * noiseScale + startOffset.y) % noiseRange.y
-        );
-        //account for negatives (ex. -1 % 256 = -1, needs to loop around to 255)
-        if (noiseOffset.x < 0)
-            noiseOffset = new Vector2(noiseOffset.x + noiseRange.x, noiseOffset.y);
-        if (noiseOffset.y < 0)
-            noiseOffset = new Vector2(noiseOffset.x, noiseOffset.y + noiseRange.y);
-        return noiseOffset;
-    }
-
     private Vector2 NoiseOffset(int xIndex, int yIndex, float noiseScale)
     {
-        // Simply scale the tile indices by the noiseScale
         Vector2 noiseOffset = new Vector2(
             xIndex * noiseScale,
             yIndex * noiseScale

@@ -16,7 +16,7 @@ RWStructuredBuffer<float> resultData;
 // NOISE FUNCTIONS USED FOR HEIGHT GENERATION ------------------------------------------
 
 float noise2D(float2 n) {
-    return frac(cos(dot(n, float2(5.9898, 5.1414))) * 2345.3);
+    return frac(cos(dot(n, float2(7.9898, 5.1414))) * 21445.3);
 }
 
 float interpolation2D(float x, float y) {
@@ -40,25 +40,9 @@ float interpolation2D(float x, float y) {
     return lerp(i1, i2, fractY);
 }
 
-float fbm(float x, float y) {
-    x /= 10.0;
-    y /= 10.0;
-    float total = 0;
-    float persistence = 0.2;
-    int octaves = 16;
-
-    for (int i = 1; i <= octaves; i++) {
-        float freq = pow(2.0, i);
-        float amp = pow(persistence, i);
-
-        total += interpolation2D(x * freq, y * freq) * 8 * amp;
-    }
-    return total;
-}
-
 float island(float x, float y) {
     x /= 100.0;
-    y /= 100.0;
+    y /= 120.0;
     float total = 1;
     float persistence = 0.45;
     int octaves = 8;
@@ -72,13 +56,40 @@ float island(float x, float y) {
 
     float hi = (total * 30) + 90;
     if (hi <= 128) hi = 128;
-    hi += 6;
+    hi += 0;
     return hi;
+}
+
+float noise2DCliff(float2 n) {
+    float noise = frac(cos(dot(n + 0.4, float2(7.9898, 5.1414))) * 13375.3);
+    noise = pow(noise, 0.7);
+    return noise;
+}
+
+float interpolation2DCliff(float x, float y) {
+    int intX = floor(x);
+    int intY = floor(y);
+
+    float newX = frac(x);
+    float newY = frac(y);
+
+    float fractX = smoothstep(0.0, 1.0, newX);
+    float fractY = smoothstep(0.0, 1.0, newY);
+
+    float v1 = noise2DCliff(float2(intX, intY));
+    float v2 = noise2DCliff(float2(intX + 1, intY));
+    float v3 = noise2DCliff(float2(intX, intY + 1));
+    float v4 = noise2DCliff(float2(intX + 1, intY + 1));
+
+    float i1 = lerp(v1, v2, fractX);
+    float i2 = lerp(v3, v4, fractX);
+
+    return lerp(i1, i2, fractY);
 }
 
 float cliff(float x, float y) {
     x /= 100.123;
-    y /= 120.4;
+    y /= 160.4;
     float total = 0;
     float persistence = 0.45;
     int octaves = 8;
@@ -87,15 +98,13 @@ float cliff(float x, float y) {
         float freq = pow(2.0, i);
         float amp = pow(persistence, i);
 
-        total += interpolation2D(x * freq, y * freq) * 3 * amp;
+        total += interpolation2DCliff(x * freq, y * freq) * 3 * amp;
     }
 
     float hi = 200 - total * 40;
     if (hi > 160) hi = 160;
-    else if (hi > 145 && hi < 148) hi = 143;
-    else if (hi < 138 && hi > 135) hi = 139;
+    else if (hi > 140 && hi < 148) hi = 148;
     else if (hi <= 128) hi = 128;
-
     return hi;
 }
 
@@ -103,15 +112,18 @@ float cliff(float x, float y) {
 
 float biome_noise2D(float2 n)
 {
-    return frac(sin(dot(n, float2(311.7, 191.999))) * 17434.2371);
+    return frac(sin(dot(n, float2(311.7, 191.999))) * 1434.2371);
 }
 
-float biome_interpNoise2D(float x, float y)
-{
-    float intX = floor(x);
-    float fractX = frac(x);
-    float intY = floor(y);
-    float fractY = frac(y);
+float biome_interpolation2D(float x, float y) {
+    int intX = floor(x);
+    int intY = floor(y);
+
+    float newX = frac(x);
+    float newY = frac(y);
+
+    float fractX = smoothstep(0.0, 1.0, newX);
+    float fractY = smoothstep(0.0, 1.0, newY);
 
     float v1 = biome_noise2D(float2(intX, intY));
     float v2 = biome_noise2D(float2(intX + 1, intY));
@@ -120,107 +132,48 @@ float biome_interpNoise2D(float x, float y)
 
     float i1 = lerp(v1, v2, fractX);
     float i2 = lerp(v3, v4, fractX);
+
     return lerp(i1, i2, fractY);
 }
 
-float biome_fbm(float x, float y)
-{
-    x /= 1400.0;
-    y /= 1400.0;
+float biomeType(float x, float y) {
+    // Adjust the scale to control the frequency of biome changes
+    float scale = 140.0;
+    float noiseValue = biome_interpolation2D(x / scale, y / scale);
 
-    float total = 0;
-    float persistence = 0.5;
-    int octaves = 8;
-
-    for (int i = 1; i <= octaves; ++i) {
-        float freq = pow(2.0, i);
-        float amp = pow(persistence, i);
-
-        total += biome_interpNoise2D(x * freq, y * freq) * amp;
-    }
-    return total;
+    // This noise value determines the biome type
+    return noiseValue;
 }
 
-float bilin(float biome1, float biome2, float bump)
-{
-    return lerp(biome1, biome2, smoothstep(0.35, 0.55, bump));
+float heightType(float x, float y) {
+    float scale = 40.0;
+    float noiseValue = biome_interpolation2D(x / scale, y / scale);
+
+    return noiseValue;
 }
 
-float generateTerrain(float x, float z, float3 v)
-{
-    float humidity = v.x;
-    float temp = v.y;
-    float bump = v.z;
+float biomeBlend(float x, float y) {
+    float biomeValue = biomeType(x, y);
+    float threshold = 0.5; 
+    float islandHeight = island(x, y);
+    float cliffHeight = cliff(x, y);
 
-    float mesaG = cliff(x / 64.0, z / 64.0);
-    float grass = island(x / 64.0, z / 64.0);
-    float mtn = cliff(x / 64.0, z / 64.0);
-    float is = island(x / 64.0, z / 64.0);
-    float mesaG2 = cliff(x / 64.0, z / 64.0);
-    float grass2 = island(x / 64.0, z / 64.0);
-    float mtn2 = cliff(x / 64.0, z / 64.0);
-    float is2 = island(x / 64.0, z / 64.0);
+    float blend = smoothstep(0.45, 0.68, abs(biomeValue - threshold) * 2.0);
 
-    float bilin1 = bilin(is, mesaG, temp);
-    float bilin2 = bilin(grass, mtn, temp);
-    float bilin3 = bilin(is2, mesaG2, temp);
-    float bilin4 = bilin(grass2, mtn2, temp);
+    float cliffHeightValue = heightType(x, y);
+    float cliffthreshold = 0.4;
+    float cliffBlend = smoothstep(0.15, 0.94, abs(cliffHeightValue - cliffthreshold) * 2.0);
+    float cliffHeight1 = cliff(x, y) * 1.04;
+    float cliffHeight2 = cliff(x, y) * 1.00;
 
-    float height1 = bilin(bilin1, bilin2, humidity);
-    float height2 = bilin(bilin3, bilin4, humidity);
+    float cliffHeightMultiplier = lerp(cliffHeight1, cliffHeight2, cliffBlend);
 
-    float height = bilin(height1, height2, bump);
-
-    return height;
-}
-
-float heightFromPos(float2 uv) {
-    float3 biome = float3(biome_fbm(uv.x, uv.y),
-        biome_fbm(uv.x + 12.34, uv.y + 23.4),
-        biome_fbm(uv.x + 5.4, uv.y + 63.5));
-
-    int biomeInt;
-
-    if (biome.x < 0.5) {
-        if (biome.y < 0.5) {
-            if (biome.z < 0.5) {
-                biomeInt = 1;
-            }
-            else {
-                biomeInt = 5;
-            }
-
-        }
-        else {
-            if (biome.z < 0.5) {
-                biomeInt = 2;
-            }
-            else {
-                biomeInt = 6;
-            }
-
-        }
-    }
-    else {
-        if (biome.y < 0.5) {
-            if (biome.z < 0.5) {
-                biomeInt = 3;
-            }
-            else {
-                biomeInt = 7;
-            }
-        }
-        else {
-            if (biome.z < 0.5) {
-                biomeInt = 4;
-            }
-            else {
-                biomeInt = 8;
-            }
-        }
+    if (cliffHeight * .0083 > 1.2282) {
+        cliffHeight = cliffHeightMultiplier;
     }
 
-    float height = generateTerrain(uv.x, uv.y, biome);
+    // Interpolate between the two biomes based on the blend value
+    return lerp(islandHeight, cliffHeight, blend);
 }
 
 [numthreads(100, 1, 1)]
@@ -231,9 +184,8 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     if (index < positionData.Length)
     {
         float2 position = float2(positionData[index].x, positionData[index].y);
-        //float height = noise2D(position);
-        float height = cliff(position.x, position.y) * .0083;
-        //float height = 2.0;
+        float height = biomeBlend(position.x, position.y) * .0083;
+
         resultData[index] = height;
     }
 }
