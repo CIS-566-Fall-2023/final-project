@@ -2,7 +2,7 @@
 ## Final Submission (due 12/6) 
 
 ### Demo Video
-https://drive.google.com/file/d/1sWsCj9fICWrAheTy5JZglhaXxb1ZGDyU/view
+[https://drive.google.com/file/d/1sWsCj9fICWrAheTy5JZglhaXxb1ZGDyU/view](https://drive.google.com/file/d/1fB-fklT5PQ-soWJDw5hQ4zG53LYj16Pr/view)
 
 ### Post Mortem
 The project went relatively smoothly. We managed to accomplish most of our goals: infinitely generating terrain, multiple biomes and shaders, a skybox with a day-night cycle, a user-controlled boat, and procedural environment shaders for the terrain, water, and sky all inspired by the look of Dredge. We had to pivot on some aspects of our initial goals, mostly in terms of not having enough time to implement every single embellishment we had initially hoped for, such as a GUI or post-processing effects. This is mostly because implementing more core features such as the biomes and environment shaders took more time than originally expected. However, overall we are very satisfied with what we were able to accomplish as we managed to capture the core of what we had originally planned for: an endless boat simulator with proceduralism used throughout the infinitely generating environment. 
@@ -30,6 +30,19 @@ The project went relatively smoothly. We managed to accomplish most of our goals
 - Additionally, I used an ambient lighting gradient to apply changing colors to the clouds to showcase the passing of time and to blend it better with the day-night cycle I made.    
 - One helpful resource I used was: https://www.patreon.com/posts/27402644
 <img src="https://github.com/debbylin02/final-project/assets/82790216/71624ce0-dfc9-4717-a80d-0f02ec8cb06b"  width = "600" height = "400"> 
+
+### Biome shaders, part 2 - Will
+Since the biome shaders are currently material shaders, they don’t have access to the compute shader functions determining biome. In order to get this information, we needed to first get the compute shader input data, which is a scaled “world” position. We can’t use the actual tile’s world position due to our repositioning around (0,0)
+So, I created each biome’s material within the tile creation function, sending it all the world and custom noise scale data it needs to get each tile’s “world” position.
+The biome determination function is then recreated in the biome shader, which now is being called for all points rather than a specific set of vertices
+This allowed me to mix together the sandy and cliff biome shaders
+
+### Distance Fog - Will
+Distance fog is done with a post-process shader. A new render pass is made for this shader. The distance fog takes in Unity’s sampled scene depth data and uses an exponential distance function to fill in fog given color, density, and offset. This function was inspired by Acerola’s “Simple Fog in Unity” video 
+(https://www.youtube.com/watch?v=EFt_lLVDeRo), with code reworked for Unity Rendering Pipeline
+<img src="https://github.com/debbylin02/final-project/assets/82790216/e7a9e0a2-6ee7-4ea6-a783-e2239a653a4b"  width = "600" height = "400"> 
+
+The color of the distance fog is affected by the day/night cycle, turning black at night for a spookier effect.
 
 ## Milestone 2: Implementation part 2 (due 11/27)
 ### Biomes: Will
