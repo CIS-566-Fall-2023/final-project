@@ -1,5 +1,8 @@
 # Islamic Geometric Wood Carving Tool
-Aboudi Rai
+
+![](img/final-render-0.jpg)
+
+Check out the [demo](https://youtu.be/sME_ZO3Bp3c).
 
 ### Design Doc
 
