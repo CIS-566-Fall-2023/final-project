@@ -2,6 +2,16 @@ import maya.api.OpenMaya as om
 import maya.cmds as cmds
 import maya.mel as mel
 
+import importlib
+import maya_rubiks_ui as ui
+import maya_rubiks_animation as animation
+import util
+import rubiks_cube as cube_class
+importlib.reload(ui)
+importlib.reload(animation)
+importlib.reload(util)
+importlib.reload(cube_class)
+
 
 def maya_useNewAPI():
     pass
@@ -35,7 +45,7 @@ def create_shelf():
 
     cmds.setParent('MayaRubiks')
     cmds.shelfButton(label="MayaRubiks", annotation="Simulate solving a rubik's cube.",
-                     image1='../icons/shelf_button.png', command=test)
+                     image1='../icons/shelf_button.png', command=ui.main)
 
 
 def initializePlugin(plugin):

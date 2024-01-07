@@ -1,3 +1,6 @@
+import random
+
+
 class RubiksCube:
     def __init__(self):
         self.cube = {
@@ -28,10 +31,10 @@ class RubiksCube:
         return True
 
     def rotate_cw_helper(self, face):
-        self.cube[face] = list(zip(*reversed(self.cube[face])))
+        self.cube[face] = list(map(list, zip(*reversed(self.cube[face]))))
 
     def rotate_ccw_helper(self, face):
-        self.cube[face] = list(reversed(list(zip(*self.cube[face]))))
+        self.cube[face] = list(reversed(list(map(list, zip(*self.cube[face])))))
 
     def rotate_top_cw(self):
         self.rotate_cw_helper("top")
@@ -136,4 +139,12 @@ class RubiksCube:
             self.cube["left"][i][0] = self.cube["bottom"][2][2 - i]
             self.cube["bottom"][2][2 - i] = self.cube["right"][2 - i][2]
             self.cube["right"][2 - i][2] = temp
+
+    move_functions_list = [rotate_top_cw, rotate_top_ccw, rotate_bottom_cw, rotate_bottom_ccw,
+                           rotate_right_cw, rotate_right_ccw, rotate_left_cw, rotate_left_ccw,
+                           rotate_front_cw, rotate_front_ccw, rotate_back_cw, rotate_back_ccw]
+
+    def scramble(self):
+        for _ in range(100):
+            random.choice(self.move_functions_list)(self)
 
