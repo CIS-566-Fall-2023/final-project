@@ -28,24 +28,22 @@ class MayaRubiksCmd(om.MPxCommand):
         return MayaRubiksCmd()
 
     def doIt(self, args):
-        print("Hello World!")
+        ui.main()
 
-def test():
-    print("Hello World!")
 
 def create_shelf():
     if cmds.shelfLayout('MayaRubiks', exists=True):
-        buttons_list = cmds.shelfLayout('MayaRubiks', query=True, childArray=True)
-        try:
-            cmds.deleteUI(buttons_list, control=True)
-        except:
-            pass
-    else:
-        mel.eval('addNewShelfTab %s' % "MayaRubiks")
+        cmds.deleteUI('MayaRubiks', control=True)
 
-    cmds.setParent('MayaRubiks')
+    mel.eval('addNewShelfTab %s' % "MayaRubiks")
+    buttons_list = cmds.shelfLayout('MayaRubiks', query=True, childArray=True)
+    try:
+        cmds.deleteUI(buttons_list, control=True)
+    except:
+        pass
+
     cmds.shelfButton(label="MayaRubiks", annotation="Simulate solving a rubik's cube.",
-                     image1='../icons/shelf_button.png', command=ui.main)
+                     image1='../icons/shelf_button.png', command=ui.show_window)
 
 
 def initializePlugin(plugin):
@@ -66,3 +64,7 @@ def uninitializePlugin(plugin):
         pluginFn.deregisterCommand(MayaRubiksCmd.kPluginCmdName)
     except:
         raise RuntimeError("Failed to unregister command")
+
+    ui.destroy_rubiks_ui()
+    if cmds.shelfLayout('MayaRubiks', exists=True):
+        cmds.deleteUI('MayaRubiks')

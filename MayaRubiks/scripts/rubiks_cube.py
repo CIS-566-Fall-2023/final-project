@@ -148,3 +148,25 @@ class RubiksCube:
         for _ in range(100):
             random.choice(self.move_functions_list)(self)
 
+class CubeGeom(RubiksCube):
+    def __init__(self):
+        self.cube = {
+            "top": [["top0", "top1", "top2"],
+                    ["top3", "top4", "top5"],
+                    ["top6", "top7", "top8"]],
+            "bottom": [["bottom6", "bottom7", "bottom8"],
+                       ["bottom3", "bottom4", "bottom5"],
+                       ["bottom0", "bottom1", "bottom2"]],
+            "left": [["top0", "top3", "top6"],
+                     ["middle0", "middle3", "middle6"],
+                     ["bottom0", "bottom3", "bottom6"]],
+            "right": [["top8", "top5", "top2"],
+                      ["middle8", "middle5", "middle2"],
+                      ["bottom8", "bottom5", "bottom2"]],
+            "front": [["top6", "top7", "top8"],
+                      ["middle6", "middle7", "middle8"],
+                      ["bottom6", "bottom7", "bottom8"]],
+            "back": [["top2", "top1", "top0"],
+                     ["middle2", "middle1", "middle0"],
+                     ["bottom2", "bottom1", "bottom0"]]
+        }
