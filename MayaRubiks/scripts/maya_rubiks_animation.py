@@ -21,6 +21,16 @@ def create_shader(name, node_type="aiStandardSurface"):
     return material, sg
 
 
+def add_keyframes(time):
+    cmds.select(clear=True)
+    for key in name_to_location_dict:
+        cmds.select(key, add=True)
+
+    cmds.setKeyframe(at='rotate', t=['{}sec'.format(time), '{}sec'.format(time+1)])
+
+    cmds.select(clear=True)
+
+
 class CubeAnimation:
     color_shaders = {}
 
@@ -29,6 +39,8 @@ class CubeAnimation:
         self.my_rubiks_cube.scramble()
 
         self.my_cube_geom = CubeGeom()
+
+        self.curr_time = 0
 
         for key, value in color_to_rgb_dict.items():
             new_mtl, new_sg = create_shader(key)
@@ -42,6 +54,8 @@ class CubeAnimation:
         self.my_rubiks_cube.scramble()
 
         self.my_cube_geom = CubeGeom()
+
+        self.curr_time = 0
 
         cube_names_list = []
         for key, value in name_to_location_dict.items():
@@ -64,13 +78,13 @@ class CubeAnimation:
                     found_geom = face_to_maya_geom_dict[face][row_idx][square_idx]
                     cmds.sets(found_geom, forceElement=self.color_shaders[square][1])
 
+        add_keyframes(self.curr_time)
+
         cmds.select(clear=True)
 
     def rotate_top_cw(self, _):
         self.my_rubiks_cube.rotate_top_cw()
         self.my_cube_geom.rotate_top_cw()
-
-        self.my_cube_geom.display()
 
         squares_in_grp = list()
         for row in self.my_cube_geom.cube["top"]:
@@ -85,3 +99,6 @@ class CubeAnimation:
         cmds.rotate(0, -90, 0, r=True)
 
         cmds.select(clear=True)
+
+        self.curr_time += 3
+        add_keyframes(self.curr_time)
