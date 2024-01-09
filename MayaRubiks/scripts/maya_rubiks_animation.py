@@ -97,7 +97,7 @@ class CubeAnimation:
             "L": [[self.my_rubiks_cube.rotate_left_cw], [self.my_cube_geom.rotate_left_cw], "left", [90, 0, 0]],
             "L'": [[self.my_rubiks_cube.rotate_left_ccw], [self.my_cube_geom.rotate_left_ccw], "left", [-90, 0, 0]],
             "L2": [[self.my_rubiks_cube.rotate_left_cw, self.my_rubiks_cube.rotate_left_cw],
-                   [self.my_cube_geom.rotate_left_cw, self.my_cube_geom.rotate_left_cw], "left", [0, 180, 0]],
+                   [self.my_cube_geom.rotate_left_cw, self.my_cube_geom.rotate_left_cw], "left", [180, 0, 0]],
             "R": [[self.my_rubiks_cube.rotate_right_cw], [self.my_cube_geom.rotate_right_cw], "right", [-90, 0, 0]],
             "R'": [[self.my_rubiks_cube.rotate_right_ccw], [self.my_cube_geom.rotate_right_ccw], "right", [90, 0, 0]],
             "R2": [[self.my_rubiks_cube.rotate_right_cw, self.my_rubiks_cube.rotate_right_cw],
@@ -137,14 +137,9 @@ class CubeAnimation:
         add_keyframes(self.curr_time)
 
     def solve(self, *args):
-        # move_string = rubiks_cube_solver.solve(self.my_rubiks_cube.cube)
-        # move_string_list = move_string.split(" ")
-        # for move_string in move_string_list:
-        #     self.rotate_face(direction=move_string)
-
-        move_string_list = self.my_rubiks_cube.test_function()
-        for move_string in reversed(move_string_list):
+        move_string = rubiks_cube_solver.solve(self.my_rubiks_cube.cube)
+        move_string_list = move_string.split(" ")
+        for move_string in move_string_list:
             self.rotate_face(direction=move_string)
-            self.rotate_face(direction=move_string)
-            self.rotate_face(direction=move_string)
+            
 
