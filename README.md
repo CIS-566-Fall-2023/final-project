@@ -2,22 +2,47 @@
 
 ### Authors: Tianyi Xiao and Linda Zhu
 
-## [Check out our live demo!](https://jackxty.github.io/Sci-Fi-Corridor-Generator/)
+## [Check out our interactive demo!](https://jackxty.github.io/Sci-Fi-Corridor-Generator/)
+A simple treasure hunt built from our procedural asset pipeline. Have fun exploring!
+
+Instructions:
+- Mouse: Camera view orientation
+- WASD keys: Movement directions, forward/left/backward/right
+- SPACE key: Jump
 
 ## [Introduction Video](https://drive.google.com/file/d/11jnbuWwpp6BDBsoZ2qdruYy5CL9W41N9/view?usp=sharing)
+Inspired by many popular Sci-Fi games, such as Cyberpunk 2077, Halo and Blade Runner, we are interested in creating a procedural generator of Sci-Fi game levels to assist artists with faster authoring of stylized scenes. We want to utilize various procedural graphics knowledge we learned and explore integrating popular 3D tools into one content authoring workflow.
+
+Overview:
+
+![](/img/overview.png)
 
 <details>
   <summary> Final </summary>
 
 ## Post Mortem
-  Overall speaking, we are very satsfied with our project, no matter for our outcome or for our working progress. We follow the planned timeline to work on this project, and in the end we have acheived all of the goals that listed in the timeline of our deign doc. Besides finishing our own jobs, we also supported each other to accomplish our tasks outstandingly, with smooth and effective communication. Probably we could add some additional features (some interesting shader effect, particle effect, or better art design) to make our scene even more impressive. But within the given time, I believe we have done an excellent job. 
+  In general, we are very satsfied with our project, in terms of both the outcome and the collaboration process. We perfectly followed the planned timeline to work on this project. As a result, we have acheived all of the goals listed in each milestone of our deign doc. Besides finishing our own tasks, we also supported/helped each other on resolving problems and challenges encountered in our own parts, with smooth and effective communication. For future/stretch work, we want to simplify or remove some panel textures so that the environment looks less crowded. We could add additional visual features (interesting shaders, particle effect, or custom art design) to make our scene more polished in terms of a complete game level. We also wished to be more creative and original in adding our own spin in the art style. Nevertheless, considering a steep learning curve getting familiar with so many powerful features of new 3D software, mainly Houdini, within the time constraint, I believe we have done an excellent job. 
 
-  The houdini work out well together with Unity, as we suppose in the beginning stage. Though there are some issues while we're using Houdini, we could find solution with our effort. And we have a deeper understanding with how Houdini work and what it can acheive.
+  The houdini assets workflow works out well with Unity, as we anticipated in the beginning after doing some research on the existing procedural references. Although there were compatibility issues of different versions and updates while using Houdini (including Houdini Engine), we are able to find workarounds with our effort. Now we have a deeper understanding in how Houdini work and what it can acheive.
 
 </details>
 
 <details>
   <summary> Milestone 3 </summary>
+
+## Procedural Assets (Continued)
+Now we have the backbone of a Houdini panel generator. We can mass-produce walls of different styles by just feeding in different input PSDs. However, for a balanced visual from the artistic perspective, we don't want our modular wall system packed with complicated structures, since we will also use the generator to create doors and ceilings. Moreover, we also want to support common image input formats, e.g. png, jpg/jpeg, and tga besides psd. To fulfill the needs, we repalce the layering subnet of the panel generator with a simpler logic, while keeping the high poly count and low poly count output subnets. The new layering version produces panels with simpler structures, i.e. fewer layers or less details.
+
+Here's a comparison between the simplified version and the original version:
+Door Generator (Simplified)  | Wall Generator (Original)
+ ------  | :-----: |
+![](/img/milestone3/layering.png) |![](/img/milestone3/psd_layering.png)
+
+Here's the final collection of panel-like assets we used in the scene with texture on:
+
+![](/img/milestone3/panels.jpg)
+
+*A side note*: When painting the panels, we had to separate out geometry nodes and subnetworks of different structures, at least the base panel, the top panel, and the panel details, to allow Houdini to output the model in separate components. Furthermore, Houdini can only export models in Alembic, FBX and GLTF, while it's easier to work with Substance Painter using OBJs, so we manually converted major wall assets in Blender.
 
 ## Texture Generation
 To create textures for procedurally generated models, we use Substance Painter to paint walls and doors with more complex geometry. From there we generate corresponding diffuse and metallic textures for the URP rendering pipeline.
@@ -30,11 +55,25 @@ For plain panels and ground textures, we opt for Substance Designer to modify te
 
 ![](/img/milestone3/modified_tex.png)
 
-## Dissolve Effect
+## Interactive Scene
+Finally, we are here to assemble the scene with model prefabs, and add more playable features as in a complete Unity game developement pipeline!
 
-To enrich the interactivity of the game level, I implement a dissolve effect when player get closer to the box, which is controlled by a dissolve factor and a noise texture. In fragment shader, the noise texture will be sampled and compared with an increasing dissolve factor, if noise is smaller then it would be alpha-clipped, which looks like dissolved. What's more, I add a white edge at the area where nearly but haven't be clipped.
+### Player Physics
+We integrated first-person player movement into the scene so that the user can move, jump, look around and trigger objects' behaviors. This is composed of two simple scripts attached to the `Main Camera` and a capsule game object, controlling the player camera/orientation and player position. 
+
+Inside the corridor, the player can move through cells by sliding doors and collecting treasury boxes. Once you explored a new cell unit, the door you passed will be kept open to mark your path trace. We exposed some tunable parameters to allow users to achieve their own desirable physically-based movement.
+
+![](/img/milestone3/player_move.png)
+
+### Dissolve Effect
+To enrich the interactivity of the game level, Tianyi implemented a dissolve effect when player get closer to the box, which is controlled by a dissolve factor and a noise texture. In fragment shader, the noise texture will be sampled and compared with an increasing dissolve factor, if noise is smaller then it would be alpha-clipped, which looks like dissolved. What's more, I add a white edge at the area where nearly but haven't be clipped.
 
 ![](/img/milestone3/dissolve.png)
+
+### Lighting
+The final touch is to make the scene look realistic. We referenced these two tutorials [Realtime Interior Lighting](https://youtu.be/QhVPi1bfVEA?si=MB6LXnGlu5nYlJ1R) and [Baked Interior Lighting](https://youtu.be/_0AEcsyIQzc?si=cqaArDlz5h1sTen6) to utlitize the Unity Universal Render Pipeline (URP) features, along with a mix of post-processing effects.
+
+This is the most difficult part as there're pros and cons of baked and realtime lighting. Baked lighting tends to look more natural than realtime lighting as all the lights blend nicely with the environment. However, with moving objects or in our case, the disappearing teasure box, baked lightmap will leave the box shadow as is after the box is "dissolved." Mixed lighting solves this issue but it leads to another mysterious problem that we couldn't resolve: the ceiling lights (point light) blink when the player/camera moves toward them. Since we are newbies to URP lighting, we decided to stick with mixed lighting and play around with the lightmap settings, as we can afford the tradeoff to ensure an overall visual quality.
 
 </details>
 
@@ -218,19 +257,13 @@ We are running ahead of the schedule so we continue on generating different type
 <details>
   <summary> Design Doc </summary>
 
-### Introduction
-- We are interested in creating a procedural generator of Sci-Fi game levels to assist artists with faster authoring of stylized scenes.
-- We want to utilize various procedural graphics knowledge we learned from this class, e.g. shape grammars, and explore integrating popular 3D tools into one content authoring workflow.
-
 ### Goals
 - Create a corridor system as a game level map that connects interior spaces given an input curve.
 - The level assets such as panels, doors and decorations will be created in a procedural way using Houdini and then ported into Unity. 
 - Assemble the final sci-fi level scene in Unity.
-- Stretch goal: make the scene interactable with the player.
+- Stretch goal: make the scene interactable with a frist-person player.
 
 ### Inspiration/reference:
-- Inspired by many popular Sci-Fi movies and games, such as Cyberpunk 2077, Halo and Blade Runner, we want to implement a Sci-Fi style level.
-
 ![](img/cyberpunk2077.webp) | [Cyberpunk 2077 Art Style](https://www.engadget.com/cyberpunk-2077-review-170013962.html)
 ---|---
 ![](/img/halo.jpg) | [Halo 4 Environment Art](https://polycount.com/discussion/159954/the-environment-art-of-halo-4)
@@ -243,11 +276,10 @@ We are running ahead of the schedule so we continue on generating different type
 - Create objects (box, chair, etc.) procedurally for level decoration.
 - Create textures for scenes.
 - Paint/Populate our levels with textures and objects procedurally.
-- Implement some render features to for better visual effect, such as SSAO.
-- Make the level interactable.
+- Implement some render features in Unity for better visual effects, such as SSAO.
+- Simple scripts to make the scene interactable.
 
 ### Techniques:
-
 - Houdini VEX scripting and node networks.
 - Procedural modelling using shape grammars and possibly L-systems.
 
@@ -259,8 +291,7 @@ We are running ahead of the schedule so we continue on generating different type
 (Edited on 11/20:)
 More assets references to check out:
 1. https://www.reddit.com/r/Houdini/comments/12eq4gk/scifi_panel_generator_wip/
-2. https://www.artstation.com/artwork/r9zRXO
-3. 
+2. https://www.artstation.com/artwork/r9zRXO 
 
 ### Design:
 Orange cells are Houdini stages, green cells are Substance Designer/Painter stages and the blue cell is in Unity. We didn't include the stretch goals in the chart, except the procedural modelling of decoration objects, because we want to ensure the completion of the main project.
@@ -292,7 +323,14 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
 
 </details>
 
-### Resources:
-1. [Metal texture](https://seamless-pixels.blogspot.com/2012/09/free-seamless-metal-textures_28.html)
+### Resources & Credits:
+1. [Metal textures](https://seamless-pixels.blogspot.com/2012/09/free-seamless-metal-textures_28.html)
 2. [Yughues Free Metal Materials](https://assetstore.unity.com/packages/2d/textures-materials/metals/yughues-free-metal-materials-12949)
-3. [First Person Player Movement in Unity](https://youtu.be/f473C43s8nE?si=LNNxxxcT9IQ6WuGo)
+3. **SideFX tutorials by Simon Verstratete:**
+    -  [Sci-fi Level Builder](https://www.sidefx.com/tutorials/sci-fi-level-builder/)
+    -  [Sci-fi Panel Generator](https://www.sidefx.com/tutorials/sci-fi-panel-generator/)
+4. [Sci-fi cylinder tunnel](https://polycount.com/discussion/101306/breakdown-of-scifi-cylinder-tunnel)
+5. [First Person Player Movement in Unity](https://youtu.be/f473C43s8nE?si=LNNxxxcT9IQ6WuGo)
+6. Basics of Interior Lighting in Unity URP:
+    - [Baked Interior Lighting](https://youtu.be/_0AEcsyIQzc?si=cqaArDlz5h1sTen6)
+    - [Realtime Interior Lighting](https://youtu.be/QhVPi1bfVEA?si=MB6LXnGlu5nYlJ1R)
