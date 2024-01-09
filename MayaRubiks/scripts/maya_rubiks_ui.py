@@ -24,10 +24,9 @@ def show_window():
     window_name = cmds.window(title="Rubik's Cube Solver", iconName="Maya Rubik's", widthHeight=(300, 400))
     cmds.setParent('..')
     cmds.columnLayout(adjustableColumn=True)
-    cmds.button(label='Create New Cube', command=my_cube_animation.display_initial)
+    cmds.button(label='Create New Cube', command=my_cube_animation.create_ui)
 
-    cmds.button(label='Rotate Top Clockwise', command=my_cube_animation.rotate_top_cw)
+    cmds.button(label='Solve', command=my_cube_animation.solve)
     cmds.button(label='Delete Cube', command=destroy_rubiks_maya_geom)
 
     cmds.showWindow(window_name)
-

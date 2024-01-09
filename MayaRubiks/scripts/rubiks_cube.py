@@ -1,4 +1,5 @@
 import random
+import rubiks_cube_solver
 
 
 class RubiksCube:
@@ -86,6 +87,7 @@ class RubiksCube:
             self.cube["bottom"][i][2] = self.cube["front"][i][2]
             self.cube["front"][i][2] = temp
 
+
     def rotate_left_cw(self):
         self.rotate_cw_helper("left")
         for i in range(3):
@@ -126,27 +128,73 @@ class RubiksCube:
         self.rotate_cw_helper("back")
         for i in range(3):
             temp = self.cube["top"][0][i]
-            self.cube["top"][0][i] = self.cube["right"][2 - i][2]
+            self.cube["top"][0][i] = self.cube["right"][i][2]
             self.cube["right"][2 - i][2] = self.cube["bottom"][2][2 - i]
-            self.cube["bottom"][2][2 - i] = self.cube["left"][i][0]
+            self.cube["bottom"][2][2 - i] = self.cube["left"][2-i][0]
             self.cube["left"][i][0] = temp
 
     def rotate_back_ccw(self):
         self.rotate_ccw_helper("back")
         for i in range(3):
             temp = self.cube["top"][0][i]
-            self.cube["top"][0][i] = self.cube["left"][i][0]
-            self.cube["left"][i][0] = self.cube["bottom"][2][2 - i]
-            self.cube["bottom"][2][2 - i] = self.cube["right"][2 - i][2]
-            self.cube["right"][2 - i][2] = temp
+            self.cube["top"][0][i] = self.cube["left"][2-i][0]
+            self.cube["left"][2 - i][0] = self.cube["bottom"][2][2 - i]
+            self.cube["bottom"][2][2 - i] = self.cube["right"][i][2]
+            self.cube["right"][i][2] = temp
 
     move_functions_list = [rotate_top_cw, rotate_top_ccw, rotate_bottom_cw, rotate_bottom_ccw,
                            rotate_right_cw, rotate_right_ccw, rotate_left_cw, rotate_left_ccw,
                            rotate_front_cw, rotate_front_ccw, rotate_back_cw, rotate_back_ccw]
 
+    move_string_to_function_dict = {
+        "U": [rotate_top_cw],
+        "U'": [rotate_top_ccw],
+        "U2": [rotate_top_cw, rotate_top_cw],
+        "D": [rotate_bottom_cw],
+        "D'": [rotate_bottom_ccw],
+        "D2": [rotate_bottom_cw, rotate_bottom_cw],
+        "L": [rotate_left_cw],
+        "L'": [rotate_left_ccw],
+        "L2": [rotate_left_cw, rotate_left_cw],
+        "R": [rotate_right_cw],
+        "R'": [rotate_right_ccw],
+        "R2": [rotate_right_cw, rotate_right_cw],
+        "F": [rotate_front_cw],
+        "F'": [rotate_front_ccw],
+        "F2": [rotate_front_cw, rotate_front_cw],
+        "R2": [rotate_right_cw, rotate_right_cw],
+        "B": [rotate_back_cw],
+        "B'": [rotate_back_ccw],
+        "B2": [rotate_back_cw, rotate_back_cw],
+    }
+
+    tester = []
+
     def scramble(self):
-        for _ in range(100):
-            random.choice(self.move_functions_list)(self)
+        for _ in range(10):
+            test = random.choice(self.move_functions_list)
+
+            for key, value in self.move_string_to_function_dict.items():
+                if test in value:
+                    self.tester.append(key)
+                    break
+
+            test(self)
+
+    def test_function(self):
+        return self.tester
+
+    def solve(self):
+        move_string = rubiks_cube_solver.solve(self.cube)
+        move_string_list = move_string.split(" ")
+        function_list = []
+        for move_string in move_string_list:
+            function_list += self.move_string_to_function_dict[move_string]
+
+        for function in function_list:
+            function(self)
+
+        self.display()
 
 class CubeGeom(RubiksCube):
     def __init__(self):
@@ -170,3 +218,8 @@ class CubeGeom(RubiksCube):
                      ["middle2", "middle1", "middle0"],
                      ["bottom2", "bottom1", "bottom0"]]
         }
+
+
+# test = CubeGeom()
+# test.rotate_back_cw()
+# test.display()

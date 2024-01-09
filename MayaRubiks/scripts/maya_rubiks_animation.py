@@ -4,6 +4,8 @@ import maya.mel as mel
 from rubiks_cube import RubiksCube, CubeGeom
 from util import name_to_location_dict, face_to_maya_geom_dict, color_to_rgb_dict
 
+import rubiks_cube_solver
+
 
 def destroy_rubiks_maya_geom(*args):
     for key in name_to_location_dict.keys():
@@ -47,7 +49,7 @@ class CubeAnimation:
             cmds.setAttr(new_mtl + ".baseColor", value[0], value[1], value[2], type="double3")
             self.color_shaders[key] = (new_mtl, new_sg)
 
-    def display_initial(self, _):
+    def create_ui(self, _):
         destroy_rubiks_maya_geom()
 
         self.my_rubiks_cube = RubiksCube()
@@ -82,12 +84,41 @@ class CubeAnimation:
 
         cmds.select(clear=True)
 
-    def rotate_top_cw(self, _):
-        self.my_rubiks_cube.rotate_top_cw()
-        self.my_cube_geom.rotate_top_cw()
+    def rotate_face(self, direction=""):
+        move_string_to_function_dict = {
+            "U": [[self.my_rubiks_cube.rotate_top_cw], [self.my_cube_geom.rotate_top_cw], "top", [0, -90, 0]],
+            "U'": [[self.my_rubiks_cube.rotate_top_ccw], [self.my_cube_geom.rotate_top_ccw], "top", [0, 90, 0]],
+            "U2": [[self.my_rubiks_cube.rotate_top_cw, self.my_rubiks_cube.rotate_top_cw],
+                   [self.my_cube_geom.rotate_top_cw, self.my_cube_geom.rotate_top_cw], "top", [0, -180, 0]],
+            "D": [[self.my_rubiks_cube.rotate_bottom_cw], [self.my_cube_geom.rotate_bottom_cw], "bottom", [0, 90, 0]],
+            "D'": [[self.my_rubiks_cube.rotate_bottom_ccw], [self.my_cube_geom.rotate_bottom_ccw], "bottom", [0, -90, 0]],
+            "D2": [[self.my_rubiks_cube.rotate_bottom_cw, self.my_rubiks_cube.rotate_bottom_cw],
+                   [self.my_cube_geom.rotate_bottom_cw, self.my_cube_geom.rotate_bottom_cw], "bottom", [0, 180, 0]],
+            "L": [[self.my_rubiks_cube.rotate_left_cw], [self.my_cube_geom.rotate_left_cw], "left", [90, 0, 0]],
+            "L'": [[self.my_rubiks_cube.rotate_left_ccw], [self.my_cube_geom.rotate_left_ccw], "left", [-90, 0, 0]],
+            "L2": [[self.my_rubiks_cube.rotate_left_cw, self.my_rubiks_cube.rotate_left_cw],
+                   [self.my_cube_geom.rotate_left_cw, self.my_cube_geom.rotate_left_cw], "left", [0, 180, 0]],
+            "R": [[self.my_rubiks_cube.rotate_right_cw], [self.my_cube_geom.rotate_right_cw], "right", [-90, 0, 0]],
+            "R'": [[self.my_rubiks_cube.rotate_right_ccw], [self.my_cube_geom.rotate_right_ccw], "right", [90, 0, 0]],
+            "R2": [[self.my_rubiks_cube.rotate_right_cw, self.my_rubiks_cube.rotate_right_cw],
+                   [self.my_cube_geom.rotate_right_cw, self.my_cube_geom.rotate_right_cw], "right", [-180, 0, 0]],
+            "F": [[self.my_rubiks_cube.rotate_front_cw], [self.my_cube_geom.rotate_front_cw], "front", [0, 0, -90]],
+            "F'": [[self.my_rubiks_cube.rotate_front_ccw], [self.my_cube_geom.rotate_front_ccw], "front", [0, 0, 90]],
+            "F2": [[self.my_rubiks_cube.rotate_front_cw, self.my_rubiks_cube.rotate_front_cw],
+                   [self.my_cube_geom.rotate_front_cw, self.my_cube_geom.rotate_front_cw], "front", [0, 0, -180]],
+            "B": [[self.my_rubiks_cube.rotate_back_cw], [self.my_cube_geom.rotate_back_cw], "back", [0, 0, 90]],
+            "B'": [[self.my_rubiks_cube.rotate_back_ccw], [self.my_cube_geom.rotate_back_ccw], "back", [0, 0, -90]],
+            "B2": [[self.my_rubiks_cube.rotate_back_cw, self.my_rubiks_cube.rotate_back_cw],
+                   [self.my_cube_geom.rotate_back_cw, self.my_cube_geom.rotate_back_cw], "back", [0, 0, 180]],
+        }
+
+        for move in move_string_to_function_dict[direction][0]:
+            move()
+        for move in move_string_to_function_dict[direction][1]:
+            move()
 
         squares_in_grp = list()
-        for row in self.my_cube_geom.cube["top"]:
+        for row in self.my_cube_geom.cube[move_string_to_function_dict[direction][2]]:
             for square in row:
                 squares_in_grp.append(square)
 
@@ -96,9 +127,24 @@ class CubeAnimation:
         for square in squares_in_grp:
             cmds.select(square, add=True)
 
-        cmds.rotate(0, -90, 0, r=True)
+        rotation = move_string_to_function_dict[direction][3]
+
+        cmds.rotate(rotation[0], rotation[1], rotation[2], r=True)
 
         cmds.select(clear=True)
 
         self.curr_time += 3
         add_keyframes(self.curr_time)
+
+    def solve(self, *args):
+        # move_string = rubiks_cube_solver.solve(self.my_rubiks_cube.cube)
+        # move_string_list = move_string.split(" ")
+        # for move_string in move_string_list:
+        #     self.rotate_face(direction=move_string)
+
+        move_string_list = self.my_rubiks_cube.test_function()
+        for move_string in reversed(move_string_list):
+            self.rotate_face(direction=move_string)
+            self.rotate_face(direction=move_string)
+            self.rotate_face(direction=move_string)
+
