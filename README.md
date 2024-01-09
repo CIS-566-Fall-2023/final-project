@@ -13,7 +13,7 @@ Instructions:
 ## [Introduction Video](https://drive.google.com/file/d/11jnbuWwpp6BDBsoZ2qdruYy5CL9W41N9/view?usp=sharing)
 Inspired by many popular Sci-Fi games, such as Cyberpunk 2077, Halo and Blade Runner, we are interested in creating a procedural generator of Sci-Fi game levels to assist artists with faster authoring of stylized scenes. We want to utilize various procedural graphics knowledge we learned and explore integrating popular 3D tools into one content authoring workflow.
 
-Overview:
+Project Overview:
 
 ![](/img/overview.png)
 
@@ -21,7 +21,7 @@ Overview:
   <summary> Final </summary>
 
 ## Post Mortem
-  In general, we are very satsfied with our project, in terms of both the outcome and the collaboration process. We perfectly followed the planned timeline to work on this project. As a result, we have acheived all of the goals listed in each milestone of our deign doc. Besides finishing our own tasks, we also supported/helped each other on resolving problems and challenges encountered in our own parts, with smooth and effective communication. For future/stretch work, we want to simplify or remove some panel textures so that the environment looks less crowded. We could add additional visual features (interesting shaders, particle effect, or custom art design) to make our scene more polished in terms of a complete game level. We also wished to be more creative and original in adding our own spin in the art style. Nevertheless, considering a steep learning curve getting familiar with so many powerful features of new 3D software, mainly Houdini, within the time constraint, I believe we have done an excellent job. 
+  In general, we are very satsfied with our project, in terms of both the outcome and the collaboration process. We perfectly followed the planned timeline to work on this project. As a result, we have acheived all of the goals listed in each milestone of our deign doc. Besides finishing our own tasks, we also supported/helped each other on resolving problems and challenges encountered in our own parts, with smooth and effective communication. For future/stretch work, we want to simplify or remove some panel textures so that the environment looks less crowded. Definitely we need to improve on interior lighting within URP. We could add additional visual features (interesting shaders, particle effect, or custom art design) to make our scene more polished in terms of a complete game level. We also wished to be more creative and original in adding our own spin in the art style. Nevertheless, considering a steep learning curve getting familiar with so many powerful features of new 3D software, mainly Houdini, within the time constraint, I believe we have done an excellent job. 
 
   The houdini assets workflow works out well with Unity, as we anticipated in the beginning after doing some research on the existing procedural references. Although there were compatibility issues of different versions and updates while using Houdini (including Houdini Engine), we are able to find workarounds with our effort. Now we have a deeper understanding in how Houdini work and what it can acheive.
 
@@ -31,18 +31,18 @@ Overview:
   <summary> Milestone 3 </summary>
 
 ## Procedural Assets (Continued)
-Now we have the backbone of a Houdini panel generator. We can mass-produce walls of different styles by just feeding in different input PSDs. However, for a balanced visual from the artistic perspective, we don't want our modular wall system packed with complicated structures, since we will also use the generator to create doors and ceilings. Moreover, we also want to support common image input formats, e.g. png, jpg/jpeg, and tga besides psd. To fulfill the needs, we repalce the layering subnet of the panel generator with a simpler logic, while keeping the high poly count and low poly count output subnets. The new layering version produces panels with simpler structures, i.e. fewer layers or less details.
+Now we have the backbone of a Houdini panel generator. We can mass-produce walls of different styles by just feeding in different input PSDs. However, for a balanced visual from the artistic perspective, we don't want our modular wall system packed with complicated structures, since we will also use the generator to create doors and ceilings. Moreover, besides psd, we want to support common image formats, e.g. png, jpg/jpeg, and tga as inputs. To fulfill the needs, we repalce the layering part of the panel generator with a simpler logic, while keeping the high and low poly count output subnets for asset optimization. The new layering version produces panels with simpler structures, i.e. fewer layers or less details.
 
 Here's a comparison between the simplified version and the original version:
 Door Generator (Simplified)  | Wall Generator (Original)
  ------  | :-----: |
 ![](/img/milestone3/layering.png) |![](/img/milestone3/psd_layering.png)
 
-Here's the final collection of panel-like assets we used in the scene with texture on:
+Here's the final collection of panel-like assets we used in the scene with their texture on:
 
 ![](/img/milestone3/panels.jpg)
 
-*A side note*: When painting the panels, we had to separate out geometry nodes and subnetworks of different structures, at least the base panel, the top panel, and the panel details, to allow Houdini to output the model in separate components. Furthermore, Houdini can only export models in Alembic, FBX and GLTF, while it's easier to work with Substance Painter using OBJs, so we manually converted major wall assets in Blender.
+*A side note*: When painting the panels, we had to separate out geometry nodes and subnetworks of different structures, at least the base panel, the top panel, and the panel details, to allow Houdini to output the model in separate components. Furthermore, Houdini can only export models in Alembic, FBX and GLTF, but it's easier to work with Substance Painter using OBJs, so we manually converted major walls in Blender.
 
 ## Texture Generation
 To create textures for procedurally generated models, we use Substance Painter to paint walls and doors with more complex geometry. From there we generate corresponding diffuse and metallic textures for the URP rendering pipeline.
@@ -56,24 +56,28 @@ For plain panels and ground textures, we opt for Substance Designer to modify te
 ![](/img/milestone3/modified_tex.png)
 
 ## Interactive Scene
-Finally, we are here to assemble the scene with model prefabs, and add more playable features as in a complete Unity game developement pipeline!
+Finally, we are here to assemble the scene with model prefabs, and add playable features as in an end-to-end game developement cycle!
 
 ### Player Physics
-We integrated first-person player movement into the scene so that the user can move, jump, look around and trigger objects' behaviors. This is composed of two simple scripts attached to the `Main Camera` and a capsule game object, controlling the player camera/orientation and player position. 
+We integrated first-person player movement into the scene so that the user can move, jump, look around and trigger objects' behaviors. This is mainly composed of two scripts attached to the `Main Camera` and a capsule game object, aka our player, controlling the camera view/orientation and the player position. 
 
-Inside the corridor, the player can move through cells by sliding doors and collecting treasury boxes. Once you explored a new cell unit, the door you passed will be kept open to mark your path trace. We exposed some tunable parameters to allow users to achieve their own desirable physically-based movement.
+Inside the corridor, the player can move through cells by sliding doors and collecting treasure boxes. Once you explored a new cell unit, the door you passed will be kept open to mark your path trace. 
 
-![](/img/milestone3/player_move.png)
+We exposed some tunable parameters to allow users to achieve their own desirable physically-based movement.
+
+Doors and Boxes | Movement Parameters
+ ------  | :-----: |
+![](/img/milestone3/doors.png) | ![](/img/milestone3/player_move.png)
 
 ### Dissolve Effect
-To enrich the interactivity of the game level, Tianyi implemented a dissolve effect when player get closer to the box, which is controlled by a dissolve factor and a noise texture. In fragment shader, the noise texture will be sampled and compared with an increasing dissolve factor, if noise is smaller then it would be alpha-clipped, which looks like dissolved. What's more, I add a white edge at the area where nearly but haven't be clipped.
+To enrich the interactivity of the game level, Tianyi implemented a dissolve effect when player gets closer to a box. This shader effect is controlled by a dissolve factor and a noise texture. In fragment shader, the noise texture will be sampled and compared with an increasing dissolve factor, if noise is smaller then it would be alpha-clipped, which looks like being dissolved. To make it visually more prominent, I color the edges white around area where it's nearly but not yet clipped.
 
 ![](/img/milestone3/dissolve.png)
 
 ### Lighting
 The final touch is to make the scene look realistic. We referenced these two tutorials [Realtime Interior Lighting](https://youtu.be/QhVPi1bfVEA?si=MB6LXnGlu5nYlJ1R) and [Baked Interior Lighting](https://youtu.be/_0AEcsyIQzc?si=cqaArDlz5h1sTen6) to utlitize the Unity Universal Render Pipeline (URP) features, along with a mix of post-processing effects.
 
-This is the most difficult part as there're pros and cons of baked and realtime lighting. Baked lighting tends to look more natural than realtime lighting as all the lights blend nicely with the environment. However, with moving objects or in our case, the disappearing teasure box, baked lightmap will leave the box shadow as is after the box is "dissolved." Mixed lighting solves this issue but it leads to another mysterious problem that we couldn't resolve: the ceiling lights (point light) blink when the player/camera moves toward them. Since we are newbies to URP lighting, we decided to stick with mixed lighting and play around with the lightmap settings, as we can afford the tradeoff to ensure an overall visual quality.
+This is the most difficult part as there're pros and cons of baked and realtime lighting. Baked lighting tends to look more natural than realtime lighting as all the lights blend nicely with the environment. However, with moving objects or in our case, the disappearing teasure box, baked lightmap will leave the box shadow as is after the box is "dissolved." Mixed lighting ameliorates this issue but it leads to another mysterious problem that we couldn't resolve: the ceiling lights (as point lights) blink when the player/camera moves toward them. Since we are newbies to URP lighting, we decided to stick with mixed lighting and play around with the lightmap settings, as we can afford the tradeoff to ensure an overall visual quality.
 
 </details>
 
@@ -325,7 +329,7 @@ Orange cells are Houdini stages, green cells are Substance Designer/Painter stag
 
 ### Resources & Credits:
 1. [Metal textures](https://seamless-pixels.blogspot.com/2012/09/free-seamless-metal-textures_28.html)
-2. [Yughues Free Metal Materials](https://assetstore.unity.com/packages/2d/textures-materials/metals/yughues-free-metal-materials-12949)
+2. [Yughues Free Metal Materials used to generate panel models, and modified to match our sci-fi style](https://assetstore.unity.com/packages/2d/textures-materials/metals/yughues-free-metal-materials-12949)
 3. **SideFX tutorials by Simon Verstratete:**
     -  [Sci-fi Level Builder](https://www.sidefx.com/tutorials/sci-fi-level-builder/)
     -  [Sci-fi Panel Generator](https://www.sidefx.com/tutorials/sci-fi-panel-generator/)
