@@ -129,7 +129,7 @@ class CubeAnimation:
 
         rotation = move_string_to_function_dict[direction][3]
 
-        cmds.rotate(rotation[0], rotation[1], rotation[2], r=True)
+        cmds.rotate(rotation[0], rotation[1], rotation[2], r=True, euler=False)
 
         cmds.select(clear=True)
 
@@ -137,9 +137,11 @@ class CubeAnimation:
         add_keyframes(self.curr_time)
 
     def solve(self, *args):
+        cmds.rotationInterpolation(convert="quaternion")
+
         move_string = rubiks_cube_solver.solve(self.my_rubiks_cube.cube)
         move_string_list = move_string.split(" ")
         for move_string in move_string_list:
             self.rotate_face(direction=move_string)
-            
+
 
