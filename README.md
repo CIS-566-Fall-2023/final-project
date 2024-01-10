@@ -2,6 +2,32 @@
 
 ### [Video Demo Link](https://www.youtube.com/watch?v=ClZvq8PXw0g)
 
+## MayaRubiks Python Plug-in
+
+### Overview:
+
+A Maya plug-in that provides a comprehensive Rubik's Cube solving interface within Maya.
+
+Given a scrambled cube, the plug-in applies the Kociemba algorithm (supported by muodov's kociemba
+PyPi package) to create a full animation of the cube being solved step-step.
+
+### Installation:
+Clone the git repository onto your local machine. Locate the correct `Maya.env` file for the Maya app and version you
+intend to use, and add the following line to the document:
+
+```
+MAYA_MODULE_PATH = "{LocalPathToClonedMayaRubiksPluginRepoDirectory}"
+```
+
+### Usage:
+Locate the new `MayaRubiks` loadable plug-in within the Maya Plug-in Manager Window. Press `Load`.
+
+Use the newly created `MayaRubiks` shelf and its attached interactive UI to create and solve infinite Rubik's Cubes.
+
+## That's it, thank you for using!
+
+
+### Original Project Instructions:
 
 This is it! The culmination of your procedural graphics experience this semester. For your final project, we'd like to give you the time and space to explore a topic of your choosing. You may choose any topic you please, so long as you vet the topic and scope with an instructor or TA. We've provided some suggestions below. The scope of your project should be roughly 1.5 homework assignments). To help structure your time, we're breaking down the project into 4 milestones:
 
