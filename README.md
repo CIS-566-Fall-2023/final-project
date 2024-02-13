@@ -23,7 +23,8 @@
 - [Implementation Details](#implementation-details)
   - [1. Raymarch shader](#1-raymarch-shader)
   - [2. Lighting and Shading](#2-lighting-and-shading)
-  - [3. Animations ???](#3-animations-)
+  - [3. Compound SDFs](#3-compound-sdfs)
+  - [4. Animations ???](#4-animations-)
 - [References](#references)
 
 # Design Doc
@@ -278,23 +279,17 @@ This was a great challenge to figure out! It's also something that [IQ](https://
 
 On the CPU side, Unity has a list of all `SDFObject`s, and each `SDFObject` has zero or more child `SDFObject`s. This forms a sort of a tree structure, like so:
 
-- SDFObject_A
-  - SDFObject_A_1
-  - SDFObject_A_2
-- SDFObject_B
-- SDFObject_C
-  - SDFObject_C_1
+|Texture 1|
+|:-:|
+|<img src="img/sdf1.png" width=300>|
  
 This tree structure is then converted into a _flattened_ array, so that it is readable on the GPU. The GPU side flattened array looks like this:
 
-- SDFObject_A
-- SDFObject_A_1
-- SDFObject_A_2
-- SDFObject_B
-- SDFObject_C
-- SDFObject_C_1
+|**Index**|0|1|2|3|4|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**SDFObject**|A|A_1|A_2|B|C|C_1|
 
-Another array of index offsets is passed, where each **parent** `SDFObject` passes an offset to the next **parent** `SDFObject` (so in this example the array would be `[3,1]` because SDFObject_B comes 3 elements after SDFObject_A, and SDFObject_C comes 1 element after SDFObject_B).
+Another array of index offsets is passed, where each **parent** `SDFObject` passes an offset to the next **parent** `SDFObject` (so in this example the array would be `[3,1]` because B comes 3 elements after A, and C comes 1 element after B).
 
 After that, it's really a matter of performing depth first traversal on the GPU using these offsets to raytrace through all the `SDFObject`s.
 
