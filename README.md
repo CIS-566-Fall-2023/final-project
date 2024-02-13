@@ -283,13 +283,13 @@ On the CPU side, Unity has a list of all `SDFObject`s, and each `SDFObject` has 
 |:-:|
 |<img src="img/sdf1.png" width=300>|
  
-This tree structure is then converted into a _flattened_ array, so that it is readable on the GPU. The GPU side flattened array looks like this:
+This tree structure is then converted into a _flattened_ array, so that it is readable on the GPU. This flattened array looks like this:
 
-|**Index**|0|1|2|3|4|
-|:-:|:-:|:-:|:-:|:-:|:-:|
+|**Index**|0|1|2|3|4|5|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |**SDFObject**|A|A_1|A_2|B|C|C_1|
 
-Another array of index offsets is passed, where each **parent** `SDFObject` passes an offset to the next **parent** `SDFObject` (so in this example the array would be `[3,1]` because B comes 3 elements after A, and C comes 1 element after B).
+Another array of index offsets is passed to the GPU, where each **parent** `SDFObject` passes an offset to the next **parent** `SDFObject` (so in this example the array would be `[3,1]` because B comes 3 elements after A, and C comes 1 element after B).
 
 After that, it's really a matter of performing depth first traversal on the GPU using these offsets to raytrace through all the `SDFObject`s.
 
