@@ -273,7 +273,32 @@ float3 GetNormal(float3 pos)
 
 The return type was incorrect and was simply chopping of the `normal.yz` components of the normal vector! I wish Unity had errors (or at least warnings!) notifying you that you're trying to return a `float3` in a function that returns a single `float`.
 
-## 3. Animations ???
+## 3. Compound SDFs
+This was a great challenge to figure out! It's also something that [IQ](https://iquilezles.org/) himself advised me to add to this project, so I'm very proud that I was able to figure out how to implement it!
+
+On the CPU side, Unity has a list of all `SDFObject`s, and each `SDFObject` has zero or more child `SDFObject`s. This forms a sort of a tree structure, like so:
+
+- SDFObject_A
+  - SDFObject_A_1
+  - SDFObject_A_2
+- SDFObject_B
+- SDFObject_C
+  - SDFObject_C_1
+ 
+This tree structure is then converted into a _flattened_ array, so that it is readable on the GPU. The GPU side flattened array looks like this:
+
+- SDFObject_A
+- SDFObject_A_1
+- SDFObject_A_2
+- SDFObject_B
+- SDFObject_C
+- SDFObject_C_1
+
+Another array of index offsets is passed, where each **parent** `SDFObject` passes an offset to the next **parent** `SDFObject` (so in this example the array would be `[3,1]` because SDFObject_B comes 3 elements after SDFObject_A, and SDFObject_C comes 1 element after SDFObject_B).
+
+After that, it's really a matter of performing depth first traversal on the GPU using these offsets to raytrace through all the `SDFObject`s.
+
+## 4. Animations ???
 
 This is not a feature I implemented, rather something that worked simply because of the way SDFs work and how awesome Unity is. Just as a fun experiment, I made a Unity animation and keyframed each `SDFObject` of the character I made to different positions. This works because the SDFs can move and update the shader in real-time! What's even more satisfying is the fact that any inspector-exposed variable in the SDFObject can be keyframed. This is how I made the character's mouth open and close: its size value is animated.
 
