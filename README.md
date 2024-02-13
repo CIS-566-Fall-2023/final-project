@@ -279,7 +279,7 @@ This was a great challenge to figure out! It's also something that [IQ](https://
 
 On the CPU side, Unity has a list of all `SDFObject`s, and each `SDFObject` has zero or more child `SDFObject`s. This forms a sort of a tree structure, like so:
 
-|Texture 1|
+|The SDFObjects "tree" structure|
 |:-:|
 |<img src="img/sdf1.png" width=300>|
  
